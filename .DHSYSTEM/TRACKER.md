@@ -20,7 +20,7 @@
 | --- | --- | --- | --- |
 | P1-01 | Đo hiện trạng và kiểm tra liên kết | PASS | `docs/qa/baseline-phase1.md`; 57 trang, 479 tham chiếu, 73 link hỏng, 16 phép đo Chromium; fixture exit 1/0 đúng |
 | P1-02 | Trang mở đầu | Đang thực hiện | Hợp đồng `phases/phase-1/tasks/P1-02.md` |
-| P1-03 | Khung đọc mobile | Chưa bắt đầu | — |
+| P1-03 | Khung đọc mobile | Đang thực hiện | Hợp đồng `phases/phase-1/tasks/P1-03.md` |
 | P1-04 | Thanh kéo cỡ chữ | Chưa bắt đầu | — |
 | P1-05 | Chỉ mục và tìm kiếm nội bộ | Chưa bắt đầu | — |
 | P1-06 | Chọn chữ và tra cứu | Chưa bắt đầu | — |
