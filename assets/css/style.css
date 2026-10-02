@@ -499,6 +499,7 @@ td code{font-family:var(--font-mono);font-size:var(--text-xs);color:var(--clr-ac
 @media(max-width:240px){.logo-sub,.logo-text{display:none;}.site-header{gap:0;}.a11y-toolbar{justify-content:flex-start;}.content-area{padding-inline:var(--space-3);}.read-card,.exercise-item{display:block;}.read-icon,.exercise-num{display:inline-block;margin-bottom:var(--space-2);}.read-content,.exercise-text{width:100%;overflow-wrap:anywhere;}.video-header{flex-wrap:wrap;}.video-header-title{min-width:0;flex-basis:100%;overflow-wrap:anywhere;}}
 @media(max-width:240px){.callout-header{display:block;overflow-wrap:anywhere;}}
 .content-area :is(p,li,blockquote,td,.exercise-text,.read-description,.checklist-item label,.measurement-row){font-size:var(--reader-font-size);}
+.debug-report{overflow-wrap:anywhere;}
 .checklist-item{min-width:0;}
 .checklist-item label{min-width:0;flex:1;overflow-wrap:anywhere;}
 :is(.btn-menu,.sidebar-week-header,.sidebar-lesson,.a11y-btn):focus-visible{outline:2px solid var(--clr-accent);outline-offset:2px;}

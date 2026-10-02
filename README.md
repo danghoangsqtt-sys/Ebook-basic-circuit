@@ -4,7 +4,13 @@ Website tĩnh tiếng Việt gồm 56 bài tự học điện tử thực hành 
 
 ## Xem tại máy
 
-Từ thư mục dự án, chạy `python -m http.server 8000`, rồi mở `http://localhost:8000/`. Dùng HTTP để kiểm tra đầy đủ các tính năng lưu cỡ chữ và đánh dấu khi chúng được triển khai; hành vi lưu trữ khi mở tệp `file:` có thể khác giữa trình duyệt.
+Từ thư mục dự án, chạy `python -m http.server 8000`, rồi mở `http://localhost:8000/`. Dùng HTTP để lưu cỡ chữ, checklist và các đoạn đánh dấu trong trình duyệt; hành vi lưu trữ khi mở tệp `file:` có thể khác giữa trình duyệt.
+
+Trang đầu có lộ trình 8 tuần và danh sách 56 bài. Trong mỗi bài, bạn có thể chỉnh cỡ chữ, tìm trong toàn bộ giáo trình, chọn một đoạn để tra Google/YouTube/bài liên quan hoặc đánh dấu. Dấu đã lưu hiện trong danh sách của bài. Các chức năng lưu hiện dùng bộ nhớ của trình duyệt trên thiết bị đang đọc.
+
+## Kiểm tra dự án
+
+Chạy `python tools/check_links.py` để kiểm tra link/fragment nội bộ và `python tools/build_search_index.py --check` để xác nhận chỉ mục tìm kiếm. Nếu đã cài Playwright Python và trình duyệt của nó, chạy `python tools/qa_browser.py`; thêm `--quick --browser webkit` để kiểm tra mẫu với WebKit. [Kết quả nghiệm thu Phase 1](docs/qa/phase1-results.md).
 
 ## Kế hoạch nâng cấp
 
@@ -14,7 +20,7 @@ Từ thư mục dự án, chạy `python -m http.server 8000`, rồi mở `http:
 - [Bản mẫu giao diện](.DHSYSTEM/ui-direction/2026-10-02/index.html)
 - [Phiên brainstorm đã chốt](docs/brainstorm/session-2026-10-02.md)
 
-Phase 1 sẽ làm lại trang đầu, sửa đọc trên điện thoại, thêm thanh kéo cỡ chữ, chọn đoạn để đánh dấu và tra cứu Google/YouTube/bài liên quan trong 56 bài. Kế hoạch đã được tạo; mã Phase 1 chưa được triển khai.
+Phase 1 đã triển khai trang đầu, giao diện đọc mobile, cỡ chữ, tìm kiếm, chọn chữ và đánh dấu. Phase 2 mở thư viện dấu trên toàn bộ bài và nâng cao tìm kiếm; Phase 3 thêm xuất/nhập dữ liệu đọc.
 
 ## Bản quyền
 
