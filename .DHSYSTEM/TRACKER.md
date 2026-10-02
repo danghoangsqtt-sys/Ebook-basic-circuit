@@ -23,7 +23,7 @@
 | P1-03 | Khung đọc mobile | PASS | Chromium Bài 1/28/56 ở 320–430 px và viewport zoom 200%; không tràn; sidebar 8 tuần/56 bài, Escape/focus |
 | P1-04 | Thanh kéo cỡ chữ | PASS | Playwright HTTP: 24 px/reload/reset/ArrowLeft, storage bị chặn, Bài 1 ở 160–430 px không tràn |
 | P1-05 | Chỉ mục và tìm kiếm nội bộ | PASS | `build_search_index.py --check` 56 bài; Playwright Bài 1/28/56, có/không dấu, câu dài, không kết quả, Escape/focus |
-| P1-06 | Chọn chữ và tra cứu | Đang thực hiện | Hợp đồng `phases/phase-1/tasks/P1-06.md` |
+| P1-06 | Chọn chữ và tra cứu | Đã kiểm tra, chờ cổng Git | Chromium desktop/mobile 320–430; WebKit mobile; menu/Google/YouTube/tìm bài, Escape/focus; chưa thiết bị thật |
 | P1-07 | Bút đánh dấu | Chưa bắt đầu | — |
 | P1-08 | Liên kết và nghiệm thu | Chưa bắt đầu | — |
 
@@ -64,3 +64,5 @@ Chưa có mã Phase 1 để nghiệm thu. Chỉ xác nhận cấu trúc tài li�
 2026-10-02 P1-04: Chromium trên HTTP xác nhận slider 16–24 px đổi chữ vùng bài ngay, giữ header, reload và reset đúng; ArrowLeft hoạt động. Storage bị chặn vẫn điều chỉnh được, không lỗi JS. Bài 1 ở 24 px tại 160/180/195/215/320/360/390/430 px không tràn ngang.
 
 2026-10-02 P1-05: chỉ mục sinh từ 56 HTML (420691 byte); `python tools/build_search_index.py --check` đạt. Playwright Chromium trên Bài 1/28/56 xác nhận tìm `dien ap` ra Bài 1 đầu, URL đúng từ từng tuần, không kết quả có hướng dẫn, Escape đóng và trả focus. Tác vụ xây chỉ mục kiểm tra thêm truy vấn có dấu/câu dài ở 320/360 px.
+
+2026-10-02 P1-06: chọn chữ và mở menu bằng chuột phải, phím hoặc cảm ứng mô phỏng; ba lệnh Google/YouTube/tìm bài hoạt động. Lỗi menu tự đóng khi focus gây scroll được sửa và kiểm tra lại trên Chromium 320–430 px; WebKit mobile mô phỏng cảm ứng đã mở menu và chạy tra cứu nội bộ/Google. Chưa thử long press trên iOS/Android thật.

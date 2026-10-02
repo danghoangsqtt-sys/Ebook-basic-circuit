@@ -11,6 +11,6 @@
 | P1-03 | PASS | Chromium Bài 1/28/56 ở 320–430 px và zoom 200%, không tràn; sidebar/menu bàn phím |
 | P1-04 | PASS | Slider 16–24 px, reload/reset/phím, storage bị chặn, 160–430 px không tràn |
 | P1-05 | PASS | Chỉ mục sinh 56 bài, tìm có/không dấu, câu dài, kết quả đúng tuần, bàn phím |
-| P1-06 | in_progress | Hợp đồng `tasks/P1-06.md` |
+| P1-06 | verified_pending_persistence | Chuột phải/phím/cảm ứng mô phỏng, Google/YouTube/bài liên quan; Chromium + WebKit |
 | P1-07 | planned | — |
 | P1-08 | planned | — |

@@ -15,3 +15,4 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 - Sửa khung đọc 56 bài trên điện thoại, giữ bảng/sơ đồ cuộn riêng và cải thiện menu bàn phím.
 - Thêm thanh kéo cỡ chữ vùng bài 16–24 px, lưu thiết lập và hoạt động khi lưu trữ trình duyệt bị chặn.
 - Thêm chỉ mục tự sinh từ 56 bài và hộp tìm kiếm tiếng Việt có dấu/không dấu trên trang đọc.
+- Thêm menu chọn chữ để sao chép, tìm giải thích trên Google, video YouTube và bài học liên quan.

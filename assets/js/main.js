@@ -416,6 +416,8 @@ document.addEventListener('DOMContentLoaded', () => {
   loadReaderScript('search-index.js')
     .then(() => loadReaderScript('search.js'))
     .then(() => window.EbookSearch.init())
+    .then(() => loadReaderScript('selection-actions.js'))
+    .then(() => window.EbookSelectionActions.init())
     .catch(error => console.warn('Tìm kiếm nội bộ chưa sẵn sàng:', error));
 
   // Fade in content
