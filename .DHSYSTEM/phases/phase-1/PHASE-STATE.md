@@ -9,7 +9,7 @@
 | P1-01 | PASS | 57 trang/479 tham chiếu; 73 link hỏng; 16 phép đo Chromium; `docs/qa/baseline-phase1.md` |
 | P1-02 | PASS | Trang chủ mới, 8 tuần/56 bài, Chromium 320–1280 px không tràn, menu bàn phím |
 | P1-03 | PASS | Chromium Bài 1/28/56 ở 320–430 px và zoom 200%, không tràn; sidebar/menu bàn phím |
-| P1-04 | in_progress | Hợp đồng `tasks/P1-04.md` |
+| P1-04 | verified_pending_persistence | Slider 16–24 px, reload/reset/phím, storage bị chặn, 160–430 px không tràn |
 | P1-05 | in_progress | Hợp đồng `tasks/P1-05.md` |
 | P1-06 | planned | — |
 | P1-07 | planned | — |

@@ -177,7 +177,8 @@ class ProgressTracker {
   markLesson(lessonId, completed = true) {
     const progress = this.getProgress();
     progress[lessonId] = completed;
-    localStorage.setItem(this.storageKey, JSON.stringify(progress));
+    try { localStorage.setItem(this.storageKey, JSON.stringify(progress)); }
+    catch { /* The lesson remains readable when storage is blocked. */ }
     this.updateProgressBar();
     this.updateCheckmarks();
   }
@@ -259,7 +260,8 @@ class ChecklistManager {
     const checkboxes = document.querySelectorAll('.checklist-item input[type="checkbox"]');
     const data = {};
     checkboxes.forEach((cb, i) => { data[i] = cb.checked; });
-    localStorage.setItem(this.storageKey, JSON.stringify(data));
+    try { localStorage.setItem(this.storageKey, JSON.stringify(data)); }
+    catch { /* Keep checkbox state for this page view. */ }
   }
 }
 
@@ -413,7 +415,8 @@ class ThemeController {
   constructor() {
     this.htmlEl = document.documentElement;
     this.storageKey = 'ebook-theme';
-    this.current = localStorage.getItem(this.storageKey) || 'dark';
+    try { this.current = localStorage.getItem(this.storageKey) || 'dark'; }
+    catch { this.current = 'dark'; }
     this.applyTheme(this.current);
     this.injectButton();
   }
@@ -425,7 +428,8 @@ class ThemeController {
     } else {
       this.htmlEl.removeAttribute('data-theme');
     }
-    localStorage.setItem(this.storageKey, theme);
+    try { localStorage.setItem(this.storageKey, theme); }
+    catch { /* Theme still changes for this page view. */ }
     if (this.btn) {
       this.btn.textContent = theme === 'dark' ? '☀️' : '🌙';
       this.btn.title = theme === 'dark' ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối';
@@ -465,75 +469,63 @@ class ThemeController {
 
 class FontSizeController {
   constructor() {
-    this.storageKey = 'ebook-fontsize';
-    this.sizes = [13, 15, 16, 18, 20]; // px steps
-    this.labels = ['A₋', 'A', 'A', 'A⁺', 'A⁺⁺'];
-    this.idx = parseInt(localStorage.getItem(this.storageKey) ?? '2', 10);
-    this.applySize(this.idx);
+    this.storageKey = 'ebook-fontsize-px';
+    this.defaultSize = 16;
+    this.content = document.querySelector('.content-area');
+    if (!this.content) return;
     this.injectControls();
+    this.applySize(this.readSize(), false);
   }
 
-  applySize(idx) {
-    this.idx = Math.max(0, Math.min(this.sizes.length - 1, idx));
-    document.documentElement.style.fontSize = this.sizes[this.idx] + 'px';
-    localStorage.setItem(this.storageKey, this.idx);
-    this.updateButtons();
+  readSize() {
+    try {
+      const saved = Number(localStorage.getItem(this.storageKey));
+      if (saved >= 16 && saved <= 24) return saved;
+      const legacy = Number(localStorage.getItem('ebook-fontsize'));
+      const oldSizes = [13, 15, 16, 18, 20];
+      if (Number.isInteger(legacy) && legacy >= 0 && legacy < oldSizes.length) {
+        return Math.max(16, oldSizes[legacy]);
+      }
+    } catch { /* Storage may be disabled. */ }
+    return this.defaultSize;
   }
 
-  updateButtons() {
-    if (!this.btnDec || !this.btnInc) return;
-    this.btnDec.disabled = this.idx <= 0;
-    this.btnInc.disabled = this.idx >= this.sizes.length - 1;
-    this.btnDec.style.opacity = this.idx <= 0 ? '0.4' : '';
-    this.btnInc.style.opacity = this.idx >= this.sizes.length - 1 ? '0.4' : '';
+  applySize(value, save = true) {
+    const parsed = Number(value);
+    const size = Number.isFinite(parsed)
+      ? Math.min(24, Math.max(16, Math.round(parsed))) : this.defaultSize;
+    this.content.style.setProperty('--reader-font-size', `${size}px`);
+    this.slider.value = String(size);
+    this.output.value = `${size} px`;
+    this.output.textContent = `${size} px`;
+    if (save) {
+      try { localStorage.setItem(this.storageKey, String(size)); }
+      catch { /* Reading remains adjustable for this session. */ }
+    }
   }
 
   injectControls() {
-    const toolbar = this.ensureToolbar();
-
-    // Divider
-    const div = document.createElement('div');
-    div.className = 'a11y-divider';
-    toolbar.appendChild(div);
-
-    // Decrease button
-    this.btnDec = document.createElement('button');
-    this.btnDec.className = 'a11y-btn a11y-btn-font a11y-btn-font-sm';
-    this.btnDec.textContent = 'A−';
-    this.btnDec.title = 'Giảm cỡ chữ';
-    this.btnDec.setAttribute('aria-label', 'Giảm cỡ chữ');
-    this.btnDec.addEventListener('click', () => this.applySize(this.idx - 1));
-    toolbar.appendChild(this.btnDec);
-
-    // Reset button
-    this.btnReset = document.createElement('button');
-    this.btnReset.className = 'a11y-btn a11y-btn-font a11y-btn-font-md';
-    this.btnReset.textContent = 'A';
-    this.btnReset.title = 'Cỡ chữ mặc định';
-    this.btnReset.setAttribute('aria-label', 'Cỡ chữ mặc định');
-    this.btnReset.addEventListener('click', () => this.applySize(2));
-    toolbar.appendChild(this.btnReset);
-
-    // Increase button
-    this.btnInc = document.createElement('button');
-    this.btnInc.className = 'a11y-btn a11y-btn-font a11y-btn-font-lg';
-    this.btnInc.textContent = 'A+';
-    this.btnInc.title = 'Tăng cỡ chữ';
-    this.btnInc.setAttribute('aria-label', 'Tăng cỡ chữ');
-    this.btnInc.addEventListener('click', () => this.applySize(this.idx + 1));
-    toolbar.appendChild(this.btnInc);
-
-    this.updateButtons();
-  }
-
-  ensureToolbar() {
-    let toolbar = document.querySelector('.a11y-toolbar');
-    if (!toolbar) {
-      toolbar = document.createElement('div');
-      toolbar.className = 'a11y-toolbar';
-      const header = document.querySelector('.site-header');
-      if (header) header.appendChild(toolbar);
-    }
-    return toolbar;
+    const panel = document.createElement('div');
+    panel.className = 'reader-font-controls';
+    const label = document.createElement('label');
+    label.htmlFor = 'reader-font-size';
+    label.textContent = 'Cỡ chữ bài học';
+    this.slider = document.createElement('input');
+    this.slider.id = 'reader-font-size';
+    this.slider.type = 'range';
+    this.slider.min = '16';
+    this.slider.max = '24';
+    this.slider.step = '1';
+    this.slider.setAttribute('aria-describedby', 'reader-font-size-output');
+    this.slider.addEventListener('input', () => this.applySize(this.slider.value));
+    this.output = document.createElement('output');
+    this.output.id = 'reader-font-size-output';
+    this.output.htmlFor = 'reader-font-size';
+    const reset = document.createElement('button');
+    reset.type = 'button';
+    reset.textContent = 'Mặc định';
+    reset.addEventListener('click', () => this.applySize(this.defaultSize));
+    panel.append(label, this.slider, this.output, reset);
+    this.content.prepend(panel);
   }
 }
