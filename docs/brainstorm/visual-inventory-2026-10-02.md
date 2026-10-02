@@ -65,6 +65,8 @@ Quy tắc: ảnh thực phải đúng model được nói tới hoặc ghi rõ l
 
 ## Thứ tự kiểm tra
 
+Kết quả rà chi tiết và danh sách lỗi đã xác nhận: [`docs/qa/visual-technical-audit.md`](../qa/visual-technical-audit.md). Trong 80 sơ đồ ký tự, 36 khối được xếp ưu tiên cao, 29 vừa, 15 thấp để kiểm tra; đây là mức ưu tiên, không phải chứng nhận các khối còn lại đúng.
+
 1. Ưu tiên kỹ thuật và an toàn: Bài 2, 11–18, 32, 35, 39–41, 54. Mỗi sơ đồ phải so với văn bản, bài thực hành và datasheet của linh kiện đúng mã.
 2. Ưu tiên khả năng hiểu: Bài 1–10 và 20–28. Chuyển sơ đồ ký tự thành SVG khi nhãn và điểm nối giữ được tính rõ ràng trên điện thoại.
 3. Ưu tiên tổng hợp: Bài 42–56. Thêm sơ đồ khối, infographic và sơ đồ tư duy tại đầu hoặc cuối bài, có đường dẫn lại mục tương ứng.

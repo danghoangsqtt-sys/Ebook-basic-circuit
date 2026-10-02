@@ -3,7 +3,7 @@
 - Cập nhật: 2026-10-02
 - Trạng thái: Phase 1–3 hoàn tất; Phase 4–6 hình minh họa đã lên kế hoạch
 - Phase hiện tại: Phase 4 (in_progress)
-- Việc kế tiếp: P4-02
+- Việc kế tiếp: P4-03
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -13,7 +13,7 @@
 | Phase 1 | 8 | 8 | Hoàn tất; audit/debug PASS |
 | Phase 2 | 3 | 3 | Hoàn tất; audit/debug PASS |
 | Phase 3 | 2 | 2 | Hoàn tất; audit/debug PASS |
-| Phase 4 | 3 | 1 | Đang thực hiện |
+| Phase 4 | 3 | 2 | Đang thực hiện |
 | Phase 5 | 4 | 0 | Đã lên kế hoạch |
 | Phase 6 | 2 | 0 | Đã lên kế hoạch |
 
@@ -95,7 +95,7 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 | Task | Trạng thái | Bằng chứng |
 | --- | --- | --- |
 | P4-01 | PASS | 56 bài/3 img/4 tài sản/80 ASCII; fixture 3 lỗi phát hiện đúng |
-| P4-02 | IN_PROGRESS | Đang đối chiếu 80 sơ đồ ký tự |
+| P4-02 | PASS | 80/80 sơ đồ phân loại; 31 nhóm phát hiện; `docs/qa/visual-technical-audit.md` |
 | P4-03 | PLANNED | — |
 | P5-01 | PLANNED | — |
 | P5-02 | PLANNED | — |
@@ -105,3 +105,5 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 | P6-02 | PLANNED | — |
 
 2026-10-02 P4-01: `python tools/check_visuals.py` 0 lỗi; fixture thiếu alt, ảnh, nguồn đều trả exit 1. Baseline `docs/qa/visual-baseline.md`.
+
+2026-10-02 P4-02: rà 80 sơ đồ ở 56 bài; 36 ưu tiên cao, 29 vừa, 15 thấp. Ghi 31 nhóm lỗi/điểm sửa kỹ thuật, ưu tiên mạch nguồn, pinout, flyback, bus và bảo vệ GPIO.
