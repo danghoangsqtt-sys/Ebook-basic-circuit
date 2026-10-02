@@ -3,14 +3,14 @@
 - Cập nhật: 2026-10-02
 - Trạng thái: đang triển khai Phase 1
 - Phase hiện tại: Phase 1
-- Việc kế tiếp: P1-02
+- Việc kế tiếp: P1-04/P1-05
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
 
 | Phase | Tổng nhiệm vụ | Hoàn tất | Trạng thái |
 | --- | ---: | ---: | --- |
-| Phase 1 | 8 | 1 | Đang thực hiện |
+| Phase 1 | 8 | 3 | Đang thực hiện |
 | Phase 2 | 3 | 0 | Chờ Phase 1 |
 | Phase 3 | 2 | 0 | Chờ Phase 2 / cổng quyết định |
 
@@ -19,9 +19,9 @@
 | ID | Việc | Trạng thái | Bằng chứng nghiệm thu |
 | --- | --- | --- | --- |
 | P1-01 | Đo hiện trạng và kiểm tra liên kết | PASS | `docs/qa/baseline-phase1.md`; 57 trang, 479 tham chiếu, 73 link hỏng, 16 phép đo Chromium; fixture exit 1/0 đúng |
-| P1-02 | Trang mở đầu | Đã kiểm tra, chờ cổng Git | 8 tuần, 56 link bài có thật; Chromium 320–1280 px không tràn; menu click/Enter/Escape, skip link; anchor chuẩn bị Bài 1 |
-| P1-03 | Khung đọc mobile | Đã kiểm tra, chờ cổng Git | Chromium Bài 1/28/56 ở 320–430 px và viewport zoom 200%; không tràn; sidebar 8 tuần/56 bài, Escape/focus |
-| P1-04 | Thanh kéo cỡ chữ | Chưa bắt đầu | — |
+| P1-02 | Trang mở đầu | PASS | 8 tuần, 56 link bài có thật; Chromium 320–1280 px không tràn; menu click/Enter/Escape, skip link; anchor chuẩn bị Bài 1 |
+| P1-03 | Khung đọc mobile | PASS | Chromium Bài 1/28/56 ở 320–430 px và viewport zoom 200%; không tràn; sidebar 8 tuần/56 bài, Escape/focus |
+| P1-04 | Thanh kéo cỡ chữ | Đang thực hiện | Hợp đồng `phases/phase-1/tasks/P1-04.md` |
 | P1-05 | Chỉ mục và tìm kiếm nội bộ | Đang thực hiện | Hợp đồng `phases/phase-1/tasks/P1-05.md` |
 | P1-06 | Chọn chữ và tra cứu | Chưa bắt đầu | — |
 | P1-07 | Bút đánh dấu | Chưa bắt đầu | — |
