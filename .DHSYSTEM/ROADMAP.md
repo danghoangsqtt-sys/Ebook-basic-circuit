@@ -94,6 +94,8 @@ Ngày chốt: 2026-10-02. Nguồn phạm vi: `docs/brainstorm/session-2026-10-02
 
 ### P2-03 · Quyết định nhiều màu và ghi chú
 
+Quyết định 2026-10-02: hoãn triển khai nhiều màu/ghi chú. Yêu cầu hiện tại chỉ xác nhận một bút đánh dấu, thư viện dấu vẫn dùng schema v1. Nếu người đọc cần thêm, mở hợp đồng riêng gồm di trú dữ liệu và kiểm thử.
+
 - **Phụ thuộc:** P2-01.
 - **Công việc:** Đánh giá nhu cầu thực tế; nếu có, mở rộng schema và UI cho nhiều màu/ghi chú, gồm chuyển đổi dữ liệu dấu cũ.
 - **Nghiệm thu:** Có quyết định ghi trong tracker. Nếu triển khai, dấu cũ vẫn mở được và ghi chú lưu qua reload.
