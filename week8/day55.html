@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 55: Con Đường Tiếp Theo — STM32, Linux, ML Edge — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 55: Hướng dẫn con đường học tiếp sau khóa — STM32 bare-metal, Embedded Linux, Machine Learning on Edge, và định hướng nghề nghiệp kỹ sư nhúng.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 8</span><span class="tag tag-day">Ngày 55</span><span class="tag tag-difficulty-advanced">Định hướng</span></div>
+        <h1 class="lesson-title">Con Đường Tiếp Theo — Học Gì Sau Khóa Này?</h1>
+        <p class="lesson-subtitle">Bạn đã có nền tảng vững chắc. Bây giờ là lúc chọn hướng chuyên sâu — từ STM32 bare-metal đến Embedded Linux, từ robot đến IoT công nghiệp.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Nghiên cứu lộ trình: 90 phút</span><span class="lesson-stat">🎯 Đầu ra: Kế hoạch 3–6 tháng tiếp theo</span></div>
+      </div>
+
+      <h2>1. Bản đồ các hướng chuyên sâu</h2>
+
+      <div class="circuit-ascii">  Lộ trình sau khóa học cơ bản:
+
+  [Bạn hiện tại]
+       │
+       ├── Hướng A: Firmware Professional
+       │   └── STM32 (HAL/LL/Bare-metal)
+       │       └── FreeRTOS nâng cao → Zephyr RTOS
+       │           └── Safety-critical (IEC 61508)
+       │
+       ├── Hướng B: Embedded Linux
+       │   └── Raspberry Pi → Buildroot/Yocto
+       │       └── Device drivers (C kernel)
+       │           └── RISC-V Linux
+       │
+       ├── Hướng C: PCB & Hardware Design
+       │   └── KiCad chuyên sâu → Altium Designer
+       │       └── RF/Antenna design → Mixed-signal PCB
+       │           └── High-speed design (>100MHz)
+       │
+       ├── Hướng D: IoT & Cloud
+       │   └── AWS IoT / Azure IoT Hub
+       │       └── MQTT5, CoAP, Matter protocol
+       │           └── Edge AI (TensorFlow Lite Micro)
+       │
+       └── Hướng E: Robotics
+           └── ROS2 (Robot Operating System)
+               └── Computer Vision (OpenCV)
+                   └── Path planning, SLAM</div>
+
+      <h2>2. Lộ trình học cụ thể theo hướng</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Hướng</th><th>Tháng 1–3</th><th>Tháng 4–6</th><th>Dự án demo</th></tr></thead>
+          <tbody>
+            <tr><td><strong>A: STM32</strong></td><td>STM32CubeIDE, GPIO/UART/SPI/I2C HAL, NUCLEO board</td><td>FreeRTOS trên STM32, DMA, ADC calibration</td><td>Motor controller với encoder feedback</td></tr>
+            <tr><td><strong>B: Linux</strong></td><td>Linux command line, bash script, cross-compile C trên RPi</td><td>Custom Buildroot image, viết kernel module đơn giản</td><td>Custom IoT gateway với OTA update</td></tr>
+            <tr><td><strong>C: PCB</strong></td><td>Altium Designer cơ bản, design rule advanced, 4-layer PCB</td><td>RF layout, impedance controlled, EMI simulation</td><td>Custom ESP32 module với PCB antenna</td></tr>
+            <tr><td><strong>D: Edge AI</strong></td><td>TensorFlow Lite, Edge Impulse, model quantization</td><td>Deploy ML model ESP32, Arduino Nano 33 BLE Sense</td><td>Keyword detection hoặc gesture recognition</td></tr>
+            <tr><td><strong>E: Robotics</strong></td><td>ROS2 installation, nodes/topics, turtlebot simulation</td><td>SLAM với lidar, Nav2 stack, robot arm control</td><td>Autonomous mobile robot với obstacle avoidance</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>3. Tài nguyên học tiếp — Miễn phí</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tài nguyên</th><th>Nội dung</th><th>Link</th></tr></thead>
+          <tbody>
+            <tr><td>STM32 từ đầu</td><td>Deepbluembedded.com — tutorial đầy đủ HAL + LL</td><td>deepbluembedded.com</td></tr>
+            <tr><td>Embedded Linux</td><td>bootlin.com/training — slides miễn phí, chất lượng cao</td><td>bootlin.com/training/materials</td></tr>
+            <tr><td>FreeRTOS</td><td>FreeRTOS.org — documentation chính thức + examples</td><td>freertos.org</td></tr>
+            <tr><td>Edge AI</td><td>Edge Impulse Studio — deploy ML không cần viết code từ đầu</td><td>edgeimpulse.com</td></tr>
+            <tr><td>ROS2</td><td>The Construct — ROS2 free courses</td><td>youtube.com/c/TheConstruct</td></tr>
+            <tr><td>PCB Design</td><td>Contextual Electronics — PCB design series</td><td>youtube.com/c/ContextualElectronics</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>4. Kỹ năng mềm — Song song kỹ thuật</h2>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">🌟</span> Kỹ năng tạo ra kỹ sư xuất sắc</div>
+        <ul>
+          <li><strong>Git & Version Control:</strong> Branch, PR, revert — thiết yếu khi làm team</li>
+          <li><strong>Đọc Datasheet:</strong> Skill đọc hiểu datasheet IC 500 trang trong 30 phút</li>
+          <li><strong>Technical Writing:</strong> Viết doc rõ ràng — giá trị cao hơn code đẹp</li>
+          <li><strong>Debugging Mindset:</strong> "Giả thuyết → kiểm chứng" — không đoán mù</li>
+          <li><strong>Open Source Contribution:</strong> Contribute 1 PR nhỏ lên dự án mình dùng</li>
+          <li><strong>Community:</strong> Discord điện tử, forum AVR Freaks, StackOverflow EE</li>
+        </ul>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Bài 55 — Lập kế hoạch</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b55"><label for="c1b55">Tôi đã chọn hướng chuyên sâu muốn theo đuổi</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b55"><label for="c2b55">Tôi có kế hoạch học 3 tháng cụ thể với milestone</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b55"><label for="c3b55">Tôi đã đặt mua/chuẩn bị board/thiết bị cần thiết</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b55"><label for="c4b55">GitHub profile đã sẵn sàng showcase portfolio</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week8/day54.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 54: EMC & Chống Nhiễu</div></div></a>
+        <a href="../week8/day56.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài Cuối →</div><div class="nav-title">Bài 56: Tổng Kết 8 Tuần — Chúc Mừng!</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day55.html');</script>
+</body>
+</html>

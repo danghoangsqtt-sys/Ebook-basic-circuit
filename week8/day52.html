@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 52: FreeRTOS — Đa Nhiệm Thực Thời Trên ESP32 — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 52: FreeRTOS tasks, semaphore, queue, priority — lập trình đa nhiệm thực thời cho vi điều khiển ESP32.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 8</span><span class="tag tag-day">Ngày 52</span><span class="tag tag-difficulty-advanced">RTOS</span></div>
+        <h1 class="lesson-title">FreeRTOS — Đa Nhiệm Thực Thời Trên ESP32</h1>
+        <p class="lesson-subtitle">Vượt qua giới hạn của vòng lặp đơn — FreeRTOS cho phép nhiều tác vụ chạy song song với priority và timing chính xác.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~35 phút</span><span class="lesson-stat">💻 Thực hành: 60 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu RTOS là gì — khác gì với vòng lặp while(1) thông thường</li>
+          <li>Tạo và quản lý Task trong FreeRTOS (ESP32 built-in)</li>
+          <li>Priority và Scheduling — task nào được CPU khi nào</li>
+          <li>vTaskDelay() vs delay() — RTOS-friendly delay</li>
+          <li>Queue — truyền dữ liệu an toàn giữa các task</li>
+          <li>Semaphore/Mutex — bảo vệ tài nguyên chia sẻ</li>
+          <li>Giám sát stack: uxTaskGetStackHighWaterMark()</li>
+          <li>Biết khi nào cần RTOS, khi nào millis() scheduler đủ</li>
+        </ul>
+      </div>
+
+      <h2>1. FreeRTOS vs Polling Loop</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tiêu chí</th><th>Arduino loop() / millis()</th><th>FreeRTOS Tasks</th></tr></thead>
+          <tbody>
+            <tr><td>Cấu trúc</td><td>Một hàm loop() lớn</td><td>Nhiều task độc lập, mỗi task có stack riêng</td></tr>
+            <tr><td>Timing chính xác</td><td>Phụ thuộc vào thời gian mỗi iteration</td><td>vTaskDelay() chính xác đến ms với RTOS tick</td></tr>
+            <tr><td>Priority</td><td>Không có — task nào cũng bình đẳng</td><td>Task ưu tiên cao interrupt task ưu tiên thấp</td></tr>
+            <tr><td>Blocking safe</td><td>Blocking làm freeze toàn hệ thống</td><td>Blocking trong task chỉ suspend task đó</td></tr>
+            <tr><td>ESP32 lợi thế</td><td>Dùng 1 core</td><td>Phân task ra 2 core (Core 0 WiFi, Core 1 user)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>2. Task cơ bản trong FreeRTOS</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// ESP32 FreeRTOS — 2 task song song
+// Task đọc sensor mỗi 2s, task update display mỗi 500ms
+
+float sensorTemp = 0;
+SemaphoreHandle_t dataMutex;  // Bảo vệ sensorTemp
+
+void taskSensor(void* param) {
+  for (;;) {  // Vòng lặp vô hạn — thay thế loop()
+    float t = bme.readTemperature();
+    
+    xSemaphoreTake(dataMutex, portMAX_DELAY);  // Lock
+    sensorTemp = t;
+    xSemaphoreGive(dataMutex);                 // Unlock
+    
+    vTaskDelay(pdMS_TO_TICKS(2000));  // Suspend 2s, nhường CPU
+  }
+}
+
+void taskDisplay(void* param) {
+  for (;;) {
+    float temp;
+    xSemaphoreTake(dataMutex, portMAX_DELAY);
+    temp = sensorTemp;
+    xSemaphoreGive(dataMutex);
+    
+    oled.clearDisplay();
+    oled.printf("%.1f C", temp);
+    oled.display();
+    
+    vTaskDelay(pdMS_TO_TICKS(500));  // Refresh 2×/giây
+  }
+}
+
+void setup() {
+  dataMutex = xSemaphoreCreateMutex();
+  
+  // Tạo task: name, stack size, param, priority, handle, core
+  xTaskCreatePinnedToCore(taskSensor,  "Sensor",  4096, NULL, 2, NULL, 1);
+  xTaskCreatePinnedToCore(taskDisplay, "Display", 4096, NULL, 1, NULL, 1);
+  // Priority 2 > Priority 1 → Sensor task ưu tiên cao hơn
+}
+
+void loop() {}  // FreeRTOS quản lý vòng lặp</pre>
+      </div>
+
+      <h2>3. Queue — Truyền dữ liệu giữa tasks</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// Queue: sensor → logger task
+QueueHandle_t dataQueue = xQueueCreate(10, sizeof(float));  // 10 item
+
+// Trong taskSensor:
+float temp = bme.readTemperature();
+xQueueSend(dataQueue, &temp, 0);  // Gửi vào queue, không chờ
+
+// Trong taskLogger:
+float received;
+if (xQueueReceive(dataQueue, &received, pdMS_TO_TICKS(100))) {
+  logToSD(received);  // Ghi SD khi có dữ liệu mới
+}</pre>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">FreeRTOS trên ESP32</span></div>
+        <div class="video-body">
+          <div class="video-title">FreeRTOS on ESP32 — Tasks, Queues, Semaphores</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: Dronebotworkshop</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~30 phút</span>
+          </div>
+          <div class="video-purpose">Hướng dẫn FreeRTOS ESP32 từ tasks cơ bản đến queue, semaphore và pinning core.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=k_D_Qu0cgu8" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 52</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Tạo 3 task: taskLED (nhấp nháy 1Hz, Core 0), taskSensor (đọc DHT22 mỗi 2s, Core 1), taskPrint (in ra Serial mỗi 1s, Core 1). Xác nhận chạy song song.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Khi nào cần Mutex thay vì Queue? Cho ví dụ cụ thể trong dự án IoT.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án câu 2</button>
+          <div class="answer-content">
+            <p><strong>2:</strong> <strong>Queue</strong>: dùng khi muốn chuyển data từ producer → consumer một chiều. Ví dụ: sensor task gửi readings vào queue → logger task đọc và ghi SD. <strong>Mutex</strong>: dùng khi nhiều task cùng đọc/ghi vào tài nguyên chia sẻ hai chiều. Ví dụ: biến <code>float currentTemp</code> được đọc bởi display task và ghi bởi sensor task đồng thời → cần mutex để tránh race condition (đọc giá trị bị sửa nửa chừng). Rule of thumb: Queue cho data flow, Mutex cho shared resource protection.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 52</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b52"><label for="c1b52">Tôi tạo và chạy 2 task song song với FreeRTOS</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b52"><label for="c2b52">Tôi dùng Mutex bảo vệ biến chia sẻ giữa tasks</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b52"><label for="c3b52">Tôi dùng Queue truyền data sensor → logger</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b52"><label for="c4b52">Tôi biết khi nào cần RTOS và khi nào millis() đủ</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week8/day51.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 51: PID Control</div></div></a>
+        <a href="../week8/day53.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 53: BLE — Bluetooth Low Energy</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day52.html');</script>
+</body>
+</html>

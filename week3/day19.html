@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 19: PWM — Điều Rộng Xung & Điều Khiển Tốc Độ — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 19: PWM — nguyên lý điều rộng xung, tần số và duty cycle, ứng dụng điều khiển độ sáng LED và tốc độ motor DC.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 3</span><span class="tag tag-day">Ngày 19</span><span class="tag tag-difficulty-intermediate">PWM</span></div>
+        <h1 class="lesson-title">PWM — Điều Rộng Xung & Điều Khiển Tốc Độ</h1>
+        <p class="lesson-subtitle">Kỹ thuật mô phỏng điện áp analog bằng xung số — điều khiển độ sáng LED, tốc độ motor và truyền thông servo.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~35 phút</span><span class="lesson-stat">🔬 Thực hành: 40 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu PWM là gì — biến đổi tín hiệu số thành giá trị trung bình thay đổi được</li>
+          <li>Hiểu Duty Cycle (%) và tần số (Hz) — hai tham số quan trọng nhất</li>
+          <li>Tính điện áp trung bình từ duty cycle: V_avg = D × V_high</li>
+          <li>Biết lựa chọn tần số PWM phù hợp: LED, motor, servo</li>
+          <li>Thực hành: dimmer LED bằng Arduino/ESP32 analogWrite</li>
+          <li>Điều khiển tốc độ motor DC qua MOSFET IRLZ44N và PWM</li>
+          <li>Hiểu tại sao cần tần số PWM phù hợp với motor (không nghe tiếng kêu)</li>
+          <li>Mô phỏng điện áp analog bằng PWM + RC filter</li>
+        </ul>
+      </div>
+
+      <!-- PHẦN 1 — PWM LÀ GÌ -->
+      <h2>1. PWM — Điều Rộng Xung (Pulse Width Modulation)</h2>
+
+      <p>PWM là kỹ thuật thay đổi độ rộng (thời gian) của xung điện trong một chu kỳ cố định để điều khiển giá trị điện áp trung bình đến tải. Thay vì thay đổi điện áp một cách liên tục (như DAC analog), PWM chuyển đổi nhanh giữa 0V và V_max — tải "cảm nhận" điện áp trung bình tương ứng.</p>
+
+      <div class="circuit-ascii">  PWM — 3 ví dụ duty cycle khác nhau:
+
+  Duty 25%:   ┌─┐   ┌─┐   → V_avg = 0,25 × 5V = 1,25V
+          ────┘ └───┘ └──  (LED mờ, motor chậm)
+
+  Duty 50%:   ┌──┐  ┌──┐  → V_avg = 0,50 × 5V = 2,5V
+          ────┘  └──┘  └─  (LED vừa, motor nửa tốc)
+
+  Duty 75%:   ┌───┐ ┌───┐ → V_avg = 0,75 × 5V = 3,75V
+          ────┘   └─┘   └  (LED sáng, motor gần full)
+
+  ↑ Thời gian ON            ↓ Thời gian OFF
+  Duty Cycle D = T_on / T_total × 100%</div>
+
+      <div class="formula-block">
+        <div class="formula-main">V_avg = D × V_high</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">D</span> = Duty Cycle (0.0 → 1.0, hay 0% → 100%)</span>
+          <span class="formula-var"><span class="var-name">V_high</span> = Điện áp mức cao (VCC)</span>
+          <span class="formula-var"><span class="var-name">f_PWM</span> = 1/T = Tần số PWM (Hz)</span>
+        </div>
+      </div>
+
+      <!-- PHẦN 2 — CHỌN TẦN SỐ -->
+      <h2>2. Chọn tần số PWM phù hợp</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Ứng dụng</th><th>Tần số PWM khuyến nghị</th><th>Lý do</th></tr></thead>
+          <tbody>
+            <tr><td>LED dimming</td><td>500Hz–10kHz</td><td>Trên 50Hz: mắt không nhận ra nhấp nháy (flicker-free)</td></tr>
+            <tr><td>Motor DC nhỏ</td><td>1kHz–20kHz</td><td>Trên 20kHz: motor không kêu (ngưỡng nghe của người)</td></tr>
+            <tr><td>Servo RC</td><td>50Hz (chu kỳ 20ms)</td><td>Tiêu chuẩn servo: T_on = 1ms–2ms điều khiển góc</td></tr>
+            <tr><td>DC-DC Converter</td><td>100kHz–2MHz</td><td>Tần số cao → cuộn cảm và tụ nhỏ hơn</td></tr>
+            <tr><td>Audio class D amplifier</td><td>200kHz–500kHz</td><td>Trên 10× tần số âm thanh max (20kHz)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📌</span> PWM trên ESP32 và Arduino</div>
+        <ul>
+          <li><strong>ESP32:</strong> LEDC peripheral — 16 kênh, tần số từ 1Hz đến 40MHz, độ phân giải 1–16 bit. Dùng <code>ledcWrite(channel, duty)</code></li>
+          <li><strong>Arduino Uno/Nano:</strong> <code>analogWrite(pin, 0–255)</code> — tần số 490Hz (pin 3,9,10,11) hoặc 980Hz (pin 5,6). Phân giải 8-bit.</li>
+          <li><strong>Arduino Mega:</strong> Tương tự nhưng có thêm pin PWM trên Timer 3,4,5</li>
+        </ul>
+      </div>
+
+      <!-- PHẦN 3 — ỨNG DỤNG -->
+      <h2>3. PWM → Điện áp Analog: RC Low-Pass Filter</h2>
+
+      <p>Nếu bạn cần điện áp analog thực sự (ví dụ: DAC cho âm thanh, điện áp tham chiếu biến đổi), có thể dùng <strong>RC Low-Pass Filter sau ngõ ra PWM</strong> để lọc bỏ thành phần tần số cao, chỉ giữ lại giá trị trung bình DC:</p>
+
+      <div class="circuit-ascii">  PWM → Analog qua RC filter:
+
+  GPIO_PWM ──[R=10kΩ]──┬── V_analog_out
+                        │
+                      [C=100nF]
+                        │
+                       GND
+
+  f_PWM = 10kHz → f_c_filter = 1/(2π×10k×100n) = 159Hz
+  → f_PWM (10kHz) >> f_c (159Hz) → filter lọc gần hết ripple
+  → V_out ≈ D × 3,3V (rất trơn)</div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">PWM — Nguyên lý và ứng dụng</span></div>
+        <div class="video-body">
+          <div class="video-title">PWM (Pulse Width Modulation) explained</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: The Engineering Mindset</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~9 phút</span>
+          </div>
+          <div class="video-purpose">Giải thích PWM từ nguyên lý đến ứng dụng motor, LED với animation rõ ràng.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=ISzFUgYrwMQ" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>4. Thực hành: Dimmer LED và điều khiển tốc độ motor</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành A: Dimmer LED bằng Arduino analogWrite</div>
+        <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// Dimmer LED — Arduino
+const int LED_PIN = 9; // Pin PWM
+void setup() { pinMode(LED_PIN, OUTPUT); }
+void loop() {
+  // Tăng dần sáng
+  for (int d = 0; d &lt;= 255; d++) {
+    analogWrite(LED_PIN, d);
+    delay(10);
+  }
+  // Giảm dần tối
+  for (int d = 255; d >= 0; d--) {
+    analogWrite(LED_PIN, d);
+    delay(10);
+  }
+}</pre>
+        </div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Nối LED + R(220Ω) vào pin 9 Arduino. Upload code trên. Quan sát LED breathing.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V_LED bằng multimeter DCV khi analogWrite=128 (50%): kỳ vọng ~2,5V (trung bình).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thay pin 9 bằng pin 5 hoặc 6 (490Hz→980Hz): có thấy sự khác biệt không?</p></div></li>
+        </ol>
+      </div>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành B: Điều khiển tốc độ motor DC qua MOSFET</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Lắp mạch IRLZ44N switch (như Bài 18) nhưng thêm GPIO PWM vào Gate qua R_G=100Ω.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thêm code: analogWrite(PWM_PIN, 64) → 25% tốc độ; analogWrite(PWM_PIN, 128) → 50%; analogWrite(PWM_PIN, 255) → 100%.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Quan sát tốc độ motor thay đổi. Nghe âm thanh: ở 490Hz motor thường phát tiếng kêu.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nếu dùng ESP32: thử ledcSetup(0, 20000, 8) — PWM 20kHz. Motor yên tĩnh hơn không?</p></div></li>
+        </ol>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 19</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">PWM 5V, duty cycle 60%. V_avg = ? V_rms = ? (gợi ý: V_rms = V_high × √D)</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Servo cần xung 1,5ms trong chu kỳ 20ms. Duty cycle là bao nhiêu %? Tần số PWM?</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Thiết kế RC filter sau PWM 490Hz để lọc ra V_analog. Chọn R và C sao cho f_c &lt; 49Hz (1/10 của f_PWM).</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Arduino analogWrite(pin, 200) với VCC=5V. V_avg = ? Tính cường độ LED nếu R=220Ω, V_LED=2V.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> D=0,6. V_avg = 0,6 × 5V = <strong>3V</strong>. V_rms = 5 × √0,6 = 5 × 0,775 = <strong>3,873V</strong></p>
+            <p><strong>2:</strong> D = 1,5ms / 20ms = <strong>7,5%</strong>. f_PWM = 1/20ms = <strong>50Hz</strong></p>
+            <p><strong>3:</strong> Cần f_c &lt; 49Hz. Chọn C=1µF: R = 1/(2π×49×0,000001) = 1/0,000308 = 3,248Ω → <strong>R=3,3kΩ, C=1µF → f_c = 48,2Hz</strong> ✓</p>
+            <p><strong>4:</strong> D = 200/255 = 0,784. V_avg = 0,784 × 5V = <strong>3,92V</strong>. V_R = 3,92 – 2V = 1,92V. I_LED = 1,92/220 = <strong>8,7mA</strong>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 19</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b19"><label for="c1b19">Tôi tính được V_avg từ duty cycle và V_high</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b19"><label for="c2b19">Tôi biết chọn tần số PWM phù hợp cho LED, motor, servo</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b19"><label for="c3b19">Tôi thực hành dimmer LED và điều khiển tốc độ motor bằng PWM</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b19"><label for="c4b19">Tôi thiết kế được RC filter để chuyển PWM thành V_analog</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week3/day18.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 18: MOSFET — NMOS & PMOS</div></div></a>
+        <a href="../week3/day20.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 20: Op-Amp — Operational Amplifier Cơ Bản</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day19.html');</script>
+</body>
+</html>

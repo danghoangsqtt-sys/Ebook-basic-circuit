@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 28: Ôn Tập Tuần 4 & Mini Project Trạm Đo Môi Trường — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 28: Ôn tập UART/I2C/SPI/ADC/Interrupt và Mini Project trạm đo môi trường hoàn chỉnh với màn hình OLED và SD logging.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 4</span><span class="tag tag-day">Ngày 28</span><span class="tag tag-difficulty-intermediate">Ôn tập + Project</span></div>
+        <h1 class="lesson-title">Ôn Tập Tuần 4 & Mini Project: Trạm Đo Môi Trường</h1>
+        <p class="lesson-subtitle">Tổng hợp I2C, SPI, ADC, Interrupt — xây dựng trạm đo nhiệt độ/độ ẩm hiển thị OLED và ghi log SD card.</p>
+        <div class="lesson-stats">
+          <span class="lesson-stat">⏱ Ôn tập: ~20 phút</span>
+          <span class="lesson-stat">🔧 Project: 90 phút</span>
+        </div>
+      </div>
+
+      <h2>1. Ôn tập nhanh Tuần 4</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Câu hỏi</th><th>Đáp án</th></tr></thead>
+          <tbody>
+            <tr><td>UART 115200 bps, 8N1. Thời gian truyền 1 byte?</td><td>10 bit × (1/115200) = 86,8µs</td></tr>
+            <tr><td>I2C cần pull-up resistor vì lý do gì?</td><td>Kiến trúc open-drain: chỉ kéo xuống GND, cần R để kéo lên VCC</td></tr>
+            <tr><td>SPI Mode 0: SCK idle = ? Lấy mẫu cạnh nào?</td><td>SCK idle = LOW. Lấy mẫu tại cạnh lên (RISING)</td></tr>
+            <tr><td>Arduino Uno ADC 10-bit, V_REF=5V. analogRead()=800 → V=?</td><td>V = (800/1023) × 5V = 3,91V</td></tr>
+            <tr><td>ISR bắt buộc phải có gì trên biến chia sẻ?</td><td>volatile keyword</td></tr>
+            <tr><td>DHT22 đọc NaN — nguyên nhân đầu tiên cần kiểm tra?</td><td>Thiếu pull-up 10kΩ trên data line</td></tr>
+            <tr><td>DS18B20 ưu điểm so với DHT22 khi dùng nhiều điểm đo?</td><td>Nhiều sensor trên 1 dây 1-Wire, phân biệt bởi ROM 64-bit</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MINI PROJECT -->
+      <h2>2. Mini Project Tuần 4: Trạm Đo Môi Trường</h2>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📋</span> Yêu cầu kỹ thuật</div>
+        <ul>
+          <li><strong>Cảm biến:</strong> DHT22 (nhiệt độ + độ ẩm) hoặc BME280 I2C</li>
+          <li><strong>Hiển thị:</strong> OLED SSD1306 0,96" I2C — nhiệt độ, độ ẩm, thời gian chạy</li>
+          <li><strong>Log dữ liệu:</strong> SD card SPI — ghi mỗi 10 giây: timestamp,temp,humi</li>
+          <li><strong>Cảnh báo:</strong> LED đỏ + buzzer khi nhiệt độ &gt; 35°C</li>
+          <li><strong>Nút nhấn:</strong> 1 nút (interrupt) để export summary qua Serial</li>
+          <li><strong>Nguồn:</strong> USB 5V → AMS1117-3.3 → toàn bộ mạch</li>
+        </ul>
+      </div>
+
+      <h3>2.1 Kiến trúc phần mềm</h3>
+
+      <div class="circuit-ascii">  Sơ đồ task / luồng xử lý:
+
+  setup():
+    ├─ Init Serial (115200)
+    ├─ Init I2C → OLED.begin() → BME280.begin()
+    ├─ Init SPI → SD.begin()
+    ├─ attachInterrupt(btnPin, onBtn, FALLING)
+    └─ Init timer hoặc millis-based scheduler
+
+  loop():
+    ├─ Mỗi 2000ms: đọc DHT22/BME280
+    │   ├─ Validate: NaN check
+    │   ├─ Update OLED display
+    │   └─ Nếu temp > 35: LED ON + buzzer beep
+    ├─ Mỗi 10000ms: ghi SD card
+    │   └─ Format: "millis,temp,humi\n"
+    └─ Nếu btnFlag: in summary qua Serial
+
+  ISR onBtn():
+    └─ btnFlag = true (chỉ set flag, không xử lý)</div>
+
+      <h3>2.2 Code khung (ESP32)</h3>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// Trạm Đo Môi Trường — ESP32 Skeleton
+#include &lt;Wire.h&gt;
+#include &lt;Adafruit_SSD1306.h&gt;
+#include &lt;DHT.h&gt;
+#include &lt;SPI.h&gt;
+#include &lt;SD.h&gt;
+
+#define DHT_PIN  4   #define BTN_PIN  0
+#define LED_PIN  2   #define CS_SD    5
+#define BUZZER   15
+
+DHT dht(DHT_PIN, DHT22);
+Adafruit_SSD1306 oled(128, 64, &Wire, -1);
+
+volatile bool btnFlag = false;
+unsigned long lastSensor = 0, lastLog = 0;
+float temp = 0, humi = 0;
+
+void IRAM_ATTR onBtn() { btnFlag = true; }
+
+void setup() {
+  Serial.begin(115200);
+  dht.begin();
+  oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  oled.clearDisplay();
+  SD.begin(CS_SD);
+  pinMode(LED_PIN, OUTPUT);
+  pinMode(BUZZER, OUTPUT);
+  attachInterrupt(BTN_PIN, onBtn, FALLING);
+}
+
+void loop() {
+  unsigned long now = millis();
+  
+  // Đọc cảm biến mỗi 2s
+  if (now - lastSensor &gt;= 2000) {
+    lastSensor = now;
+    float t = dht.readTemperature();
+    float h = dht.readHumidity();
+    if (!isnan(t) && !isnan(h)) { temp = t; humi = h; }
+    
+    // Update OLED
+    oled.clearDisplay();
+    oled.setTextSize(2); oled.setCursor(0,0);
+    oled.printf("%.1fC", temp);
+    oled.setTextSize(1); oled.setCursor(0,35);
+    oled.printf("Humi: %.1f%%", humi);
+    oled.display();
+    
+    // Cảnh báo nhiệt
+    bool hot = (temp &gt; 35.0);
+    digitalWrite(LED_PIN, hot);
+    if (hot) { tone(BUZZER, 1000, 200); }
+  }
+  
+  // Log SD mỗi 10s
+  if (now - lastLog &gt;= 10000) {
+    lastLog = now;
+    File f = SD.open("/log.csv", FILE_APPEND);
+    if (f) { f.printf("%lu,%.2f,%.2f\n", now, temp, humi); f.close(); }
+  }
+  
+  // Nút nhấn summary
+  if (btnFlag) {
+    btnFlag = false;
+    Serial.printf("SUMMARY — Temp: %.1fC  Humi: %.1f%%\n", temp, humi);
+  }
+}</pre>
+      </div>
+
+      <h2>3. Bảng đo kiểm</h2>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th>Tính năng</th><th>Kỳ vọng</th><th>Kết quả</th><th>P/F</th></tr></thead>
+          <tbody>
+            <tr><td>OLED hiển thị nhiệt độ</td><td>Giá trị thực ±0,5°C</td><td>_____</td><td>_____</td></tr>
+            <tr><td>OLED hiển thị độ ẩm</td><td>Giá trị thực ±2%</td><td>_____</td><td>_____</td></tr>
+            <tr><td>SD card ghi file log.csv</td><td>File tồn tại, đọc được trên PC</td><td>_____</td><td>_____</td></tr>
+            <tr><td>LED cảnh báo khi temp &gt; 35°C</td><td>LED ON khi hà hơi vào DHT22</td><td>_____</td><td>_____</td></tr>
+            <tr><td>Nút nhấn in summary qua Serial</td><td>Print khi nhấn, không bỏ lỡ</td><td>_____</td><td>_____</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>4. Tổng kết Tuần 4</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Bài</th><th>Kiến thức cốt lõi</th></tr></thead>
+          <tbody>
+            <tr><td>22</td><td>UART — baud rate, frame 8N1, level shifter</td></tr>
+            <tr><td>23</td><td>I2C — open-drain, pull-up, I2C Scanner, OLED + BME280</td></tr>
+            <tr><td>24</td><td>SPI — MOSI/MISO/SCK/CS, Mode 0–3, SD card datalogger</td></tr>
+            <tr><td>25</td><td>ADC/DAC — độ phân giải, Nyquist, ESP32 DAC sine wave</td></tr>
+            <tr><td>26</td><td>Interrupt — ISR rules, volatile, debounce, timer interrupt</td></tr>
+            <tr><td>27</td><td>Cảm biến số — DHT22, DS18B20 1-Wire, PIR HC-SR501</td></tr>
+            <tr><td>28</td><td>Tổng hợp — Trạm đo môi trường đa giao thức</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">🚀</span> Chuẩn bị Tuần 5 — Mô phỏng & Đo lường</div>
+        <p>Tuần 5 tập trung vào <strong>mô phỏng mạch điện</strong> (Falstad, LTSpice) và sử dụng thiết bị đo lường chuyên nghiệp hơn: oscilloscope, multimeter nâng cao, signal generator. Cài sẵn <strong>Falstad Circuit Simulator</strong> (web: falstad.com/circuit) và LTSpice (miễn phí từ Analog Devices).</p>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist hoàn thành Tuần 4</div>
+        <div class="checklist-item"><input type="checkbox" id="wk4c1"><label for="wk4c1">Tôi giao tiếp được UART, I2C và SPI với thiết bị thực</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk4c2"><label for="wk4c2">Tôi đọc được ADC và biết hạn chế của ESP32 ADC</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk4c3"><label for="wk4c3">Tôi viết ISR đúng chuẩn với volatile và không vi phạm quy tắc</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk4c4"><label for="wk4c4">Tôi đã hoàn thành Mini Project Trạm Đo Môi Trường</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week4/day27.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 27: Cảm Biến Số</div></div></a>
+        <a href="../week5/day29.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Tuần 5, Bài 29 →</div><div class="nav-title">Bài 29: Mô Phỏng Mạch — Falstad & LTSpice</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day28.html');</script>
+</body>
+</html>

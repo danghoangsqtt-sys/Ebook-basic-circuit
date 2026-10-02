@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 31: Bộ Lọc Tín Hiệu — Low/High/Band Pass — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 31: Mạch lọc RC — Low Pass, High Pass, Band Pass, Band Stop. Tính tần số cắt, ứng dụng thực tế và mô phỏng Bode plot.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 5</span><span class="tag tag-day">Ngày 31</span><span class="tag tag-difficulty-intermediate">Analog</span></div>
+        <h1 class="lesson-title">Bộ Lọc Tín Hiệu — Low Pass, High Pass, Band Pass</h1>
+        <p class="lesson-subtitle">Kiểm soát tần số nào đi qua, tần số nào bị chặn — nền tảng của xử lý âm thanh, lọc nhiễu cảm biến và giao tiếp RF.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~40 phút</span><span class="lesson-stat">🔬 Thực hành + Mô phỏng: 45 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu tại sao cần bộ lọc — nhiễu, tín hiệu không mong muốn</li>
+          <li>Tính và thiết kế RC Low Pass Filter — f_c = 1/(2πRC)</li>
+          <li>Tính và thiết kế RC High Pass Filter</li>
+          <li>Band Pass = HPF + LPF kết hợp</li>
+          <li>Hiểu độ dốc suy giảm: bậc 1 = –20dB/decade, bậc 2 = –40dB/decade</li>
+          <li>Ứng dụng: lọc nhiễu ADC, anti-aliasing, tách DC offset</li>
+          <li>Mô phỏng Bode plot trong LTSpice và Falstad</li>
+          <li>Đo đặc tính lọc thực tế bằng oscilloscope và signal generator</li>
+        </ul>
+      </div>
+
+      <!-- PHẦN 1 — LOW PASS -->
+      <h2>1. RC Low Pass Filter (LPF)</h2>
+
+      <p>Cho qua tần số thấp, chặn tần số cao. Tần số cắt f_c là điểm tín hiệu bị suy giảm –3dB (≈ 70,7% biên độ).</p>
+
+      <div class="formula-block">
+        <div class="formula-main">f_c = 1 / (2π × R × C)</div>
+        <div class="formula-vars">
+          <span class="formula-var">Tại f &lt;&lt; f_c: |A| ≈ 1 (0dB) — tín hiệu đi qua gần như không suy giảm</span>
+          <span class="formula-var">Tại f = f_c: |A| = 1/√2 = 0,707 (–3dB)</span>
+          <span class="formula-var">Tại f &gt;&gt; f_c: |A| = f_c/f → suy giảm –20dB mỗi khi tần số tăng 10×</span>
+        </div>
+      </div>
+
+      <div class="circuit-ascii">  RC Low Pass Filter:               RC High Pass Filter:
+
+  Vin──[R]──┬── Vout (LPF)         Vin──[C]──┬── Vout (HPF)
+            │                               │
+           [C]                             [R]
+            │                               │
+           GND                             GND
+
+  LPF: f thấp → X_C lớn → ít sụt áp trên C → Vout ≈ Vin
+  HPF: f cao  → X_C nhỏ → ít sụt áp trên C → Vout ≈ Vin</div>
+
+      <!-- PHẦN 2 — BẢNG THIẾT KẾ -->
+      <h2>2. Bảng tham chiếu nhanh thiết kế LPF/HPF</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>f_c mong muốn</th><th>Chọn C</th><th>Tính R = 1/(2πf_cC)</th><th>Ứng dụng</th></tr></thead>
+          <tbody>
+            <tr><td>10Hz</td><td>10µF</td><td>R = 1/(2π×10×0,00001) = 1592Ω → 1,5kΩ</td><td>Lọc nhiễu nguồn 50Hz</td></tr>
+            <tr><td>159Hz</td><td>100nF</td><td>R = 1/(2π×159×0,0000001) = 10kΩ</td><td>PWM → Analog, audio treble cut</td></tr>
+            <tr><td>1kHz</td><td>100nF</td><td>R = 1/(2π×1000×0,0000001) = 1591Ω → 1,5kΩ</td><td>Anti-aliasing trước ADC 2kHz</td></tr>
+            <tr><td>20kHz</td><td>10nF</td><td>R = 1/(2π×20000×0,00000001) = 796Ω → 820Ω</td><td>Audio low-pass, chặn siêu âm</td></tr>
+            <tr><td>100kHz</td><td>10nF</td><td>R = 1/(2π×100000×0,00000001) = 159Ω</td><td>EMI filtering, RF decoupling</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 3 — BAND PASS -->
+      <h2>3. Band Pass Filter — Chỉ cho qua dải tần cụ thể</h2>
+
+      <div class="circuit-ascii">  Band Pass Filter = HPF + LPF nối tiếp:
+
+  Vin──[C1]──[R1]──┬──[R2]──┬── Vout
+   HPF: (R1,C1)    │        │
+   f_c_H = 1/(2πR1C1)     [C2]   LPF: (R2,C2)
+                           │    f_c_L = 1/(2πR2C2)
+                          GND
+
+  Yêu cầu: f_c_H &lt; f_c_L (HPF mở thấp hơn, LPF mở cao hơn)
+  Bandwidth = f_c_L - f_c_H
+
+  Ví dụ lọc giọng nói (300Hz–3kHz):
+  HPF: f_c_H = 300Hz: C1=100nF, R1=5,3kΩ → chọn 4,7kΩ
+  LPF: f_c_L = 3kHz:  C2=100nF, R2=530Ω → chọn 560Ω</div>
+
+      <!-- PHẦN 4 — ỨNG DỤNG -->
+      <h2>4. Ứng dụng bộ lọc trong thực tế</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tình huống</th><th>Loại lọc</th><th>f_c</th></tr></thead>
+          <tbody>
+            <tr><td>Lọc nhiễu 50Hz của lưới điện khỏi cảm biến</td><td>LPF bậc 2</td><td>10Hz</td></tr>
+            <tr><td>Anti-aliasing trước ADC 8kHz</td><td>LPF</td><td>4kHz (Nyquist)</td></tr>
+            <tr><td>PWM 490Hz → Analog (DAC giả)</td><td>LPF</td><td>~50Hz (1/10 f_PWM)</td></tr>
+            <tr><td>Tách DC offset khỏi tín hiệu AC (coupling)</td><td>HPF</td><td>1–10Hz (tùy ứng dụng)</td></tr>
+            <tr><td>Lọc giọng nói trước microphone</td><td>BPF</td><td>300Hz–3kHz</td></tr>
+            <tr><td>Chặn tần số radio (EMI)</td><td>LPF (ferrite bead)</td><td>10–100MHz</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">RC Filters — Low Pass, High Pass, Band Pass</span></div>
+        <div class="video-body">
+          <div class="video-title">RC Low Pass and High Pass Filters explained — Bode Plot</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: The Engineering Mindset</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~12 phút</span>
+          </div>
+          <div class="video-purpose">Giải thích trực quan LPF, HPF, BPF với Bode plot, tính toán f_c và mô phỏng.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=tHLl9mFY_wM" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 31</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Thiết kế LPF để lọc nhiễu cảm biến: cần f_c = 50Hz, chọn C=1µF. Tính R.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">LPF RC: R=10kΩ, C=100nF. Tín hiệu 1kHz đi qua, biên độ ban đầu 1V. Biên độ ngõ ra = ?</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Thiết kế BPF cho dải 1kHz–10kHz. Chọn C=10nF cho cả HPF và LPF. Tính R cho từng tầng.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> f_c = 1/(2πRC) → R = 1/(2π×50×0,000001) = 1/(0,000314) = <strong>3183Ω → chọn 3,3kΩ</strong>. f_c_thực = 1/(2π×3300×0,000001) = 48,2Hz ≈ 50Hz ✓</p>
+            <p><strong>2:</strong> f_c = 1/(2π×10000×0,0000001) = 159Hz. Tại 1kHz: tỷ lệ f/f_c = 1000/159 = 6,29. |A| = 1/√(1 + (f/f_c)²) = 1/√(1+39,6) = 1/√40,6 = 1/6,37 = 0,157. V_out = 1V × 0,157 = <strong>157mV</strong>. Tín hiệu bị suy giảm đáng kể (–16dB).</p>
+            <p><strong>3:</strong> HPF (f_c_H=1kHz, C=10nF): R_HPF = 1/(2π×1000×10×10⁻⁹) = 15,9kΩ → <strong>chọn 15kΩ</strong>. LPF (f_c_L=10kHz, C=10nF): R_LPF = 1/(2π×10000×10×10⁻⁹) = 1,59kΩ → <strong>chọn 1,5kΩ</strong>. Nối HPF(C=10nF, R=15kΩ) + LPF(R=1,5kΩ, C=10nF) nối tiếp.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 31</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b31"><label for="c1b31">Tôi tính được f_c cho LPF và HPF từ R, C</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b31"><label for="c2b31">Tôi thiết kế BPF bằng cách ghép HPF + LPF</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b31"><label for="c3b31">Tôi mô phỏng Bode plot trên Falstad hoặc LTSpice</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b31"><label for="c4b31">Tôi biết ứng dụng phù hợp cho từng loại bộ lọc</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week5/day30.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 30: Oscilloscope</div></div></a>
+        <a href="../week5/day32.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 32: Nguồn Switching — Buck, Boost, Buck-Boost</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day31.html');</script>
+</body>
+</html>

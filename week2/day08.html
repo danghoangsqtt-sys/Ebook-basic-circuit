@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 8: Tụ Điện & Điện Dung — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 8: Hiểu tụ điện — cấu tạo, điện dung, đơn vị, phân cực, đọc ký hiệu và ứng dụng trong mạch điện tử.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 2</span><span class="tag tag-day">Ngày 8</span><span class="tag tag-difficulty-beginner">Cơ bản</span></div>
+        <h1 class="lesson-title">Tụ Điện & Điện Dung</h1>
+        <p class="lesson-subtitle">Linh kiện lưu trữ năng lượng điện trường — nền tảng của mọi mạch lọc, nguồn và xử lý tín hiệu.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~45 phút</span><span class="lesson-stat">🔬 Thực hành: 30 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu tụ điện lưu trữ năng lượng bằng điện trường giữa hai bản cực</li>
+          <li>Hiểu điện dung (Capacitance) và đơn vị Farad</li>
+          <li>Phân biệt tụ phân cực (electrolytic) và không phân cực (ceramic, film)</li>
+          <li>Đọc ký hiệu trên thân tụ: giá trị, điện áp định mức, phân cực</li>
+          <li>Hiểu tại sao không được cắm tụ điện phân cực ngược chiều</li>
+          <li>Đọc ký hiệu mã số 3 chữ số trên tụ gốm</li>
+          <li>Hiểu ứng dụng cơ bản: decoupling, bulk storage, lọc nhiễu</li>
+          <li>Đo và kiểm tra tụ điện bằng multimeter</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ và linh kiện</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>Tụ điện phân cực 100µF/25V</td><td>Electrolytic, dạng trụ tròn</td><td>2</td></tr>
+            <tr><td>Tụ điện phân cực 10µF/25V</td><td>Electrolytic</td><td>2</td></tr>
+            <tr><td>Tụ gốm 100nF (0,1µF)</td><td>Ceramic, ký hiệu "104" trên thân</td><td>5</td></tr>
+            <tr><td>Tụ gốm 10nF</td><td>Ceramic, ký hiệu "103"</td><td>2</td></tr>
+            <tr><td>Điện trở 10 kΩ</td><td>¼W</td><td>2</td></tr>
+            <tr><td>Nguồn 5V + breadboard</td><td>—</td><td>1 bộ</td></tr>
+            <tr><td>Multimeter (có chức năng đo tụ)</td><td>Optional — nếu có</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — TỤ ĐIỆN LÀ GÌ -->
+      <h2>1. Tụ điện — Linh kiện lưu trữ năng lượng điện trường</h2>
+
+      <p>Tụ điện (<em>Capacitor</em>, ký hiệu <em>C</em>) là linh kiện thụ động lưu trữ năng lượng dưới dạng điện trường giữa hai bản dẫn điện (bản cực) được ngăn cách bởi một lớp vật liệu cách điện (điện môi — <em>dielectric</em>).</p>
+
+      <p>Khác với điện trở (tiêu tán năng lượng thành nhiệt), tụ điện <em>lưu trữ</em> năng lượng và có thể trả lại cho mạch. Tụ điện không "tiêu thụ" điện áp DC lâu dài — sau khi nạp đầy, nó chặn dòng DC. Nhưng với tín hiệu AC, tụ điện cho phép dòng đi qua (trở kháng phụ thuộc tần số). Đây là đặc tính cốt lõi của tụ điện.</p>
+
+      <h3>1.1 Cấu tạo vật lý</h3>
+
+      <div class="circuit-ascii">  Cấu tạo tụ điện cơ bản:
+
+         Bản cực 1 (dẫn điện)
+        ┌───────────────────┐
+        │  + + + + + + + +  │  ← Điện tích dương tích lũy
+        ├───────────────────┤
+        │  ░ ░ Điện môi ░ ░ │  ← Lớp cách điện: air, ceramic, oxide...
+        ├───────────────────┤
+        │  – – – – – – – –  │  ← Điện tích âm (electron) tích lũy
+        └───────────────────┘
+         Bản cực 2 (dẫn điện)
+
+  Khi đặt điện áp: điện tích dồn vào, điện trường tạo ra.
+  Khi ngắt nguồn: điện tích giữ nguyên = tụ "nhớ" điện áp.
+  Khi nối tải: tụ phóng điện, trả năng lượng lại cho mạch.</div>
+
+      <h3>1.2 Điện dung — Capacitance (C)</h3>
+
+      <p>Điện dung đo khả năng lưu trữ điện tích của tụ điện. Tụ có điện dung lớn lưu được nhiều điện tích hơn với cùng một điện áp.</p>
+
+      <div class="formula-block">
+        <div class="formula-main">C = Q / V</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">C</span> = Điện dung (Farad, F)</span>
+          <span class="formula-var"><span class="var-name">Q</span> = Điện tích tích lũy (Coulomb, C)</span>
+          <span class="formula-var"><span class="var-name">V</span> = Điện áp đặt vào (Volt, V)</span>
+        </div>
+      </div>
+
+      <p>Đơn vị Farad (F) — đặt theo Michael Faraday (1791–1867) — rất lớn so với thực tế. Tụ điện thông dụng có giá trị từ pF đến mF:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Ký hiệu</th><th>Tên</th><th>Giá trị</th><th>Ứng dụng điển hình</th></tr></thead>
+          <tbody>
+            <tr><td><code>pF</code></td><td>Picofarad</td><td>10⁻¹² F</td><td>RF, oscillator, ký sinh (stray capacitance)</td></tr>
+            <tr><td><code>nF</code></td><td>Nanofarad</td><td>10⁻⁹ F</td><td>Lọc tần số cao, decoupling tần số cao</td></tr>
+            <tr><td><code>µF</code></td><td>Microfarad</td><td>10⁻⁶ F</td><td>Decoupling nguồn, lọc tần số thấp, audio</td></tr>
+            <tr><td><code>mF</code></td><td>Millifarad</td><td>10⁻³ F</td><td>Supercapacitor, bộ lưu điện nhỏ</td></tr>
+            <tr><td><code>F</code></td><td>Farad</td><td>1 F</td><td>Supercapacitor, backup nguồn</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 2 — PHÂN LOẠI -->
+      <h2>2. Phân loại tụ điện thông dụng</h2>
+
+      <h3>2.1 Tụ điện phân cực — Electrolytic Capacitor</h3>
+
+      <p>Tụ điện phân cực (thường gọi là <strong>tụ hóa</strong> hay <strong>tụ nhôm</strong>) sử dụng lớp oxide nhôm làm điện môi, tạo ra điện dung lớn trong thể tích nhỏ. Đặc điểm nhận dạng:</p>
+      <ul>
+        <li>Hình trụ tròn, thường có màu đen, xanh hoặc nâu</li>
+        <li>Có dải trắng hoặc ký hiệu (–) đánh dấu chân <strong>âm (cathode)</strong></li>
+        <li>Chân dài hơn = <strong>dương (+, anode)</strong></li>
+        <li>Điện áp định mức ghi trên thân: "25V", "50V", "16V"...</li>
+        <li>Điện dung ghi trên thân: "100µF", "10µF"...</li>
+      </ul>
+
+      <div class="callout callout-danger">
+        <div class="callout-header"><span class="callout-icon">🚫</span> KHÔNG cắm tụ phân cực ngược chiều</div>
+        <p>Tụ điện phân cực <strong>phải</strong> được cắm đúng chiều: cực dương (+) vào điểm có điện áp cao hơn, cực âm (–) vào điểm có điện áp thấp hơn. Nếu cắm ngược, lớp oxide điện môi bị phá hủy, tụ sẽ nóng lên, phình phồng và có thể <strong>nổ</strong> (nội áp hơi tăng đột ngột). Đây là nguyên nhân phổ biến gây cháy mạch khi sửa chữa. Luôn kiểm tra chiều trước khi cấp điện.</p>
+      </div>
+
+      <div class="circuit-ascii">  Tụ hóa 100µF/25V — nhận dạng:
+
+       Dải trắng = cực ÂM
+       ┌──────┐
+       │      │ ← Thân tụ (thường xanh hoặc đen)
+       │100µF │ ← Giá trị điện dung
+       │ 25V  │ ← Điện áp định mức tối đa
+       └──┬─┬─┘
+          │ │
+        Dài Ngắn
+         (+)  (–)
+       Anode Cathode</div>
+
+      <h3>2.2 Tụ gốm — Ceramic Capacitor</h3>
+
+      <p>Tụ gốm (ceramic capacitor) sử dụng vật liệu gốm làm điện môi. Đặc điểm:</p>
+      <ul>
+        <li>Thường có màu vàng, cam hoặc nâu, dạng đĩa hoặc ống nhỏ</li>
+        <li><strong>Không phân cực</strong> — cắm chiều nào cũng được</li>
+        <li>Điện dung nhỏ (pF đến vài µF), rất ổn định</li>
+        <li>Giá trị được mã hóa bằng 3 chữ số (tương tự SMD resistor)</li>
+        <li>Dùng nhiều nhất: <strong>100nF (0,1µF)</strong> cho decoupling nguồn IC</li>
+      </ul>
+
+      <h3>2.3 Đọc mã số trên tụ gốm</h3>
+
+      <p>Format: <code>ABС</code> → giá trị (pF) = AB × 10^C</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Mã in trên tụ</th><th>Giá trị (pF)</th><th>Quy đổi</th><th>Dùng cho</th></tr></thead>
+          <tbody>
+            <tr><td><code>101</code></td><td>100 pF</td><td>100 pF</td><td>RF, oscillator</td></tr>
+            <tr><td><code>102</code></td><td>1,000 pF</td><td>1 nF</td><td>Lọc tần số cao</td></tr>
+            <tr><td><code>103</code></td><td>10,000 pF</td><td>10 nF = 0,01 µF</td><td>Decoupling tần số cao</td></tr>
+            <tr><td><code>104</code></td><td>100,000 pF</td><td>100 nF = 0,1 µF</td><td>Decoupling IC — phổ biến nhất</td></tr>
+            <tr><td><code>105</code></td><td>1,000,000 pF</td><td>1 µF</td><td>Lọc nguồn</td></tr>
+            <tr><td><code>474</code></td><td>470,000 pF</td><td>470 nF ≈ 0,47 µF</td><td>Lọc nguồn</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 3 — ĐIỆN ÁP ĐỊNH MỨC -->
+      <h2>3. Điện áp định mức — Voltage Rating</h2>
+
+      <p>Mỗi tụ điện có một điện áp định mức (working voltage). Nếu điện áp đặt vào tụ vượt quá giá trị này, điện môi bị đánh thủng và tụ hỏng (thường không phục hồi được).</p>
+
+      <p><strong>Nguyên tắc chọn điện áp định mức:</strong> Chọn tụ có điện áp định mức ít nhất <strong>gấp 1,5–2 lần</strong> điện áp làm việc tối đa trong mạch. Ví dụ:</p>
+      <ul>
+        <li>Mạch 5V → Chọn tụ ≥ 10V (khuyến nghị 16V hoặc 25V)</li>
+        <li>Mạch 12V → Chọn tụ ≥ 25V (khuyến nghị 35V hoặc 50V)</li>
+        <li>Mạch 3,3V → Chọn tụ ≥ 6,3V (khuyến nghị 10V hoặc 16V)</li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> Tụ điện áp cao hơn trong mạch điện áp thấp</div>
+        <p>Dùng tụ 25V trong mạch 5V không gây hại — tụ vẫn hoạt động bình thường, chỉ hơi to hơn so với tụ 6,3V. Nhưng dùng tụ 6,3V trong mạch 12V sẽ phá hủy tụ. Khi không chắc, luôn chọn điện áp định mức cao hơn.</p>
+      </div>
+
+      <!-- PHẦN 4 — ỨNG DỤNG -->
+      <h2>4. Ứng dụng tụ điện trong mạch thực tế</h2>
+
+      <h3>4.1 Decoupling Capacitor — Tụ lọc nhiễu nguồn IC</h3>
+
+      <p>Đây là ứng dụng phổ biến nhất của tụ gốm 100nF. Khi IC chuyển trạng thái (từ LOW sang HIGH), nó cần dòng tức thời lớn trong thời gian rất ngắn. Nếu nguồn không đáp ứng kịp, điện áp VCC sẽ sụt xuống tạm thời (voltage droop) — gây lỗi logic.</p>
+
+      <p>Tụ 100nF đặt cạnh chân VCC của IC là "kho dự trữ điện tích tại chỗ": khi IC cần dòng đột ngột, tụ phóng điện tức thì thay vì chờ dòng từ nguồn đi qua dây dẫn dài (có điện trở và điện cảm ký sinh). Quy tắc: <strong>mỗi IC cần ít nhất một tụ 100nF đặt cạnh chân VCC, càng gần càng tốt</strong>.</p>
+
+      <div class="circuit-ascii">  Decoupling capacitor — vị trí đặt:
+
+   VCC ──┬──────────────── VCC của IC
+         │
+        [C = 100nF]   ← Đặt sát chân VCC nhất có thể
+         │
+        GND ──────────── GND của IC
+
+  Trên breadboard: cắm tụ 100nF vào cùng hàng với chân VCC của IC,
+  đầu kia nối thẳng vào rail GND.</div>
+
+      <h3>4.2 Bulk Capacitor — Tụ ổn áp nguồn chính</h3>
+
+      <p>Tụ hóa lớn (100µF–10000µF) đặt ở đầu ra của mạch nguồn (regulator, adapter) làm "bình ắc quy nhỏ" để giữ điện áp ổn định khi tải thay đổi đột ngột. Khi bơm nước bật (dòng tăng đột ngột), tụ bulk phóng điện để duy trì điện áp cho đến khi nguồn điều chỉnh kịp.</p>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">Tụ điện — từ cơ bản đến ứng dụng</span></div>
+        <div class="video-body">
+          <div class="video-title">Capacitors Explained — The basics</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: The Engineering Mindset</span>
+            <span class="video-meta-item">🌐 Tiếng Anh — animation rõ ràng</span>
+            <span class="video-meta-item">⏱ ~12 phút — xem toàn bộ</span>
+          </div>
+          <div class="video-purpose">Giải thích tụ điện từ cấu tạo vật lý đến cách hoạt động trong mạch. Có animation cực kỳ trực quan về điện trường, nạp/xả tụ và ứng dụng thực tế.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=X4EUwTwZ110" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+          <div class="video-lang-note">💡 Xem trước khi làm thực hành nạp/xả tụ ở Bài 9.</div>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>5. Thực hành: Nhận biết và kiểm tra tụ điện</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Phân loại và đọc thông số tụ điện</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Lấy tụ hóa 100µF/25V: xác định cực dương (chân dài) và cực âm (dải trắng). Đọc giá trị và điện áp định mức.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Lấy tụ gốm có mã "104": đọc giá trị = 100,000 pF = 100 nF = 0,1 µF. Xác nhận không phân cực.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nếu multimeter có chức năng đo điện dung (nF/µF): đo điện dung thực tế của tụ hóa 100µF. Kỳ vọng: 80–120µF (sai số ±20% là bình thường cho tụ hóa).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Kiểm tra tụ hóa bằng cách nạp và đo: nối tụ 100µF vào nguồn 5V trong 5 giây (đúng chiều), ngắt nguồn, đo điện áp hai đầu tụ. Tụ tốt giữ được ~4–5V.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th>Tụ điện</th><th>Giá trị đọc được</th><th>Điện áp định mức</th><th>Phân cực?</th><th>Điện dung đo (nếu có)</th></tr></thead>
+          <tbody>
+            <tr><td>Tụ hóa #1</td><td>_____</td><td>_____</td><td>Có ✓</td><td>_____</td></tr>
+            <tr><td>Tụ hóa #2</td><td>_____</td><td>_____</td><td>Có ✓</td><td>_____</td></tr>
+            <tr><td>Tụ gốm "104"</td><td>100 nF</td><td>Không in</td><td>Không</td><td>_____</td></tr>
+            <tr><td>Tụ gốm "103"</td><td>10 nF</td><td>Không in</td><td>Không</td><td>_____</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- DEBUG -->
+      <h2>6. Debug — Lỗi thường gặp với tụ điện</h2>
+
+      <div class="table-wrap">
+        <table class="debug-table">
+          <thead><tr><th>Hiện tượng</th><th>Nguyên nhân</th><th>Kiểm tra</th><th>Xử lý</th></tr></thead>
+          <tbody>
+            <tr><td class="symptom">Tụ nóng, phình đỉnh, rò rỉ dịch</td><td class="cause">Tụ cắm ngược chiều hoặc điện áp vượt định mức</td><td>Quan sát ngay khi cấp điện; ngửi mùi hóa chất</td><td class="fix">Tắt nguồn ngay; tháo và thay tụ mới; kiểm tra lại chiều cắm</td></tr>
+            <tr><td class="symptom">IC reset ngẫu nhiên hoặc hoạt động không ổn định</td><td class="cause">Thiếu decoupling capacitor 100nF cạnh VCC của IC</td><td>Dùng oscilloscope (nếu có) hoặc đo V_VCC xem có sụt áp không</td><td class="fix">Thêm tụ 100nF cạnh chân VCC của IC nghi ngờ</td></tr>
+            <tr><td class="symptom">Điện áp đầu ra nguồn có gợn sóng lớn</td><td class="cause">Tụ bulk quá nhỏ hoặc hỏng (ESR cao)</td><td>Đo V_ripple; thay tụ mới thử</td><td class="fix">Tăng điện dung tụ bulk; kiểm tra tụ hóa cũ bằng ESR meter</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 8</div>
+        <div class="exercise-part">
+          <div class="exercise-part-title">A. Đọc thông số tụ điện</div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Tụ gốm mã "472" = ? nF và ? µF</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Tụ gốm mã "331" = ? pF</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Bạn có mạch 12V DC. Cần chọn tụ hóa 100µF. Điện áp định mức tối thiểu cần chọn là bao nhiêu?</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Tụ hóa 10µF/25V cắm ngược trong mạch 5V. Điều gì xảy ra?</div></div>
+          <div class="exercise-item"><span class="exercise-num">5</span><div class="exercise-text">Giải thích tại sao cần đặt tụ decoupling 100nF sát chân VCC của IC chứ không đặt xa ở đầu đường dây nguồn?</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>A1:</strong> "472" = 47 × 10² = 4,700 pF = <strong>4,7 nF = 0,0047 µF</strong></p>
+            <p><strong>A2:</strong> "331" = 33 × 10¹ = <strong>330 pF</strong></p>
+            <p><strong>A3:</strong> Tối thiểu 12 × 1,5 = 18V → Chọn <strong>25V hoặc 35V</strong></p>
+            <p><strong>A4:</strong> Lớp oxide điện môi bị phá hủy (không chịu được phân cực ngược), tụ dẫn dòng lớn, nóng lên, phình phồng và có thể <strong>nổ</strong>. Đây là lỗi nguy hiểm cần tránh tuyệt đối.</p>
+            <p><strong>A5:</strong> Dây dẫn dài có điện trở và điện cảm ký sinh. Khi IC cần dòng đột ngột (transient), điện cảm của dây cản trở dòng thay đổi nhanh → điện áp sụt. Tụ đặt gần IC hoạt động như "nguồn cục bộ" không qua điện cảm dây dẫn.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 8</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b8"><label for="c1b8">Tôi phân biệt được tụ hóa và tụ gốm qua quan sát</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b8"><label for="c2b8">Tôi nhận biết cực dương và âm của tụ hóa</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b8"><label for="c3b8">Tôi đọc được mã số trên tụ gốm (3 chữ số → pF)</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b8"><label for="c4b8">Tôi hiểu tại sao không cắm tụ phân cực ngược chiều</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c5b8"><label for="c5b8">Tôi biết ứng dụng của decoupling 100nF và bulk capacitor</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c6b8"><label for="c6b8">Tôi biết chọn điện áp định mức tụ phù hợp với mạch</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week1/day07.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 7: Ôn tập & Mini Project LED</div></div></a>
+        <a href="../week2/day09.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 9: Mạch RC — Nạp & Xả Tụ</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day08.html');</script>
+</body>
+</html>

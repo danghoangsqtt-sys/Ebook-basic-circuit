@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 13: Nguồn DC & IC Ổn Áp LDO — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 13: IC ổn áp tuyến tính LDO — LM7805, AMS1117, LM3940. Thiết kế mạch nguồn DC ổn định cho các dự án điện tử.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 2</span><span class="tag tag-day">Ngày 13</span><span class="tag tag-difficulty-beginner">Thiết kế nguồn</span></div>
+        <h1 class="lesson-title">Nguồn DC & IC Ổn Áp LDO</h1>
+        <p class="lesson-subtitle">Từ adapter thô đến nguồn DC chuẩn — thiết kế mạch nguồn với IC LDO cho mọi dự án vi điều khiển.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~40 phút</span><span class="lesson-stat">🔬 Thực hành: 45 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu tại sao cần IC ổn áp — adapter không phải nguồn DC lý tưởng</li>
+          <li>Phân biệt ổn áp tuyến tính (LDO) và ổn áp chuyển mạch (switching)</li>
+          <li>Đọc và hiểu datasheet IC LM7805 và AMS1117-3.3</li>
+          <li>Thiết kế mạch nguồn 5V và 3,3V theo datasheet</li>
+          <li>Hiểu dropout voltage và tại sao LDO quan trọng với nguồn pin</li>
+          <li>Tính công suất tiêu tán nhiệt của IC LDO</li>
+          <li>Lắp mạch nguồn 5V và 3,3V thực tế, đo kiểm chất lượng</li>
+          <li>So sánh hiệu suất LDO vs buck converter</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ và linh kiện</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>IC LM7805</td><td>TO-220, ổn áp 5V/1A (input 7–35V)</td><td>1</td></tr>
+            <tr><td>IC AMS1117-3.3</td><td>SOT-223 hoặc TO-252, LDO 3,3V/800mA</td><td>1</td></tr>
+            <tr><td>Tụ điện 100µF/25V (electrolytic)</td><td>Tụ lọc đầu vào và đầu ra</td><td>4</td></tr>
+            <tr><td>Tụ gốm 100nF</td><td>Decoupling</td><td>4</td></tr>
+            <tr><td>Adapter 9V DC hoặc 12V DC</td><td>Nguồn vào — KHÔNG dùng 220V trực tiếp</td><td>1</td></tr>
+            <tr><td>LED + R hạn dòng</td><td>Test tải</td><td>2</td></tr>
+            <tr><td>Breadboard + multimeter</td><td>—</td><td>1 bộ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 -->
+      <h2>1. Tại sao adapter 5V không phải nguồn DC lý tưởng?</h2>
+
+      <p>Adapter điện (đặc biệt loại rẻ) có thể cho ra điện áp thực tế dao động 4,5V–5,5V tùy tải, có nhiễu AC (ripple), và thay đổi theo nhiệt độ. Vi điều khiển (ESP32, STM32) nhạy cảm với ripple nguồn — có thể gây lỗi ADC, reset ngẫu nhiên, và noise trong tín hiệu analog.</p>
+
+      <p>IC ổn áp (voltage regulator) nhận điện áp vào thô và xuất ra điện áp chính xác, ổn định, ít ripple hơn nhiều. Đây là khối thiết kế cơ bản trong mọi thiết bị điện tử.</p>
+
+      <!-- PHẦN 2 — LDO vs SWITCHING -->
+      <h2>2. LDO vs Switching Regulator</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Đặc tính</th><th>LDO (tuyến tính)</th><th>Buck Converter (chuyển mạch)</th></tr></thead>
+          <tbody>
+            <tr><td>Nguyên lý</td><td>Tiêu tán phần thừa thành nhiệt</td><td>Chuyển đổi năng lượng qua L, C</td></tr>
+            <tr><td>Hiệu suất</td><td>Thấp: η = V_out/V_in (ví dụ: 5V từ 12V = 42%)</td><td>Cao: 80–95%</td></tr>
+            <tr><td>Ripple đầu ra</td><td>Rất thấp (µV)</td><td>Cao hơn (mV–10s mV)</td></tr>
+            <tr><td>Độ phức tạp</td><td>Đơn giản — 3 chân + 2 tụ</td><td>Phức tạp hơn — cần L, C, feedback</td></tr>
+            <tr><td>Nhiệt lượng</td><td>Nóng khi V_in–V_out lớn hoặc dòng lớn</td><td>Ít nóng hơn</td></tr>
+            <tr><td>Dùng khi</td><td>Dòng &lt; 1A, V_in–V_out nhỏ, cần nhiễu thấp</td><td>Dòng lớn, V_in–V_out lớn, pin</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 3 — LM7805 -->
+      <h2>3. IC LM7805 — Ổn áp 5V cổ điển</h2>
+
+      <div class="circuit-ascii">  Sơ đồ chân LM7805 (TO-220):
+
+         ┌───────────┐
+   IN ───┤ 1       3 ├─── OUT (5V)
+         │  LM7805  │
+         │ 2       │ (GND — chân giữa = tab của vỏ TO-220)
+         └────┬──────┘
+             GND
+
+  Mạch ứng dụng chuẩn (theo datasheet):
+
+   V_in (7–35V) ──[C1: 0,33µF]──[LM7805]──[C2: 0,1µF]── 5V out
+                    (đầu vào)                (đầu ra)
+   GND ───────────────────────────────────────────────── GND
+
+  Thực tế thêm tụ lọc lớn ở đầu vào và đầu ra:
+   V_in ──[C_in: 100µF || 100nF]──[LM7805]──[C_out: 100µF || 100nF]── 5V</div>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📌</span> Thông số quan trọng của LM7805</div>
+        <div class="table-wrap" style="margin-top:12px;">
+          <table>
+            <thead><tr><th>Thông số</th><th>Giá trị</th><th>Ý nghĩa</th></tr></thead>
+            <tbody>
+              <tr><td>V_in tối thiểu</td><td>7V</td><td>Cần ít nhất 7V để ổn định ra 5V</td></tr>
+              <tr><td>V_in tối đa</td><td>35V</td><td>Không vượt quá 35V</td></tr>
+              <tr><td>Dropout voltage</td><td>2V</td><td>V_in phải lớn hơn V_out ít nhất 2V</td></tr>
+              <tr><td>I_out tối đa</td><td>1A (1,5A peak)</td><td>Cần tản nhiệt nếu dùng gần giới hạn</td></tr>
+              <tr><td>Độ chính xác</td><td>±4%</td><td>V_out = 4,80V–5,20V</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3>3.1 Tính công suất tiêu tán nhiệt</h3>
+
+      <div class="formula-block">
+        <div class="formula-main">P_heat = (V_in – V_out) × I_out</div>
+        <div class="formula-vars">
+          <span class="formula-var">Toàn bộ phần năng lượng (V_in – V_out) × I được tiêu tán thành nhiệt trong IC</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ: LM7805, V_in=12V, I_out=500mA</h4>
+      <p>P_heat = (12–5) × 0,5 = 7 × 0,5 = <strong>3,5W</strong> — IC sẽ rất nóng, cần tản nhiệt (heatsink)!</p>
+      <p>Nhiệt độ IC = T_ambient + P_heat × R_θJA = 25°C + 3,5W × 5°C/W = 42,5°C (với tản nhiệt tốt)</p>
+
+      <!-- PHẦN 4 — AMS1117 -->
+      <h2>4. IC AMS1117-3.3 — LDO 3,3V cho ESP32/Arduino</h2>
+
+      <div class="circuit-ascii">  Sơ đồ chân AMS1117 (SOT-223):
+
+         ┌──────────────┐
+   GND ──┤ 1          4 ├─── IN (4,5V–15V)
+         │  AMS1117-3.3 │
+   OUT ──┤ 2          3 ├─── OUT (3,3V) (chân 2 và 3 nối nhau)
+         └──────────────┘
+
+  Mạch chuẩn:
+   V_in (4,5–15V) ──[C1: 10µF+100nF]──[AMS1117-3.3]──[C2: 10µF+100nF]── 3,3V</div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> Tại sao AMS1117 phổ biến hơn LM3940?</div>
+        <p>AMS1117-3.3 có thể chạy từ 4,5V input → rất phù hợp với USB 5V (thực tế 4,7–5,2V). Dropout chỉ 1,2V → chỉ cần 4,5V là đủ ra 3,3V. LM7805 cần 7V để ra 5V → không dùng được với USB. AMS1117 được dùng trong hầu hết board ESP32, Arduino có chân 3,3V.</p>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">IC ổn áp LDO — từ lý thuyết đến thực hành</span></div>
+        <div class="video-body">
+          <div class="video-title">LM7805 Voltage Regulator — How to use it</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: GreatScott!</span>
+            <span class="video-meta-item">🌐 Tiếng Anh — kỹ thuật cao nhưng rõ ràng</span>
+            <span class="video-meta-item">⏱ ~8 phút</span>
+          </div>
+          <div class="video-purpose">Hướng dẫn thực tế dùng LM7805, tính nhiệt, tản nhiệt và thiết kế mạch nguồn hoàn chỉnh. GreatScott! có phong cách rất thực tế và kỹ thuật.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=GSzVs7_aW-Y" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>5. Thực hành: Lắp mạch nguồn 5V và 3,3V</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Mạch nguồn đôi 5V + 3,3V</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p><strong>Mạch 5V (LM7805):</strong> V_in(9V) → C_in(100µF||100nF) → LM7805 (chân 1=IN, chân 2=GND, chân 3=OUT) → C_out(100µF||100nF) → 5V. Đo V_out.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Mạch 3,3V (AMS1117):</strong> Lấy 5V từ LM7805 → C_in(10µF||100nF) → AMS1117-3.3 → C_out(10µF||100nF) → 3,3V. Đo V_out.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Test tải:</strong> Nối LED+R vào đầu ra 5V và 3,3V. Đo điện áp có thay đổi không khi có tải? (Kỳ vọng: thay đổi &lt;50mV với LDO tốt)</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Đo ripple (nếu có oscilloscope):</strong> Đo AC component của V_out. Kỳ vọng &lt;10mV ripple với tụ lọc đủ lớn.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Cảm nhận nhiệt:</strong> Chạy mạch 5V với tải ~200mA trong 2 phút. Chạm (nhẹ, cẩn thận) vào thân LM7805. Nóng không? Tính P_heat lý thuyết.</p></div></li>
+        </ol>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 13</div>
+        <div class="exercise-part">
+          <div class="exercise-part-title">IC LDO và thiết kế nguồn (4 câu)</div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">LM7805, V_in=9V, I_out=300mA. Tính P_heat và nhiệt độ IC (R_θJA=50°C/W không tản nhiệt). Có cần tản nhiệt không?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">AMS1117-3.3, V_in=5V USB, I_out=500mA. Tính P_heat. Tại sao AMS1117 ít cần tản nhiệt hơn LM7805 trong trường hợp này?</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Bạn cần 3,3V/2A cho board ESP32 nhiều ngoại vi. LDO hay buck converter? Giải thích.</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Tại sao phải đặt tụ decoupling 100nF sát chân V_out của LM7805 thay vì chỉ có tụ lọc 100µF?</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> P_heat = (9–5)×0,3 = <strong>1,2W</strong>. T_IC = 25 + 1,2×50 = 25+60 = <strong>85°C</strong>. Gần giới hạn an toàn (125°C max) — <strong>nên thêm tản nhiệt nhỏ</strong> để dự phòng.</p>
+            <p><strong>2:</strong> P_heat = (5–3,3)×0,5 = 1,7×0,5 = <strong>0,85W</strong>. Dropout chỉ 1,7V thay vì 4V (LM7805 từ 9V). P_heat nhỏ hơn → ít nóng hơn. AMS1117 thường đủ an toàn trong vỏ SOT-223 trên PCB mà không cần tản nhiệt ngoài.</p>
+            <p><strong>3:</strong> 3,3V/2A = 6,6W tải. Nếu V_in=5V: P_heat = (5–3,3)×2 = 3,4W → IC nóng, cần tản nhiệt lớn. <strong>Dùng buck converter</strong> (MP2307, AP62150...) — hiệu suất 90%+, ít nhiệt, phù hợp 2A.</p>
+            <p><strong>4:</strong> Tụ 100µF phản ứng chậm với dòng đột ngột (tần số cao). Tụ 100nF gốm phản ứng rất nhanh với transient tần số cao (MHz). Cả hai cùng nhau: 100µF xử lý ripple thấp tần, 100nF lọc nhiễu cao tần → điện áp ra sạch ở mọi tần số.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 13</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b13"><label for="c1b13">Tôi biết sự khác biệt giữa LDO và buck converter</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b13"><label for="c2b13">Tôi biết cách lắp mạch LM7805 và AMS1117 theo datasheet</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b13"><label for="c3b13">Tôi tính được P_heat của IC LDO</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b13"><label for="c4b13">Tôi đã lắp mạch nguồn 5V và 3,3V thực tế — đo kiểm xong</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c5b13"><label for="c5b13">Tôi biết chọn LDO hay buck converter cho từng ứng dụng</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week2/day12.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 12: Diode Zener & Ổn áp</div></div></a>
+        <a href="../week2/day14.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 14: Ôn tập Tuần 2 & Mini Project Nguồn</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day13.html');</script>
+</body>
+</html>

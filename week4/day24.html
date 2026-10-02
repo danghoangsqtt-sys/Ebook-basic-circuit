@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 24: SPI — Giao Tiếp Tốc Độ Cao — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 24: SPI protocol — MOSI/MISO/SCK/CS, mode 0-3, tốc độ cao, ứng dụng màn hình TFT và thẻ SD card.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 4</span><span class="tag tag-day">Ngày 24</span><span class="tag tag-difficulty-intermediate">Giao tiếp số</span></div>
+        <h1 class="lesson-title">SPI — Giao Tiếp Nối Tiếp Tốc Độ Cao</h1>
+        <p class="lesson-subtitle">Serial Peripheral Interface — 4 dây, full-duplex, tốc độ MHz — nền tảng của màn hình TFT, SD card, ADC ngoài và Flash memory.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~45 phút</span><span class="lesson-stat">🔬 Thực hành: 50 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu SPI là giao tiếp đồng bộ, full-duplex với 4 dây cơ bản</li>
+          <li>Phân biệt MOSI, MISO, SCK, CS/SS — chức năng từng dây</li>
+          <li>Hiểu 4 SPI Mode (0–3): CPOL và CPHA — chọn đúng mode</li>
+          <li>So sánh SPI vs I2C — khi nào dùng giao thức nào</li>
+          <li>Kết nối nhiều thiết bị SPI qua nhiều CS pin</li>
+          <li>Thực hành: đọc/ghi thẻ SD card qua SPI</li>
+          <li>Thực hành: hiển thị màn hình TFT 2,4" ILI9341 qua SPI</li>
+          <li>Debug SPI: CS không active, mode sai, tốc độ quá cao</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>Arduino Uno/ESP32/STM32</td><td>SPI hardware pins</td><td>1</td></tr>
+            <tr><td>Module SD Card SPI</td><td>3,3V hoặc có level shifter tích hợp</td><td>1</td></tr>
+            <tr><td>Màn hình TFT SPI 2,4" ILI9341 hoặc ST7789</td><td>240×320, SPI, 3,3V</td><td>1 (tùy chọn)</td></tr>
+            <tr><td>Thẻ microSD &lt;32GB, format FAT32</td><td>—</td><td>1</td></tr>
+            <tr><td>Breadboard + dây jumper + multimeter</td><td>—</td><td>1 bộ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — SPI LÀ GÌ -->
+      <h2>1. SPI — 4 dây, tốc độ cao, full-duplex</h2>
+
+      <p>SPI (<em>Serial Peripheral Interface</em>) là giao thức truyền thông đồng bộ do Motorola phát triển. Tốc độ từ vài kHz đến hàng chục MHz — nhanh hơn I2C 10–100 lần. Không có địa chỉ, thay vào đó mỗi thiết bị có dây CS riêng.</p>
+
+      <div class="circuit-ascii">  SPI — 4 dây cơ bản:
+
+   Master          Slave (SD Card)
+   MOSI ──────────── MOSI (dữ liệu Master→Slave)
+   MISO ──────────── MISO (dữ liệu Slave→Master)
+   SCK  ──────────── SCK  (clock từ Master)
+   CS   ──────────── CS   (Chip Select — active LOW)
+   GND  ──────────── GND  (GND chung — bắt buộc)
+
+  Nhiều thiết bị SPI — chia MOSI/MISO/SCK, CS riêng:
+   Master:
+     MOSI ─────────────────┬──── MOSI_SD
+     MISO ─────────────────┼──── MISO_SD
+     SCK  ─────────────────┼──── SCK_SD
+     CS_SD ────────────────┘
+     CS_TFT ──────────────── CS_TFT (màn hình)</div>
+
+      <h3>1.1 Chức năng từng dây</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên dây</th><th>Tên cũ</th><th>Chiều</th><th>Chức năng</th></tr></thead>
+          <tbody>
+            <tr><td>MOSI (Master Out Slave In)</td><td>SDO</td><td>Master→Slave</td><td>Dữ liệu từ Master gửi đến Slave</td></tr>
+            <tr><td>MISO (Master In Slave Out)</td><td>SDI</td><td>Slave→Master</td><td>Dữ liệu từ Slave gửi về Master</td></tr>
+            <tr><td>SCK (Serial Clock)</td><td>CLK</td><td>Master→Slave</td><td>Clock đồng bộ — Master tạo ra</td></tr>
+            <tr><td>CS/SS (Chip Select/Slave Select)</td><td>NSS, CE</td><td>Master→Slave</td><td>Active LOW — chọn thiết bị nào đang giao tiếp</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>1.2 SPI Mode — CPOL và CPHA</h3>
+
+      <p>SPI có 4 mode (0, 1, 2, 3) quyết định cạnh nào của clock lấy mẫu dữ liệu:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Mode</th><th>CPOL</th><th>CPHA</th><th>Clock idle</th><th>Lấy mẫu khi</th><th>Module phổ biến</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Mode 0</strong></td><td>0</td><td>0</td><td>LOW</td><td>Cạnh lên (rising)</td><td>SD Card, MAX31855, nhiều ADC</td></tr>
+            <tr><td>Mode 1</td><td>0</td><td>1</td><td>LOW</td><td>Cạnh xuống</td><td>Một số ADC, cảm biến áp suất</td></tr>
+            <tr><td>Mode 2</td><td>1</td><td>0</td><td>HIGH</td><td>Cạnh xuống</td><td>Hiếm gặp</td></tr>
+            <tr><td><strong>Mode 3</strong></td><td>1</td><td>1</td><td>HIGH</td><td>Cạnh lên</td><td>ILI9341, ST7789 (màn hình TFT)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> SPI vs I2C — Chọn cái nào?</div>
+        <div class="table-wrap" style="margin-top:10px;">
+          <table>
+            <thead><tr><th>Tiêu chí</th><th>I2C</th><th>SPI</th></tr></thead>
+            <tbody>
+              <tr><td>Số dây</td><td>2 (SDA + SCL)</td><td>4+ (MOSI, MISO, SCK, CS×N)</td></tr>
+              <tr><td>Tốc độ</td><td>100k–3,4MHz</td><td>1MHz–80MHz+</td></tr>
+              <tr><td>Số thiết bị</td><td>127 (qua địa chỉ)</td><td>Không giới hạn (mỗi thiết bị 1 CS pin)</td></tr>
+              <tr><td>Full-duplex</td><td>Không</td><td>Có</td></tr>
+              <tr><td>Dùng khi</td><td>Cảm biến chậm, nhiều thiết bị, ít pin</td><td>Màn hình, SD card, flash, ADC nhanh</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PHẦN 2 — SPI PINS ARDUINO/ESP32 -->
+      <h2>2. SPI Pins trên Arduino và ESP32</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Signal</th><th>Arduino Uno</th><th>Arduino Nano</th><th>ESP32 (VSPI)</th></tr></thead>
+          <tbody>
+            <tr><td>MOSI</td><td>D11</td><td>D11</td><td>GPIO 23</td></tr>
+            <tr><td>MISO</td><td>D12</td><td>D12</td><td>GPIO 19</td></tr>
+            <tr><td>SCK</td><td>D13</td><td>D13</td><td>GPIO 18</td></tr>
+            <tr><td>CS (tự chọn)</td><td>D10 (mặc định)</td><td>D10</td><td>GPIO 5 (mặc định)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">SPI Protocol — hoạt động và ứng dụng</span></div>
+        <div class="video-body">
+          <div class="video-title">SPI Protocol — explained simply</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: Electronoobs</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~10 phút</span>
+          </div>
+          <div class="video-purpose">Giải thích SPI protocol, 4 mode, demo SD card và ADC qua SPI với oscilloscope.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=ldRkXTBw9_o" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>3. Thực hành: Đọc/ghi SD Card qua SPI</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: SD Card — tạo file và ghi dữ liệu</div>
+        <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// SD Card datalogger — Arduino
+#include &lt;SPI.h&gt;
+#include &lt;SD.h&gt;
+
+const int CS_PIN = 10;
+
+void setup() {
+  Serial.begin(115200);
+  if (!SD.begin(CS_PIN)) {
+    Serial.println("SD init failed!");
+    return;
+  }
+  Serial.println("SD OK");
+  
+  File f = SD.open("data.txt", FILE_WRITE);
+  if (f) {
+    f.println("Nhiet do, Do am");
+    f.println("25.3, 68.5");
+    f.close();
+    Serial.println("Ghi file xong");
+  }
+}
+void loop() {}</pre>
+        </div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Format thẻ SD FAT32. Kết nối module SD: MOSI=D11, MISO=D12, SCK=D13, CS=D10.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Upload code → Serial Monitor xem "SD OK" và "Ghi file xong".</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Rút thẻ SD, đọc trên máy tính: kiểm tra file "data.txt" có đúng nội dung không.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thêm timestamp (millis()) vào mỗi dòng ghi. Thêm vòng lặp ghi mỗi 1 giây.</p></div></li>
+        </ol>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 24</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">SPI 8MHz, 8 bit per transfer. Thời gian truyền 1 byte là bao nhiêu µs? So sánh với I2C 400kHz (1 byte gồm 9 bit ACK).</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Bạn có 3 module SPI: SD card, TFT, Flash chip. Cần bao nhiêu GPIO? Liệt kê kết nối.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">SD card không được nhận dạng (SD.begin() trả false). Liệt kê 5 nguyên nhân có thể và cách kiểm tra.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> SPI 8MHz: 8 bit / 8,000,000 = <strong>1µs/byte</strong>. I2C 400kHz, 1 byte = 9 clocks: 9/400,000 = <strong>22,5µs/byte</strong>. SPI nhanh hơn 22× cho truyền dữ liệu bulk.</p>
+            <p><strong>2:</strong> Cần: MOSI, MISO, SCK (dùng chung 3 thiết bị) + CS_SD + CS_TFT + CS_Flash = <strong>6 GPIO tổng</strong>. Kết nối: MOSI→tất cả MOSI, MISO→tất cả MISO, SCK→tất cả SCK. CS_SD→SD, CS_TFT→TFT, CS_Flash→Flash. Khi không dùng thiết bị nào: CS của nó phải HIGH.</p>
+            <p><strong>3:</strong> (a) Thẻ SD chưa format FAT32 — format lại; (b) CS pin sai trong SD.begin(pin) — kiểm tra pin số; (c) Thẻ SD 64GB+ (SDXC) — Arduino SD library chỉ hỗ trợ SDHC max 32GB; (d) Dây SPI kết nối sai (MOSI/MISO đổi nhau) — kiểm tra lại; (e) Nguồn 3,3V cho module SD không đủ — đo V khi init.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 24</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b24"><label for="c1b24">Tôi phân biệt được MOSI/MISO/SCK/CS và biết cắm đúng</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b24"><label for="c2b24">Tôi hiểu SPI Mode 0 và Mode 3 — khi nào dùng từng mode</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b24"><label for="c3b24">Tôi đọc/ghi được SD card qua SPI</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b24"><label for="c4b24">Tôi biết khi nào dùng SPI thay I2C</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week4/day23.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 23: I2C — Giao Tiếp Đa Thiết Bị</div></div></a>
+        <a href="../week4/day25.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 25: ADC & DAC — Chuyển Đổi Tín Hiệu</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day24.html');</script>
+</body>
+</html>

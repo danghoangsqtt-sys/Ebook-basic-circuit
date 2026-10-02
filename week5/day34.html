@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 34: Hàn SMD & Kiểm Tra PCB — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 34: Kỹ thuật hàn SMD, sử dụng flux, hot air, kiểm tra PCB sau hàn — continuity test, in-circuit test và debug.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 5</span><span class="tag tag-day">Ngày 34</span><span class="tag tag-difficulty-advanced">PCB</span></div>
+        <h1 class="lesson-title">Hàn SMD & Kiểm Tra PCB</h1>
+        <p class="lesson-subtitle">Kỹ thuật hàn linh kiện SMD thực tế — từ 0402 đến IC SOIC — và quy trình kiểm tra PCB hoàn chỉnh sau hàn.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~20 phút</span><span class="lesson-stat">🔬 Thực hành hàn: 90 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Phân biệt hàn THT (Through-Hole) và SMD (Surface Mount)</li>
+          <li>Chuẩn bị dụng cụ hàn SMD: mỏ hàn nhiệt độ kiểm soát, thiếc SMD, flux</li>
+          <li>Kỹ thuật hàn SMD 0805, 0603 bằng mỏ hàn</li>
+          <li>Hàn IC SOIC-8 bằng kỹ thuật drag soldering</li>
+          <li>Hàn IC QFP/TQFP bằng hot air và solder paste</li>
+          <li>Nhận biết và sửa cold joint, solder bridge, tombstoning</li>
+          <li>Quy trình kiểm tra PCB: Visual → Continuity → Power-on test</li>
+          <li>Sử dụng kính lúp hoặc microscope để kiểm tra mối hàn</li>
+        </ul>
+      </div>
+
+      <!-- PHẦN 1 — DỤNG CỤ -->
+      <h2>1. Dụng cụ hàn SMD</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Dụng cụ</th><th>Thông số tối thiểu</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>Mỏ hàn điều chỉnh nhiệt độ</td><td>200–450°C, 60W+, đầu nhỏ (Hakko T12/T15)</td><td>Không dùng mỏ hàn cố định 30W cho SMD</td></tr>
+            <tr><td>Thiếc SMD</td><td>Sn63Pb37 hoặc Pb-free SAC305, 0,3–0,5mm</td><td>Thiếc mảnh hơn dễ kiểm soát lượng</td></tr>
+            <tr><td>Flux dạng paste/gel</td><td>No-clean flux</td><td>Bắt buộc cho SMD — giúp thiếc chảy đều</td></tr>
+            <tr><td>Tweezers SS-SA (nhíp cong)</td><td>ESD-safe</td><td>Giữ linh kiện khi hàn</td></tr>
+            <tr><td>Braid/Wick hàn</td><td>2–2,5mm</td><td>Hút bỏ thiếc thừa khi bridge</td></tr>
+            <tr><td>Kính lúp (10x–30x)</td><td>Có đèn LED</td><td>Kiểm tra mối hàn</td></tr>
+            <tr><td>Hot air station (tùy chọn)</td><td>200–450°C, airflow điều chỉnh</td><td>Cần cho QFP, BGA, TSSOP</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 2 — KỸ THUẬT HÀN -->
+      <h2>2. Kỹ thuật hàn SMD từng loại</h2>
+
+      <h3>2.1 Linh kiện thụ động SMD (0805, 0603, 0402)</h3>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔧</span> Quy trình hàn R/C/LED SMD 0805</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Thiếc một pad: Thoa flux, chạm mỏ hàn vào pad + thêm thiếc nhỏ → "pre-tin" 1 pad.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đặt linh kiện: Dùng nhíp đặt linh kiện, chạm mỏ hàn vào pad pre-tin → thiếc chảy → linh kiện được giữ cố định.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Hàn pad còn lại: Thoa flux → chạm mỏ hàn + thiếc vào pad thứ 2.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Kiểm tra: Mối hàn phải sáng bóng, hình nón nhỏ, không cầu nối hai pad.</p></div></li>
+        </ol>
+      </div>
+
+      <h3>2.2 IC SOIC-8 — Drag Soldering</h3>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔧</span> Drag Soldering cho SOIC-8</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Thoa flux đều lên tất cả pads và chân IC.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Canh chỉnh IC — đảm bảo tất cả chân thẳng hàng trên pad. Hàn cố định 2 chân góc chéo nhau trước.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thêm thiếc vào mỏ hàn (đầu bằng hoặc dao). Kéo mỏ hàn dọc theo một hàng chân — thiếc sẽ chảy qua từng chân.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Kiểm tra bridge: Dùng kính lúp. Bridge = dùng braid/wick hút bỏ. Thêm flux để dễ hút hơn.</p></div></li>
+        </ol>
+      </div>
+
+      <!-- PHẦN 3 — LỖI HÀN -->
+      <h2>3. Nhận biết và sửa lỗi hàn phổ biến</h2>
+
+      <div class="table-wrap">
+        <table class="debug-table">
+          <thead><tr><th>Lỗi</th><th>Nguyên nhân</th><th>Sửa</th></tr></thead>
+          <tbody>
+            <tr><td class="symptom">Cold Joint (mờ đục)</td><td class="cause">Nhiệt độ không đủ hoặc di chuyển khi thiếc chưa đông</td><td class="fix">Re-flow: thoa flux, đặt mỏ hàn lại cho thiếc chảy và đông chuẩn</td></tr>
+            <tr><td class="symptom">Solder Bridge (cầu nối)</td><td class="cause">Quá nhiều thiếc hoặc kỹ thuật drag không chuẩn</td><td class="fix">Thoa flux, dùng wick/braid hút bỏ thiếc thừa</td></tr>
+            <tr><td class="symptom">Tombstoning (linh kiện đứng thẳng)</td><td class="cause">Pad 1 chảy nhanh hơn pad 2 → sức căng bề mặt kéo linh kiện</td><td class="fix">Hàn 2 pad đồng thời hoặc pre-tin đều cả 2. Thường gặp với 0402</td></tr>
+            <tr><td class="symptom">Lifted pad (pad bong)</td><td class="cause">Nhiệt quá cao hoặc quá lâu</td><td class="fix">Không sửa được — phải dùng wire jumper nối thay</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 4 — KIỂM TRA PCB -->
+      <h2>4. Quy trình kiểm tra PCB sau hàn</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">✅</span> 5 bước kiểm tra PCB</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p><strong>Visual Inspection:</strong> Nhìn bằng mắt/kính lúp — kiểm tra cold joint, bridge, linh kiện đặt ngược.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Continuity Test (không cấp nguồn):</strong> Multimeter mode Ω/Beep. Test từng net quan trọng: GND liên thông, VCC liên thông. Test không có bridge: VCC↔GND phải > 100kΩ.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Short Circuit Check:</strong> Đo điện trở GND→VCC trước khi cấp nguồn. Kỳ vọng &gt;10kΩ. Nếu &lt;100Ω → có bridge/short, tìm và sửa trước.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Current Limited Power-on:</strong> Dùng nguồn có giới hạn dòng (current limit 50–100mA). Cấp nguồn từ từ. Quan sát: nóng bất thường, khói, mùi. Đo V_VCC tại nhiều điểm trên board.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Functional Test:</strong> Kiểm tra từng chức năng: LED sáng, sensor đọc đúng, UART giao tiếp được.</p></div></li>
+        </ol>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">Hàn SMD cho người mới bắt đầu</span></div>
+        <div class="video-body">
+          <div class="video-title">SMD Soldering for Beginners — Complete Guide</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: SDG Electronics</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~25 phút</span>
+          </div>
+          <div class="video-purpose">Kỹ thuật hàn SMD đầy đủ từ 0805 đến SOIC và QFP — thực hành từng bước với micro camera.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=QzoPxvIM2qE" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 34</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Mối hàn tốt và mối hàn cold joint khác nhau như thế nào về ngoại quan? Cách phân biệt bằng mắt?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">PCB power-on lần đầu: đo GND↔VCC = 15Ω. Vấn đề gì? Bước tiếp theo?</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Hàn IC SOIC-8: sau khi drag soldering, chân 3 và 4 bị bridge. Quy trình sửa từng bước.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> <strong>Mối hàn tốt:</strong> sáng bóng, hình nón concave (lõm) nhỏ gọn, bám đều vào pad và chân linh kiện. <strong>Cold joint:</strong> mờ đục, xám, hình dạng không đều (lồi hoặc gồ lên), có thể thấy hạt nhỏ trong thiếc — thiếc không chảy hoàn toàn → mối nối điện trở cao và dễ nứt cơ học.</p>
+            <p><strong>2:</strong> 15Ω giữa GND↔VCC = <strong>short circuit nghiêm trọng</strong>. Bước tiếp theo: (a) KHÔNG cấp nguồn tiếp; (b) Dùng kính lúp kiểm tra từng IC, connector xem có bridge không; (c) Tháo lần lượt các IC nghi ngờ và đo lại — IC nào khi tháo ra mà R tăng lên = IC đó bị lỗi hoặc có bridge dưới nó.</p>
+            <p><strong>3:</strong> (a) Thoa flux gel lên chân 3–4; (b) Đặt braid/wick lên chân bị bridge; (c) Đặt mỏ hàn lên braid (không trực tiếp lên chân IC) — nhiệt truyền qua braid → thiếc chảy vào braid; (d) Nhấc braid lên trong khi còn nóng (không nhấc khi đã nguội); (e) Kiểm tra lại bằng kính lúp. Lặp lại nếu cần.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 34</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b34"><label for="c1b34">Tôi hàn thành công linh kiện SMD 0805 và SOIC-8</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b34"><label for="c2b34">Tôi nhận biết cold joint, bridge, tombstoning và biết sửa</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b34"><label for="c3b34">Tôi kiểm tra PCB đầy đủ 5 bước trước khi power-on</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b34"><label for="c4b34">Tôi biết dùng current-limited power supply khi test lần đầu</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week5/day33.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 33: KiCad PCB Design</div></div></a>
+        <a href="../week5/day35.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 35: Ôn Tập Tuần 5 & Mini Project PCB Buck Converter</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day34.html');</script>
+</body>
+</html>

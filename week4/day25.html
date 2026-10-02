@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 25: ADC & DAC — Chuyển Đổi Tín Hiệu Analog/Số — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 25: ADC và DAC — độ phân giải bit, sampling rate, aliasing, đọc cảm biến analog và tạo tín hiệu âm thanh DAC.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 4</span><span class="tag tag-day">Ngày 25</span><span class="tag tag-difficulty-intermediate">ADC/DAC</span></div>
+        <h1 class="lesson-title">ADC & DAC — Chuyển Đổi Tín Hiệu Analog ↔ Số</h1>
+        <p class="lesson-subtitle">Cầu nối giữa thế giới analog (nhiệt độ, âm thanh, ánh sáng) và vi điều khiển số — nền tảng của mọi hệ thống đo lường.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~45 phút</span><span class="lesson-stat">🔬 Thực hành: 45 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu ADC là gì — chuyển điện áp analog thành số nguyên N-bit</li>
+          <li>Hiểu độ phân giải: ADC 10-bit vs 12-bit vs 16-bit</li>
+          <li>Tính LSB voltage và sai số quantization</li>
+          <li>Hiểu Sampling Rate và định lý Nyquist — aliasing</li>
+          <li>Hiểu AREF và tại sao quan trọng với độ chính xác ADC</li>
+          <li>Đọc cảm biến analog (biến trở, LDR, NTC) với Arduino/ESP32</li>
+          <li>Hiểu DAC là gì — ESP32 có 2 DAC 8-bit</li>
+          <li>Dùng DAC để tạo sóng sine đơn giản và âm thanh cơ bản</li>
+        </ul>
+      </div>
+
+      <!-- PHẦN 1 — ADC -->
+      <h2>1. ADC — Chuyển đổi Analog → Digital</h2>
+
+      <p>ADC (<em>Analog-to-Digital Converter</em>) đọc điện áp analog (ví dụ 0–3,3V) và chuyển thành số nguyên. Độ chính xác phụ thuộc vào <strong>số bit</strong>:</p>
+
+      <div class="formula-block">
+        <div class="formula-main">V_input = (ADC_value / (2^N – 1)) × V_ref</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">N</span> = Số bit ADC (10, 12, 16...)</span>
+          <span class="formula-var"><span class="var-name">ADC_value</span> = Giá trị đọc được (0 → 2^N – 1)</span>
+          <span class="formula-var"><span class="var-name">V_ref</span> = Điện áp tham chiếu (thường = VCC)</span>
+          <span class="formula-var"><span class="var-name">LSB</span> = V_ref / (2^N – 1) = điện áp nhỏ nhất phân giải được</span>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ADC</th><th>Số bước</th><th>LSB (V_ref=3,3V)</th><th>Vi điều khiển</th></tr></thead>
+          <tbody>
+            <tr><td>8-bit</td><td>256</td><td>12,9 mV</td><td>—</td></tr>
+            <tr><td>10-bit</td><td>1,024</td><td>3,2 mV</td><td>Arduino Uno/Nano</td></tr>
+            <tr><td>12-bit</td><td>4,096</td><td>0,8 mV</td><td>ESP32, STM32, Arduino Due</td></tr>
+            <tr><td>16-bit</td><td>65,536</td><td>0,05 mV</td><td>ADS1115 (ngoài I2C), STM32H7</td></tr>
+            <tr><td>24-bit</td><td>16,777,216</td><td>0,0002 mV</td><td>ADS1256, cân điện tử HX711</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>1.1 AREF — Điện áp tham chiếu ADC</h3>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> ESP32 ADC — hạn chế quan trọng cần biết</div>
+        <p>ADC của ESP32 có một số hạn chế thực tế: (1) Không đọc chính xác ở đầu range (0–0,1V và 3,1–3,3V) — đặc tính phi tuyến; (2) ADC2 không dùng được khi WiFi đang hoạt động; (3) Cần calibration để đạt độ chính xác ±50mV. Với ứng dụng đo lường chính xác, dùng ADC ngoài (ADS1115) qua I2C.</p>
+      </div>
+
+      <!-- PHẦN 2 — SAMPLING & NYQUIST -->
+      <h2>2. Sampling Rate & Định lý Nyquist</h2>
+
+      <p>ADC không đọc liên tục — nó <strong>lấy mẫu (sample)</strong> tín hiệu tại các thời điểm rời rạc. Tần số lấy mẫu f_s phải thỏa mãn:</p>
+
+      <div class="formula-block">
+        <div class="formula-main">f_s ≥ 2 × f_signal_max &nbsp;(Định lý Nyquist-Shannon)</div>
+        <div class="formula-vars">
+          <span class="formula-var">Nếu f_s &lt; 2 × f_signal: xảy ra "aliasing" — tín hiệu bị đọc sai tần số</span>
+          <span class="formula-var">Ví dụ: tín hiệu âm thanh 20kHz → cần f_s ≥ 40kHz (CD audio: 44,1kHz)</span>
+          <span class="formula-var">Nhiệt độ thay đổi chậm (Hz) → Arduino analogRead() 10kHz là đủ</span>
+        </div>
+      </div>
+
+      <!-- PHẦN 3 — THỰC HÀNH ADC -->
+      <h2>3. Thực hành ADC — Đọc biến trở và NTC</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// ADC đọc biến trở + tính điện áp thực
+const int PIN_POT = A0;
+const float V_REF = 5.0;    // Arduino Uno AREF = VCC = 5V
+const int ADC_BITS = 10;    // 10-bit ADC
+
+void setup() { Serial.begin(115200); }
+
+void loop() {
+  int raw = analogRead(PIN_POT);           // 0–1023
+  float voltage = (float)raw / (pow(2, ADC_BITS) - 1) * V_REF;
+  
+  Serial.print("Raw: "); Serial.print(raw);
+  Serial.print("  Voltage: "); Serial.print(voltage, 3);
+  Serial.println(" V");
+  delay(100);
+}</pre>
+      </div>
+
+      <!-- PHẦN 4 — DAC -->
+      <h2>4. DAC — Chuyển đổi Digital → Analog</h2>
+
+      <p>DAC (<em>Digital-to-Analog Converter</em>) là quá trình ngược lại ADC: chuyển số nguyên thành điện áp analog. ESP32 có 2 DAC 8-bit (GPIO 25 và 26), cho phép tạo điện áp từ 0 đến 3,3V với độ phân giải 256 bước (~13mV/bước).</p>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// ESP32 DAC — tạo sóng sine đơn giản
+#include &lt;math.h&gt;
+
+const int DAC_PIN = 25;  // GPIO 25 = DAC1
+const int SAMPLES = 100;
+
+void setup() {}
+
+void loop() {
+  for (int i = 0; i &lt; SAMPLES; i++) {
+    // Sine từ 0→255 (0→3.3V)
+    float angle = 2.0 * PI * i / SAMPLES;
+    int dac_val = (int)((sin(angle) + 1.0) * 127.5);  // 0–255
+    dacWrite(DAC_PIN, dac_val);
+    delayMicroseconds(100);  // f ≈ 1/(100×100µs) = 100Hz
+  }
+}</pre>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">ADC và DAC — từ lý thuyết đến ESP32</span></div>
+        <div class="video-body">
+          <div class="video-title">ADC and DAC explained — with ESP32 examples</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: Andreas Spiess</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~20 phút</span>
+          </div>
+          <div class="video-purpose">Giải thích ADC, hạn chế của ESP32 ADC, calibration và DAC để tạo tín hiệu audio.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=GQCehCFRhew" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 25</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Arduino 10-bit ADC, V_REF=5V. analogRead() = 512. V_input = ? LSB = ?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Đo tín hiệu ECG tim (tần số tim ~1,5Hz, nhưng dạng sóng đến 100Hz). Cần f_s tối thiểu bao nhiêu? Chọn f_s thực tế phù hợp.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">ESP32 DAC 8-bit, V_ref=3,3V. Muốn xuất 1,65V. dacWrite(pin, ?) — giá trị nào?</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> V_input = (512/1023) × 5V = <strong>2,502V</strong>. LSB = 5V/1023 = <strong>4,89mV</strong>.</p>
+            <p><strong>2:</strong> f_Nyquist = 2 × 100Hz = 200Hz tối thiểu. Thực tế chọn <strong>500Hz–1kHz</strong> để có biên an toàn và lọc aliasing tốt hơn. Holter monitor thường dùng 500Hz.</p>
+            <p><strong>3:</strong> dacWrite giá trị = (1,65/3,3) × 255 = 0,5 × 255 = <strong>127</strong> (hoặc 128). Điện áp ra = (127/255) × 3,3 = 1,643V ≈ 1,65V.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 25</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b25"><label for="c1b25">Tôi tính được V_input từ giá trị ADC và ngược lại</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b25"><label for="c2b25">Tôi hiểu định lý Nyquist và tác động của aliasing</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b25"><label for="c3b25">Tôi đọc biến trở/NTC qua ADC và in điện áp thực</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b25"><label for="c4b25">Tôi dùng ESP32 DAC để tạo sóng sine cơ bản</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week4/day24.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 24: SPI — Giao Tiếp Tốc Độ Cao</div></div></a>
+        <a href="../week4/day26.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 26: Interrupt — Ngắt Phần Cứng</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day25.html');</script>
+</body>
+</html>

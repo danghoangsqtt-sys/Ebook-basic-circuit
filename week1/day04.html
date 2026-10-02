@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 4: LED & Điện Trở Hạn Dòng — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 4: Hiểu LED — V_f, dòng LED, tính điện trở hạn dòng bằng định luật Ohm, màu LED và cách đo kiểm thực tế.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a><a href="../appendix/glossary.html">Phụ lục</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 1</span><span class="tag tag-day">Ngày 4</span><span class="tag tag-difficulty-beginner">Nhập môn</span></div>
+        <h1 class="lesson-title">LED & Điện Trở Hạn Dòng</h1>
+        <p class="lesson-subtitle">Hiểu tại sao LED cần điện trở, cách tính chính xác và các vấn đề thực tế khi dùng LED trong mạch.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~40 phút</span><span class="lesson-stat">🔬 Thực hành: 35 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu LED là gì và tại sao khác điện trở về mặt vật lý</li>
+          <li>Hiểu điện áp thuận (V_f — Forward Voltage) và ý nghĩa</li>
+          <li>Tính điện trở hạn dòng cho LED theo định luật Ohm</li>
+          <li>Biết dòng LED điển hình (10–20 mA) và ảnh hưởng đến độ sáng</li>
+          <li>Phân biệt màu LED với giá trị V_f khác nhau</li>
+          <li>Đo V_f thực tế bằng multimeter chế độ diode</li>
+          <li>Hiểu tại sao cùng điện trở nhưng LED sáng khác nhau ở nguồn 3,3V vs 5V</li>
+          <li>Lắp và đo mạch LED hoàn chỉnh, tính toán đối chiếu thực tế</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ và linh kiện</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>Số lượng</th></tr></thead>
+          <tbody>
+            <tr><td>LED 5mm đỏ</td><td>V_f ≈ 1,8–2,2V; I_f ≈ 10–20 mA</td><td>2</td></tr>
+            <tr><td>LED 5mm xanh lá</td><td>V_f ≈ 2,0–2,5V; I_f ≈ 10–20 mA</td><td>1</td></tr>
+            <tr><td>LED 5mm xanh dương</td><td>V_f ≈ 3,0–3,5V; I_f ≈ 10–20 mA</td><td>1</td></tr>
+            <tr><td>Điện trở 220 Ω</td><td>¼W, ±5%</td><td>2</td></tr>
+            <tr><td>Điện trở 330 Ω</td><td>¼W, ±5%</td><td>2</td></tr>
+            <tr><td>Điện trở 1 kΩ</td><td>¼W, ±5%</td><td>2</td></tr>
+            <tr><td>Nguồn 3V (2 pin AA)</td><td>hoặc adapter 3,3V</td><td>1</td></tr>
+            <tr><td>Nguồn 5V (adapter USB)</td><td>Adapter USB 5V</td><td>1</td></tr>
+            <tr><td>Breadboard + dây jumper</td><td>—</td><td>1 bộ</td></tr>
+            <tr><td>Multimeter</td><td>Có chế độ đo diode</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — LED LÀ GÌ -->
+      <h2>1. LED — Light Emitting Diode</h2>
+
+      <p>LED (<em>Light Emitting Diode</em> — Điốt phát quang) là một loại diode đặc biệt: khi dòng điện chạy qua theo chiều thuận (từ anode đến cathode), năng lượng điện được chuyển đổi thành ánh sáng thay vì chỉ thành nhiệt như điện trở thông thường. Bước sóng ánh sáng (và do đó màu sắc) phụ thuộc vào vật liệu bán dẫn được sử dụng.</p>
+
+      <p>Điểm quan trọng cần hiểu ngay từ đầu: LED <strong>không phải điện trở</strong>. Điện trở có quan hệ tuyến tính giữa dòng và áp (theo định luật Ohm), nhưng LED có đặc tuyến dòng-áp phi tuyến — giống một chiều van một chiều hơn là một điện trở. Khi điện áp đặt lên LED vượt ngưỡng V_f, dòng điện tăng rất nhanh và có thể phá hỏng LED nếu không có linh kiện hạn dòng.</p>
+
+      <h3>1.1 Cấu tạo vật lý LED 5mm</h3>
+
+      <div class="circuit-ascii">  LED 5mm thông dụng — nhìn từ bên cạnh:
+
+            Vỏ nhựa trong suốt
+           ╱────────────────────╲
+          │    .     ●     .    │  ← Chip LED (die) bên trong
+          │   ╱               ╲ │
+          │  │    Anode (+)    │ │  ← Anode nối với cực dương
+          └──┼─────────────────┼─┘
+             │                 │
+           Chân dài          Chân ngắn
+          ANODE (+)         CATHODE (–)
+          (dài hơn)         (ngắn hơn)
+
+  Ghi nhớ: A = Anode = dài hơn = dương (+)
+           K = Kathode = ngắn hơn = âm (–)
+
+  Ký hiệu sơ đồ mạch:
+         ──|▶|──   (mũi tên chỉ chiều dòng quy ước: + → –)</div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> Mẹo nhận biết anode và cathode</div>
+        <p>Nếu không nhớ chân nào dài, hãy nhìn phần bo tròn của vỏ nhựa: một bên có một vết phẳng nhỏ — đó là phía <strong>cathode (–)</strong>. Ngoài ra, bên trong vỏ nhựa, cốc phản chiếu lớn hơn gắn với <strong>cathode</strong>. Hoặc đơn giản nhất: dùng multimeter chế độ diode để kiểm tra (xem phần 3 bên dưới).</p>
+      </div>
+
+      <!-- PHẦN 2 — VF VÀ ĐỊNH LUẬT OHM -->
+      <h2>2. Điện áp thuận V_f và định luật Ohm cho mạch LED</h2>
+
+      <h3>2.1 Điện áp thuận — Forward Voltage (V_f)</h3>
+
+      <p>Điện áp thuận (V_f — Forward Voltage) là điện áp cần thiết để LED bắt đầu dẫn dòng và phát sáng đáng kể. Giá trị này phụ thuộc vào màu LED (hay chính xác hơn là vật liệu bán dẫn). Đây là đặc tính cố định của mỗi loại LED:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Màu LED</th><th>Vật liệu</th><th>V_f điển hình</th><th>Bước sóng</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td style="color:#ef4444;font-weight:700;">Đỏ (Red)</td><td>GaAsP, AlGaAs</td><td>1,8–2,2 V</td><td>620–750 nm</td><td>V_f thấp nhất — dễ dùng nhất</td></tr>
+            <tr><td style="color:#f97316;font-weight:700;">Cam (Orange)</td><td>GaAsP</td><td>2,0–2,2 V</td><td>590–620 nm</td><td>Tương tự LED đỏ</td></tr>
+            <tr><td style="color:#facc15;font-weight:700;">Vàng (Yellow)</td><td>GaAsP, InGaN</td><td>2,0–2,4 V</td><td>570–590 nm</td><td>—</td></tr>
+            <tr><td style="color:#22c55e;font-weight:700;">Xanh lá (Green)</td><td>InGaN</td><td>2,0–3,5 V</td><td>520–570 nm</td><td>Dao động lớn tùy hãng</td></tr>
+            <tr><td style="color:#3b82f6;font-weight:700;">Xanh dương (Blue)</td><td>InGaN</td><td>3,0–3,5 V</td><td>450–490 nm</td><td>V_f cao — cẩn thận với nguồn 3,3V</td></tr>
+            <tr><td style="color:#a78bfa;font-weight:700;">Trắng (White)</td><td>InGaN + phosphor</td><td>3,0–3,5 V</td><td>broad spectrum</td><td>Thực chất LED xanh + lớp phosphor</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> LED xanh dương và trắng với nguồn 3,3V</div>
+        <p>LED xanh dương và trắng có V_f ≈ 3,0–3,5V. Khi dùng nguồn 3,3V của ESP32, điện áp nguồn xấp xỉ (hoặc thấp hơn) V_f của LED. Trong trường hợp này, LED có thể sáng rất yếu hoặc không sáng. Giải pháp: dùng nguồn 5V cho LED màu này, hoặc chọn LED đỏ/vàng khi dùng nguồn 3,3V.</p>
+      </div>
+
+      <h3>2.2 Tính điện trở hạn dòng — Định luật Ohm ứng dụng</h3>
+
+      <p>Vì LED không phải điện trở, ta không thể cắm trực tiếp LED vào nguồn điện. Ta cần một <strong>điện trở hạn dòng</strong> (<em>current limiting resistor</em>) mắc nối tiếp để kiểm soát dòng qua LED ở mức an toàn (thường 10–20 mA).</p>
+
+      <p>Nguyên lý: trong mạch nối tiếp (LED + điện trở), tổng điện áp bằng tổng điện áp rơi trên từng linh kiện (đây là KVL — Bài 6). Điện áp rơi trên điện trở bằng hiệu số giữa điện áp nguồn và V_f của LED:</p>
+
+      <div class="formula-block">
+        <div class="formula-main">R = (V_supply – V_f) / I_f</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">R</span> = Điện trở hạn dòng (Ω)</span>
+          <span class="formula-var"><span class="var-name">V_supply</span> = Điện áp nguồn (V)</span>
+          <span class="formula-var"><span class="var-name">V_f</span> = Điện áp thuận LED (V)</span>
+          <span class="formula-var"><span class="var-name">I_f</span> = Dòng chạy qua LED mong muốn (A)</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ tính toán 1 — LED đỏ, nguồn 5V</h4>
+      <p><strong>Cho:</strong> V_supply = 5V, LED đỏ V_f = 2,0V, I_f = 15 mA = 0,015 A</p>
+      <p><strong>Tính:</strong><br>
+      R = (5 – 2,0) / 0,015 = 3,0 / 0,015 = <strong>200 Ω</strong></p>
+      <p><strong>Chọn điện trở chuẩn:</strong> 200 Ω không có trong E24. Giá trị gần nhất là <strong>220 Ω</strong> (Đỏ–Đỏ–Nâu–Vàng).<br>
+      Dòng thực tế = (5 – 2,0) / 220 = 13,6 mA ✓ (nằm trong dải 10–20 mA)</p>
+
+      <h4>Ví dụ tính toán 2 — LED xanh dương, nguồn 5V</h4>
+      <p><strong>Cho:</strong> V_supply = 5V, LED xanh dương V_f = 3,3V, I_f = 10 mA</p>
+      <p><strong>Tính:</strong><br>
+      R = (5 – 3,3) / 0,010 = 1,7 / 0,010 = <strong>170 Ω</strong></p>
+      <p><strong>Chọn điện trở chuẩn:</strong> Gần nhất là <strong>150 Ω</strong> (dòng = 11,3 mA) hoặc <strong>180 Ω</strong> (dòng = 9,4 mA). Chọn 180 Ω để an toàn hơn cho LED.</p>
+
+      <h4>Ví dụ tính toán 3 — LED đỏ, nguồn 3,3V (ESP32)</h4>
+      <p><strong>Cho:</strong> V_supply = 3,3V, LED đỏ V_f = 2,0V, I_f = 10 mA</p>
+      <p><strong>Tính:</strong><br>
+      R = (3,3 – 2,0) / 0,010 = 1,3 / 0,010 = <strong>130 Ω</strong></p>
+      <p><strong>Chọn điện trở chuẩn:</strong> <strong>150 Ω</strong> (dòng = 8,7 mA — vẫn đủ sáng) hoặc <strong>120 Ω</strong> (dòng = 10,8 mA).</p>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📌</span> Dòng LED không cần chính xác tuyệt đối</div>
+        <p>Trong ứng dụng thông thường (chỉ thị trạng thái, UI), không cần dòng LED chính xác đến từng mA. Dải 5–20 mA đều chấp nhận được với LED thông dụng. Chọn điện trở chuẩn gần nhất — LED sẽ sáng đủ. Chỉ khi cần độ sáng đồng đều (LED RGB cân bằng màu, đo lường quang học) mới cần tính chính xác hơn.</p>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header">
+          <span class="video-badge">🎬 Video</span>
+          <span class="video-header-title">LED và tính điện trở hạn dòng</span>
+        </div>
+        <div class="video-body">
+          <div class="video-title">Calculating the Correct Resistor Value for an LED</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: Afrotechmods</span>
+            <span class="video-meta-item">🌐 Ngôn ngữ: Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~5 phút — rất ngắn gọn và trực quan</span>
+          </div>
+          <div class="video-purpose">Giải thích tại sao LED cần điện trở và cách tính giá trị chính xác. Afrotechmods có phong cách giải thích rất trực tiếp, không vòng vo — phù hợp để học nhanh khái niệm này.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=Dc2-5n7UfDo" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+          <div class="video-lang-note">💡 Tiếng Anh — bật phụ đề. Nội dung ngắn, có thể xem 2 lần để chắc chắn hiểu.</div>
+        </div>
+      </div>
+
+      <!-- PHẦN 3 — ĐO VF BẰNG MULTIMETER -->
+      <h2>3. Đo V_f bằng chế độ Diode trên multimeter</h2>
+
+      <p>Chế độ Diode trên multimeter (ký hiệu <code>|▶|</code>) đo điện áp thuận của diode/LED bằng cách cấp một dòng nhỏ (~1 mA) qua linh kiện và đo điện áp rơi. Đây là cách nhanh nhất để xác định V_f thực tế và kiểm tra chiều của LED.</p>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Đo V_f 4 màu LED</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Chọn chế độ <code>|▶|</code> (Diode) trên multimeter.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đặt <strong>que đỏ vào anode (+)</strong> và <strong>que đen vào cathode (–)</strong> của LED. LED sẽ sáng yếu (dòng đo nhỏ) và màn hình hiển thị V_f.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nếu màn hình hiển thị "OL" — que đo đặt ngược. Đổi chiều để LED sáng và đọc giá trị.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Ghi lại V_f của từng màu LED vào bảng bên dưới.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead>
+            <tr><th>Màu LED</th><th>V_f lý thuyết (V)</th><th>V_f đo được (V)</th><th>Ghi chú</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="color:#ef4444;">Đỏ</td><td>1,8–2,2</td><td>_____</td><td>LED sáng khi que đỏ ở chân dài (anode)?</td></tr>
+            <tr><td style="color:#22c55e;">Xanh lá</td><td>2,0–3,5</td><td>_____</td><td>V_f có khác LED đỏ không?</td></tr>
+            <tr><td style="color:#3b82f6;">Xanh dương</td><td>3,0–3,5</td><td>_____</td><td>Thường cao nhất trong các màu thông dụng</td></tr>
+            <tr><td style="color:#f1f5f9;">Trắng</td><td>3,0–3,5</td><td>_____</td><td>Gần bằng LED xanh dương</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 4 — THỰC HÀNH ĐẦY ĐỦ -->
+      <h2>4. Thực hành: Lắp và đo mạch LED với nhiều giá trị R</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: So sánh độ sáng LED với R khác nhau</div>
+        <p style="margin-bottom:12px;">Lắp 3 mạch LED song song với cùng nguồn 5V, nhưng khác nhau về giá trị điện trở: 220 Ω, 330 Ω, 1 kΩ. Quan sát độ sáng và đo dòng/áp.</p>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Lắp 3 LED đỏ song song trên breadboard, mỗi LED nối tiếp với một điện trở: R1=220Ω, R2=330Ω, R3=1kΩ. Tất cả nối chung nguồn 5V và GND.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Cấp nguồn 5V. Quan sát và mô tả độ sáng của từng LED: sáng nhất, sáng vừa, sáng yếu nhất.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo điện áp hai đầu mỗi điện trở (V_R). Tính dòng ước tính: I = V_R / R.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo điện áp hai đầu mỗi LED (V_f). Kiểm tra: V_R + V_f ≈ V_supply = 5V (KVL).</p></div></li>
+        </ol>
+      </div>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead>
+            <tr><th>Mạch</th><th>R (Ω)</th><th>V_R đo (V)</th><th>I = V_R/R (mA)</th><th>V_f đo (V)</th><th>V_R + V_f (V)</th><th>Độ sáng</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>220</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>Sáng nhất</td></tr>
+            <tr><td>2</td><td>330</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>Sáng vừa</td></tr>
+            <tr><td>3</td><td>1000</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td><td>Sáng yếu</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📌</span> Quan sát quan trọng</div>
+        <p>V_f của LED không đổi đáng kể dù điện trở thay đổi (từ 220Ω đến 1kΩ). Đây là đặc tính của diode: điện áp thuận tương đối ổn định trong dải dòng làm việc bình thường. Điều này xác nhận tại sao ta dùng công thức R = (V_supply – V_f) / I_f — V_f là hằng số, R điều chỉnh dòng.</p>
+      </div>
+
+      <!-- PHẦN 5 — CÔNG SUẤT ĐIỆN TRỞ -->
+      <h2>5. Công suất điện trở — Đừng làm cháy điện trở</h2>
+
+      <p>Khi dòng chạy qua điện trở, điện trở tỏa nhiệt. Công suất tiêu tán phải nhỏ hơn công suất định mức của điện trở, nếu không điện trở sẽ bị nóng quá mức, thay đổi giá trị hoặc bị phá hủy.</p>
+
+      <div class="formula-block">
+        <div class="formula-main">P = I² × R = V²/R = V × I</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">P</span> = Công suất (Watt, W)</span>
+          <span class="formula-var"><span class="var-name">I</span> = Dòng điện (A)</span>
+          <span class="formula-var"><span class="var-name">V</span> = Điện áp rơi trên R (V)</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ tính toán 4 — Kiểm tra công suất điện trở 220Ω trong mạch LED</h4>
+      <p><strong>Cho:</strong> V_R = 3V (điện áp rơi), I = 13,6 mA = 0,0136 A, R = 220 Ω</p>
+      <p><strong>Tính:</strong><br>
+      P = I² × R = (0,0136)² × 220 = 0,0001850 × 220 = <strong>0,0407 W ≈ 41 mW</strong></p>
+      <p><strong>Nhận xét:</strong> Điện trở ¼W (250 mW) — an toàn tuyệt đối. Công suất tiêu tán chỉ là 41 mW, thấp hơn nhiều so với giới hạn 250 mW.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> Khi nào điện trở bị nóng?</div>
+        <p>Điện trở ¼W thường không nóng đáng kể trong mạch LED. Nhưng nếu bạn dùng điện trở nhỏ (10Ω) hạn dòng nguồn lớn (5A), công suất tính theo P = I²R = 25×10 = 250W — điện trở sẽ cháy ngay tức thì. Luôn tính công suất trước khi chọn điện trở cho mạch có dòng lớn.</p>
+      </div>
+
+      <!-- DEBUG TABLE -->
+      <h2>6. Debug — Lỗi phổ biến với LED</h2>
+
+      <div class="table-wrap">
+        <table class="debug-table">
+          <thead><tr><th>Hiện tượng</th><th>Nguyên nhân</th><th>Kiểm tra</th><th>Xử lý</th></tr></thead>
+          <tbody>
+            <tr><td class="symptom">LED không sáng</td><td class="cause">LED cắm ngược (cathode ở +), hoặc không có điện trở hạn dòng (LED đã cháy)</td><td>Đo V_f bằng chế độ diode; quan sát chân dài/ngắn</td><td class="fix">Đổi chiều LED; thay LED mới nếu đã cháy do không có R hạn dòng</td></tr>
+            <tr><td class="symptom">LED sáng cực mờ</td><td class="cause">Điện trở quá lớn (dòng quá nhỏ) hoặc V_supply < V_f</td><td>Đo V hai đầu R; tính I = V_R/R</td><td class="fix">Giảm giá trị R; hoặc tăng V_supply</td></tr>
+            <tr><td class="symptom">LED cháy ngay khi cấp điện</td><td class="cause">Không có điện trở hạn dòng hoặc R quá nhỏ; ngắn mạch ngẫu nhiên</td><td>Kiểm tra mạch trước khi cấp điện</td><td class="fix">Luôn dùng R ≥ 100Ω; tính toán R trước khi cấp nguồn</td></tr>
+            <tr><td class="symptom">LED xanh/trắng không sáng với nguồn 3,3V</td><td class="cause">V_f (3,0–3,5V) ≈ V_supply → không đủ điện áp để thắng V_f</td><td>Đo V_f bằng chế độ diode; so sánh với V_supply</td><td class="fix">Dùng nguồn 5V; hoặc dùng LED đỏ/vàng có V_f thấp hơn</td></tr>
+            <tr><td class="symptom">LED sáng không đồng đều trong mạch nhiều LED</td><td class="cause">Mỗi LED có V_f hơi khác nhau → dòng qua mỗi nhánh khác nhau khi mắc song song</td><td>Đo V_f từng LED riêng lẻ</td><td class="fix">Mỗi LED cần điện trở riêng; không mắc nhiều LED song song mà chỉ nối chung 1 điện trở</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SẢI LẦM THƯỜNG GẶP -->
+      <div class="callout callout-danger">
+        <div class="callout-header"><span class="callout-icon">🚫</span> Sai lầm nghiêm trọng: Cắm LED thẳng vào nguồn không có R hạn dòng</div>
+        <p>Đây là lỗi phổ biến nhất ở người mới: cắm trực tiếp LED vào 5V hoặc 3,3V mà không có điện trở. Dù LED có thể không cháy ngay (tùy nguồn), dòng qua LED sẽ vượt giới hạn, LED nóng lên và hỏng từ từ. Với nguồn có khả năng cấp dòng lớn (adapter), LED sẽ cháy ngay lập tức. <strong>Luôn có điện trở hạn dòng.</strong></p>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 4</div>
+
+        <div class="exercise-part">
+          <div class="exercise-part-title">A. Tính điện trở hạn dòng (5 câu × 8 điểm)</div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">LED đỏ (V_f = 2,0V), nguồn 5V, I_f = 20 mA. Tính R. Chọn giá trị chuẩn E24 gần nhất. Tính dòng thực tế với R chuẩn.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">LED xanh dương (V_f = 3,3V), nguồn 5V, I_f = 10 mA. Tính R và chọn giá trị chuẩn.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">LED trắng (V_f = 3,0V), nguồn ESP32 3,3V, I_f = 5 mA. Tính R. Dòng có đủ để LED sáng tốt không?</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Bạn muốn mắc 3 LED đỏ nối tiếp (V_f mỗi cái = 2V) với nguồn 12V, I_f = 15 mA. Tính R cần thiết.</div></div>
+          <div class="exercise-item"><span class="exercise-num">5</span><div class="exercise-text">Tính công suất tiêu tán trên điện trở 330Ω trong mạch LED đỏ (V_f=2V, V_supply=5V). Điện trở ¼W có đủ không?</div></div>
+        </div>
+
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>A1:</strong> R = (5–2) / 0,020 = 150 Ω. Giá trị E24 chuẩn: <strong>150 Ω</strong>. Dòng thực tế = 3/150 = 20 mA ✓</p>
+            <p><strong>A2:</strong> R = (5–3,3) / 0,010 = 170 Ω. Chọn <strong>180 Ω</strong> (E24). Dòng = 1,7/180 = 9,4 mA ✓</p>
+            <p><strong>A3:</strong> R = (3,3–3,0) / 0,005 = 60 Ω. Chọn <strong>56 Ω hoặc 68 Ω</strong>. Dòng 5 mA — LED sáng yếu, dùng được cho chỉ thị trạng thái, không dùng chiếu sáng.</p>
+            <p><strong>A4:</strong> V_total_LED = 3 × 2 = 6V. R = (12–6) / 0,015 = 400 Ω. Chọn <strong>390 Ω hoặc 470 Ω</strong> (E24).</p>
+            <p><strong>A5:</strong> V_R = 5–2 = 3V. I = 3/330 = 9,1 mA. P = 3 × 0,0091 = <strong>0,027 W = 27 mW</strong>. Điện trở ¼W = 250 mW — an toàn tuyệt đối (27 mW &lt;&lt; 250 mW).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 4</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b4"><label for="c1b4">Tôi hiểu V_f là điện áp đặc trưng của LED theo màu sắc</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b4"><label for="c2b4">Tôi tính được R hạn dòng cho bất kỳ LED nào với bất kỳ nguồn nào</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b4"><label for="c3b4">Tôi đã đo V_f của ít nhất 2 màu LED bằng chế độ diode</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b4"><label for="c4b4">Tôi biết tại sao không cắm LED thẳng vào nguồn</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c5b4"><label for="c5b4">Tôi đã lắp và đo mạch 3 LED với R khác nhau</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c6b4"><label for="c6b4">Tôi biết tính công suất điện trở và chọn loại ¼W hay ½W phù hợp</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week1/day03.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 3: Điện trở & Mã màu</div></div></a>
+        <a href="../week1/day05.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 5: Mạch nối tiếp & Song song</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day04.html');</script>
+</body>
+</html>

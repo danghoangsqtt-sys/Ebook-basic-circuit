@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 5: Mạch Nối Tiếp & Song Song — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 5: Hiểu mạch nối tiếp và song song — tính tổng điện trở, phân áp, phân dòng. Ứng dụng thực tế và đo kiểm trên breadboard.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 1</span><span class="tag tag-day">Ngày 5</span><span class="tag tag-difficulty-beginner">Nhập môn</span></div>
+        <h1 class="lesson-title">Mạch Nối Tiếp & Song Song</h1>
+        <p class="lesson-subtitle">Hiểu cách kết hợp điện trở, tính điện trở tương đương và tại sao mạch song song được dùng cho phần lớn thiết bị điện gia dụng.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~45 phút</span><span class="lesson-stat">🔬 Thực hành: 40 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Tính điện trở tương đương mạch nối tiếp (tổng cộng)</li>
+          <li>Tính điện trở tương đương mạch song song (nghịch đảo)</li>
+          <li>Biết đặc tính dòng trong mạch nối tiếp (dòng bằng nhau)</li>
+          <li>Biết đặc tính áp trong mạch song song (áp bằng nhau)</li>
+          <li>Đo và xác nhận các đặc tính trên bằng multimeter</li>
+          <li>Giải mạch hỗn hợp (series-parallel combination)</li>
+          <li>Hiểu ứng dụng thực tế: tại sao bóng đèn nhà mắc song song với nguồn điện</li>
+          <li>Tính công suất trong mạch nối tiếp và song song</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>Điện trở 1 kΩ</td><td>¼W, ±5%</td><td>4</td></tr>
+            <tr><td>Điện trở 2,2 kΩ</td><td>¼W, ±5%</td><td>2</td></tr>
+            <tr><td>Điện trở 4,7 kΩ</td><td>¼W, ±5%</td><td>2</td></tr>
+            <tr><td>Nguồn 5V (adapter USB)</td><td>—</td><td>1</td></tr>
+            <tr><td>Breadboard + jumper</td><td>—</td><td>1 bộ</td></tr>
+            <tr><td>Multimeter</td><td>DCV và Ω</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — MẠCH NỐI TIẾP -->
+      <h2>1. Mạch nối tiếp (Series Circuit)</h2>
+
+      <p>Trong mạch nối tiếp, các linh kiện được nối đầu-đuôi, tạo thành một vòng duy nhất. <strong>Chỉ có một đường duy nhất</strong> cho dòng điện chạy qua.</p>
+
+      <h3>1.1 Đặc tính mạch nối tiếp</h3>
+
+      <div class="circuit-ascii">  Mạch nối tiếp 3 điện trở:
+
+   VCC ──[R1]──[R2]──[R3]── GND
+         1kΩ   2kΩ   3kΩ
+
+   Dòng: I_R1 = I_R2 = I_R3 = I_total  (dòng bằng nhau)
+   Áp:   V_R1 + V_R2 + V_R3 = V_supply  (áp cộng lại)
+   R_eq: R_total = R1 + R2 + R3          (cộng thẳng)</div>
+
+      <div class="formula-block">
+        <div class="formula-main">R_series = R1 + R2 + R3 + ... + Rn</div>
+        <div class="formula-vars">
+          <span class="formula-var">Mạch nối tiếp: điện trở tương đương = tổng cộng</span>
+          <span class="formula-var">Điện trở tương đương LUÔN lớn hơn điện trở lớn nhất</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ tính toán 1 — Mạch nối tiếp</h4>
+      <p><strong>Cho:</strong> R1 = 1 kΩ, R2 = 2 kΩ, R3 = 3 kΩ, V_supply = 5V</p>
+      <p><strong>Bước 1:</strong> R_total = 1k + 2k + 3k = <strong>6 kΩ</strong></p>
+      <p><strong>Bước 2:</strong> I_total = V / R_total = 5 / 6000 = <strong>0,833 mA</strong></p>
+      <p><strong>Bước 3:</strong> Điện áp rơi từng điện trở:<br>
+      V_R1 = I × R1 = 0,000833 × 1000 = <strong>0,833 V</strong><br>
+      V_R2 = I × R2 = 0,000833 × 2000 = <strong>1,667 V</strong><br>
+      V_R3 = I × R3 = 0,000833 × 3000 = <strong>2,500 V</strong></p>
+      <p><strong>Kiểm tra KVL:</strong> 0,833 + 1,667 + 2,500 = 5,000 V ✓</p>
+
+      <!-- PHẦN 2 — MẠCH SONG SONG -->
+      <h2>2. Mạch song song (Parallel Circuit)</h2>
+
+      <p>Trong mạch song song, các linh kiện được nối chung hai đầu. <strong>Có nhiều đường</strong> cho dòng điện chạy qua — mỗi nhánh là một đường riêng.</p>
+
+      <h3>2.1 Đặc tính mạch song song</h3>
+
+      <div class="circuit-ascii">  Mạch song song 3 điện trở:
+
+   VCC ──┬────[R1]────┬── GND
+         │   1kΩ      │
+         ├────[R2]────┤
+         │   2kΩ      │
+         └────[R3]────┘
+              3kΩ
+
+   Áp:   V_R1 = V_R2 = V_R3 = V_supply  (áp bằng nhau)
+   Dòng: I_total = I_R1 + I_R2 + I_R3  (dòng cộng lại)
+   R_eq: 1/R_eq = 1/R1 + 1/R2 + 1/R3   (nghịch đảo)</div>
+
+      <div class="formula-block">
+        <div class="formula-main">1/R_parallel = 1/R1 + 1/R2 + ... + 1/Rn</div>
+        <div class="formula-vars">
+          <span class="formula-var">Mạch song song: điện trở tương đương nhỏ hơn điện trở nhỏ nhất</span>
+          <span class="formula-var">Trường hợp đặc biệt: 2 điện trở bằng nhau R/2</span>
+        </div>
+      </div>
+
+      <div class="formula-block">
+        <div class="formula-main">R_parallel (2 R) = (R1 × R2) / (R1 + R2)</div>
+        <div class="formula-vars">
+          <span class="formula-var">Công thức tắt cho 2 điện trở song song: "tích chia tổng"</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ tính toán 2 — Mạch song song</h4>
+      <p><strong>Cho:</strong> R1 = 1 kΩ, R2 = 2 kΩ song song, V_supply = 5V</p>
+      <p><strong>Bước 1:</strong> R_parallel = (1000 × 2000) / (1000 + 2000) = 2,000,000 / 3000 = <strong>666,7 Ω ≈ 667 Ω</strong></p>
+      <p><strong>Bước 2:</strong> I_total = 5 / 667 = <strong>7,5 mA</strong></p>
+      <p><strong>Bước 3:</strong> Dòng qua từng nhánh:<br>
+      I_R1 = V / R1 = 5 / 1000 = <strong>5 mA</strong><br>
+      I_R2 = V / R2 = 5 / 2000 = <strong>2,5 mA</strong></p>
+      <p><strong>Kiểm tra KCL:</strong> I_R1 + I_R2 = 5 + 2,5 = 7,5 mA = I_total ✓</p>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📌</span> Tại sao điện trở tương đương song song nhỏ hơn?</div>
+        <p>Khi thêm điện trở song song, bạn đang thêm <em>đường dẫn mới</em> cho dòng điện. Nhiều đường dẫn = ít cản trở tổng thể hơn. Tưởng tượng như nhiều làn đường trên xa lộ: thêm làn đường không làm làn cũ hẹp hơn, nhưng tổng lưu lượng xe tăng lên.</p>
+      </div>
+
+      <!-- PHẦN 3 — SO SÁNH -->
+      <h2>3. Bảng so sánh nối tiếp vs song song</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Đặc tính</th><th>Nối tiếp</th><th>Song song</th></tr></thead>
+          <tbody>
+            <tr><td>Dòng điện</td><td>Bằng nhau qua tất cả</td><td>Chia nhau theo giá trị R</td></tr>
+            <tr><td>Điện áp</td><td>Chia nhau theo giá trị R</td><td>Bằng nhau trên tất cả</td></tr>
+            <tr><td>R tương đương</td><td>R_eq = R1 + R2 + ... (lớn nhất)</td><td>R_eq &lt; R nhỏ nhất</td></tr>
+            <tr><td>Nếu 1 nhánh hở</td><td>Toàn mạch ngừng hoạt động</td><td>Các nhánh khác vẫn hoạt động</td></tr>
+            <tr><td>Ứng dụng điển hình</td><td>Hạn dòng, cầu chia áp, LED nối tiếp</td><td>Bóng đèn nhà, thiết bị dùng chung nguồn</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> Tại sao thiết bị gia dụng mắc song song?</div>
+        <p>Tất cả bóng đèn, quạt, TV trong nhà đều được mắc song song với nhau và với nguồn điện lưới 220V. Lý do: (1) Mỗi thiết bị hoạt động độc lập — tắt một bóng không ảnh hưởng bóng khác. (2) Mỗi thiết bị đều nhận đủ 220V — điện áp đầy đủ cho thiết kế. Nếu mắc nối tiếp, tắt một bóng là cả dãy tắt (như đèn Noel cũ ngày xưa), và mỗi thiết bị chỉ nhận một phần điện áp.</p>
+      </div>
+
+      <!-- PHẦN 4 — MẠCH HỖN HỢP -->
+      <h2>4. Mạch hỗn hợp (Series-Parallel)</h2>
+
+      <p>Trong thực tế, mạch điện thường có cả cấu trúc nối tiếp và song song. Cách giải: nhóm các phần song song lại, tính R_eq của từng nhóm, rồi cộng các R_eq theo nối tiếp.</p>
+
+      <h4>Ví dụ tính toán 3 — Mạch hỗn hợp</h4>
+
+      <div class="circuit-ascii">  Mạch hỗn hợp:
+
+   VCC ──[R1=1kΩ]──┬──[R2=2kΩ]──┬── GND
+                   │              │
+                   └──[R3=4kΩ]──┘
+
+   Bước 1: R2 || R3 = (2k × 4k) / (2k + 4k) = 8M/6k = 1,333 kΩ
+   Bước 2: R_total = R1 + (R2||R3) = 1k + 1,333k = 2,333 kΩ
+   Bước 3: I_total = 5V / 2333Ω = 2,14 mA
+   Bước 4: V_R1 = 2,14mA × 1000Ω = 2,14V
+           V_(R2||R3) = 5 – 2,14 = 2,86V
+   Bước 5: I_R2 = 2,86V / 2000Ω = 1,43 mA
+           I_R3 = 2,86V / 4000Ω = 0,715 mA
+   Kiểm tra: 1,43 + 0,715 = 2,145 mA ≈ I_total ✓</div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">Mạch nối tiếp và song song</span></div>
+        <div class="video-body">
+          <div class="video-title">Series and Parallel Circuits</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: The Engineering Mindset</span>
+            <span class="video-meta-item">🌐 Ngôn ngữ: Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~10 phút</span>
+          </div>
+          <div class="video-purpose">Giải thích chi tiết mạch nối tiếp và song song với animation, ví dụ thực tế (đèn nhà) và bài tập minh họa. Xem sau khi đọc lý thuyết để củng cố trực quan.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=VV6tZ3Aqfuc" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>5. Thực hành đo kiểm</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Xác nhận công thức bằng đo thực tế</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p><strong>Mạch A — Nối tiếp:</strong> Cắm R1(1kΩ) + R2(1kΩ) nối tiếp trên breadboard. Đo R_total bằng multimeter (chưa cấp điện). Kỳ vọng: ~2 kΩ.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Mạch B — Song song:</strong> Cắm R1(1kΩ) || R2(1kΩ) song song. Đo R_total. Kỳ vọng: ~500 Ω.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Cấp nguồn 5V cho Mạch A:</strong> Đo điện áp tại điểm nối giữa R1 và R2 (so với GND). Kỳ vọng: ~2,5V (chia đều).</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Cấp nguồn 5V cho Mạch B:</strong> Đo điện áp hai đầu R1 và R2 riêng lẻ. Kỳ vọng: cả hai đều ~5V.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th>Cấu hình</th><th>R lý thuyết</th><th>R đo được</th><th>V điểm giữa / V nhánh</th><th>Nhận xét</th></tr></thead>
+          <tbody>
+            <tr><td>1kΩ + 1kΩ nối tiếp</td><td>2,000 Ω</td><td>_____ Ω</td><td>_____ V</td><td>—</td></tr>
+            <tr><td>1kΩ || 1kΩ song song</td><td>500 Ω</td><td>_____ Ω</td><td>_____ V (mỗi nhánh)</td><td>—</td></tr>
+            <tr><td>1kΩ + 2,2kΩ nối tiếp</td><td>3,200 Ω</td><td>_____ Ω</td><td>_____ V (tại junction)</td><td>—</td></tr>
+            <tr><td>1kΩ || 2,2kΩ song song</td><td>688 Ω</td><td>_____ Ω</td><td>_____ V (mỗi nhánh)</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- DEBUG -->
+      <h2>6. Debug</h2>
+      <div class="table-wrap">
+        <table class="debug-table">
+          <thead><tr><th>Hiện tượng</th><th>Nguyên nhân</th><th>Kiểm tra</th><th>Xử lý</th></tr></thead>
+          <tbody>
+            <tr><td class="symptom">Đo R_series nhưng kết quả lớn hơn mong đợi rất nhiều</td><td class="cause">Đang đo trong mạch có điện (dòng ảnh hưởng kết quả), hoặc có R bổ sung trong mạch</td><td>Tắt nguồn, tháo mạch rồi đo</td><td class="fix">Luôn đo điện trở khi không có điện và không có nhánh song song</td></tr>
+            <tr><td class="symptom">Đo V điểm giữa mạch nối tiếp 2 điện trở bằng nhau không ra V/2</td><td class="cause">Hai điện trở không thực sự bằng nhau; điện trở vào của multimeter ảnh hưởng kết quả</td><td>Đo từng R riêng lẻ; so sánh</td><td class="fix">Kiểm tra giá trị thực của R; dùng R có độ chính xác cao hơn nếu cần chính xác</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 5</div>
+        <div class="exercise-part">
+          <div class="exercise-part-title">A. Tính toán (5 câu)</div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Tính R_eq: 470Ω, 1kΩ, 2,2kΩ mắc nối tiếp.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Tính R_eq: 470Ω || 1kΩ song song.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Mạch: 1kΩ nối tiếp với (2kΩ || 4kΩ). Nguồn 9V. Tính dòng tổng và V rơi trên từng phần tử.</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Bạn chỉ có điện trở 10kΩ. Làm thế nào để tạo ra điện trở tương đương xấp xỉ 3,33kΩ từ các điện trở 10kΩ?</div></div>
+          <div class="exercise-item"><span class="exercise-num">5</span><div class="exercise-text">Trong mạch song song (R1=1kΩ, R2=2kΩ, V=5V): Tính công suất tiêu tán của R1 và R2. So sánh hai giá trị và rút ra nhận xét.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>A1:</strong> R_eq = 470 + 1000 + 2200 = <strong>3,670 Ω = 3,67 kΩ</strong></p>
+            <p><strong>A2:</strong> R_eq = (470 × 1000) / (470 + 1000) = 470,000 / 1470 = <strong>319,7 Ω ≈ 320 Ω</strong></p>
+            <p><strong>A3:</strong> R(2k||4k) = (2000×4000)/(2000+4000) = 1,333 kΩ. R_total = 1k + 1,333k = 2,333 kΩ. I = 9/2333 = 3,857 mA. V_1k = 3,857mA × 1kΩ = 3,857V. V_parallel = 9 - 3,857 = 5,143V. I_R2 = 5,143/2000 = 2,57mA. I_R3 = 5,143/4000 = 1,29mA.</p>
+            <p><strong>A4:</strong> 3 điện trở 10kΩ mắc song song: R_eq = 10k/3 = <strong>3,333 kΩ ≈ 3,33 kΩ</strong> ✓</p>
+            <p><strong>A5:</strong> P_R1 = V²/R1 = 25/1000 = 25 mW. P_R2 = V²/R2 = 25/2000 = 12,5 mW. Nhận xét: Điện trở nhỏ hơn tiêu tán công suất lớn hơn khi cùng điện áp (P = V²/R).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 5</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b5"><label for="c1b5">Tôi tính được R_eq nối tiếp và song song</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b5"><label for="c2b5">Tôi hiểu dòng như nhau trong nối tiếp, áp như nhau trong song song</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b5"><label for="c3b5">Tôi giải được mạch hỗn hợp cơ bản</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b5"><label for="c4b5">Tôi đã đo R_eq thực tế và xác nhận công thức</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week1/day04.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 4: LED & Điện trở hạn dòng</div></div></a>
+        <a href="../week1/day06.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 6: Cầu chia áp, KVL & KCL</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day05.html');</script>
+</body>
+</html>

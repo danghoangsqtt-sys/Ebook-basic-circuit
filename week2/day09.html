@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 9: Mạch RC — Nạp & Xả Tụ — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 9: Mạch RC — hằng số thời gian τ, đường cong nạp/xả, ứng dụng timer và lọc nhiễu thực tế.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 2</span><span class="tag tag-day">Ngày 9</span><span class="tag tag-difficulty-beginner">Cơ bản</span></div>
+        <h1 class="lesson-title">Mạch RC — Nạp & Xả Tụ Điện</h1>
+        <p class="lesson-subtitle">Hằng số thời gian τ, đường cong nạp/xả và ứng dụng thực tế: debounce, delay, lọc tín hiệu.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~40 phút</span><span class="lesson-stat">🔬 Thực hành: 35 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu mạch RC là gì và cách dòng/áp thay đổi theo thời gian</li>
+          <li>Tính hằng số thời gian τ (tau) = R × C</li>
+          <li>Đọc và hiểu đường cong nạp/xả tụ hàm mũ</li>
+          <li>Tính điện áp tụ tại thời điểm bất kỳ: V(t) = V_f × (1 – e^(–t/τ))</li>
+          <li>Biết quy tắc 5τ: sau 5τ coi như nạp/xả hoàn toàn</li>
+          <li>Quan sát nạp/xả tụ thực tế bằng multimeter</li>
+          <li>Ứng dụng RC: bộ lọc thông thấp (Low-Pass Filter) cơ bản</li>
+          <li>Hiểu tần số cắt (cutoff frequency) của RC filter</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>Điện trở 100 kΩ</td><td>¼W</td><td>1</td></tr>
+            <tr><td>Điện trở 10 kΩ</td><td>¼W</td><td>2</td></tr>
+            <tr><td>Tụ hóa 100µF/25V</td><td>Electrolytic, phân cực</td><td>1</td></tr>
+            <tr><td>Tụ gốm 100nF</td><td>Ceramic "104"</td><td>2</td></tr>
+            <tr><td>Nguồn 5V + công tắc hoặc dây jumper để đóng/ngắt</td><td>—</td><td>1 bộ</td></tr>
+            <tr><td>Breadboard</td><td>—</td><td>1</td></tr>
+            <tr><td>Multimeter</td><td>DCV</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 -->
+      <h2>1. Mạch RC — Tại sao tụ không nạp tức thì?</h2>
+
+      <p>Khi đặt điện áp vào tụ điện qua một điện trở, tụ không nạp điện ngay lập tức đến điện áp nguồn. Thay vào đó, điện áp trên tụ tăng dần theo dạng hàm mũ. Lý do: ban đầu tụ chưa có điện tích nên dòng nạp lớn, nhưng khi tụ dần tích điện, điện áp ngược của tụ làm giảm dòng nạp → quá trình chậm lại.</p>
+
+      <div class="circuit-ascii">  Mạch RC nạp tụ:
+
+   S đóng        R = 100kΩ
+   ┌────────────[R]────┬────┐
+   │                   │    │
+  [V=5V]               │   [C=100µF]
+   │                   │    │
+   └───────────────────┴────┘ GND
+
+  Khi S đóng (t=0): V_C = 0V, dòng = V/R = 5/100k = 50 µA (lớn nhất)
+  Sau đó: V_C tăng dần → dòng giảm → V_C tiếp tục tăng nhưng chậm lại...
+  Cuối cùng: V_C ≈ V_supply, dòng ≈ 0 (tụ nạp đầy)</div>
+
+      <h2>2. Hằng số thời gian τ (Tau)</h2>
+
+      <p>Hằng số thời gian τ (đọc là "tau") là thước đo tốc độ nạp/xả của mạch RC. Nó cho biết sau bao lâu tụ nạp được ~63,2% điện áp cuối cùng.</p>
+
+      <div class="formula-block">
+        <div class="formula-main">τ = R × C</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">τ</span> = Hằng số thời gian (giây, s)</span>
+          <span class="formula-var"><span class="var-name">R</span> = Điện trở (Ω)</span>
+          <span class="formula-var"><span class="var-name">C</span> = Điện dung (Farad, F)</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ tính toán 1 — Tính τ</h4>
+      <p>R = 100 kΩ = 100,000 Ω; C = 100 µF = 0,0001 F<br>
+      τ = 100,000 × 0,0001 = <strong>10 giây</strong></p>
+      <p>→ Sau 10 giây, tụ nạp được 63,2% của 5V = 3,16V. Bạn có thể đo và xác nhận điều này!</p>
+
+      <h3>2.1 Quy tắc 5τ — Khi nào coi tụ đã nạp/xả xong?</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Thời gian</th><th>% điện áp nạp</th><th>V_C (từ 0V → 5V)</th><th>Trạng thái</th></tr></thead>
+          <tbody>
+            <tr><td>t = 0</td><td>0%</td><td>0V</td><td>Bắt đầu nạp</td></tr>
+            <tr><td>t = 1τ</td><td>63,2%</td><td>3,16V</td><td>Nạp 63%</td></tr>
+            <tr><td>t = 2τ</td><td>86,5%</td><td>4,33V</td><td>—</td></tr>
+            <tr><td>t = 3τ</td><td>95,0%</td><td>4,75V</td><td>Thực tế coi là "xong" trong nhiều ứng dụng</td></tr>
+            <tr><td>t = 4τ</td><td>98,2%</td><td>4,91V</td><td>—</td></tr>
+            <tr><td>t = 5τ</td><td>99,3%</td><td>4,97V</td><td><strong>Coi là nạp hoàn toàn (≈100%)</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="formula-block">
+        <div class="formula-main">V_C(t) = V_final × (1 – e^(–t/τ)) &nbsp;[Nạp tụ]</div>
+        <div class="formula-main" style="margin-top:8px;">V_C(t) = V_0 × e^(–t/τ) &nbsp;[Xả tụ]</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">V_final</span> = Điện áp cuối (điện áp nguồn khi nạp)</span>
+          <span class="formula-var"><span class="var-name">V_0</span> = Điện áp ban đầu (khi bắt đầu xả)</span>
+          <span class="formula-var"><span class="var-name">e</span> ≈ 2,718 (số Euler)</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ tính toán 2 — Điện áp tụ sau 15 giây</h4>
+      <p>τ = 10s, V_final = 5V, t = 15s (= 1,5τ)<br>
+      V_C = 5 × (1 – e^(–15/10)) = 5 × (1 – e^(–1,5)) = 5 × (1 – 0,223) = 5 × 0,777 = <strong>3,88V</strong></p>
+
+      <!-- PHẦN 3 — RC FILTER -->
+      <h2>3. RC Low-Pass Filter — Lọc thông thấp</h2>
+
+      <p>Khi đặt tín hiệu AC vào mạch RC và lấy điện áp đầu ra tại tụ C (thay vì R), ta được một bộ lọc thông thấp (<em>Low-Pass Filter</em>). Tín hiệu tần số thấp "qua được" (V_out ≈ V_in), nhưng tín hiệu tần số cao bị suy giảm (tụ ngắn mạch tần số cao → V_out nhỏ).</p>
+
+      <div class="formula-block">
+        <div class="formula-main">f_c = 1 / (2π × R × C)</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">f_c</span> = Tần số cắt (Hz) — tần số mà V_out suy giảm còn 70,7% V_in (–3dB)</span>
+          <span class="formula-var">Tín hiệu có f &lt; f_c: đi qua gần như nguyên vẹn</span>
+          <span class="formula-var">Tín hiệu có f >> f_c: bị suy giảm mạnh</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ tính toán 3 — Tần số cắt của RC filter</h4>
+      <p>R = 10 kΩ, C = 100 nF:<br>
+      f_c = 1 / (2π × 10000 × 0,0000001) = 1 / (2π × 0,001) = 1 / 0,00628 = <strong>159 Hz</strong></p>
+      <p>→ Filter này cho phép âm thanh tần số thấp &lt; 159 Hz đi qua (bass), lọc bỏ tần số cao.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> Ứng dụng RC filter trong thực tế</div>
+        <ul>
+          <li><strong>Debounce phím nhấn:</strong> R=10kΩ, C=100nF → f_c=159Hz → lọc nhiễu bounce tần số kHz</li>
+          <li><strong>Lọc nhiễu nguồn ADC:</strong> R=1kΩ, C=100nF → f_c=1,6kHz → lọc nhiễu 50Hz harmonics</li>
+          <li><strong>Lọc âm thanh:</strong> R=10kΩ, C=1µF → f_c=15,9Hz → chỉ cho bass qua</li>
+          <li><strong>Delay timer:</strong> R=100kΩ, C=100µF → τ=10s → delay bật đèn</li>
+        </ul>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">Mạch RC — Nạp và xả tụ</span></div>
+        <div class="video-body">
+          <div class="video-title">RC Circuits — Charging and Discharging</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: Khan Academy / The Engineering Mindset</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~10 phút</span>
+          </div>
+          <div class="video-purpose">Giải thích đường cong nạp/xả tụ, hằng số thời gian τ với animation và số liệu cụ thể. Xem sau khi học công thức.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=1LxoEJfHfio" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>4. Thực hành: Quan sát nạp/xả tụ bằng multimeter</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Đo điện áp tụ theo thời gian thực</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Lắp mạch: 5V → R(100kΩ) → C(100µF) → GND. Đặt multimeter ở chế độ DCV đo hai đầu tụ.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Dùng dây jumper làm công tắc: cắm để đóng mạch (t=0). Bắt đầu bấm giờ trên điện thoại.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Ghi điện áp tụ (V_C) tại t = 0, 5, 10, 15, 20, 30, 50 giây. Kỳ vọng τ = 10s.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Sau khi tụ nạp đầy (~50s), ngắt nguồn và nối tụ qua R (100kΩ). Quan sát tụ xả dần về 0V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>So sánh V_C đo được tại t=10s với lý thuyết: V(τ) = 5 × 63,2% = 3,16V.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th>Thời gian (s)</th><th>V_C lý thuyết (V)</th><th>V_C đo được (V)</th><th>Sai lệch (%)</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td>0</td><td>_____</td><td>—</td></tr>
+            <tr><td>5</td><td>1,97</td><td>_____</td><td>_____</td></tr>
+            <tr><td>10 (=1τ)</td><td>3,16</td><td>_____</td><td>_____</td></tr>
+            <tr><td>20 (=2τ)</td><td>4,32</td><td>_____</td><td>_____</td></tr>
+            <tr><td>30 (=3τ)</td><td>4,75</td><td>_____</td><td>_____</td></tr>
+            <tr><td>50 (=5τ)</td><td>4,97</td><td>_____</td><td>_____</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 9</div>
+        <div class="exercise-part">
+          <div class="exercise-part-title">Tính toán mạch RC (5 câu)</div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">R=47kΩ, C=10µF. Tính τ và thời gian cần để tụ nạp đầy (5τ) từ 0 lên 5V.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Sau 2τ nạp, V_C bằng bao nhiêu % điện áp nguồn? Tính V_C cụ thể nếu V_supply=3,3V.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Thiết kế RC filter lọc nhiễu 50Hz (f_c = 50Hz). Chọn C=1µF, tính R.</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Tụ 10µF đang tích điện 5V, xả qua R=10kΩ. V_C sau 100ms bằng bao nhiêu?</div></div>
+          <div class="exercise-item"><span class="exercise-num">5</span><div class="exercise-text">Bạn cần delay 3 giây trong mạch timer dùng tụ hóa 100µF. R cần dùng là bao nhiêu? (Delay ≈ 5τ)</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> τ = 47000 × 0.00001 = 0,47s. Nạp đầy: 5τ = <strong>2,35 giây</strong></p>
+            <p><strong>2:</strong> t=2τ → V = V_f × (1–e^−2) = V_f × 0,865 = <strong>86,5%</strong>. Với 3,3V: V_C = 3,3 × 0,865 = <strong>2,855V</strong></p>
+            <p><strong>3:</strong> R = 1/(2π × f_c × C) = 1/(2π × 50 × 0,000001) = 1/0,000314 = <strong>3,183 Ω ≈ 3,3 kΩ</strong> (chọn 3,3kΩ E24)</p>
+            <p><strong>4:</strong> τ = 10000 × 0,00001 = 0,1s = 100ms. t=100ms = 1τ. V_C = 5 × e^(−1) = 5 × 0,368 = <strong>1,84V</strong></p>
+            <p><strong>5:</strong> 5τ = 3s → τ = 0,6s. R = τ/C = 0,6/0,0001 = <strong>6000Ω = 6kΩ</strong>. Chọn R=5,6kΩ hoặc 6,8kΩ (E24).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 9</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b9"><label for="c1b9">Tôi tính được τ = R × C cho bất kỳ mạch RC nào</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b9"><label for="c2b9">Tôi hiểu đường cong nạp hàm mũ: 1τ=63%, 5τ=~100%</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b9"><label for="c3b9">Tôi tính được V_C tại thời điểm bất kỳ</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b9"><label for="c4b9">Tôi tính được f_c của RC filter</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c5b9"><label for="c5b9">Tôi đã quan sát nạp/xả tụ thực tế và ghi bảng số liệu</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week2/day08.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 8: Tụ điện & Điện dung</div></div></a>
+        <a href="../week2/day10.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 10: Cuộn cảm & Mạch RL</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day09.html');</script>
+</body>
+</html>

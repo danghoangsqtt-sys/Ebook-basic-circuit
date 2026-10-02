@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 42: Ôn Tập Tuần 6 & Capstone Project Robot Tránh Vật Cản — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 42: Ôn tập Tuần 6 và dự án lớn Robot Tránh Vật Cản tích hợp HC-SR04, L298N, LiPo, WiFi điều khiển từ xa.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 6</span><span class="tag tag-day">Ngày 42</span><span class="tag tag-difficulty-advanced">Capstone</span></div>
+        <h1 class="lesson-title">Ôn Tập Tuần 6 & Capstone: Robot WiFi Tránh Vật Cản</h1>
+        <p class="lesson-subtitle">Tổng hợp tất cả kiến thức Tuần 6: RTC, WiFi, H-Bridge, HC-SR04, LiPo — xây dựng robot hoàn chỉnh điều khiển qua điện thoại.</p>
+        <div class="lesson-stats">
+          <span class="lesson-stat">⏱ Ôn tập: ~20 phút</span>
+          <span class="lesson-stat">🔧 Capstone Project: 3–5 giờ</span>
+        </div>
+      </div>
+
+      <h2>1. Ôn tập nhanh Tuần 6</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Câu hỏi</th><th>Đáp án</th></tr></thead>
+          <tbody>
+            <tr><td>DS3231 ưu điểm so với DS1307?</td><td>TCXO bù nhiệt → ±2ppm (DS3231) vs ±20ppm (DS1307)</td></tr>
+            <tr><td>ESP32 Web Server endpoint JSON API?</td><td>server.on("/api", handler); server.send(200,"application/json", jsonString);</td></tr>
+            <tr><td>NEMA 17: 1/8 microstepping, quay 45°. Số microstep?</td><td>200×8 × (45/360) = 200 microsteps</td></tr>
+            <tr><td>L298N vs TB6612FNG — cái nào hiệu suất cao hơn?</td><td>TB6612FNG (MOSFET, V_drop &lt;0,5V vs L298N 2V)</td></tr>
+            <tr><td>HC-SR04: ECHO=870µs → khoảng cách = ?</td><td>870/58 = 15cm</td></tr>
+            <tr><td>Pin LiPo 3,7V được coi là "đầy" ở điện áp nào?</td><td>4,20V ± 0,05V (BMS cắt sạc tại đây)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CAPSTONE PROJECT -->
+      <h2>2. Capstone Project Tuần 6: Robot WiFi Tránh Vật Cản</h2>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">🤖</span> Thông số kỹ thuật Capstone</div>
+        <ul>
+          <li><strong>Vi điều khiển:</strong> ESP32 (WiFi + ADC + nhiều GPIO)</li>
+          <li><strong>Motor:</strong> 2× DC geared motor + L298N hoặc TB6612FNG</li>
+          <li><strong>Cảm biến:</strong> HC-SR04 siêu âm + PIR phát hiện người (tùy chọn)</li>
+          <li><strong>Servo:</strong> SG90 quét HC-SR04 trái/phải</li>
+          <li><strong>Nguồn:</strong> LiPo 3,7V 2000mAh + TP4056 BMS + Boost 5V</li>
+          <li><strong>Điều khiển:</strong> Web server WiFi → điều khiển từ điện thoại (tiến/lùi/rẽ/stop)</li>
+          <li><strong>Tính năng tự động:</strong> khi nhận lệnh "AUTO" → tự tránh vật cản</li>
+          <li><strong>Monitor:</strong> OLED 128×64 hiển thị trạng thái, khoảng cách, % pin</li>
+        </ul>
+      </div>
+
+      <h3>2.1 Kiến trúc hệ thống</h3>
+
+      <div class="circuit-ascii">  Sơ đồ hệ thống Robot WiFi:
+
+  ┌─────────────────────────────────────────┐
+  │              ESP32                      │
+  │  GPIO: IN1,IN2,IN3,IN4 → L298N         │
+  │  GPIO: ENA,ENB (PWM) → L298N           │
+  │  GPIO: TRIG,ECHO → HC-SR04             │
+  │  GPIO: SERVO_PIN → SG90 servo          │
+  │  I2C: SDA,SCL → SSD1306 OLED           │
+  │  ADC34: V_bat monitor                  │
+  │  WiFi: Web Server port 80              │
+  └─────────────────────────────────────────┘
+       │ 5V (từ Boost)          │ 12V (Motor Power)
+  LiPo→TP4056→Boost5V        LiPo→2S hoặc 7,4V pack</div>
+
+      <h3>2.2 Chức năng Web Interface</h3>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// Web interface đơn giản — điều khiển robot từ điện thoại
+// Truy cập http://&lt;IP_ESP32&gt; trên cùng mạng WiFi
+
+// Endpoints API:
+// /ctrl?cmd=F     → forward
+// /ctrl?cmd=B     → backward
+// /ctrl?cmd=L     → turn left
+// /ctrl?cmd=R     → turn right
+// /ctrl?cmd=S     → stop
+// /ctrl?cmd=AUTO  → chế độ tự động tránh vật cản
+// /status         → JSON: {dist, battery, mode, speed}
+
+void handleCtrl() {
+  String cmd = server.arg("cmd");
+  if      (cmd=="F")    { setMode(MANUAL); forward(speed); }
+  else if (cmd=="B")    { setMode(MANUAL); backward(speed); }
+  else if (cmd=="L")    { setMode(MANUAL); turnLeft(speed); }
+  else if (cmd=="R")    { setMode(MANUAL); turnRight(speed); }
+  else if (cmd=="S")    { setMode(MANUAL); stopMotors(); }
+  else if (cmd=="AUTO") { setMode(AUTO); }
+  server.send(200, "application/json", "{\"ok\":true}");
+}</pre>
+      </div>
+
+      <h2>3. Tổng kết Tuần 6</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Bài</th><th>Kỹ năng đạt được</th></tr></thead>
+          <tbody>
+            <tr><td>36</td><td>DS3231 RTC I2C — đồng hồ thực chính xác, alarm</td></tr>
+            <tr><td>37</td><td>ESP32 WiFi — Web Server, JSON API, MQTT</td></tr>
+            <tr><td>38</td><td>Stepper A4988, Servo SG90 — điều khiển góc chính xác</td></tr>
+            <tr><td>39</td><td>H-Bridge L298N — motor 2 chiều, PWM tốc độ</td></tr>
+            <tr><td>40</td><td>HC-SR04 siêu âm — đo khoảng cách, lọc nhiễu</td></tr>
+            <tr><td>41</td><td>LiPo + BMS + TP4056 — nguồn pin an toàn</td></tr>
+            <tr><td>42</td><td>Capstone — Robot WiFi tích hợp toàn bộ kiến thức Tuần 6</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">🎓</span> Chuẩn bị Tuần 7 & 8 — Đồ Án Tốt Nghiệp</div>
+        <p>Tuần 7–8 là phần đỉnh cao của khóa học: thiết kế <strong>đồ án hoàn chỉnh từ đầu đến cuối</strong> — bao gồm lên ý tưởng, thiết kế mạch, viết firmware, thiết kế PCB, hàn và test. Hãy bắt đầu suy nghĩ về dự án cuối khóa ngay từ bây giờ: trạm thời tiết IoT, robot tự hành, máy đo điện tim, hay bộ điều khiển tưới cây tự động?</p>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Tuần 6 hoàn thành</div>
+        <div class="checklist-item"><input type="checkbox" id="wk6c1"><label for="wk6c1">Tôi kết nối và đọc thành công DS3231 I2C</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk6c2"><label for="wk6c2">ESP32 tạo Web Server và điều khiển GPIO từ điện thoại</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk6c3"><label for="wk6c3">Tôi điều khiển stepper và servo chính xác</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk6c4"><label for="wk6c4">Robot 2 bánh L298N + HC-SR04 hoạt động tránh vật cản</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk6c5"><label for="wk6c5">Nguồn LiPo+BMS+TP4056 hoạt động an toàn</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk6c6"><label for="wk6c6">Tôi đã xác định ý tưởng cho Đồ Án Tốt Nghiệp</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week6/day41.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 41: Pin LiPo & BMS</div></div></a>
+        <a href="../week7/day43.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Tuần 7, Bài 43 →</div><div class="nav-title">Bài 43: Đồ Án — Lên Ý Tưởng & Thiết Kế Hệ Thống</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day42.html');</script>
+</body>
+</html>

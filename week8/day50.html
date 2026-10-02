@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 50: Demo Đồ Án & Tổng Kết Giai Đoạn — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 50: Demo đồ án cuối khóa, đánh giá sản phẩm và chuẩn bị portfolio kỹ sư điện tử.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 8</span><span class="tag tag-day">Ngày 50</span><span class="tag tag-difficulty-advanced">Demo & Tổng kết</span></div>
+        <h1 class="lesson-title">Demo Đồ Án & Tổng Kết Giai Đoạn</h1>
+        <p class="lesson-subtitle">Trình bày sản phẩm — từ vấn đề đến giải pháp — và đánh giá toàn diện hành trình 7 tuần vừa qua.</p>
+        <div class="lesson-stats"><span class="lesson-stat">🎬 Demo: 30 phút</span><span class="lesson-stat">📋 Review & Retrospective: 60 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Demo đồ án hoàn chỉnh — live demonstration trước người khác</li>
+          <li>Trình bày quy trình thiết kế: SRS → Schematic → Firmware → PCB → Test</li>
+          <li>Nhìn lại những thách thức gặp phải và cách giải quyết</li>
+          <li>Đánh giá khách quan: đạt được gì, chưa đạt được gì</li>
+          <li>Chuẩn bị portfolio: GitHub, ảnh sản phẩm, video demo</li>
+          <li>Lên kế hoạch học tiếp: STM32, FreeRTOS, Embedded Linux</li>
+        </ul>
+      </div>
+
+      <h2>1. Bảng đánh giá đồ án toàn diện</h2>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th>Tiêu chí</th><th>Trọng số</th><th>Điểm tối đa</th><th>Tự đánh giá</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td>Chức năng hoạt động đúng yêu cầu SRS</td><td>30%</td><td>30</td><td>_____</td><td>Bao nhiêu FR pass?</td></tr>
+            <tr><td>Thiết kế phần cứng (schematic, PCB)</td><td>20%</td><td>20</td><td>_____</td><td>DRC pass, layout chuẩn?</td></tr>
+            <tr><td>Chất lượng firmware (cấu trúc, debug)</td><td>20%</td><td>20</td><td>_____</td><td>State machine, no blocking?</td></tr>
+            <tr><td>Tài liệu (README, Doxygen, GitHub)</td><td>15%</td><td>15</td><td>_____</td><td>Người khác có hiểu không?</td></tr>
+            <tr><td>Khả năng trình bày và giải thích</td><td>15%</td><td>15</td><td>_____</td><td>Demo rõ ràng, giải thích được hỏi</td></tr>
+            <tr><td><strong>Tổng</strong></td><td>100%</td><td>100</td><td>_____</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>2. Retrospective — Nhìn lại hành trình 7 tuần</h2>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">🔄</span> 4 câu hỏi Retrospective</div>
+        <ol>
+          <li><strong>Went well (Điều gì diễn ra tốt)?</strong> Kỹ năng nào bạn cảm thấy tự tin nhất sau khóa học?</li>
+          <li><strong>Went wrong (Điều gì khó khăn)?</strong> Bài nào/giai đoạn nào mất nhiều thời gian nhất?</li>
+          <li><strong>Learned (Bài học rút ra)?</strong> Nếu làm lại từ đầu, bạn sẽ làm khác gì?</li>
+          <li><strong>Next action (Bước tiếp theo)?</strong> Kỹ năng nào sẽ học tiếp? Dự án nào sẽ làm?</li>
+        </ol>
+      </div>
+
+      <h2>3. Portfolio — Xây dựng hồ sơ kỹ sư</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Hạng mục</th><th>Làm ngay</th><th>Mục tiêu</th></tr></thead>
+          <tbody>
+            <tr><td>GitHub Profile</td><td>Tạo profile README.md, upload đồ án</td><td>3–5 repo public trong 1 tháng</td></tr>
+            <tr><td>Video demo</td><td>Quay video 2–3 phút giới thiệu sản phẩm</td><td>YouTube hoặc LinkedIn post</td></tr>
+            <tr><td>Ảnh sản phẩm</td><td>Chụp ảnh PCB, demo hoạt động</td><td>GitHub, portfolio website</td></tr>
+            <tr><td>Portfolio website</td><td>GitHub Pages hoặc Notion</td><td>Showcase 3+ dự án</td></tr>
+            <tr><td>Hackathon</td><td>Đăng ký hackathon điện tử/IoT</td><td>Tham gia ít nhất 1 hackathon trong 3 tháng</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-divider"><span class="section-divider-label">Checklist</span></div>
+      <div class="checklist">
+        <div class="checklist-title">✅ Bài 50 — Sau buổi Demo</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b50"><label for="c1b50">Demo thành công — sản phẩm hoạt động trước người xem</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b50"><label for="c2b50">Đã tự đánh giá điểm theo bảng tiêu chí</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b50"><label for="c3b50">Video demo đã quay và upload</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b50"><label for="c4b50">GitHub repository đầy đủ code, doc, ảnh</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week7/day49.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Tuần 7</div><div class="nav-title">Bài 49: Chuẩn Bị Demo</div></div></a>
+        <a href="../week8/day51.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 51: PID Control — Điều Khiển Vòng Kín</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day50.html');</script>
+</body>
+</html>

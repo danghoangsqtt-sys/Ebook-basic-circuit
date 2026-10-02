@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 43: Đồ Án — Lên Ý Tưởng & Thiết Kế Hệ Thống — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 43: Quy trình lên ý tưởng đồ án, viết SRS, vẽ sơ đồ khối hệ thống, chọn linh kiện và lên kế hoạch thực hiện.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 7</span><span class="tag tag-day">Ngày 43</span><span class="tag tag-difficulty-advanced">Đồ án</span></div>
+        <h1 class="lesson-title">Đồ Án — Lên Ý Tưởng & Thiết Kế Hệ Thống</h1>
+        <p class="lesson-subtitle">Quy trình kỹ thuật từ ý tưởng đến bản thiết kế — SRS, sơ đồ khối, chọn linh kiện và kế hoạch thực hiện trong 2 tuần.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Học + Thực hành: 90 phút</span><span class="lesson-stat">📝 Đầu ra: Bản thiết kế đồ án</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Áp dụng quy trình Systems Engineering vào dự án nhúng</li>
+          <li>Viết SRS (Software/System Requirements Specification) cơ bản</li>
+          <li>Vẽ Block Diagram — sơ đồ khối hệ thống rõ ràng</li>
+          <li>Lập danh sách BOM (Bill of Materials) với giá ước tính</li>
+          <li>Xác định risk và phương án dự phòng</li>
+          <li>Lên timeline thực hiện 2 tuần (Tuần 7–8)</li>
+          <li>4 template đồ án gợi ý: Trạm thời tiết, Tưới cây tự động, Robot dò line, Máy đo ECG giả lập</li>
+        </ul>
+      </div>
+
+      <h2>1. Quy trình thiết kế hệ thống nhúng</h2>
+
+      <div class="circuit-ascii">  Vòng đời thiết kế hệ thống nhúng (V-Model):
+
+  Yêu cầu hệ thống → Kiến trúc → Thiết kế chi tiết → Hiện thực
+  (SRS)               (Block dia)  (Schematic+Code)   (Build)
+       ↓                   ↓             ↓                ↓
+  Test hệ thống ← Integration test ← Unit test ← Đơn vị test
+
+  Với đồ án 2 tuần:
+  Ngày 43–44: Lên ý tưởng, SRS, Block Diagram, BOM
+  Ngày 45–46: Schematic + Firmware khung (skeleton)
+  Ngày 47–48: Firmware hoàn thiện + Test từng module
+  Ngày 49:    Integration test + PCB (tùy chọn)
+  Ngày 50–53: PCB layout + Fabrication (nếu có)
+  Ngày 54–55: Final assembly + System test
+  Ngày 56:    Demo + Báo cáo tổng kết</div>
+
+      <h2>2. SRS — Software Requirements Specification cơ bản</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">📝</span> Template SRS cho đồ án nhúng</div>
+        <div style="background:var(--clr-bg-elevated);padding:var(--space-4);border-radius:var(--radius-md);font-size:var(--text-sm);">
+          <p><strong>1. Mô tả hệ thống:</strong> [Tên dự án]. [1 câu mô tả ngắn gọn].</p>
+          <p><strong>2. Yêu cầu chức năng (Functional Requirements):</strong><br>
+          FR1: Hệ thống phải [chức năng 1].<br>
+          FR2: Hệ thống phải [chức năng 2].<br>
+          ...</p>
+          <p><strong>3. Yêu cầu phi chức năng (Non-Functional):</strong><br>
+          NFR1: Thời gian phản hồi ≤ [N ms].<br>
+          NFR2: Độ chính xác đo ≤ ±[X %].<br>
+          NFR3: Thời gian pin ≥ [N giờ].</p>
+          <p><strong>4. Ràng buộc:</strong> Ngân sách ≤ [N VNĐ]. Không dùng linh kiện [X]. Phải tương thích [Y].</p>
+          <p><strong>5. Giao diện người dùng:</strong> [Mô tả UI — nút nhấn, màn hình, app]</p>
+        </div>
+      </div>
+
+      <h2>3. Bốn đồ án gợi ý — Block Diagram mẫu</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Tên đồ án</th><th>Linh kiện chính</th><th>Độ phức tạp</th></tr></thead>
+          <tbody>
+            <tr><td>A</td><td><strong>Trạm Thời Tiết IoT</strong><br>Đo nhiệt/ẩm/áp suất, hiển thị OLED, upload Adafruit IO, cảnh báo Telegram</td><td>ESP32, BME280, SSD1306 OLED</td><td>⭐⭐⭐</td></tr>
+            <tr><td>B</td><td><strong>Hệ Thống Tưới Cây Tự Động</strong><br>Đo độ ẩm đất, tưới theo lịch hoặc ngưỡng, log dữ liệu SD, điều khiển từ xa WiFi</td><td>ESP32, Soil moisture, relay, RTC DS3231, SD</td><td>⭐⭐⭐⭐</td></tr>
+            <tr><td>C</td><td><strong>Robot Dò Line Tự Hành</strong><br>Cảm biến IR 5 kênh, điều khiển PID, tốc độ tự điều chỉnh theo độ cong</td><td>Arduino/ESP32, IR array, L298N, encoder</td><td>⭐⭐⭐⭐</td></tr>
+            <tr><td>D</td><td><strong>Máy Đo Sức Khỏe Mini</strong><br>Đo nhịp tim MAX30102, SpO2, nhiệt độ cơ thể, hiển thị OLED + BLE gửi điện thoại</td><td>ESP32, MAX30102, MLX90614, OLED</td><td>⭐⭐⭐⭐⭐</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- THỰC HÀNH: VIẾT SRS -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 43 — Thực hành thiết kế</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Chọn 1 trong 4 đồ án (hoặc đề xuất đồ án của riêng bạn). Viết SRS đầy đủ theo template: FR, NFR, ràng buộc.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Vẽ Block Diagram hệ thống: liệt kê tất cả khối chức năng và giao tiếp giữa chúng (I2C, SPI, UART, GPIO, WiFi).</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Lập BOM (Bill of Materials): tên linh kiện, số lượng, giá ước tính (tra Shopee/Lazada). Tổng ngân sách bao nhiêu?</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án mẫu (Đồ án A: Trạm Thời Tiết)</button>
+          <div class="answer-content">
+            <p><strong>SRS mẫu — Trạm Thời Tiết IoT:</strong><br>
+            FR1: Đo nhiệt độ, độ ẩm, áp suất không khí mỗi 5 giây.<br>
+            FR2: Hiển thị dữ liệu real-time trên OLED 128×64.<br>
+            FR3: Upload dữ liệu lên Adafruit IO mỗi 60 giây.<br>
+            FR4: Gửi cảnh báo Telegram khi nhiệt độ &gt;35°C hoặc &lt;10°C.<br>
+            NFR1: Độ chính xác nhiệt độ ±0,5°C, độ ẩm ±2%RH.<br>
+            NFR2: Thời gian pin ≥ 24 giờ với LiPo 2000mAh.<br>
+            Ràng buộc: Ngân sách ≤ 500k VNĐ.</p>
+            <p><strong>BOM ước tính:</strong> ESP32: 80k, BME280: 40k, OLED: 35k, TP4056+BMS: 15k, LiPo 2000mAh: 60k, Boost 5V: 15k, Housing/PCB: 50k. Tổng: ~295k VNĐ.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 43</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b43"><label for="c1b43">Tôi đã chọn đề tài đồ án và viết SRS</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b43"><label for="c2b43">Tôi đã vẽ Block Diagram đầy đủ</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b43"><label for="c3b43">Tôi đã lập BOM với giá ước tính</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b43"><label for="c4b43">Tôi có timeline thực hiện rõ ràng cho 2 tuần còn lại</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week6/day42.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Tuần 6</div><div class="nav-title">Bài 42: Capstone Tuần 6</div></div></a>
+        <a href="../week7/day44.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 44: Đồ Án — Schematic & Firmware Khung</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day43.html');</script>
+</body>
+</html>

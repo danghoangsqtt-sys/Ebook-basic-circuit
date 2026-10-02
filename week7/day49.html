@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 49: Ôn Tập Tuần 7 & Chuẩn Bị Demo — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 49: Ôn tập Tuần 7 đồ án, chuẩn bị demo presentation, checklist hoàn thiện sản phẩm trước Tuần 8 tổng kết.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x class="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 7</span><span class="tag tag-day">Ngày 49</span><span class="tag tag-difficulty-advanced">Ôn tập + Chuẩn bị</span></div>
+        <h1 class="lesson-title">Ôn Tập Tuần 7 & Chuẩn Bị Demo</h1>
+        <p class="lesson-subtitle">Điểm lại tiến độ đồ án, hoàn thiện sản phẩm và chuẩn bị kịch bản trình bày demo cho Tuần 8.</p>
+        <div class="lesson-stats">
+          <span class="lesson-stat">⏱ Ôn tập: ~20 phút</span>
+          <span class="lesson-stat">🎬 Chuẩn bị Demo: 60 phút</span>
+        </div>
+      </div>
+
+      <h2>1. Ôn tập — Tiến độ Tuần 7</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Bài</th><th>Milestone</th><th>Đã hoàn thành?</th></tr></thead>
+          <tbody>
+            <tr><td>43</td><td>SRS + Block Diagram + BOM</td><td>☐ Xong / ☐ Cần hoàn thiện</td></tr>
+            <tr><td>44</td><td>Schematic KiCad + Firmware Skeleton</td><td>☐ Xong / ☐ Cần hoàn thiện</td></tr>
+            <tr><td>45</td><td>Firmware đầy đủ + Unit test từng module</td><td>☐ Xong / ☐ Cần hoàn thiện</td></tr>
+            <tr><td>46</td><td>PCB Layout + Assembly + Power-on test</td><td>☐ Xong / ☐ Cần hoàn thiện</td></tr>
+            <tr><td>47</td><td>Integration test pass + Calibration</td><td>☐ Xong / ☐ Cần hoàn thiện</td></tr>
+            <tr><td>48</td><td>README + Doxygen + GitHub</td><td>☐ Xong / ☐ Cần hoàn thiện</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>2. Demo Preparation — Kịch bản trình bày 10 phút</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🎬</span> Kịch bản demo chuẩn (10 phút)</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p><strong>1 phút — Problem Statement:</strong> Vấn đề bạn đang giải quyết. "Nhà tôi không có cách theo dõi nhiệt độ từ xa..."</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>2 phút — Giới thiệu sản phẩm:</strong> Chức năng chính, block diagram trên slide. Chỉ vào linh kiện thực trên PCB.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>4 phút — Live Demo:</strong> Cấp nguồn → boot OLED → chạy chức năng chính → thay đổi điều kiện môi trường → xem phản ứng.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>2 phút — Kết quả & Test:</strong> Bảng test plan P/F. "Đạt 4/5 yêu cầu, chức năng X còn thiếu vì..."</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>1 phút — Future Work:</strong> Những gì muốn cải thiện nếu có thêm thời gian.</p></div></li>
+        </ol>
+      </div>
+
+      <h2>3. Pre-Demo Checklist — 24h trước demo</h2>
+
+      <div class="checklist">
+        <div class="checklist-title">📋 Pre-Demo Checklist</div>
+        <div class="checklist-item"><input type="checkbox" id="pd1"><label for="pd1">Firmware v1.0 đã build thành công và nạp vào thiết bị</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd2"><label for="pd2">Pin đã được sạc đầy</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd3"><label for="pd3">WiFi SSID/password đúng cho location demo</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd4"><label for="pd4">Thiết bị khởi động thành công 3 lần liên tiếp không lỗi</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd5"><label for="pd5">Slide/README sẵn sàng, có ảnh chụp sản phẩm</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd6"><label for="pd6">GitHub repository public, code đã commit</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd7"><label for="pd7">Backup plan: nếu WiFi không có — chức năng gì vẫn demo được offline?</label></div>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">🚀</span> Chuẩn bị Tuần 8 — Tổng Kết & Bước Tiếp Theo</div>
+        <p>Tuần 8 là tuần cuối khóa học. Nội dung: demo đồ án hoàn chỉnh, tổng kết toàn bộ kiến thức 56 bài, hướng dẫn con đường học tiếp (STM32, RTOS, Machine Learning on Edge, Rust Embedded) và cách xây dựng portfolio kỹ sư phần cứng/nhúng. Hãy chuẩn bị tinh thần và sản phẩm tốt nhất có thể!</p>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week7/day48.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 48: Viết Tài Liệu Kỹ Thuật</div></div></a>
+        <a href="../week8/day50.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Tuần 8, Bài 50 →</div><div class="nav-title">Bài 50: Demo Đồ Án & Tổng Kết Toàn Khóa</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day49.html');</script>
+</body>
+</html>

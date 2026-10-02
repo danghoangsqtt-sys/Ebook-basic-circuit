@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 18: MOSFET — NMOS & PMOS — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 18: MOSFET — cấu tạo, điện áp ngưỡng V_GS(th), NMOS switch, so sánh với BJT, ứng dụng điều khiển tải lớn.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 3</span><span class="tag tag-day">Ngày 18</span><span class="tag tag-difficulty-intermediate">MOSFET</span></div>
+        <h1 class="lesson-title">MOSFET — NMOS & PMOS</h1>
+        <p class="lesson-subtitle">Transistor điều khiển bằng điện áp — dòng tải lớn, công suất nhỏ điều khiển, ứng dụng PWM motor và nguồn switching.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~50 phút</span><span class="lesson-stat">🔬 Thực hành: 40 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu MOSFET điều khiển bằng điện áp V_GS, không cần dòng Gate</li>
+          <li>Phân biệt NMOS và PMOS — cách cắm và chiều dòng</li>
+          <li>Hiểu điện áp ngưỡng V_GS(th) và vùng tuyến tính vs bão hòa</li>
+          <li>So sánh MOSFET với BJT — ưu nhược điểm thực tế</li>
+          <li>Chọn MOSFET logic-level cho GPIO 3,3V (IRLZ44N, 2N7002)</li>
+          <li>Thiết kế mạch switch NMOS điều khiển motor DC PWM</li>
+          <li>Hiểu R_DS(on) và tại sao MOSFET ít nóng hơn BJT khi switch</li>
+          <li>Cảnh báo: Gate ESD — không chạm Gate khi không có điện trở bảo vệ</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>MOSFET NMOS IRLZ44N</td><td>55V, 47A, V_GS(th)=2V — logic-level, TO-220</td><td>2</td></tr>
+            <tr><td>MOSFET NMOS 2N7002</td><td>60V, 300mA, V_GS(th)=2V — SMD SOT-23, tín hiệu nhỏ</td><td>2</td></tr>
+            <tr><td>Motor DC 5V nhỏ</td><td>Hoặc LED dây 12V làm tải thay thế</td><td>1</td></tr>
+            <tr><td>Diode 1N4007</td><td>Freewheeling cho motor</td><td>2</td></tr>
+            <tr><td>Điện trở 10kΩ, 100Ω (gate resistor), 10kΩ (pull-down)</td><td>¼W</td><td>3 mỗi loại</td></tr>
+            <tr><td>Nguồn 5–12V + breadboard + multimeter</td><td>—</td><td>1 bộ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — MOSFET LÀ GÌ -->
+      <h2>1. MOSFET — Transistor điều khiển bằng điện áp</h2>
+
+      <p>MOSFET (<em>Metal-Oxide-Semiconductor Field-Effect Transistor</em>) là transistor điều khiển bằng điện trường (điện áp), không cần dòng điện vào cực điều khiển. Ba chân của MOSFET:</p>
+
+      <ul>
+        <li><strong>Gate (G)</strong> — Cực điều khiển. Trở kháng đầu vào cực cao (GΩ) — không cần dòng điều khiển (về lý thuyết).</li>
+        <li><strong>Drain (D)</strong> — Cực thu dòng (tương đương Collector của BJT)</li>
+        <li><strong>Source (S)</strong> — Cực phát dòng (tương đương Emitter của BJT)</li>
+      </ul>
+
+      <div class="circuit-ascii">  So sánh MOSFET NMOS và BJT NPN:
+
+       NMOS:              NPN BJT:
+         D                   C
+         │                   │
+   G ────┤                B ──┤
+         │                   │
+         S                   E
+
+  MOSFET điều khiển bằng V_GS (điện áp)
+  BJT điều khiển bằng I_B (dòng điện)
+
+  IRLZ44N chân TO-220 (nhìn mặt phẳng + chữ):
+  [G  D  S]
+  Gate = trái, Drain = giữa, Source = phải
+  (LUÔN kiểm tra datasheet — thứ tự khác nhau)</div>
+
+      <!-- PHẦN 2 — HOẠT ĐỘNG -->
+      <h2>2. Nguyên lý hoạt động NMOS</h2>
+
+      <h3>2.1 Vùng Cutoff — MOSFET tắt</h3>
+      <p>V_GS &lt; V_GS(th) → kênh dẫn không hình thành → I_D ≈ 0 → MOSFET hở giữa D và S.</p>
+
+      <h3>2.2 Vùng tuyến tính (Ohmic/Triode) — MOSFET bão hòa như switch</h3>
+      <p>V_GS >> V_GS(th) và V_DS nhỏ → kênh dẫn rộng → R_DS(on) nhỏ → MOSFET như điện trở nhỏ giữa D–S. Đây là vùng dùng khi làm switch (ON state).</p>
+
+      <h3>2.3 Vùng bão hòa (Saturation) — MOSFET khuếch đại</h3>
+      <p>V_GS > V_GS(th) và V_DS lớn → I_D gần như không phụ thuộc V_DS — dùng trong mạch khuếch đại analog.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> Logic-Level MOSFET — chọn đúng cho GPIO 3,3V</div>
+        <p>MOSFET thông thường (IRF540N) cần V_GS = 10V để dẫn đủ dòng. GPIO chỉ 3,3V → không đủ. Phải dùng <strong>Logic-Level MOSFET</strong> (IRLZ44N, Si2302, 2N7002) — V_GS(th) = 1–2V, R_DS(on) thấp ngay cả ở V_GS = 3–4V. Đây là lỗi phổ biến nhất khi chọn MOSFET cho Arduino/ESP32.</p>
+      </div>
+
+      <!-- PHẦN 3 — SO SÁNH BJT vs MOSFET -->
+      <h2>3. MOSFET vs BJT — Chọn linh kiện nào?</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Đặc tính</th><th>BJT (BC547, BC337)</th><th>MOSFET (IRLZ44N, 2N7002)</th></tr></thead>
+          <tbody>
+            <tr><td>Điều khiển bởi</td><td>Dòng I_B (cần dòng liên tục)</td><td>Điện áp V_GS (dòng Gate ≈ 0)</td></tr>
+            <tr><td>Dòng điều khiển</td><td>I_B = I_C/hFE (~mA)</td><td>≈ 0 DC (chỉ dòng sạc Gate capacitance khi chuyển)</td></tr>
+            <tr><td>Tốc độ switch</td><td>Chậm hơn</td><td>Nhanh hơn (ns)</td></tr>
+            <tr><td>Tổn thất khi ON</td><td>V_CE_sat × I_C (~0,2V × I)</td><td>I² × R_DS(on) (thường nhỏ hơn)</td></tr>
+            <tr><td>Nhạy cảm ESD</td><td>Ít nhạy hơn</td><td>Rất nhạy — Gate oxide mỏng</td></tr>
+            <tr><td>Dùng tốt khi</td><td>Dòng nhỏ (&lt;1A), khuếch đại analog</td><td>Dòng lớn, PWM tốc độ cao, power switch</td></tr>
+            <tr><td>Giá</td><td>Rẻ hơn</td><td>Đắt hơn một chút</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 4 — THIẾT KẾ SWITCH NMOS -->
+      <h2>4. Thiết kế mạch switch NMOS — Điều khiển motor DC</h2>
+
+      <div class="circuit-ascii">  NMOS Switch chuẩn điều khiển motor DC:
+
+            VCC (12V)
+               │
+           [D_fw: 1N4007] (freewheeling, cathode lên VCC)
+               │
+           [Motor DC]
+               │
+   GPIO ─[R_G=100Ω]─── Gate (G)   ← Gate resistor — bảo vệ dao động
+          [R_GS=10kΩ]─── Source (S) ← Pull-down: tắt MOSFET khi GPIO floating
+                         [IRLZ44N] (Drain lên motor, Source xuống GND)
+                             │
+                            GND
+
+  R_G (100Ω): giới hạn dòng đỉnh khi sạc Gate capacitance → chống dao động
+  R_GS (10kΩ): đảm bảo V_GS=0 khi GPIO=Z hoặc không nối → MOSFET OFF chắc chắn</div>
+
+      <div class="callout callout-danger">
+        <div class="callout-header"><span class="callout-icon">🚫</span> ESD Gate — không chạm trực tiếp vào Gate</div>
+        <p>Lớp oxide Gate của MOSFET cực kỳ mỏng (~100Å). Điện tích tĩnh điện từ tay người (hàng trăm đến hàng nghìn volt) có thể đánh thủng Gate oxide → MOSFET hỏng vĩnh viễn. Luôn: (1) đeo vòng tay chống tĩnh điện khi cắm MOSFET; (2) có R_GS pull-down trong mạch; (3) không chạm trực tiếp chân Gate khi không cần thiết.</p>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">MOSFET — Nguyên lý và mạch switch thực tế</span></div>
+        <div class="video-body">
+          <div class="video-title">MOSFET Explained — How to use them as a switch</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: GreatScott!</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~8 phút</span>
+          </div>
+          <div class="video-purpose">Demo thực tế chọn MOSFET, mạch switch motor, PWM và so sánh với BJT.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=IG5vw6P9iY4" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>5. Thực hành: Mạch NMOS switch điều khiển motor/LED strip</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: IRLZ44N switch motor DC</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Xác định chân IRLZ44N từ datasheet: G=1, D=2, S=3 (TO-220 nhìn mặt phẳng chữ). Đánh dấu trước.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Lắp mạch: R_G(100Ω) từ jumper wire vào Gate. R_GS(10kΩ) từ Gate xuống Source. Motor/LED từ VCC→Drain. Source nối GND. Freewheeling diode nếu dùng motor.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Chạm đầu R_G vào 3,3V: motor quay hoặc LED sáng. Chạm vào GND: tắt.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V_DS khi ON: kỳ vọng &lt; 0,5V (IRLZ44N R_DS(on) ≈ 22mΩ × I, rất nhỏ).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thử PWM (nếu có Arduino/ESP32): digitalWrite PWM 50% → motor chạy chậm, 100% → full speed.</p></div></li>
+        </ol>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 18</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">IRLZ44N: R_DS(on)=22mΩ, I_D=5A. P_heat khi MOSFET ON = ? So sánh với BC337 (V_CE_sat=0,3V, I=5A).</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">GPIO ESP32=3,3V, MOSFET thường IRF540N (V_GS(th)=4V). Có bật được không? Giải pháp nếu không?</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Tại sao cần R_G (100Ω Gate resistor) khi switch ở tần số cao (PWM 50kHz)?</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">R_GS pull-down 10kΩ tiêu thụ bao nhiêu dòng khi V_GS=3,3V? Ảnh hưởng đến hệ thống như thế nào?</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> P_MOSFET = I² × R_DS(on) = 25 × 0,022 = <strong>0,55W</strong>. P_BJT = V_CE_sat × I = 0,3 × 5 = <strong>1,5W</strong>. MOSFET tiêu tán ít hơn 3× — ít cần tản nhiệt hơn.</p>
+            <p><strong>2:</strong> V_GS_max = 3,3V &lt; V_GS(th) = 4V → MOSFET không bật được. <strong>Giải pháp:</strong> (a) Dùng Logic-Level MOSFET như IRLZ44N, Si2302; (b) Dùng bootstrap/level shifter nâng V_GS lên 5V hoặc 10V; (c) Dùng BJT làm driver trước MOSFET.</p>
+            <p><strong>3:</strong> Gate có tụ ký sinh C_GS, C_GD (~nF). Không có R_G: khi switch, dòng sạc/xả tụ Gate rất lớn tức thời → có thể kích thích dao động ký sinh (ringing) → over-voltage spike → hỏng Gate. R_G=100Ω giới hạn tốc độ sạc Gate → giảm ringing. Trade-off: làm chậm tốc độ switch một chút.</p>
+            <p><strong>4:</strong> I_pulldown = 3,3V/10kΩ = <strong>0,33mA</strong>. Khi MOSFET ON liên tục (duty cycle 100%), P_R_GS = 3,3×0,00033 = 1,1mW → không đáng kể. Nhưng với PWM 50%, tổn thất chỉ 0,55mW — bỏ qua được.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 18</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b18"><label for="c1b18">Tôi phân biệt được NMOS và PMOS, chân G-D-S</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b18"><label for="c2b18">Tôi biết chọn Logic-Level MOSFET cho GPIO 3,3V</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b18"><label for="c3b18">Tôi lắp mạch NMOS switch với R_G và R_GS pull-down</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b18"><label for="c4b18">Tôi so sánh được hiệu suất nhiệt MOSFET vs BJT</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c5b18"><label for="c5b18">Tôi hiểu rủi ro ESD và cách bảo vệ Gate</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week3/day17.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 17: Mạch Khuếch Đại BJT CE</div></div></a>
+        <a href="../week3/day19.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 19: PWM — Điều Rộng Xung & Điều Khiển Tốc Độ</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day18.html');</script>
+</body>
+</html>

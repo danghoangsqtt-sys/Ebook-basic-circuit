@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 54: EMC & Thiết Kế Chống Nhiễu PCB — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 54: EMC (Electromagnetic Compatibility) — nguyên lý gây nhiễu, thiết kế PCB chống EMI, decoupling, ground plane và filtering.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 8</span><span class="tag tag-day">Ngày 54</span><span class="tag tag-difficulty-advanced">PCB & EMC</span></div>
+        <h1 class="lesson-title">EMC & Thiết Kế PCB Chống Nhiễu</h1>
+        <p class="lesson-subtitle">Sự khác biệt giữa một PCB "chạy được trên bàn" và một sản phẩm "ổn định trong công nghiệp" chính là thiết kế EMC tốt.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~40 phút</span><span class="lesson-stat">💻 Review PCB: 40 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu EMI (Electromagnetic Interference) và EMC (Compatibility)</li>
+          <li>Ba cơ chế gây nhiễu: Conducted, Radiated, Common-impedance coupling</li>
+          <li>Decoupling capacitor — tại sao, giá trị nào, đặt ở đâu trên PCB</li>
+          <li>Ground plane — tại sao làm giảm EMI đáng kể</li>
+          <li>Tách vùng analog và digital — star ground topology</li>
+          <li>Ferrite bead — lọc nhiễu cao tần trên đường nguồn</li>
+          <li>TVS diode — bảo vệ ESD tại connector đầu vào</li>
+          <li>Review PCB đồ án của bạn theo checklist EMC</li>
+        </ul>
+      </div>
+
+      <h2>1. Tại sao EMC quan trọng?</h2>
+
+      <p>Mạch hoạt động tốt trên bàn thí nghiệm nhưng bị nhiễu khi đặt gần motor, nguồn switching, hay đơn giản là trong nhà có nhiều thiết bị điện — đây là vấn đề EMC. Tiêu chuẩn CE/FCC bắt buộc sản phẩm thương mại phải pass EMC test. Với học viên, hiểu EMC giúp <strong>debug những lỗi kỳ lạ</strong> (sensor sai giá trị khi bật motor, WiFi mất kết nối khi relay bật).</p>
+
+      <h2>2. Decoupling Capacitor — Nguyên tắc vàng</h2>
+
+      <div class="circuit-ascii">  Tại sao cần decoupling:
+
+  IC khi switch nội bộ → kéo đột ngột dòng từ VCC
+  → Điện áp VCC tụt xuống (voltage droop) tức thì
+  → Các IC khác trên cùng bus bị nhiễu nguồn
+
+  Giải pháp: Decoupling capacitor ở sát chân VCC mỗi IC
+  Cung cấp "bình chứa điện" cục bộ → VCC giữ ổn định
+
+  Rule:
+  - 100nF ceramic X7R: mỗi IC, ngay sát chân VCC/GND
+  - 10µF tantalum/ceramic: mỗi module nguồn (buck converter)
+  - Vị trí: VÀO giữa IC và power plane, track ngắn nhất có thể
+  - Via GND ngay dưới pad GND của capacitor</div>
+
+      <h2>3. EMC Checklist cho PCB</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Hạng mục</th><th>Cách thực hiện trong KiCad</th><th>Mức độ quan trọng</th></tr></thead>
+          <tbody>
+            <tr><td>Decoupling cap sát IC</td><td>100nF đặt &lt;2mm từ chân VCC, via GND bên dưới</td><td>⭐⭐⭐⭐⭐ Bắt buộc</td></tr>
+            <tr><td>Ground plane liên tục</td><td>B.Cu → Fill Zone → GND. Tránh khe hở lớn (slot/hole)</td><td>⭐⭐⭐⭐⭐ Bắt buộc</td></tr>
+            <tr><td>Via stitching</td><td>Via GND đều khắp board, nối F.Cu GND ↔ B.Cu GND</td><td>⭐⭐⭐⭐</td></tr>
+            <tr><td>Tách analog/digital</td><td>ADC, cảm biến analog → khu vực riêng, không route digital qua</td><td>⭐⭐⭐⭐</td></tr>
+            <tr><td>Loop kích thước nhỏ</td><td>VCC→IC→GND tạo loop nhỏ nhất có thể</td><td>⭐⭐⭐⭐</td></tr>
+            <tr><td>Ferrite bead nguồn</td><td>Ferrite bead nối tiếp trên VCC trước khi vào module RF (WiFi)</td><td>⭐⭐⭐</td></tr>
+            <tr><td>TVS tại connector</td><td>TVS diode từ mỗi signal pin → GND tại connector đầu vào</td><td>⭐⭐⭐</td></tr>
+            <tr><td>Right-angle track tránh</td><td>Dùng 45° thay 90° — track 90° tạo điểm anten nhỏ</td><td>⭐⭐</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>4. Common-Impedance Coupling — Lỗi ground loop</h2>
+
+      <div class="circuit-ascii">  Ground loop gây nhiễu:
+
+  [Motor Driver] ────PGND (dòng lớn)──── GND Point A
+                                              │ (track trở kháng)
+  [ADC Sensor] ──────AGND────────────── GND Point A
+
+  Dòng motor lớn qua track GND → tạo điện áp R×I trên track
+  → ADC thấy GND dao động → đọc sai giá trị!
+
+  Giải pháp — Star Ground:
+  [Motor Driver] PGND ──┐
+  [MCU]         DGND ──→ Star Point (GND bulk cap) ←── PSU GND
+  [ADC Sensor]  AGND ──┘
+  Mỗi nguồn nhiễu có đường GND riêng về star point.</div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 54</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Mở PCB đồ án trong KiCad. Chạy EMC checklist: đếm số IC chưa có decoupling cap sát. Thêm nếu thiếu. DRC lại.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Hệ thống ESP32 + Motor + ADC sensor bị nhiễu: sensor đọc giá trị sai khi motor chạy. Phân tích: nhiễu theo cơ chế nào? Cách fix?</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án câu 2</button>
+          <div class="answer-content">
+            <p><strong>2:</strong> Nhiễu theo <strong>Common-Impedance Coupling</strong> qua đường GND. Motor kéo dòng lớn đột ngột (nhất là lúc start/reverse) → voltage drop trên track GND chung → ADC AGND bị dao động → đọc sai. Fix: (a) <strong>Ngắn mạch phần cứng:</strong> thêm tụ 10µF + 100nF sát nguồn motor; (b) <strong>Layout:</strong> tách PGND (motor) và AGND (sensor), chỉ nối tại một điểm star gần nguồn; (c) <strong>Firmware:</strong> đọc ADC chỉ khi motor đang idle, hoặc lấy trung bình nhiều mẫu và loại bỏ outlier.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 54</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b54"><label for="c1b54">Tôi hiểu 3 cơ chế gây nhiễu EMI</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b54"><label for="c2b54">PCB đồ án có decoupling cap sát mỗi IC</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b54"><label for="c3b54">Ground plane liên tục, via stitching</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b54"><label for="c4b54">Tôi nhận biết và fix ground loop trong thiết kế</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week8/day53.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 53: BLE Bluetooth</div></div></a>
+        <a href="../week8/day55.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 55: Con Đường Tiếp Theo — Học Gì Sau Khóa Này?</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day54.html');</script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 44: Đồ Án — Schematic & Firmware Khung — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 44: Vẽ schematic đồ án trong KiCad, xây dựng firmware skeleton có cấu trúc tốt, state machine và task scheduler.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 7</span><span class="tag tag-day">Ngày 44</span><span class="tag tag-difficulty-advanced">Đồ án</span></div>
+        <h1 class="lesson-title">Đồ Án — Schematic & Firmware Khung</h1>
+        <p class="lesson-subtitle">Bước tiếp theo sau SRS — vẽ schematic nguyên lý và xây dựng firmware skeleton có cấu trúc chuyên nghiệp.</p>
+        <div class="lesson-stats"><span class="lesson-stat">💻 KiCad Schematic: 60 phút</span><span class="lesson-stat">💻 Firmware Skeleton: 60 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Vẽ schematic đồ án hoàn chỉnh trong KiCad — đúng chuẩn</li>
+          <li>Thiết lập cấu trúc firmware chuyên nghiệp: tách module</li>
+          <li>State Machine — quản lý trạng thái hệ thống rõ ràng</li>
+          <li>Task Scheduler đơn giản bằng millis() — không blocking</li>
+          <li>Config file — tập trung tham số cấu hình một nơi</li>
+          <li>Serial Debug protocol — in trạng thái có prefix rõ ràng</li>
+          <li>Unit test từng module trước khi tích hợp</li>
+        </ul>
+      </div>
+
+      <h2>1. Cấu trúc firmware chuyên nghiệp</h2>
+
+      <div class="circuit-ascii">  Cấu trúc thư mục dự án Arduino/PlatformIO:
+
+  project/
+  ├── src/
+  │   ├── main.cpp          ← Entry point, setup/loop
+  │   ├── config.h          ← Tất cả hằng số, pin definitions
+  │   ├── sensors.h/cpp     ← Module đọc cảm biến
+  │   ├── display.h/cpp     ← Module điều khiển OLED
+  │   ├── connectivity.h/cpp ← WiFi, MQTT, OTA
+  │   ├── storage.h/cpp     ← SD card, EEPROM
+  │   └── state_machine.h   ← State machine hệ thống
+  ├── lib/                  ← Thư viện local
+  └── platformio.ini        ← Cấu hình PlatformIO</div>
+
+      <h2>2. State Machine — Quản lý trạng thái</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// state_machine.h — Ví dụ cho Trạm Thời Tiết IoT
+enum SystemState {
+  STATE_INIT,
+  STATE_CONNECTING,
+  STATE_IDLE,
+  STATE_READING_SENSORS,
+  STATE_UPLOADING,
+  STATE_ALARM,
+  STATE_ERROR
+};
+
+// main.cpp — State machine loop
+SystemState currentState = STATE_INIT;
+unsigned long lastSensorRead = 0;
+unsigned long lastUpload = 0;
+
+void loop() {
+  switch (currentState) {
+    case STATE_INIT:
+      initAllModules();
+      currentState = STATE_CONNECTING;
+      break;
+      
+    case STATE_CONNECTING:
+      if (connectWiFi(5000)) currentState = STATE_IDLE;
+      else                   currentState = STATE_ERROR;
+      break;
+      
+    case STATE_IDLE:
+      if (millis() - lastSensorRead > 5000) {
+        currentState = STATE_READING_SENSORS;
+      }
+      break;
+      
+    case STATE_READING_SENSORS:
+      readAllSensors();  // Đọc BME280, v.v.
+      lastSensorRead = millis();
+      display.update();
+      if (checkAlarmConditions()) currentState = STATE_ALARM;
+      else if (millis() - lastUpload > 60000) currentState = STATE_UPLOADING;
+      else currentState = STATE_IDLE;
+      break;
+      
+    case STATE_UPLOADING:
+      uploadToAdafruitIO();
+      lastUpload = millis();
+      currentState = STATE_IDLE;
+      break;
+      
+    case STATE_ALARM:
+      sendTelegramAlert();
+      currentState = STATE_IDLE;
+      break;
+      
+    case STATE_ERROR:
+      Serial.println("[ERROR] System error. Retrying...");
+      delay(5000);
+      ESP.restart();  // Hard reset sau lỗi
+      break;
+  }
+}</pre>
+      </div>
+
+      <h2>3. Task Scheduler đơn giản — millis() pattern</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// Non-blocking task scheduler — không dùng delay()
+struct Task {
+  unsigned long interval;
+  unsigned long lastRun;
+  void (*handler)();
+};
+
+Task tasks[] = {
+  {2000,  0, readSensors},   // Mỗi 2s
+  {1000,  0, updateDisplay}, // Mỗi 1s
+  {60000, 0, uploadCloud},   // Mỗi 60s
+  {10000, 0, logToSD},       // Mỗi 10s
+  {500,   0, checkButtons},  // Mỗi 500ms
+};
+
+void loop() {
+  unsigned long now = millis();
+  for (auto& t : tasks) {
+    if (now - t.lastRun >= t.interval) {
+      t.lastRun = now;
+      t.handler();
+    }
+  }
+}</pre>
+      </div>
+
+      <h2>4. config.h — Tập trung tham số cấu hình</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// config.h — Tất cả cấu hình ở một nơi
+#pragma once
+
+// WiFi
+#define WIFI_SSID       "your_ssid"
+#define WIFI_PASS       "your_password"
+#define WIFI_TIMEOUT_MS 10000
+
+// Adafruit IO
+#define AIO_USERNAME    "your_username"
+#define AIO_KEY         "your_aio_key"
+#define AIO_FEED_TEMP   "weather.temperature"
+#define AIO_FEED_HUMI   "weather.humidity"
+
+// Hardware pins
+#define PIN_SDA         21
+#define PIN_SCL         22
+#define PIN_BAT_ADC     34
+#define PIN_BTN_A       0
+
+// Alarm thresholds
+#define TEMP_HIGH_C     35.0f
+#define TEMP_LOW_C      10.0f
+#define HUMI_HIGH_PCT   90.0f
+
+// Timing (ms)
+#define SENSOR_INTERVAL 5000
+#define UPLOAD_INTERVAL 60000
+#define LOG_INTERVAL    10000
+
+// Debug
+#define DEBUG_SERIAL    true
+#define BAUD_RATE       115200</pre>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 44</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Vẽ schematic đồ án của bạn trong KiCad. Chạy ERC — sửa tất cả lỗi. Screenshot kết quả.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Tạo file config.h và firmware skeleton với State Machine cho đồ án của bạn. Compile thành công (không có error).</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Tại sao pattern millis()-based scheduler tốt hơn delay() trong hệ thống nhúng?</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án câu 3</button>
+          <div class="answer-content">
+            <p><strong>3:</strong> delay() chặn toàn bộ CPU trong khoảng thời gian đó — không thể làm gì khác (không đọc sensor khác, không check WiFi, không xử lý interrupt từ nút nhấn). millis()-based scheduler: mỗi task chỉ chạy khi đến lượt, CPU luôn tự do giữa các task. Kết quả: hệ thống phản hồi (responsive) và có thể xử lý nhiều task đồng thời giả lập (cooperative multitasking).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 44</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b44"><label for="c1b44">Schematic đồ án hoàn chỉnh trong KiCad, ERC pass</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b44"><label for="c2b44">firmware skeleton với config.h, state machine, task scheduler</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b44"><label for="c3b44">Code compile thành công, không có lỗi</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b44"><label for="c4b44">Tôi biết tại sao State Machine tốt hơn if-else lồng nhau</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week7/day43.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 43: Lên Ý Tưởng & Thiết Kế</div></div></a>
+        <a href="../week7/day45.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 45: Đồ Án — Phát Triển Firmware & Debug</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day44.html');</script>
+</body>
+</html>

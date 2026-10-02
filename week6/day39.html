@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 39: H-Bridge & Điều Khiển Motor DC 2 Chiều — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 39: Mạch H-Bridge L298N, L9110S — điều khiển motor DC 2 chiều, tốc độ PWM, đảo chiều và điều khiển robot 2 bánh.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 6</span><span class="tag tag-day">Ngày 39</span><span class="tag tag-difficulty-intermediate">Cơ điện tử</span></div>
+        <h1 class="lesson-title">H-Bridge & Điều Khiển Motor DC 2 Chiều</h1>
+        <p class="lesson-subtitle">L298N, L9110S và TB6612FNG — điều khiển tốc độ PWM và đảo chiều motor DC — nền tảng của robot xe và cơ cấu truyền động.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~30 phút</span><span class="lesson-stat">🔬 Thực hành: 55 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu H-Bridge là gì — tại sao cần để đảo chiều motor</li>
+          <li>Nguyên lý hoạt động H-Bridge: 4 MOSFET/BJT tạo "chữ H"</li>
+          <li>Kết nối và điều khiển L298N — module phổ biến nhất, 2A/kênh</li>
+          <li>Điều khiển tốc độ PWM kết hợp với chân ENA/ENB</li>
+          <li>Sử dụng L9110S module (nhỏ, rẻ, 800mA) cho motor nhỏ</li>
+          <li>Phân biệt L298N vs TB6612FNG vs DRV8833 — khi nào dùng gì</li>
+          <li>Dự án: Robot xe 2 bánh tự điều khiển với tránh vật cản ultrasonic</li>
+          <li>Hiểu lý do L298N nóng và cách giảm thiệt (heat sink, TB6612FNG)</li>
+        </ul>
+      </div>
+
+      <h2>1. H-Bridge — Mạch cầu điều khiển chiều dòng</h2>
+
+      <div class="circuit-ascii">  H-Bridge — 4 switch tạo thành chữ "H":
+
+         VCC
+          │
+    ┌─[Q1]─┴─[Q3]─┐
+    │              │
+   M(+)          M(−)  ← Motor ở giữa
+    │              │
+    └─[Q2]─┬─[Q4]─┘
+            │
+           GND
+
+  Tiến:  Q1,Q4=ON (Q2,Q3=OFF) → dòng qua M từ trái→phải
+  Lùi:   Q2,Q3=ON (Q1,Q4=OFF) → dòng qua M từ phải→trái
+  Hãm:   Q1,Q3=ON hoặc Q2,Q4=ON → short brake
+  Coast: Tất cả OFF → motor quán tính tự dừng
+
+  KHÔNG ĐƯỢC: Q1,Q2=ON hoặc Q3,Q4=ON → short circuit VCC→GND!</div>
+
+      <h2>2. Bảng điều khiển L298N</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>IN1</th><th>IN2</th><th>ENA (PWM)</th><th>Motor A</th></tr></thead>
+          <tbody>
+            <tr><td>HIGH</td><td>LOW</td><td>HIGH (hoặc PWM)</td><td>Quay thuận (tốc độ theo PWM)</td></tr>
+            <tr><td>LOW</td><td>HIGH</td><td>HIGH</td><td>Quay ngược</td></tr>
+            <tr><td>LOW</td><td>LOW</td><td>—</td><td>Dừng (coast)</td></tr>
+            <tr><td>HIGH</td><td>HIGH</td><td>—</td><td>Hãm (brake)</td></tr>
+            <tr><td>X</td><td>X</td><td>LOW</td><td>Dừng (bất kể IN1/IN2)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// Robot 2 bánh — L298N + ESP32/Arduino
+// Kết nối: Motor A: IN1=5, IN2=4, ENA=3(PWM)
+//          Motor B: IN3=9, IN4=8, ENB=6(PWM)
+
+const int IN1=5, IN2=4, ENA=3;  // Motor Trái
+const int IN3=9, IN4=8, ENB=6;  // Motor Phải
+
+void motorLeft(int speed) {
+  bool fwd = (speed >= 0);
+  analogWrite(ENA, abs(speed));  // 0–255
+  digitalWrite(IN1, fwd ? HIGH : LOW);
+  digitalWrite(IN2, fwd ? LOW  : HIGH);
+}
+
+void motorRight(int speed) {
+  bool fwd = (speed >= 0);
+  analogWrite(ENB, abs(speed));
+  digitalWrite(IN3, fwd ? HIGH : LOW);
+  digitalWrite(IN4, fwd ? LOW  : HIGH);
+}
+
+void forward(int spd) { motorLeft(spd);   motorRight(spd); }
+void backward(int spd){ motorLeft(-spd);  motorRight(-spd); }
+void turnLeft(int spd){ motorLeft(-spd);  motorRight(spd); }
+void turnRight(int spd){ motorLeft(spd);  motorRight(-spd); }
+void stop()           { motorLeft(0);     motorRight(0); }
+
+void setup() {
+  for (int p : {IN1,IN2,IN3,IN4}) pinMode(p, OUTPUT);
+  for (int p : {ENA,ENB}) pinMode(p, OUTPUT);
+}
+
+void loop() {
+  forward(200); delay(2000);
+  turnLeft(150); delay(500);
+  forward(200); delay(2000);
+  stop(); delay(1000);
+}</pre>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> L298N nóng — chuyển sang TB6612FNG</div>
+        <p>L298N dùng transistor lưỡng cực → V_drop = 1,5–3V khi ON → tổn thất nhiệt cao (P_heat = V_drop × I). Ở I=1A: P_heat = 2V×1A = 2W chỉ riêng IC! TB6612FNG dùng MOSFET → V_drop &lt;0,5V → tổn thất nhỏ hơn 5×, không cần heat sink, kích thước nhỏ hơn. Giá tương đương → TB6612FNG tốt hơn L298N cho hầu hết dự án.</p>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">L298N Motor Driver — Robot Car</span></div>
+        <div class="video-body">
+          <div class="video-title">L298N Motor Driver — Control DC motors with Arduino</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: How To Mechatronics</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~10 phút</span>
+          </div>
+          <div class="video-purpose">Kết nối L298N, code điều khiển tốc độ và chiều, xây dựng robot xe cơ bản.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=I-FGF_XC5g4" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 39</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">L298N: V_in=12V, I_motor=0,8A/kênh, V_drop=2V. Tính P_heat của L298N khi chạy 2 motor đồng thời.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Viết hàm void ramp(int fromSpeed, int toSpeed, int durationMs) — tăng/giảm tốc mượt mà cho motor tránh giật cơ học.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Tại sao KHÔNG ĐƯỢC cùng lúc Q1, Q2 ON (hay IN1=HIGH, IN2=HIGH trên ENA) trong H-bridge?</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> P_heat mỗi kênh = V_drop × I = 2V × 0,8A = 1,6W. Tổng 2 kênh = <strong>3,2W</strong>. Cần heat sink khi chạy liên tục. Bộ nhớ: nhiệt độ tăng ~30°C/W với heat sink nhỏ → 3,2W có thể nóng 96°C nếu không có tản nhiệt!</p>
+            <p><strong>2:</strong> <code>void ramp(int from, int to, int durationMs) { int steps = abs(to-from); if(steps==0)return; int delayPerStep = durationMs/steps; int dir = (to>from)?1:-1; for(int s=from; s!=to; s+=dir){ motorLeft(s); motorRight(s); delay(delayPerStep); } }</code></p>
+            <p><strong>3:</strong> Q1 (VCC→motor+) và Q2 (motor+→GND) cùng ON = <strong>short circuit trực tiếp VCC→GND</strong> qua 2 transistor. Dòng ngắn mạch rất lớn → hỏng IC ngay lập tức (crowbar). Đây là lý do H-bridge hardware có dead-time (thời gian chết) giữa 2 lần bật switch để đảm bảo switch trước đã tắt hoàn toàn.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 39</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b39"><label for="c1b39">Tôi hiểu H-Bridge và bảng điều khiển IN1/IN2/ENA</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b39"><label for="c2b39">Tôi lắp L298N và điều khiển 2 motor forward/backward/turn</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b39"><label for="c3b39">Tôi biết tại sao L298N nóng và khi nào chuyển TB6612FNG</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b39"><label for="c4b39">Tôi viết được hàm ramp tăng giảm tốc mượt mà</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week6/day38.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 38: Stepper & Servo</div></div></a>
+        <a href="../week6/day40.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 40: Cảm Biến Khoảng Cách — HC-SR04 & IR</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day39.html');</script>
+</body>
+</html>

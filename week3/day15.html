@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 15: Transistor BJT — NPN & PNP — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 15: Transistor BJT — cấu tạo P-N-P và N-P-N, 3 vùng hoạt động, phân cực và nguyên lý khuếch đại dòng.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 3</span><span class="tag tag-day">Ngày 15</span><span class="tag tag-difficulty-intermediate">Bán dẫn</span></div>
+        <h1 class="lesson-title">Transistor BJT — NPN & PNP</h1>
+        <p class="lesson-subtitle">Linh kiện 3 chân kiểm soát dòng lớn bằng dòng nhỏ — nền tảng của mọi mạch khuếch đại và công tắc điện tử.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~50 phút</span><span class="lesson-stat">🔬 Thực hành: 45 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu BJT là gì và tại sao nó khuếch đại được dòng điện</li>
+          <li>Phân biệt NPN và PNP — cách hoạt động và chiều dòng</li>
+          <li>Xác định 3 chân: Base (B), Collector (C), Emitter (E)</li>
+          <li>Hiểu 3 vùng hoạt động: Cutoff, Active, Saturation</li>
+          <li>Hiểu hệ số khuếch đại dòng hFE (β)</li>
+          <li>Phân biệt transistor dùng làm switch vs khuếch đại</li>
+          <li>Nhận biết BC547, BC337, BC557 — đọc datasheet cơ bản</li>
+          <li>Đo và kiểm tra transistor bằng multimeter</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>Transistor NPN BC547</td><td>45V, 100mA — signal transistor phổ biến nhất</td><td>3</td></tr>
+            <tr><td>Transistor NPN BC337</td><td>45V, 800mA — driver cho relay, motor nhỏ</td><td>2</td></tr>
+            <tr><td>Transistor PNP BC557</td><td>45V, 100mA — PNP tương đương BC547</td><td>2</td></tr>
+            <tr><td>Điện trở 1kΩ, 10kΩ, 100kΩ</td><td>¼W</td><td>5 mỗi loại</td></tr>
+            <tr><td>LED đỏ + R470Ω</td><td>Tải test</td><td>2</td></tr>
+            <tr><td>Nguồn 5V + breadboard + multimeter</td><td>—</td><td>1 bộ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — BJT LÀ GÌ -->
+      <h2>1. Transistor BJT — Linh kiện "điều khiển dòng bằng dòng"</h2>
+
+      <p>Transistor lưỡng cực (<em>Bipolar Junction Transistor</em> — BJT) là linh kiện bán dẫn có ba lớp vật liệu P-N xen kẽ nhau, tạo thành hai tiếp giáp P-N. Có hai cấu hình: <strong>NPN</strong> (N-P-N) và <strong>PNP</strong> (P-N-P). Ba chân của BJT:</p>
+
+      <ul>
+        <li><strong>Base (B)</strong> — cực điều khiển, dòng vào đây điều khiển dòng lớn hơn</li>
+        <li><strong>Collector (C)</strong> — cực thu dòng lớn (từ nguồn VCC)</li>
+        <li><strong>Emitter (E)</strong> — cực phát dòng ra (thường nối về GND với NPN)</li>
+      </ul>
+
+      <p>Nguyên lý cốt lõi: một dòng nhỏ vào Base (I_B, thường µA đến mA) điều khiển một dòng lớn hơn từ Collector sang Emitter (I_C, thường mA đến A). Đây là <strong>khuếch đại dòng</strong> — khác với điện trở chỉ hạn dòng, transistor thực sự "nhân" dòng lên.</p>
+
+      <div class="circuit-ascii">  NPN Transistor BC547 — Ký hiệu và sơ đồ chân:
+
+       Ký hiệu mạch NPN:
+              C (Collector)
+              │
+        B ────┤ (mũi tên E chỉ ra ngoài = NPN)
+              │►
+              E (Emitter)
+
+       Sơ đồ chân BC547 (nhìn mặt phẳng):
+         ┌───┐
+         │BCE│  ← thứ tự từ trái sang phải
+         └───┘
+       B = Base (giữa-trái)
+       C = Collector (phải)
+       E = Emitter (trái)
+       (LUÔN kiểm tra datasheet — thứ tự chân khác nhau tùy loại transistor)</div>
+
+      <h3>1.1 NPN vs PNP — Khác nhau ở chiều dòng</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Đặc tính</th><th>NPN (BC547, BC337)</th><th>PNP (BC557)</th></tr></thead>
+          <tbody>
+            <tr><td>Cấu trúc</td><td>N-P-N (Emitter là N)</td><td>P-N-P (Emitter là P)</td></tr>
+            <tr><td>Dòng I_B</td><td>Vào Base (B→E)</td><td>Ra khỏi Base (E→B)</td></tr>
+            <tr><td>Dòng I_C</td><td>Vào Collector (C→E)</td><td>Ra Collector (E→C)</td></tr>
+            <tr><td>Điện áp V_BE</td><td>V_B > V_E (~0,6–0,7V)</td><td>V_B < V_E (~–0,6V so với E)</td></tr>
+            <tr><td>Phổ biến hơn</td><td>✓ NPN thường dùng nhiều hơn</td><td>Dùng khi cần switch ở phía VCC</td></tr>
+            <tr><td>Ký ức đơn giản</td><td>NPN: "N"ot "P"ointing "N"orth (mũi tên E chỉ ra)</td><td>PNP: mũi tên E chỉ vào trong</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 2 — 3 VÙNG HOẠT ĐỘNG -->
+      <h2>2. Ba vùng hoạt động của BJT</h2>
+
+      <h3>2.1 Vùng Cutoff — Transistor tắt hoàn toàn</h3>
+      <p><strong>Điều kiện:</strong> V_BE &lt; 0,6V (tiếp giáp B-E không phân cực thuận)<br>
+      <strong>Kết quả:</strong> I_B ≈ 0, I_C ≈ 0 → transistor như hở mạch giữa C và E → tải không có điện</p>
+      <p><strong>Dùng khi:</strong> Transistor làm switch ở trạng thái "OFF"</p>
+
+      <h3>2.2 Vùng Active — Transistor khuếch đại</h3>
+      <p><strong>Điều kiện:</strong> V_BE ≈ 0,6–0,7V (B-E phân cực thuận); V_CE > V_CE_sat (C-E chưa bão hòa)<br>
+      <strong>Kết quả:</strong> I_C = hFE × I_B (hFE thường 100–300 với BC547)</p>
+      <p><strong>Dùng khi:</strong> Khuếch đại tín hiệu analog (audio, cảm biến tương tự)</p>
+
+      <div class="formula-block">
+        <div class="formula-main">I_C = hFE × I_B &nbsp;(vùng Active)</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">hFE</span> (hay β) = Hệ số khuếch đại dòng một chiều (DC current gain) — thường 100–300</span>
+          <span class="formula-var"><span class="var-name">I_B</span> = Dòng vào Base (A)</span>
+          <span class="formula-var"><span class="var-name">I_C</span> = Dòng qua Collector (A)</span>
+          <span class="formula-var">I_E = I_B + I_C (Kirchhoff tại nút Emitter)</span>
+        </div>
+      </div>
+
+      <h3>2.3 Vùng Saturation — Transistor bão hòa (ON hoàn toàn)</h3>
+      <p><strong>Điều kiện:</strong> I_B đủ lớn để I_C bị giới hạn bởi mạch ngoài (không còn tăng theo hFE × I_B nữa)<br>
+      <strong>Kết quả:</strong> V_CE_sat ≈ 0,1–0,3V → transistor như ngắn mạch giữa C và E → tải nhận đầy điện áp</p>
+      <p><strong>Dùng khi:</strong> Transistor làm switch ở trạng thái "ON" — điều khiển relay, LED, motor</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> Quy tắc thiết kế mạch switch BJT NPN</div>
+        <p>Khi dùng BJT NPN làm switch kỹ thuật số (ON/OFF): <strong>cần cấp I_B = I_C_load / (hFE_min / 10)</strong> — tức là cấp dòng gấp 10 lần mức tối thiểu cần thiết để đảm bảo transistor vào bão hòa hoàn toàn. Đây gọi là "over-drive" hay "saturation overdrive". Nếu thiếu dòng Base, transistor chỉ vào active → V_CE cao → tổn thất nhiệt lớn và switch không hoạt động đúng.</p>
+      </div>
+
+      <!-- PHẦN 3 — TÍNH TOÁN MẠCH SWITCH -->
+      <h2>3. Thiết kế mạch switch NPN — Điều khiển LED từ GPIO</h2>
+
+      <div class="circuit-ascii">  Mạch switch NPN cơ bản:
+
+              VCC (5V)
+                │
+              [R_C = 470Ω]     ← Hạn dòng LED
+                │
+              [LED]
+                │
+   GPIO ──[R_B]──── Base (B)
+                │       │
+               GND   [BC547]
+                         │
+                        Emitter
+                         │
+                        GND</div>
+
+      <h4>Ví dụ tính toán: Điều khiển LED 10mA từ GPIO 3,3V qua BC547 (hFE_min = 110)</h4>
+
+      <p><strong>Bước 1: Tính R_C (điện trở tải LED)</strong><br>
+      I_LED = 10 mA, V_LED = 2V, V_CE_sat = 0,2V<br>
+      V_R_C = VCC – V_LED – V_CE_sat = 5 – 2 – 0,2 = 2,8V<br>
+      R_C = 2,8V / 0,01A = <strong>280Ω → chọn 270Ω</strong></p>
+
+      <p><strong>Bước 2: Tính I_B cần thiết (overdrive 10×)</strong><br>
+      I_B_min = I_C / hFE_min = 0,01 / 110 = 0,091 mA<br>
+      I_B_target = I_B_min × 10 = <strong>0,91 mA ≈ 1 mA</strong></p>
+
+      <p><strong>Bước 3: Tính R_B</strong><br>
+      V_GPIO = 3,3V, V_BE = 0,7V<br>
+      R_B = (V_GPIO – V_BE) / I_B_target = (3,3 – 0,7) / 0,001 = 2,6V / 0,001 = <strong>2,600Ω → chọn 2,7kΩ</strong></p>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">Transistor BJT — từ cấu tạo đến ứng dụng</span></div>
+        <div class="video-body">
+          <div class="video-title">BJT Transistors — Explained (NPN and PNP)</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: The Engineering Mindset</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~15 phút — xem toàn bộ</span>
+          </div>
+          <div class="video-purpose">Giải thích NPN, PNP từ cấu trúc bán dẫn đến 3 vùng hoạt động với animation cực rõ. Phải xem trước khi làm thực hành.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=7ukDKVHnac4" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>4. Thực hành: Đo transistor và lắp mạch switch LED</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành A: Đo BJT bằng multimeter</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Chế độ Diode test: đo V_BE của BC547. Que đỏ vào B, que đen vào E: kỳ vọng ~0,6–0,7V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V_BC: que đỏ vào B, que đen vào C: kỳ vọng ~0,5–0,7V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V_CE: que đỏ vào C, que đen vào E: kỳ vọng OL (hở mạch khi không phân cực Base).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nếu multimeter có chức năng hFE: cắm transistor vào khe đo, đọc hFE. Kỳ vọng BC547: 110–800.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành B: Mạch switch LED — ON/OFF bằng dây jumper</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Lắp BC547: Collector → R_C(470Ω) → LED → VCC(5V). Emitter → GND.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nối R_B(10kΩ) từ Base. Đầu kia của R_B để hở (tương đương GPIO=0V). LED phải tắt.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Chạm đầu R_B vào VCC(3,3V hoặc 5V): LED sáng (transistor ON).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V_CE khi LED sáng: kỳ vọng V_CE_sat &lt; 0,3V → transistor bão hòa.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V_CE khi LED tắt: kỳ vọng ≈ VCC (5V) → transistor ngắt hoàn toàn.</p></div></li>
+        </ol>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 15</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">BC337 (hFE_min=100) điều khiển relay 12V/50mA. GPIO=5V. Tính R_B và R_C. Relay thay cho R_C+LED.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Transistor đo: V_BE=0,7V (thuận), V_BC=0,7V (thuận), V_CE=OL. Là NPN hay PNP? Tốt hay hỏng?</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">I_B=50µA, hFE=200. Tính I_C và I_E.</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Tại sao R_B = 10kΩ (R_B lớn) đôi khi gây transistor không bão hòa hoàn toàn? Giải thích.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> Relay thay R_C (không cần R_C tính, relay tự hạn dòng). I_C = 50mA. I_B_target = I_C/(hFE_min/10) = 0,05/(100/10) = 0,05/10 = 5mA. R_B = (5–0,7)/0,005 = 4,3/0,005 = <strong>860Ω → chọn 820Ω hoặc 1kΩ</strong>. Thêm freewheeling diode song song relay!</p>
+            <p><strong>2:</strong> V_BE thuận + V_BC thuận + V_CE hở khi không phân cực → <strong>transistor NPN, còn tốt</strong>. (Với PNP, V_EB thuận và V_CB thuận — thứ tự đo khác)</p>
+            <p><strong>3:</strong> I_C = 200 × 50µA = <strong>10,000µA = 10mA</strong>. I_E = I_B + I_C = 50µA + 10mA = <strong>10,05mA ≈ 10mA</strong></p>
+            <p><strong>4:</strong> R_B lớn → I_B = (V_in – 0,7)/R_B nhỏ → I_B không đủ để overdrive → transistor có thể chỉ vào vùng active thay vì saturation → V_CE &gt; V_CE_sat → tổn thất nhiệt, switch không OFF-ON rõ ràng, relay có thể không đóng hoàn toàn.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 15</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b15"><label for="c1b15">Tôi phân biệt được NPN và PNP qua chiều dòng và mũi tên ký hiệu</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b15"><label for="c2b15">Tôi giải thích được 3 vùng: Cutoff, Active, Saturation</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b15"><label for="c3b15">Tôi tính được R_B cho mạch switch NPN điều khiển tải</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b15"><label for="c4b15">Tôi đo được V_BE, V_CE bằng multimeter và xác nhận transistor tốt</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c5b15"><label for="c5b15">Tôi lắp mạch switch LED và đo V_CE_sat thực tế</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week2/day14.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Tuần 2</div><div class="nav-title">Bài 14: Ôn tập Tuần 2</div></div></a>
+        <a href="../week3/day16.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 16: Mạch Switch BJT — Relay & Motor DC</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day15.html');</script>
+</body>
+</html>

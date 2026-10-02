@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 22: Giao Tiếp Số — UART Cơ Bản — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 22: UART — giao tiếp nối tiếp không đồng bộ, baud rate, frame dữ liệu, TX/RX và thực hành Serial Monitor.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 4</span><span class="tag tag-day">Ngày 22</span><span class="tag tag-difficulty-intermediate">Giao tiếp số</span></div>
+        <h1 class="lesson-title">Giao Tiếp Số — UART Cơ Bản</h1>
+        <p class="lesson-subtitle">Universal Asynchronous Receiver/Transmitter — giao thức nối tiếp đơn giản nhất, nền tảng của debug, GPS module, Bluetooth AT và nhiều module cảm biến.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~40 phút</span><span class="lesson-stat">🔬 Thực hành: 45 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu UART là gì — giao tiếp nối tiếp, không đồng bộ, full-duplex</li>
+          <li>Hiểu Baud Rate — bit/giây và cách chọn baud rate phù hợp</li>
+          <li>Đọc được frame UART: Start bit, Data bits, Parity, Stop bit</li>
+          <li>Kết nối TX → RX đúng (TX của thiết bị A nối RX thiết bị B)</li>
+          <li>Hiểu vấn đề điện áp: UART 5V vs 3,3V — cần level shifter</li>
+          <li>Thực hành: Serial Monitor, gửi/nhận dữ liệu qua Arduino IDE</li>
+          <li>Kết nối module GPS (NEO-6M) hoặc Bluetooth HC-05 qua UART</li>
+          <li>Debug UART bằng phần mềm (Putty, Serial Monitor)</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>Arduino Uno/Nano hoặc ESP32</td><td>Vi điều khiển có UART hardware</td><td>1</td></tr>
+            <tr><td>Module USB-UART (CP2102 hoặc CH340)</td><td>Để kết nối máy tính với mạch UART</td><td>1</td></tr>
+            <tr><td>Module Bluetooth HC-05 hoặc HC-06</td><td>UART AT commands — tùy chọn</td><td>1</td></tr>
+            <tr><td>Điện trở 10kΩ, 20kΩ (level shifter đơn giản)</td><td>Cho level shifter 5V→3,3V</td><td>3 mỗi loại</td></tr>
+            <tr><td>Breadboard + dây jumper</td><td>—</td><td>1 bộ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — UART LÀ GÌ -->
+      <h2>1. UART — Giao tiếp nối tiếp không đồng bộ</h2>
+
+      <p>UART (<em>Universal Asynchronous Receiver/Transmitter</em>) truyền dữ liệu bit-by-bit trên một dây duy nhất, không cần clock chung (asynchronous) — hai bên tự đồng bộ nhờ <strong>Baud Rate</strong> giống nhau. Đây là giao thức đơn giản nhất trong các giao thức số.</p>
+
+      <div class="circuit-ascii">  Kết nối UART giữa 2 thiết bị:
+
+   Thiết bị A          Thiết bị B
+   TX ──────────────── RX   (A gửi → B nhận)
+   RX ──────────────── TX   (B gửi → A nhận)
+   GND ─────────────── GND  (GND CHUNG — bắt buộc)
+
+   UART là FULL-DUPLEX: cả 2 chiều gửi/nhận đồng thời
+   Chỉ cần 2 dây dữ liệu + GND chung</div>
+
+      <h3>1.1 Baud Rate — Tốc độ truyền bit</h3>
+
+      <p>Baud Rate = số bit truyền mỗi giây. Hai bên PHẢI cài cùng baud rate, nếu khác sẽ nhận được dữ liệu sai (garbage characters).</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Baud Rate</th><th>Thời gian 1 bit</th><th>Ứng dụng phổ biến</th></tr></thead>
+          <tbody>
+            <tr><td>9,600 bps</td><td>104 µs</td><td>GPS module NEO-6M, cảm biến chậm</td></tr>
+            <tr><td>115,200 bps</td><td>8,7 µs</td><td>Arduino Serial Monitor, debug ESP32</td></tr>
+            <tr><td>921,600 bps</td><td>1,1 µs</td><td>Boot loader ESP32, log tốc độ cao</td></tr>
+            <tr><td>1,000,000 bps</td><td>1 µs</td><td>LIDAR, Dynamixel servo</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>1.2 Frame UART chuẩn</h3>
+
+      <div class="circuit-ascii">  Frame UART 8N1 (8 data bits, No parity, 1 Stop bit):
+
+   Idle  Start  D0  D1  D2  D3  D4  D5  D6  D7  Stop  Idle
+   ────┐ ┌──┬──┬──┬──┬──┬──┬──┬──┐ ────────────────
+       │ │  │  │  │  │  │  │  │  │ ↑
+       └─┘  └──┴──┴──┴──┴──┴──┴──┘ Stop bit (HIGH)
+       ↑
+       Start bit (LOW, 1 bit time)
+
+  - Idle state = HIGH (1)
+  - Start bit = LOW (0), luôn 1 bit
+  - Data bits = 5, 6, 7, hoặc 8 bit (thường 8)
+  - Parity = None, Odd, Even (thường None)
+  - Stop bits = 1 hoặc 2 bit HIGH (thường 1)
+  - LSB (bit nhỏ nhất) truyền trước</div>
+
+      <h3>1.3 Vấn đề điện áp — Level Shifting</h3>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> UART 5V vs 3,3V — Không nối thẳng!</div>
+        <p>Arduino Uno TX = 5V HIGH. ESP32 RX chịu tối đa 3,6V. Nối thẳng 5V UART vào ESP32 RX sẽ hỏng GPIO của ESP32. <strong>Giải pháp level shifter đơn giản:</strong> Phân áp resistor: TX(5V) → R1(10kΩ) → R2(20kΩ) → GND. Điểm giữa R1/R2 = RX(3,3V). Hoặc dùng module bidirectional level shifter BSS138.</p>
+      </div>
+
+      <div class="circuit-ascii">  Level Shifter đơn giản 5V→3.3V:
+
+  TX(5V) ──[10kΩ]──┬── RX(3.3V device)
+                   │
+                 [20kΩ]
+                   │
+                  GND
+
+  V_out = 5V × 20k/(10k+20k) = 5 × 2/3 = 3,33V ≈ 3,3V ✓
+
+  CHỈ dùng cho tín hiệu 1 chiều (TX→RX), không dùng cho chiều ngược lại</div>
+
+      <!-- PHẦN 2 — THỰC HÀNH -->
+      <h2>2. Thực hành Serial UART với Arduino IDE</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành A: Gửi dữ liệu qua Serial Monitor</div>
+        <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// UART Echo Test — Arduino/ESP32
+void setup() {
+  Serial.begin(115200);  // Baud rate
+  Serial.println("UART ready. Nhap ky tu de echo...");
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    char c = Serial.read();
+    Serial.print("Nhan duoc: ");
+    Serial.println(c);
+  }
+}</pre>
+        </div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Upload code. Mở Serial Monitor (Ctrl+Shift+M). Chọn baud rate 115200.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Gõ bất kỳ ký tự và Enter → xem echo trả lại.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thay baud rate Serial Monitor thành 9600 khi code vẫn 115200 → quan sát garbage characters.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành B: Đọc module GPS NEO-6M hoặc SIM800L (nếu có)</div>
+        <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// Đọc UART module GPS NEO-6M: RX module→TX Arduino, TX module→RX Arduino
+#include &lt;SoftwareSerial.h&gt;
+SoftwareSerial gpsSerial(4, 3); // RX=pin4, TX=pin3
+
+void setup() {
+  Serial.begin(115200);    // Debug
+  gpsSerial.begin(9600);   // GPS baud rate
+}
+
+void loop() {
+  while (gpsSerial.available()) {
+    Serial.write(gpsSerial.read()); // Forward GPS data to PC
+  }
+}</pre>
+        </div>
+        <p>Kết nối: Module GPS TX → Arduino pin 4 (qua level shifter nếu 3,3V), GPS RX → Arduino pin 3.</p>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">UART Serial Communication</span></div>
+        <div class="video-body">
+          <div class="video-title">UART Communication Protocol — explained</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: Circuit Basics</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~10 phút</span>
+          </div>
+          <div class="video-purpose">Giải thích chi tiết frame UART, baud rate và ví dụ thực tế với logic analyzer.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=sTHckUyxwp8" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 22</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">UART 9600 bps, 8N1. Truyền byte 0x41 (ASCII 'A'). Tổng số bit trên đường dây là bao nhiêu? Thời gian truyền 1 byte là bao nhiêu µs?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Serial Monitor hiển thị "??á÷Ìã" thay vì text thực. Nguyên nhân và cách fix?</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Thiết kế level shifter điện trở cho TX(5V Arduino) → RX(1,8V microcontroller). Chọn R1 và R2.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> Frame 8N1 = 1 Start + 8 Data + 1 Stop = <strong>10 bit</strong>. Thời gian 1 byte = 10 bit × (1/9600) = 10 × 104,2µs = <strong>1,042 ms</strong>.</p>
+            <p><strong>2:</strong> <strong>Mismatch baud rate</strong> — code và Serial Monitor dùng baud rate khác nhau. Vào Arduino IDE → Tools → Serial Monitor → đổi baud rate ở góc dưới phải cho khớp với Serial.begin() trong code.</p>
+            <p><strong>3:</strong> V_out = 1,8V từ V_in = 5V. Tỷ lệ: R2/(R1+R2) = 1,8/5 = 0,36. Chọn R2=10kΩ: R1 = R2 × (5–1,8)/1,8 = 10k × 1,78 = 17,8kΩ → <strong>chọn R1=18kΩ, R2=10kΩ</strong>. V_out = 5 × 10/(18+10) = 1,786V ≈ 1,8V ✓</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 22</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b22"><label for="c1b22">Tôi hiểu frame UART 8N1 và baud rate</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b22"><label for="c2b22">Tôi kết nối TX/RX đúng chiều và có GND chung</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b22"><label for="c3b22">Tôi thực hành Serial Monitor — gửi/nhận dữ liệu echo</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b22"><label for="c4b22">Tôi biết thiết kế level shifter điện trở 5V→3,3V</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week3/day21.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Tuần 3</div><div class="nav-title">Bài 21: Ôn tập Tuần 3</div></div></a>
+        <a href="../week4/day23.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 23: I2C — Giao Tiếp Đa Thiết Bị</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day22.html');</script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 33: Thiết Kế PCB — Nhập Môn KiCad — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 33: Thiết kế mạch in PCB với KiCad — từ schematic đến layout, routing và xuất Gerber file để sản xuất.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 5</span><span class="tag tag-day">Ngày 33</span><span class="tag tag-difficulty-advanced">PCB Design</span></div>
+        <h1 class="lesson-title">Thiết Kế PCB — Nhập Môn KiCad</h1>
+        <p class="lesson-subtitle">Từ breadboard đến mạch in chuyên nghiệp — KiCad EDA miễn phí hoàn toàn, tiêu chuẩn công nghiệp mã nguồn mở.</p>
+        <div class="lesson-stats"><span class="lesson-stat">💻 Lý thuyết: ~20 phút</span><span class="lesson-stat">💻 Thực hành KiCad: 90 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu quy trình thiết kế PCB: Schematic → Netlist → Layout → Gerber</li>
+          <li>Cài và làm quen giao diện KiCad 7/8 (miễn phí)</li>
+          <li>Vẽ schematic đơn giản trong KiCad Schematic Editor</li>
+          <li>Gán footprint cho từng linh kiện (DIP, SMD, THT)</li>
+          <li>Chuyển sang PCB Editor — đặt linh kiện và route tracks</li>
+          <li>Áp dụng quy tắc thiết kế: clearance, track width, ground plane</li>
+          <li>Chạy DRC (Design Rule Check) — phát hiện lỗi</li>
+          <li>Xuất Gerber files để gửi nhà sản xuất (JLCPCB, PCBWay)</li>
+        </ul>
+      </div>
+
+      <!-- PHẦN 1 — QUY TRÌNH -->
+      <h2>1. Quy trình thiết kế PCB</h2>
+
+      <div class="circuit-ascii">  Quy trình từ ý tưởng đến PCB hoàn chỉnh:
+
+  1. Schematic (Sơ đồ nguyên lý)
+     └── Vẽ mạch điện với ký hiệu linh kiện chuẩn
+     └── Kiểm tra ERC (Electrical Rules Check)
+
+  2. Assign Footprints (Gán hình dạng vật lý)
+     └── Mỗi linh kiện ký hiệu → footprint tương ứng trên PCB
+     └── THT: DIP-8, TO-92, TO-220...
+     └── SMD: 0402, 0603, SOT-23...
+
+  3. PCB Layout (Vẽ mạch in)
+     └── Đặt linh kiện trên board
+     └── Route tracks (đường đồng kết nối)
+     └── Thêm ground plane (lớp đồng GND)
+
+  4. DRC (Design Rule Check)
+     └── Kiểm tra khoảng cách tối thiểu (clearance)
+     └── Kiểm tra unconnected nets
+
+  5. Gerber Export
+     └── F.Cu (front copper), B.Cu (back copper)
+     └── F.Mask, B.Mask (solder mask)
+     └── F.Silks (silk screen — tên linh kiện)
+     └── Drill files (vị trí lỗ khoan)</div>
+
+      <!-- PHẦN 2 — KICAD -->
+      <h2>2. KiCad — Công cụ miễn phí tiêu chuẩn công nghiệp</h2>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📌</span> KiCad vs Altium vs Eagle — Chọn gì?</div>
+        <div class="table-wrap" style="margin-top:10px;">
+          <table>
+            <thead><tr><th>Tool</th><th>Giá</th><th>Ưu điểm</th><th>Nhược điểm</th></tr></thead>
+            <tbody>
+              <tr><td><strong>KiCad</strong></td><td>Miễn phí, mã nguồn mở</td><td>Không giới hạn tính năng, cộng đồng lớn, CERN dùng</td><td>Giao diện học lâu hơn Altium</td></tr>
+              <tr><td>Eagle</td><td>Miễn phí (giới hạn 2 lớp, 80cm²)</td><td>Phổ biến, tích hợp Autodesk</td><td>Bị mua bởi Autodesk, bản miễn phí hạn chế</td></tr>
+              <tr><td>Altium Designer</td><td>$2,800–9,000/năm</td><td>Mạnh nhất, chuyên nghiệp nhất</td><td>Đắt, không dành cho cá nhân/học sinh</td></tr>
+              <tr><td>EasyEDA (OSHWHub)</td><td>Miễn phí (web)</td><td>Tích hợp JLCPCB, thư viện linh kiện sẵn</td><td>Phụ thuộc internet, ít tính năng nâng cao</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PHẦN 3 — THỰC HÀNH -->
+      <h2>3. Thực hành: Vẽ PCB mạch LED blinker với BC547</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">💻</span> Thực hành A: Schematic trong KiCad</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Cài KiCad 8 tại <a href="https://www.kicad.org" target="_blank" rel="noopener">kicad.org</a>. Tạo project mới: "led_blinker".</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Mở Schematic Editor. Thêm linh kiện (A): VCC power → R1(10kΩ) → BC547 Base. Collector → R2(1kΩ) → LED → VCC. Emitter → GND. Thêm decoupling C=100nF từ VCC→GND.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Chạy ERC (Electrical Rules Check) — sửa lỗi nếu có (thường là thiếu PWR_FLAG).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Assign Footprints: BC547 → TO-92_Inline, R1/R2 → R_0805, LED → LED_5mm, C → C_0805.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">💻</span> Thực hành B: PCB Layout</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Từ Schematic → Tools → Update PCB from Schematic. Tất cả linh kiện xuất hiện dưới dạng "rats nest".</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Vẽ Board Outline (Edge.Cuts layer): hình chữ nhật 30×20mm.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đặt linh kiện trong board. BC547 ở giữa. Resistors và capacitors gần transistor.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Route tracks: Track width = 0,3mm cho tín hiệu, 1mm cho power. Dùng Route → Interactive Router.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thêm copper fill (ground plane) layer B.Cu — Edit → Fill All Zones → tô đồng GND.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Chạy DRC → kiểm tra 0 errors. Xuất Gerber: File → Fabrication Outputs → Gerbers.</p></div></li>
+        </ol>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">KiCad 8 — Hướng dẫn đầy đủ từ đầu</span></div>
+        <div class="video-body">
+          <div class="video-title">KiCad 8 Tutorial for Beginners — Complete PCB Design</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: Phil's Lab</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~60 phút</span>
+          </div>
+          <div class="video-purpose">Hướng dẫn KiCad 8 đầy đủ từ schematic đến layout, routing, DRC và xuất Gerber. Bài học tham khảo tốt nhất.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=aVUqaB0IMh4" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- QUY TẮC THIẾT KẾ -->
+      <h2>4. Quy tắc PCB thiết kế cơ bản</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Quy tắc</th><th>Giá trị khuyến nghị</th><th>Lý do</th></tr></thead>
+          <tbody>
+            <tr><td>Track width — tín hiệu</td><td>0,2–0,3mm</td><td>Đủ cho các nhà sản xuất giá rẻ (min 0,1mm)</td></tr>
+            <tr><td>Track width — power (1A)</td><td>0,8–1mm</td><td>Mỗi 1mm/oz = ~1A (ở nhiệt độ phòng)</td></tr>
+            <tr><td>Track width — power (3A)</td><td>2–3mm</td><td>—</td></tr>
+            <tr><td>Clearance (khoảng hở)</td><td>≥0,2mm</td><td>Min của JLCPCB. Tín hiệu cao áp cần lớn hơn</td></tr>
+            <tr><td>Via drill</td><td>0,3mm (min 0,2mm)</td><td>Xuyên qua 2 lớp</td></tr>
+            <tr><td>Tụ decoupling</td><td>Sát chân VCC của IC</td><td>Giảm inductance ký sinh đường nguồn</td></tr>
+            <tr><td>Ground plane</td><td>Lớp B.Cu full GND</td><td>Giảm impedance GND, shielding EMI</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 33</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Track width cần bao nhiêu mm cho dòng 500mA? Dòng 2A? (Dùng quy tắc 1mm/A)</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Tại sao tụ decoupling phải đặt SÁT chân VCC của IC, không để cách xa 5cm?</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Thiết kế PCB mạch LED blinker theo hướng dẫn và xuất file Gerber. Mở Gerber viewer online (gerber-viewer.com) để kiểm tra.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> 500mA = 0,5A → <strong>0,5mm</strong> (theo 1mm/A). Dùng 0,5–0,8mm để an toàn. 2A → <strong>2mm</strong> minimum. Thực tế chọn 2,5mm để biên an toàn.</p>
+            <p><strong>2:</strong> Dây dẫn PCB có điện cảm ký sinh (~1nH/mm). Mỗi 5cm dây = ~50nH. Khi IC switch gây spike dòng đột ngột, 50nH tạo V = L × di/dt — spike điện áp truyền đến IC qua dây dài. Tụ sát chân: spike được hấp thụ ngay tại nguồn, không có thời gian truyền đi → IC ổn định.</p>
+            <p><strong>3:</strong> Hoàn thành theo hướng dẫn thực hành A và B. Gerber viewer sẽ hiển thị: lớp đồng F.Cu (màu đỏ), B.Cu (màu xanh), mask và silk. Kiểm tra: track có kết nối đúng không, có đủ clearance không.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 33</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b33"><label for="c1b33">Tôi vẽ schematic đơn giản trong KiCad Schematic Editor</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b33"><label for="c2b33">Tôi route tracks và thêm ground plane trong PCB Editor</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b33"><label for="c3b33">Tôi chạy DRC thành công — 0 errors</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b33"><label for="c4b33">Tôi xuất Gerber files và kiểm tra trong viewer</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week5/day32.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 32: Nguồn Switching</div></div></a>
+        <a href="../week5/day34.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 34: Hàn SMD & Kiểm Tra PCB</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day33.html');</script>
+</body>
+</html>

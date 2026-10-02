@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 47: Integration Test & Calibration — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 47: Integration test theo SRS, calibration cảm biến, hiệu chỉnh độ chính xác và performance validation đồ án.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 7</span><span class="tag tag-day">Ngày 47</span><span class="tag tag-difficulty-advanced">Testing</span></div>
+        <h1 class="lesson-title">Đồ Án — Integration Test & Calibration</h1>
+        <p class="lesson-subtitle">Test toàn hệ thống theo yêu cầu SRS, calibration cảm biến và xác nhận hiệu suất đáp ứng thông số kỹ thuật.</p>
+        <div class="lesson-stats"><span class="lesson-stat">🔬 Testing: 90 phút</span><span class="lesson-stat">📊 Calibration: 60 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Viết và chạy Test Plan đầy đủ theo yêu cầu SRS</li>
+          <li>Calibration offset cho cảm biến nhiệt độ — so sánh với nhiệt kế chuẩn</li>
+          <li>Calibration ADC pin bằng đa điểm (multi-point calibration)</li>
+          <li>Đo và validate thời gian pin thực tế vs ước tính</li>
+          <li>Stress test: chạy liên tục 24h — có crash không?</li>
+          <li>Regression test — sau khi sửa bug, test lại toàn bộ</li>
+          <li>Viết Test Report đơn giản — kết quả P/F cho từng FR</li>
+        </ul>
+      </div>
+
+      <h2>1. Test Plan — Từ SRS đến bảng test</h2>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th>Test Case</th><th>FR/NFR</th><th>Điều kiện test</th><th>Kết quả mong đợi</th><th>Kết quả thực</th><th>P/F</th></tr></thead>
+          <tbody>
+            <tr><td>TC-001: Đọc nhiệt độ</td><td>FR1, NFR1</td><td>Đặt cạnh nhiệt kế chuẩn ở 25°C</td><td>25°C ± 0,5°C</td><td>_____</td><td>_____</td></tr>
+            <tr><td>TC-002: Upload Cloud</td><td>FR3</td><td>Có WiFi, 60 giây chạy</td><td>Dữ liệu hiện trên Adafruit IO</td><td>_____</td><td>_____</td></tr>
+            <tr><td>TC-003: Cảnh báo nhiệt</td><td>FR4</td><td>Hà hơi vào cảm biến (>35°C)</td><td>Telegram alert trong &lt;30s</td><td>_____</td><td>_____</td></tr>
+            <tr><td>TC-004: Thời gian pin</td><td>NFR2</td><td>Charge đầy, chạy đến cắt nguồn</td><td>≥ 24 giờ</td><td>_____</td><td>_____</td></tr>
+            <tr><td>TC-005: Stability 24h</td><td>NFR (reliability)</td><td>Chạy liên tục 24h, WiFi sẵn</td><td>Không crash, dữ liệu liên tục</td><td>_____</td><td>_____</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>2. Calibration Cảm Biến — Nhiệt độ Offset</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// Calibration offset — so sánh với chuẩn
+// Đo cùng lúc với nhiệt kế thủy ngân/digital chuẩn
+
+float TEMP_OFFSET = -1.5;  // Điều chỉnh sau khi đo
+
+float getCalibratedTemp() {
+  return bme.readTemperature() + TEMP_OFFSET;
+}
+
+// Multi-point calibration (3 điểm: 20°C, 25°C, 30°C)
+// Đo cả 3 điểm, lấy trung bình offset:
+// T_error_20 = 20.0 - T_sensor_at_20
+// T_error_25 = 25.0 - T_sensor_at_25
+// T_error_30 = 30.0 - T_sensor_at_30
+// OFFSET_AVERAGE = (T_error_20 + T_error_25 + T_error_30) / 3</pre>
+      </div>
+
+      <h2>3. Stability Test — Chạy 24 giờ liên tục</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">⏱</span> Quy trình Stability Test</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Enable Serial log mỗi 60 giây: timestamp, sensor values, heap free, WiFi RSSI.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Chạy liên tục 24h. Ghi log vào SD card hoặc terminal logging tool (CoolTerm, PuTTY).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Kiểm tra log: có khoảng trống không? (= ESP reset). Heap có giảm? WiFi RSSI có dao động lớn?</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nếu có reset: xem reset reason bằng <code>esp_reset_reason()</code> — WDT, panic, brownout?</p></div></li>
+        </ol>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 47</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Chạy toàn bộ Test Plan — điền kết quả vào bảng. Bao nhiêu test case pass? Fail case nào? Kế hoạch sửa?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Calibrate cảm biến nhiệt độ: so với nhiệt kế thủy ngân tại 25°C. Tính và lưu TEMP_OFFSET vào EEPROM.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Gợi ý xử lý kết quả test</button>
+          <div class="answer-content">
+            <p>Sau khi điền bảng test, phân loại failures theo: (a) Hardware bug: linh kiện hỏng, hàn kém → rework; (b) Firmware bug: logic sai, race condition → fix code; (c) Configuration bug: ngưỡng sai, timeout sai → sửa config.h; (d) Performance miss: chậm hơn yêu cầu → tối ưu code hoặc điều chỉnh NFR nếu có lý do kỹ thuật. Tất cả failures phải có ticket và kế hoạch sửa trước khi demo.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 47</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b47"><label for="c1b47">Tất cả test case trong Test Plan đã được chạy</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b47"><label for="c2b47">Cảm biến đã được calibration — sai số trong NFR</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b47"><label for="c3b47">Stability test 24h không có crash bất thường</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b47"><label for="c4b47">Tất cả FR trong SRS đều pass</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week7/day46.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 46: PCB Layout & Assembly</div></div></a>
+        <a href="../week7/day48.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 48: Viết Tài Liệu Kỹ Thuật</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day47.html');</script>
+</body>
+</html>

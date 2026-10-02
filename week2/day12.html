@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 12: Diode Zener & Ổn Áp — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 12: Diode Zener — nguyên lý breakdown kiểm soát, mạch ổn áp tham chiếu, ứng dụng bảo vệ quá áp thực tế.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></thead></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 2</span><span class="tag tag-day">Ngày 12</span><span class="tag tag-difficulty-beginner">Bán dẫn</span></div>
+        <h1 class="lesson-title">Diode Zener & Mạch Ổn Áp</h1>
+        <p class="lesson-subtitle">Diode thiết kế để hoạt động trong vùng breakdown — nguồn điện áp tham chiếu chính xác và bảo vệ quá áp.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~35 phút</span><span class="lesson-stat">🔬 Thực hành: 30 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu tại sao Zener hoạt động ở phân cực nghịch (ngược với diode thường)</li>
+          <li>Hiểu điện áp Zener V_Z và cách chọn đúng giá trị</li>
+          <li>Tính điện trở hạn dòng cho mạch ổn áp Zener</li>
+          <li>Lắp và đo kiểm mạch ổn áp Zener thực tế</li>
+          <li>Hiểu giới hạn công suất của Zener (P_max = V_Z × I_Z)</li>
+          <li>Ứng dụng: tạo điện áp tham chiếu 3,3V từ nguồn 5V</li>
+          <li>Ứng dụng: bảo vệ quá áp (overvoltage protection)</li>
+          <li>So sánh Zener với IC ổn áp 7805/LM317</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ và linh kiện</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>Diode Zener 5,1V/0,5W</td><td>BZX79-C5V1 hoặc tương đương</td><td>2</td></tr>
+            <tr><td>Diode Zener 3,3V/0,5W</td><td>BZX79-C3V3</td><td>1</td></tr>
+            <tr><td>Điện trở 330Ω, 470Ω, 1kΩ</td><td>¼W</td><td>2 mỗi loại</td></tr>
+            <tr><td>Nguồn 9V hoặc 12V</td><td>Adapter DC</td><td>1</td></tr>
+            <tr><td>Tải test: LED + R hoặc điện trở 1kΩ</td><td>—</td><td>1</td></tr>
+            <tr><td>Breadboard + multimeter</td><td>—</td><td>1 bộ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 -->
+      <h2>1. Diode Zener — Breakdown có kiểm soát</h2>
+
+      <p>Diode Zener được thiết kế đặc biệt để hoạt động <em>trong vùng breakdown nghịch</em> một cách an toàn và ổn định. Khi điện áp nghịch đạt đến điện áp Zener V_Z, diode dẫn điện theo chiều nghịch và giữ điện áp trên nó ổn định tại V_Z — bất kể dòng qua nó thay đổi trong phạm vi cho phép.</p>
+
+      <p>Đây là đặc tính hoàn toàn ngược với diode thường: diode thường bị hỏng khi breakdown, nhưng Zener được thiết kế để dùng ở vùng đó.</p>
+
+      <div class="circuit-ascii">  Diode Zener — hướng cắm:
+
+   Cách cắm trong mạch ổn áp:
+                    Cathode ─────┬──── V_out = V_Z
+                                │
+   V_in → [R_s] → [Zener] ─────┤
+                    Anode       │
+                               GND ──── GND
+
+   CHÚ Ý: Zener cắm ngược so với diode thường:
+   - Cathode (vạch) ở phía điện áp CAO
+   - Anode ở phía GND
+   → Zener đang phân cực NGHỊCH</div>
+
+      <h3>1.1 Nguyên lý ổn áp Zener</h3>
+      <p>Khi V_in > V_Z:</p>
+      <ul>
+        <li>Zener breakdown → dẫn nghịch → "cố định" V_out = V_Z</li>
+        <li>Dòng thừa (V_in – V_Z)/R_s chạy qua Zener và thoát xuống GND</li>
+        <li>V_out duy trì ổn định tại V_Z dù V_in thay đổi hoặc tải thay đổi (trong giới hạn)</li>
+      </ul>
+      <p>Khi V_in &lt; V_Z: Zener không dẫn, mạch không ổn áp được.</p>
+
+      <!-- PHẦN 2 — TÍNH TOÁN -->
+      <h2>2. Tính điện trở hạn dòng R_s cho mạch Zener</h2>
+
+      <div class="formula-block">
+        <div class="formula-main">R_s = (V_in – V_Z) / (I_Z + I_load)</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">R_s</span> = Điện trở nối tiếp (Ω)</span>
+          <span class="formula-var"><span class="var-name">V_in</span> = Điện áp nguồn vào (V)</span>
+          <span class="formula-var"><span class="var-name">V_Z</span> = Điện áp Zener (V)</span>
+          <span class="formula-var"><span class="var-name">I_Z</span> = Dòng qua Zener (thường chọn 5–20 mA)</span>
+          <span class="formula-var"><span class="var-name">I_load</span> = Dòng tải (A)</span>
+        </div>
+      </div>
+
+      <div class="formula-block">
+        <div class="formula-main">P_Z_max = V_Z × I_Z_max</div>
+        <div class="formula-vars">
+          <span class="formula-var">Công suất Zener không được vượt quá P_max (thường 500mW hoặc 1W)</span>
+          <span class="formula-var">I_Z_max = P_max / V_Z (dòng Zener tối đa cho phép)</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ tính toán 1 — Mạch ổn áp 5,1V từ nguồn 9V</h4>
+      <p><strong>Yêu cầu:</strong> V_in=9V, V_Z=5,1V, I_load=10mA, I_Z=10mA (chọn)</p>
+      <p><strong>Bước 1:</strong> R_s = (9 – 5,1) / (0,010 + 0,010) = 3,9 / 0,020 = <strong>195 Ω → chọn 180Ω hoặc 220Ω</strong></p>
+      <p><strong>Bước 2:</strong> Kiểm tra công suất Zener tối đa: I_Z_max = 500mW / 5,1V = 98 mA<br>
+      I_Z thực tế = (9–5,1)/220 – I_load = 17,7mA – 10mA = 7,7 mA &lt;&lt; 98mA ✓</p>
+      <p><strong>Bước 3:</strong> Kiểm tra công suất R_s: P = I² × R = (0,0177)² × 220 = 0,069W &lt; 250mW ✓</p>
+
+      <h4>Ví dụ tính toán 2 — Tạo tham chiếu 3,3V từ 5V cho ESP32</h4>
+      <p><strong>Yêu cầu:</strong> V_in=5V, V_Z=3,3V, I_load≈0 (ADC reference, không tải nặng), I_Z=5mA</p>
+      <p>R_s = (5 – 3,3) / 0,005 = 1,7 / 0,005 = <strong>340 Ω → chọn 330Ω</strong></p>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> Hạn chế của mạch ổn áp Zener</div>
+        <p>Mạch Zener đơn giản nhưng kém hiệu quả: dòng thừa tiêu tán qua Zener thành nhiệt. Nếu tải thay đổi nhiều (không tải ↔ tải nặng), điện áp ra có thể dao động. Mạch Zener phù hợp cho: tải nhỏ và ổn định (&lt;50mA), điện áp tham chiếu, bảo vệ quá áp. Với tải lớn và cần ổn định cao, dùng <strong>IC LDO (Low Dropout Regulator)</strong> như LM7805, LM3940, AMS1117.</p>
+      </div>
+
+      <!-- PHẦN 3 — BẢO VỆ -->
+      <h2>3. Ứng dụng bảo vệ quá áp</h2>
+
+      <div class="circuit-ascii">  Bảo vệ GPIO ESP32 khỏi quá áp:
+
+   Tín hiệu cảm biến 5V ──[R=1kΩ]──┬── GPIO ESP32 (max 3,6V)
+                                    │
+                              [Zener 3,3V]  (cathode lên, anode xuống GND)
+                                    │
+                                   GND
+
+   Khi V_in &lt; 3,3V: Zener không dẫn → V_GPIO = V_in (bình thường)
+   Khi V_in > 3,3V: Zener clamp tại 3,3V → V_GPIO ≤ 3,3V (bảo vệ GPIO)
+   Dòng thừa: qua R=1kΩ và Zener xuống GND</div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">Zener Diode và mạch ổn áp</span></div>
+        <div class="video-body">
+          <div class="video-title">Zener Diode — voltage regulator and clipping circuits</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: All About Electronics</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~9 phút</span>
+          </div>
+          <div class="video-purpose">Giải thích nguyên lý Zener, mạch ổn áp và mạch bảo vệ với ví dụ tính toán. Xem sau khi đọc lý thuyết.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=L-j3PQNUGCE" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>4. Thực hành: Lắp và đo mạch ổn áp Zener</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Mạch ổn áp Zener 5,1V</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Lắp mạch: nguồn 9V → R_s(220Ω) → điểm nối → GND (Zener 5,1V đặt ở điểm nối, cathode lên, anode xuống GND).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V_out tại điểm nối so với GND: kỳ vọng ≈ 5,0–5,2V (V_Z).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thêm tải R_load=1kΩ song song với Zener. Đo lại V_out. Có thay đổi không?</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thay nguồn 9V bằng 12V. Đo V_out. Zener có giữ ổn định không?</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thử V_in = 4V (thấp hơn V_Z). V_out = ? Giải thích kết quả.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th>Điều kiện</th><th>V_in</th><th>R_load</th><th>V_out đo được</th><th>Nhận xét</th></tr></thead>
+          <tbody>
+            <tr><td>Không tải</td><td>9V</td><td>∞ (hở)</td><td>_____</td><td>—</td></tr>
+            <tr><td>Có tải 1kΩ</td><td>9V</td><td>1kΩ</td><td>_____</td><td>—</td></tr>
+            <tr><td>Nguồn cao hơn</td><td>12V</td><td>1kΩ</td><td>_____</td><td>Ổn định?</td></tr>
+            <tr><td>Nguồn thấp hơn V_Z</td><td>4V</td><td>1kΩ</td><td>_____</td><td>Không ổn áp</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 12</div>
+        <div class="exercise-part">
+          <div class="exercise-part-title">Zener và mạch ổn áp (4 câu)</div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Zener 5,1V/500mW. V_in=12V. Tải 100mA. Tính R_s (I_Z=10mA). Kiểm tra công suất Zener và R_s.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Bạn có Zener 5,1V. Muốn bảo vệ GPIO ESP32 (max 3,6V) khỏi tín hiệu 5V. Zener này có dùng được không? Cần Zener bao nhiêu V?</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Tại sao mạch Zener kém hiệu quả hơn IC LDO khi tải thay đổi nhiều? Giải thích bằng công thức hoặc ví dụ số.</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Zener 3,3V trong mạch bảo vệ GPIO (R=1kΩ nối tiếp). Tín hiệu đầu vào 5V. Tính dòng qua Zener và công suất tiêu tán. Zener 500mW có an toàn không?</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> R_s = (12–5,1)/(0,010+0,100) = 6,9/0,110 = <strong>62,7Ω → chọn 68Ω</strong>. I_total = 6,9/68 = 101,5mA. I_Z = 101,5–100 = 1,5mA. P_Z = 5,1×0,0015 = 7,6mW &lt; 500mW ✓. P_Rs = (0,1015)²×68 = 0,7W → cần điện trở ≥ 1W!</p>
+            <p><strong>2:</strong> Zener 5,1V KHÔNG phù hợp — V_Z=5,1V > 3,6V max của GPIO. Cần Zener <strong>3,3V hoặc 3,6V</strong> để clamp điện áp dưới ngưỡng an toàn GPIO.</p>
+            <p><strong>3:</strong> Với Zener: R_s cố định → khi tải thay đổi (I_load tăng), dòng qua R_s tăng → V_Rs tăng → V_out = V_in – V_Rs thay đổi. Zener cố gắng bù nhưng V_Z có hệ số nhiệt độ, trở kháng nhỏ không hoàn hảo. IC LDO dùng vòng phản hồi (feedback loop) để điều chỉnh liên tục → V_out ổn định hơn nhiều dù tải thay đổi.</p>
+            <p><strong>4:</strong> V_Zener = 3,3V. V_R = 5–3,3 = 1,7V. I_Z = 1,7/1000 = 1,7mA. P_Z = 3,3×0,0017 = <strong>5,6mW</strong> &lt;&lt; 500mW → <strong>An toàn tuyệt đối</strong>.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 12</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b12"><label for="c1b12">Tôi hiểu Zener hoạt động ngược so với diode thường</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b12"><label for="c2b12">Tôi tính được R_s cho mạch ổn áp Zener</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b12"><label for="c3b12">Tôi lắp và đo mạch ổn áp thực tế — xác nhận V_out ≈ V_Z</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b12"><label for="c4b12">Tôi biết ứng dụng Zener bảo vệ GPIO và giới hạn của nó</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c5b12"><label for="c5b12">Tôi biết khi nào nên dùng IC LDO thay vì Zener</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week2/day11.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 11: Diode — Nguyên lý & Ứng dụng</div></div></a>
+        <a href="../week2/day13.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 13: Nguồn DC & IC Ổn Áp LDO</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day12.html');</script>
+</body>
+</html>

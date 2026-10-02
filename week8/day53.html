@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 53: BLE — Bluetooth Low Energy — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 53: ESP32 Bluetooth Low Energy — GATT server, characteristic, notify, kết nối điện thoại và truyền dữ liệu cảm biến BLE.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 8</span><span class="tag tag-day">Ngày 53</span><span class="tag tag-difficulty-advanced">Wireless</span></div>
+        <h1 class="lesson-title">BLE — Bluetooth Low Energy Với ESP32</h1>
+        <p class="lesson-subtitle">Không cần WiFi, không cần router — BLE truyền dữ liệu thẳng đến điện thoại với năng lượng cực thấp. Lý tưởng cho thiết bị đeo tay và IoT.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~30 phút</span><span class="lesson-stat">💻 Thực hành: 60 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Phân biệt Classic Bluetooth vs BLE — dải tần, tốc độ, tiêu thụ</li>
+          <li>GATT (Generic Attribute Profile) — Service, Characteristic, UUID</li>
+          <li>ESP32 làm BLE Server — advertise và kết nối điện thoại</li>
+          <li>Truyền dữ liệu: Notify (server→phone) và Write (phone→server)</li>
+          <li>Kiểm tra BLE bằng app "nRF Connect" trên điện thoại</li>
+          <li>BLE UART service — thay thế Serial qua Bluetooth</li>
+          <li>Power consumption BLE vs WiFi — khi nào dùng BLE</li>
+        </ul>
+      </div>
+
+      <h2>1. BLE Architecture — GATT Model</h2>
+
+      <div class="circuit-ascii">  BLE GATT Hierarchy:
+
+  Device (ESP32 BLE Server)
+  └── Service UUID: 4fafc201-...  (Temperature Monitoring)
+      ├── Characteristic UUID: beb5483e-...  (Temperature)
+      │   ├── Properties: READ + NOTIFY
+      │   └── Value: "25.3" (float as string)
+      └── Characteristic UUID: cba1d466-...  (LED Control)
+          ├── Properties: WRITE
+          └── Value: "1" (ON) / "0" (OFF)
+
+  Điện thoại (BLE Client)
+  └── nRF Connect app → Scan → Connect → Read/Write Characteristic</div>
+
+      <h2>2. ESP32 BLE Server — Code</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// ESP32 BLE Server — gửi nhiệt độ lên điện thoại
+#include &lt;BLEDevice.h&gt;
+#include &lt;BLEServer.h&gt;
+#include &lt;BLEUtils.h&gt;
+#include &lt;BLE2902.h&gt;
+
+#define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
+#define TEMP_CHAR_UUID      "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+
+BLECharacteristic* tempChar;
+bool deviceConnected = false;
+
+class MyServerCallbacks: public BLEServerCallbacks {
+  void onConnect(BLEServer* s)    { deviceConnected = true; }
+  void onDisconnect(BLEServer* s) { deviceConnected = false; s->startAdvertising(); }
+};
+
+void setup() {
+  BLEDevice::init("ESP32-WeatherStation");
+  BLEServer* server = BLEDevice::createServer();
+  server->setCallbacks(new MyServerCallbacks());
+  
+  BLEService* service = server->createService(SERVICE_UUID);
+  
+  tempChar = service->createCharacteristic(
+    TEMP_CHAR_UUID,
+    BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY
+  );
+  tempChar->addDescriptor(new BLE2902());  // Enable notifications
+  
+  service->start();
+  server->getAdvertising()->start();
+  Serial.println("BLE Server started. Scan with nRF Connect!");
+}
+
+void loop() {
+  if (deviceConnected) {
+    float temp = bme.readTemperature();
+    String tempStr = String(temp, 1);  // "25.3"
+    tempChar->setValue(tempStr.c_str());
+    tempChar->notify();  // Push to phone
+    delay(2000);
+  }
+}</pre>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">📱</span> Test BLE với nRF Connect App</div>
+        <ol>
+          <li>Tải <strong>nRF Connect for Mobile</strong> (iOS/Android) — miễn phí</li>
+          <li>Mở app → Scan → tìm "ESP32-WeatherStation"</li>
+          <li>Connect → mở Services → tìm Characteristic UUID của bạn</li>
+          <li>Nhấn subscribe/notify icon → xem giá trị temperature cập nhật real-time</li>
+          <li>Characteristic Write: gửi "1" hoặc "0" từ điện thoại để bật/tắt LED</li>
+        </ol>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tiêu chí</th><th>BLE</th><th>WiFi</th></tr></thead>
+          <tbody>
+            <tr><td>Khoảng cách</td><td>10–100m</td><td>50–200m (với router)</td></tr>
+            <tr><td>Tốc độ</td><td>1–3 Mbps</td><td>100+ Mbps</td></tr>
+            <tr><td>Dòng tiêu thụ (active)</td><td>~15mA</td><td>~150mA</td></tr>
+            <tr><td>Kết nối trực tiếp điện thoại</td><td>✅ Không cần router</td><td>❌ Cần cùng mạng WiFi</td></tr>
+            <tr><td>Upload cloud</td><td>❌ Không trực tiếp</td><td>✅ Dễ dàng</td></tr>
+            <tr><td>Phù hợp cho</td><td>Thiết bị đeo, IoT gần, tiết kiệm pin</td><td>Upload data, remote control qua internet</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 53</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Tạo BLE server gửi nhiệt độ + độ ẩm từ DHT22 lên điện thoại mỗi 2s. Dùng nRF Connect xác nhận nhận được.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Thêm characteristic WRITE: điện thoại gửi "1"/"0" → bật/tắt LED trên ESP32. Xác nhận hoạt động 2 chiều.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Gợi ý characteristic WRITE</button>
+          <div class="answer-content">
+            <p>Tạo LED Characteristic với PROPERTY_WRITE. Tạo callback class kế thừa BLECharacteristicCallbacks, override onWrite(): <code>void onWrite(BLECharacteristic* pChar) { String val = String(pChar->getValue().c_str()); if(val=="1") digitalWrite(LED,HIGH); else digitalWrite(LED,LOW); }</code>. Attach: <code>ledChar->setCallbacks(new LedCallback());</code>. Trong nRF Connect: chọn characteristic → write → nhập "31" (hex cho '1') hoặc dùng text input.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 53</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b53"><label for="c1b53">ESP32 BLE server advertise và kết nối điện thoại thành công</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b53"><label for="c2b53">Notify nhiệt độ đến điện thoại mỗi 2 giây</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b53"><label for="c3b53">Nhận Write từ điện thoại để điều khiển LED</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b53"><label for="c4b53">Tôi biết khi nào dùng BLE thay vì WiFi</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week8/day52.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 52: FreeRTOS</div></div></a>
+        <a href="../week8/day54.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 54: EMC & Thiết Kế Chống Nhiễu</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day53.html');</script>
+</body>
+</html>

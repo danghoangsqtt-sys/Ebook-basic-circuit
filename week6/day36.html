@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 36: RTC DS3231 — Đồng Hồ Thời Gian Thực — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 36: Module RTC DS3231 I2C — đọc/ghi thời gian, alarm, nhiệt độ tích hợp và backup pin CR2032.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 6</span><span class="tag tag-day">Ngày 36</span><span class="tag tag-difficulty-intermediate">Dự án</span></div>
+        <h1 class="lesson-title">RTC DS3231 — Đồng Hồ Thời Gian Thực</h1>
+        <p class="lesson-subtitle">Module thời gian thực chính xác nhất trong phân khúc giá rẻ — độ trôi &lt;2ppm, tích hợp nhiệt độ bù và pin dự phòng CR2032.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~25 phút</span><span class="lesson-stat">🔬 Thực hành: 60 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu RTC (Real Time Clock) — tại sao vi điều khiển cần module RTC riêng</li>
+          <li>Phân biệt DS3231 (TCXO, ±2ppm) và DS1307 (±20ppm) — chọn loại nào</li>
+          <li>Kết nối DS3231 I2C với Arduino/ESP32 — đọc giờ/phút/giây/ngày</li>
+          <li>Set thời gian vào RTC và giữ qua tắt nguồn nhờ pin CR2032</li>
+          <li>Đọc nhiệt độ tích hợp của DS3231 (±3°C, không chính xác bằng BME280)</li>
+          <li>Cài đặt Alarm 1 và Alarm 2 — ngắt khi đến giờ</li>
+          <li>Dự án: Đồng hồ hiển thị trên OLED với thời gian từ DS3231</li>
+        </ul>
+      </div>
+
+      <h2>1. Tại sao cần RTC module?</h2>
+
+      <p>Vi điều khiển (Arduino, ESP32) có thể đếm thời gian bằng millis() — nhưng:<br>
+      (1) millis() reset về 0 khi tắt nguồn; (2) millis() dần dần sai số (oscillator không chính xác như TCXO). DS3231 có <strong>oscillator bù nhiệt (TCXO)</strong> và <strong>pin CR2032 dự phòng</strong> — giữ thời gian chính xác kể cả khi mạch chính mất điện.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Module</th><th>Độ chính xác</th><th>Kết nối</th><th>Tích hợp</th></tr></thead>
+          <tbody>
+            <tr><td>DS3231</td><td>±2ppm (~1 phút/năm)</td><td>I2C (0x68)</td><td>TCXO, nhiệt độ, 2 alarm</td></tr>
+            <tr><td>DS1307</td><td>±20ppm (~10 phút/năm)</td><td>I2C (0x68)</td><td>Chỉ RTC cơ bản</td></tr>
+            <tr><td>PCF8563</td><td>±4,3ppm</td><td>I2C (0x51)</td><td>Low power, phổ biến IoT</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>2. Kết nối và đọc DS3231</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// DS3231 RTC — Arduino (thư viện RTClib của Adafruit)
+#include &lt;Wire.h&gt;
+#include &lt;RTClib.h&gt;
+
+RTC_DS3231 rtc;
+
+void setup() {
+  Serial.begin(115200);
+  if (!rtc.begin()) { Serial.println("DS3231 not found!"); while(1); }
+  
+  // Set thời gian nếu RTC mất điện (pin hết)
+  if (rtc.lostPower()) {
+    Serial.println("RTC mất điện — đặt lại thời gian");
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__))); // Thời gian biên dịch
+  }
+}
+
+void loop() {
+  DateTime now = rtc.now();
+  Serial.printf("%04d/%02d/%02d %02d:%02d:%02d\n",
+    now.year(), now.month(), now.day(),
+    now.hour(), now.minute(), now.second());
+  
+  // Nhiệt độ tích hợp DS3231
+  Serial.printf("Temp: %.2f°C\n", rtc.getTemperature());
+  delay(1000);
+}</pre>
+      </div>
+
+      <!-- DỰ ÁN -->
+      <h2>3. Dự án: Đồng hồ OLED + DS3231</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Đồng hồ số hiển thị trên OLED 0,96"</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Kết nối: DS3231 và SSD1306 OLED đều qua I2C (SDA, SCL, VCC 3,3V, GND).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Cài thư viện: RTClib (Adafruit), Adafruit_SSD1306, Adafruit_GFX.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Code: đọc thời gian từ DS3231 mỗi giây → hiển thị trên OLED dạng HH:MM:SS và DD/MM/YYYY.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Tắt nguồn 30 giây → bật lại → kiểm tra đồng hồ vẫn chạy đúng (nhờ pin CR2032).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nâng cao: Thêm nút nhấn interrupt để điều chỉnh thời gian (tăng giờ/phút).</p></div></li>
+        </ol>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">DS3231 RTC với Arduino & OLED</span></div>
+        <div class="video-body">
+          <div class="video-title">DS3231 Real Time Clock with Arduino — display on OLED</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: How To Mechatronics</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~12 phút</span>
+          </div>
+          <div class="video-purpose">Kết nối DS3231 I2C, đọc thời gian và hiển thị trên OLED 128×64, xử lý alarm.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=vbfQ7PEuyPA" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 36</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">DS3231 độ trôi ±2ppm. Sau 1 năm (365 ngày), sai số tối đa là bao nhiêu giây?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">RTC pin CR2032 (225mAh) tiêu thụ ~1,5µA khi chỉ dùng RTC không nguồn chính. Pin sống được bao nhiêu ngày?</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Cài đặt alarm DS3231 để bật LED mỗi ngày lúc 7:00 AM. Viết code setup alarm.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> 1 năm = 365×24×3600 = 31,536,000 giây. Sai số = 2ppm × 31,536,000 = 2×10⁻⁶ × 31,536,000 = <strong>63 giây/năm</strong> ≈ 1 phút/năm. DS1307 ±20ppm → 630 giây = 10,5 phút/năm.</p>
+            <p><strong>2:</strong> I = 1,5µA = 0,0000015A. t = 225mAh / 0,0000015A = 150,000,000 giờ? Không đúng vì pin tự xả dần. Thực tế pin CR2032 giữ được <strong>3–10 năm</strong> khi làm RTC backup — tự xả là yếu tố giới hạn, không phải dòng tiêu thụ.</p>
+            <p><strong>3:</strong> <code>rtc.setAlarm1(DateTime(2024,1,1,7,0,0), DS3231_A1_Hour);</code> — Mode DS3231_A1_Hour: trigger khi giờ:phút:giây khớp. Cần kết nối chân SQW của DS3231 vào GPIO interrupt để nhận tín hiệu alarm. Trong ISR: bật LED, clear alarm flag.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 36</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b36"><label for="c1b36">Tôi kết nối DS3231 I2C và đọc thời gian chính xác</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b36"><label for="c2b36">Tôi đặt thời gian và xác nhận giữ qua tắt nguồn</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b36"><label for="c3b36">Tôi hiển thị đồng hồ trên OLED 128×64</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b36"><label for="c4b36">Tôi biết cài Alarm và nhận interrupt khi đến giờ</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week5/day35.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Tuần 5</div><div class="nav-title">Bài 35: Ôn tập Tuần 5</div></div></a>
+        <a href="../week6/day37.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 37: WiFi & IoT — ESP32 Web Server</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day36.html');</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 37: WiFi & IoT — ESP32 Web Server — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 37: ESP32 WiFi — kết nối mạng, web server, điều khiển GPIO từ trình duyệt và gửi dữ liệu cảm biến lên cloud.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 6</span><span class="tag tag-day">Ngày 37</span><span class="tag tag-difficulty-intermediate">IoT / WiFi</span></div>
+        <h1 class="lesson-title">WiFi & IoT — ESP32 Web Server</h1>
+        <p class="lesson-subtitle">ESP32 kết nối WiFi, tạo web server điều khiển GPIO từ điện thoại và đẩy dữ liệu cảm biến lên dashboard online.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~20 phút</span><span class="lesson-stat">💻 Thực hành: 70 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Kết nối ESP32 vào mạng WiFi — Station Mode (client)</li>
+          <li>Tạo web server đơn giản — điều khiển LED từ trình duyệt</li>
+          <li>Gửi dữ liệu JSON qua HTTP API — cảm biến → web app</li>
+          <li>Kết nối MQTT broker (HiveMQ, Mosquitto) — publish/subscribe</li>
+          <li>Dùng WiFiManager — tránh hardcode SSID/password trong code</li>
+          <li>Deep Sleep + WiFi reconnect — tiết kiệm pin cho IoT battery</li>
+          <li>Hiểu OTA (Over-The-Air) update — cập nhật firmware không cần dây</li>
+        </ul>
+      </div>
+
+      <!-- PHẦN 1 — WIFI STATION MODE -->
+      <h2>1. Kết nối WiFi — Station Mode</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// ESP32 WiFi Station Mode cơ bản
+#include &lt;WiFi.h&gt;
+
+const char* ssid     = "TEN_WIFI";
+const char* password = "MAT_KHAU";
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  
+  Serial.print("Dang ket noi WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("\nDa ket noi!");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());  // Ví dụ: 192.168.1.105
+}</pre>
+      </div>
+
+      <!-- PHẦN 2 — WEB SERVER -->
+      <h2>2. Web Server — Điều khiển LED từ trình duyệt</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// ESP32 Web Server — điều khiển LED + đọc DHT22
+#include &lt;WiFi.h&gt;
+#include &lt;WebServer.h&gt;
+#include &lt;DHT.h&gt;
+
+WebServer server(80);
+DHT dht(4, DHT22);
+const int LED_PIN = 2;
+bool ledState = false;
+
+void handleRoot() {
+  String html = R"(
+    &lt;html&gt;&lt;body style='font-family:sans-serif;text-align:center'&gt;
+    &lt;h1&gt;ESP32 IoT Control&lt;/h1&gt;
+    &lt;p&gt;Nhiet do: )" + String(dht.readTemperature(),1) + R"( &deg;C&lt;/p&gt;
+    &lt;a href='/led/on'&gt;&lt;button&gt;LED ON&lt;/button&gt;&lt;/a&gt;
+    &lt;a href='/led/off'&gt;&lt;button&gt;LED OFF&lt;/button&gt;&lt;/a&gt;
+    &lt;/body&gt;&lt;/html&gt;
+  )";
+  server.send(200, "text/html", html);
+}
+
+void handleLedOn()  { digitalWrite(LED_PIN, HIGH); ledState=true;  server.sendHeader("Location","/"); server.send(302); }
+void handleLedOff() { digitalWrite(LED_PIN, LOW);  ledState=false; server.sendHeader("Location","/"); server.send(302); }
+
+// Thêm JSON API cho app mobile
+void handleApi() {
+  String json = "{\"temp\":" + String(dht.readTemperature(),2) +
+                ",\"humi\":" + String(dht.readHumidity(),2) +
+                ",\"led\":" + String(ledState ? "true" : "false") + "}";
+  server.send(200, "application/json", json);
+}
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT); dht.begin();
+  WiFi.begin("SSID", "PASS");
+  while (WiFi.status() != WL_CONNECTED) delay(500);
+  
+  server.on("/", handleRoot);
+  server.on("/led/on", handleLedOn);
+  server.on("/led/off", handleLedOff);
+  server.on("/api", handleApi);  // Mobile app endpoint
+  server.begin();
+  Serial.println("Server: http://" + WiFi.localIP().toString());
+}
+
+void loop() { server.handleClient(); }</pre>
+      </div>
+
+      <!-- PHẦN 3 — MQTT -->
+      <h2>3. MQTT — Giao tiếp IoT thời gian thực</h2>
+
+      <p>MQTT (<em>Message Queuing Telemetry Transport</em>) là giao thức nhẹ, phù hợp IoT — thiết bị <strong>publish</strong> dữ liệu lên topic, và bất kỳ ai <strong>subscribe</strong> topic đó đều nhận được ngay lập tức.</p>
+
+      <div class="circuit-ascii">  Kiến trúc MQTT:
+
+  [ESP32/Sensor] ──publish──→ [MQTT Broker] ──→ [Dashboard/App]
+                 ←──subscribe──             ←──  [Điều khiển]
+
+  Topic ví dụ:
+  "home/room1/temperature" : publish 25.3
+  "home/room1/led/cmd"     : subscribe → nhận "ON" hoặc "OFF"
+
+  Broker miễn phí: broker.hivemq.com (port 1883)
+                   test.mosquitto.org (port 1883)</div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">ESP32 Web Server và MQTT</span></div>
+        <div class="video-body">
+          <div class="video-title">ESP32 Web Server with Sensor Dashboard</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: Random Nerd Tutorials</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~20 phút</span>
+          </div>
+          <div class="video-purpose">Tạo web server ESP32 với dashboard hiển thị sensor data real-time, điều khiển GPIO từ điện thoại.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=C7Hzd0QrTik" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 37</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Thêm endpoint /api/v2 trả về JSON gồm: temperature, humidity, timestamp (millis()), và IP address của ESP32.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Tại sao không nên hardcode SSID/password trong code? Giải pháp thay thế?</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">ESP32 Deep Sleep 5 phút, thức dậy đo DHT22, gửi MQTT, ngủ lại. Ước tính thời gian sống của pin 2000mAh (ESP32 deep sleep 10µA, WiFi+MQTT 150mA, thời gian thức 2 giây).</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> Thêm vào setup(): <code>server.on("/api/v2", []() { String json = "{\"temperature\":" + String(dht.readTemperature(),2) + ",\"humidity\":" + String(dht.readHumidity(),2) + ",\"uptime\":" + String(millis()) + ",\"ip\":\"" + WiFi.localIP().toString() + "\"}"; server.send(200,"application/json",json); });</code></p>
+            <p><strong>2:</strong> Hardcode: (a) Code bị lộ khi share/đăng GitHub; (b) Không thể thay WiFi mà không nạp lại firmware. <strong>Giải pháp:</strong> WiFiManager library — ESP32 tạo AP "Setup", người dùng kết nối và nhập SSID/password qua web form, lưu vào EEPROM/SPIFFS. Hoặc lưu vào SPIFFS file credentials.json.</p>
+            <p><strong>3:</strong> Chu kỳ 5 phút = 300 giây. Mỗi chu kỳ: I_active×t = 150mA × 2s = 300mAs. I_sleep×t = 0,01mA × 298s = 2,98mAs. I_avg = (300+2,98)/300 = 1,01mAs. Thời gian sống = 2000mAh / 1,01mA = <strong>1980 giờ ≈ 82 ngày</strong> ≈ gần 3 tháng từ 1 lần sạc!</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 37</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b37"><label for="c1b37">ESP32 kết nối WiFi thành công và in IP address</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b37"><label for="c2b37">Web server điều khiển LED từ trình duyệt trên điện thoại</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b37"><label for="c3b37">Endpoint JSON API trả về dữ liệu cảm biến</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b37"><label for="c4b37">Tôi hiểu nguyên lý MQTT publish/subscribe</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week6/day36.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 36: RTC DS3231</div></div></a>
+        <a href="../week6/day38.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 38: Stepper Motor & Servo điều khiển chính xác</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day37.html');</script>
+</body>
+</html>

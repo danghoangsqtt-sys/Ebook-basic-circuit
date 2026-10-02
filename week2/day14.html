@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 14: Ôn Tập Tuần 2 & Mini Project Nguồn — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 14: Ôn tập Tuần 2 và Mini Project — mạch nguồn DC hoàn chỉnh 5V+3.3V với bảo vệ cực tính và lọc nhiễu.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 2</span><span class="tag tag-day">Ngày 14</span><span class="tag tag-difficulty-beginner">Ôn tập + Project</span></div>
+        <h1 class="lesson-title">Ôn Tập Tuần 2 & Mini Project: Mạch Nguồn DC Hoàn Chỉnh</h1>
+        <p class="lesson-subtitle">Tổng hợp kiến thức tụ điện, cuộn cảm, diode và LDO — xây dựng mạch nguồn DC đầy đủ tính năng: bảo vệ cực tính, lọc nhiễu, ổn áp kép.</p>
+        <div class="lesson-stats">
+          <span class="lesson-stat">⏱ Ôn tập: ~30 phút</span>
+          <span class="lesson-stat">🔧 Project: 60 phút</span>
+          <span class="lesson-stat">📏 Đo kiểm: 20 phút</span>
+        </div>
+      </div>
+
+      <!-- ÔN TẬP -->
+      <h2>1. Ôn tập nhanh Tuần 2</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Câu hỏi</th><th>Đáp án (che lại trước)</th></tr></thead>
+          <tbody>
+            <tr><td>Tụ 100nF mã số trên thân?</td><td>"104" (10 × 10⁴ pF = 100,000 pF = 100 nF)</td></tr>
+            <tr><td>τ của mạch RC: R=22kΩ, C=10µF?</td><td>τ = 22000 × 0,00001 = 0,22 giây</td></tr>
+            <tr><td>Tần số cắt RC: R=10kΩ, C=100nF?</td><td>f_c = 1/(2π×10000×0,0000001) = 159 Hz</td></tr>
+            <tr><td>Cảm kháng X_L = ? khi f=50Hz, L=100mH?</td><td>X_L = 2π×50×0,1 = 31,4 Ω</td></tr>
+            <tr><td>Cần gì khi ngắt dòng relay/motor?</td><td>Freewheeling diode song song với cuộn dây</td></tr>
+            <tr><td>V_f diode silicon (1N4007)?</td><td>≈ 0,6–0,7V</td></tr>
+            <tr><td>V_f diode Schottky?</td><td>≈ 0,2–0,3V</td></tr>
+            <tr><td>Cầu chỉnh lưu 4 diode: V_peak=12V → V_DC?</td><td>V_DC ≈ 12–1,4 = 10,6V (sau tụ lọc lớn)</td></tr>
+            <tr><td>Zener cắm thuận hay nghịch khi ổn áp?</td><td>Nghịch (cathode lên phía áp cao, anode xuống GND)</td></tr>
+            <tr><td>LM7805 cần V_in tối thiểu bao nhiêu?</td><td>Tối thiểu 7V (dropout 2V + 5V out)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MINI PROJECT -->
+      <h2>2. Mini Project Tuần 2: Mạch nguồn DC Hoàn chỉnh</h2>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📋</span> Yêu cầu kỹ thuật</div>
+        <ul>
+          <li>Nguồn vào: 9–12V DC từ adapter (hoặc pin 9V)</li>
+          <li>Đầu ra 1: <strong>5V/500mA</strong> (LM7805)</li>
+          <li>Đầu ra 2: <strong>3,3V/300mA</strong> (AMS1117-3.3, từ đầu ra 5V)</li>
+          <li>Bảo vệ cực tính: diode 1N4007 ở dây (+) đầu vào</li>
+          <li>Lọc nhiễu đầu vào: 100µF + 100nF song song</li>
+          <li>Lọc đầu ra mỗi rail: 100µF + 100nF</li>
+          <li>LED chỉ thị nguồn: LED đỏ (5V) + LED xanh (3,3V) với R hạn dòng phù hợp</li>
+          <li>Đo kiểm: điện áp, ripple (nếu có oscilloscope), nhiệt độ IC</li>
+        </ul>
+      </div>
+
+      <h3>2.1 Sơ đồ mạch tổng thể</h3>
+
+      <div class="circuit-ascii">  Mạch nguồn DC hoàn chỉnh:
+
+   V_in(9-12V) ─[D_prot: 1N4007]─┬─[C1: 100µF || C2: 100nF]─┬─ IN(LM7805) ─┬─ 5V rail
+                                   │                           │              │
+                                  GND                         GND          [C3:100µF||C4:100nF]
+                                                                              │
+                                                                   5V ──[D_LED1: Đỏ+R330Ω]── GND
+                                                                   │
+                                                              IN(AMS1117-3.3) ─┬─ 3.3V rail
+                                                                                │
+                                                                             [C5:10µF||C6:100nF]
+                                                                                │
+                                                                    3.3V ─[D_LED2: Xanh+R150Ω]─ GND
+
+  GND chung cho toàn bộ mạch.</div>
+
+      <h3>2.2 Tính toán linh kiện</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Linh kiện</th><th>Giá trị</th><th>Lý do chọn</th></tr></thead>
+          <tbody>
+            <tr><td>D_prot (bảo vệ cực tính)</td><td>1N4007</td><td>1A, sụt 0,7V — sau đó V_in_eff = V_in – 0,7V ≥ 8,3V (OK cho LM7805)</td></tr>
+            <tr><td>C1 (bulk filter đầu vào)</td><td>100µF/25V</td><td>Lọc ripple, ổn định điện áp đầu vào</td></tr>
+            <tr><td>C2 (decoupling đầu vào)</td><td>100nF gốm</td><td>Lọc nhiễu tần số cao</td></tr>
+            <tr><td>C3, C4 (lọc đầu ra 5V)</td><td>100µF + 100nF</td><td>Theo datasheet LM7805</td></tr>
+            <tr><td>R_LED_đỏ (5V rail)</td><td>R = (5–2)/0,01 = 300Ω → chọn 330Ω</td><td>LED đỏ V_f=2V, I_f=10mA</td></tr>
+            <tr><td>C5, C6 (lọc đầu ra 3,3V)</td><td>10µF + 100nF</td><td>Theo datasheet AMS1117</td></tr>
+            <tr><td>R_LED_xanh (3,3V rail)</td><td>R = (3,3–2,1)/0,01 = 120Ω → chọn 150Ω</td><td>LED xanh lá V_f=2,1V, I_f=8mA</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>2.3 Quy trình lắp mạch an toàn</h3>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔌</span> Lắp theo thứ tự — chưa cấp điện</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Lắp đường GND chạy suốt breadboard. Cắm D_prot (1N4007) — cathode (vạch) vào phía mạch.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Cắm C1 (100µF, đúng chiều +/-) và C2 (100nF) song song sau D_prot.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Cắm LM7805: chân 1 vào điểm sau D_prot+C1, chân 2 vào GND, chân 3 là 5V out.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Cắm C3 (100µF, đúng chiều) và C4 (100nF) từ 5V out xuống GND.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nối LED đỏ + R330Ω từ 5V out xuống GND.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Cắm AMS1117-3.3: IN từ 5V out, GND, OUT là 3,3V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Cắm C5 (10µF), C6 (100nF) từ 3,3V xuống GND. Nối LED xanh + R150Ω.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Continuity test:</strong> Kiểm tra VCC không short với GND trước khi cấp điện.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Cấp nguồn 9V. Quan sát: cả 2 LED sáng → thành công!</p></div></li>
+        </ol>
+      </div>
+
+      <h3>2.4 Bảng đo kiểm</h3>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th>Điểm đo</th><th>Kỳ vọng</th><th>Đo được</th><th>P/F</th></tr></thead>
+          <tbody>
+            <tr><td>V_in trước D_prot</td><td>9–12V</td><td>_____</td><td>—</td></tr>
+            <tr><td>V_in sau D_prot</td><td>V_in – 0,7V</td><td>_____</td><td>—</td></tr>
+            <tr><td>V_out 5V rail</td><td>4,8–5,2V</td><td>_____</td><td>_____</td></tr>
+            <tr><td>V_out 3,3V rail</td><td>3,2–3,4V</td><td>_____</td><td>_____</td></tr>
+            <tr><td>LED đỏ sáng?</td><td>Có</td><td>_____</td><td>_____</td></tr>
+            <tr><td>LED xanh sáng?</td><td>Có</td><td>_____</td><td>_____</td></tr>
+            <tr><td>Test bảo vệ cực tính: đổi chiều nguồn</td><td>Cả 2 LED tắt, không có gì hỏng</td><td>_____</td><td>_____</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>3. Tổng kết Tuần 2</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Bài</th><th>Kiến thức cốt lõi</th><th>Kỹ năng thực hành</th></tr></thead>
+          <tbody>
+            <tr><td><strong>8</strong></td><td>Tụ điện: cấu tạo, phân cực, đọc mã số</td><td>Nhận biết, đo tụ, kiểm tra chiều</td></tr>
+            <tr><td><strong>9</strong></td><td>Mạch RC: τ, đường cong nạp/xả, RC filter</td><td>Đo V_C theo thời gian thực</td></tr>
+            <tr><td><strong>10</strong></td><td>Cuộn cảm: điện cảm H, cảm kháng X_L, voltage spike</td><td>Nhận biết cuộn cảm, biết dùng freewheeling diode</td></tr>
+            <tr><td><strong>11</strong></td><td>Diode: P-N, phân cực, chỉnh lưu, bảo vệ</td><td>Đo V_f, mạch bảo vệ cực tính</td></tr>
+            <tr><td><strong>12</strong></td><td>Zener: ổn áp tham chiếu, bảo vệ quá áp</td><td>Đo mạch ổn áp Zener</td></tr>
+            <tr><td><strong>13</strong></td><td>IC LDO: LM7805, AMS1117, P_heat, tản nhiệt</td><td>Lắp mạch nguồn 5V+3,3V</td></tr>
+            <tr><td><strong>14</strong></td><td>Tổng hợp + Mini Project</td><td>Mạch nguồn DC hoàn chỉnh với bảo vệ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">🚀</span> Chuẩn bị cho Tuần 3</div>
+        <p>Tuần 3 bắt đầu với <strong>transistor BJT</strong> — linh kiện bán dẫn 3 chân, nền tảng của mọi mạch khuếch đại và công tắc điện tử. Hãy chuẩn bị thêm: transistor NPN BC547, BC337; PNP BC557; điện trở nhiều giá trị từ 1kΩ đến 100kΩ; nút nhấn; buzzer nhỏ 5V.</p>
+      </div>
+
+      <!-- BÀI KIỂM TRA CUỐI TUẦN 2 -->
+      <div class="section-divider"><span class="section-divider-label">Kiểm tra cuối tuần 2</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Kiểm tra cuối Tuần 2 — 10 câu</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Tụ gốm "222" = ? nF. Tụ hóa cắm ngược: điều gì xảy ra?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Mạch RC: R=33kΩ, C=47µF. Tính τ, V_C sau 3τ từ nguồn 5V.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Tần số cắt của RC filter: R=4,7kΩ, C=10nF là bao nhiêu Hz?</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Cảm kháng L=47mH tại f=1kHz và f=10kHz. So sánh.</div></div>
+          <div class="exercise-item"><span class="exercise-num">5</span><div class="exercise-text">Diode 1N4007 đo: chiều thuận 0V, chiều nghịch 0V. Diode tốt hay hỏng? Hỏng kiểu gì?</div></div>
+          <div class="exercise-item"><span class="exercise-num">6</span><div class="exercise-text">V_peak AC = 15V, qua cầu chỉnh lưu 4 diode Schottky (V_f=0,3V). V_DC sau tụ lọc lớn = ?</div></div>
+          <div class="exercise-item"><span class="exercise-num">7</span><div class="exercise-text">Tính R_s cho Zener 5,1V, V_in=9V, I_Z=15mA, không tải. Kiểm tra công suất Zener (P_max=500mW).</div></div>
+          <div class="exercise-item"><span class="exercise-num">8</span><div class="exercise-text">LM7805, V_in=15V, I_out=600mA. P_heat = ? Có cần tản nhiệt không?</div></div>
+          <div class="exercise-item"><span class="exercise-num">9</span><div class="exercise-text">Tại sao mạch nguồn cho ESP32 thường dùng AMS1117-3.3 từ USB 5V thay vì LM7805 + thêm mạch giảm áp?</div></div>
+          <div class="exercise-item"><span class="exercise-num">10</span><div class="exercise-text">Mạch nguồn của bạn: LED chỉ thị 5V sáng nhưng LED chỉ thị 3,3V không sáng. Liệt kê 4 nguyên nhân có thể và cách kiểm tra từng nguyên nhân.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> "222" = 22 × 10² = 2,200 pF = <strong>2,2 nF</strong>. Tụ hóa cắm ngược: oxide điện môi bị phá, tụ dẫn dòng lớn → nóng, phình, nổ.</p>
+            <p><strong>2:</strong> τ = 33000 × 0,000047 = <strong>1,551 s</strong>. V_C(3τ) = 5×(1–e⁻³) = 5×0,950 = <strong>4,75V</strong></p>
+            <p><strong>3:</strong> f_c = 1/(2π×4700×0,00000001) = 1/0,0000295 = <strong>3,386 Hz ≈ 3,4 kHz</strong></p>
+            <p><strong>4:</strong> X_L(1kHz) = 2π×1000×0,047 = <strong>295 Ω</strong>. X_L(10kHz) = 2π×10000×0,047 = <strong>2,953 kΩ</strong>. Tần số tăng 10× → X_L tăng 10×.</p>
+            <p><strong>5:</strong> Cả hai chiều đều ~0V → diode <strong>bị ngắn mạch (shorted)</strong>. Thay diode mới.</p>
+            <p><strong>6:</strong> V_DC ≈ V_peak – 2×V_f_Schottky = 15 – 0,6 = <strong>14,4V</strong></p>
+            <p><strong>7:</strong> R_s = (9–5,1)/0,015 = <strong>260Ω → chọn 270Ω</strong>. I_Z = (9–5,1)/270 = 14,4mA. P_Z = 5,1×0,0144 = <strong>73,4 mW</strong> &lt;&lt; 500mW ✓</p>
+            <p><strong>8:</strong> P_heat = (15–5)×0,6 = <strong>6W</strong>. Rất nóng — <strong>cần tản nhiệt lớn</strong> (fin heatsink). Nhiệt độ không tản nhiệt: 25 + 6×65 = 415°C — vượt quá giới hạn, IC sẽ shutdown nhiệt.</p>
+            <p><strong>9:</strong> LM7805 cần V_in ≥ 7V — USB 5V không đủ. AMS1117 LDO dropout chỉ 1,2V → USB 4,7V vẫn đủ cho 3,3V. Đơn giản hơn, ít linh kiện hơn.</p>
+            <p><strong>10:</strong> (a) AMS1117 cắm sai chân — kiểm tra sơ đồ chân; (b) C5 hoặc C6 cắm ngược tạo ngắn mạch — kiểm tra chiều; (c) Đường dây IN của AMS1117 không nối vào 5V — kiểm tra continuity; (d) AMS1117 hỏng — đo V tại chân IN và OUT của AMS1117.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist hoàn thành Tuần 2</div>
+        <div class="checklist-item"><input type="checkbox" id="wk2c1"><label for="wk2c1">Tôi nhận biết và đọc thông số tụ điện, cuộn cảm, diode các loại</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk2c2"><label for="wk2c2">Tôi tính được τ, f_c cho mạch RC và X_L cho cuộn cảm</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk2c3"><label for="wk2c3">Tôi thiết kế được mạch ổn áp Zener và LDO cho nguồn thực tế</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk2c4"><label for="wk2c4">Tôi đã hoàn thành Mini Project nguồn DC kép 5V+3,3V</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk2c5"><label for="wk2c5">Tôi làm bài kiểm tra cuối tuần và tự chấm điểm</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week2/day13.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 13: Nguồn DC & IC Ổn Áp LDO</div></div></a>
+        <a href="../week3/day15.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Tuần 3, Bài 15 →</div><div class="nav-title">Bài 15: Transistor BJT — NPN & PNP</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day14.html');</script>
+</body>
+</html>

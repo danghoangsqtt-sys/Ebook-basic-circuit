@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 3: Điện Trở & Mã Màu — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 3: Đọc mã màu điện trở 4 và 5 vạch, hiểu sai số, giá trị danh định vs thực tế, đo kiểm điện trở bằng multimeter.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a><a href="../appendix/glossary.html">Phụ lục</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:0%"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 1</span><span class="tag tag-day">Ngày 3</span><span class="tag tag-difficulty-beginner">Nhập môn</span></div>
+        <h1 class="lesson-title">Điện Trở & Mã Màu</h1>
+        <p class="lesson-subtitle">Đọc mã màu điện trở, hiểu sai số và giá trị thực tế — kỹ năng tra cứu nhanh không cần máy tính.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~35 phút</span><span class="lesson-stat">🔬 Thực hành: 30 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Đọc mã màu 4 vạch và 5 vạch chính xác</li>
+          <li>Hiểu sai số (tolerance) ±1%, ±5%, ±10%</li>
+          <li>Phân biệt điện trở carbon film và metal film</li>
+          <li>Tính dải giá trị thực tế từ giá trị danh định và sai số</li>
+          <li>Đo điện trở bằng multimeter và so sánh với mã màu</li>
+          <li>Hiểu tại sao điện trở không phải lý tưởng: điện trở ký sinh, nhiệt độ</li>
+          <li>Chọn điện trở phù hợp từ bộ điện trở thông dụng (E12, E24)</li>
+          <li>Đọc nhãn trên điện trở SMD</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ và linh kiện</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>Số lượng</th></tr></thead>
+          <tbody>
+            <tr><td>Bộ điện trở đồng bộ</td><td>1Ω → 1MΩ, ¼W, ±5% (E24) — thường đi kèm breadboard kit</td><td>1 bộ</td></tr>
+            <tr><td>Multimeter</td><td>Chức năng đo Ω</td><td>1</td></tr>
+            <tr><td>Breadboard</td><td>830 lỗ</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — ĐIỆN TRỞ LÀ GÌ -->
+      <h2>1. Điện trở — Linh kiện thụ động số một</h2>
+
+      <p>Điện trở (<em>Resistor</em>, ký hiệu <em>R</em>) là linh kiện điện tử cản trở sự chuyển động của dòng điện. Giá trị điện trở cho biết "sức cản" đó lớn hay nhỏ — đơn vị là <strong>Ohm (Ω)</strong>, đặt theo Georg Simon Ohm (1789–1854), người phát hiện định luật quan trọng nhất trong điện học.</p>
+
+      <p>Điện trở là linh kiện <em>thụ động</em> (passive) — nó không khuếch đại, không tạo ra điện áp, không tạo ra dòng điện. Nó chỉ chuyển đổi năng lượng điện thành nhiệt theo tỉ lệ xác định. Mặc dù đơn giản, điện trở xuất hiện trong gần như mọi mạch điện tử: hạn dòng cho LED, tạo cầu chia áp, đặt điểm làm việc transistor, lọc nhiễu, kết cuối đường truyền...</p>
+
+      <h3>1.1 Ký hiệu điện trở trong sơ đồ mạch</h3>
+
+      <div class="circuit-ascii">  Ký hiệu điện trở:
+
+  Chuẩn Mỹ (IEEE):          Chuẩn châu Âu (IEC):
+       ┌──/\/\/──┐                 ┌──[  ]──┐
+       │         │                 │        │
+  Hình chữ zigzag              Hình chữ nhật
+
+  Trong giáo trình này: dùng chuẩn Mỹ (phổ biến hơn trong tài liệu kỹ thuật)</div>
+
+      <h3>1.2 Cấu tạo vật lý điện trở</h3>
+
+      <p>Điện trở thông dụng trong học tập có dạng trụ nhỏ với hai chân kim loại. Bên trong là lớp vật liệu dẫn điện kém (carbon film hoặc metal film) được phủ lên lõi sứ. Điện trở của lớp này được kiểm soát chính xác khi sản xuất bằng cách điều chỉnh độ dày và chiều dài lớp phủ.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Loại</th><th>Vật liệu</th><th>Sai số</th><th>Nhiễu</th><th>Ứng dụng</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Carbon Film (CF)</strong></td><td>Màng carbon</td><td>±5%, ±10%</td><td>Cao hơn</td><td>Mạch số, học tập, prototype</td></tr>
+            <tr><td><strong>Metal Film (MF)</strong></td><td>Màng Nickel-Chrome</td><td>±0,1% → ±1%</td><td>Thấp</td><td>Audio, đo lường, mạch analog chính xác</td></tr>
+            <tr><td><strong>Wire-wound</strong></td><td>Dây điện trở quấn lõi sứ</td><td>±0,01% → ±1%</td><td>Rất thấp</td><td>Công suất cao, thiết bị đo chuẩn</td></tr>
+            <tr><td><strong>SMD (0603, 0402...)</strong></td><td>Thick/thin film</td><td>±1%, ±5%</td><td>Thấp</td><td>PCB dán bề mặt, sản xuất hàng loạt</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 2 — MÃ MÀU -->
+      <h2>2. Mã màu điện trở — Hệ thống đọc giá trị</h2>
+
+      <p>Vì điện trở quá nhỏ để in số, người ta dùng hệ thống vạch màu. Mỗi màu ứng với một chữ số hoặc bội số theo bảng quy ước quốc tế (IEC 60062).</p>
+
+      <h3>2.1 Bảng mã màu chuẩn</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Màu</th><th>Chữ số (D)</th><th>Nhân (M)</th><th>Sai số (T)</th><th>Ghi nhớ</th></tr>
+          </thead>
+          <tbody>
+            <tr><td style="color:#1e293b;background:#94a3b8;font-weight:700;">Bạc</td><td>—</td><td>×0,01</td><td>±10%</td><td>—</td></tr>
+            <tr><td style="color:#1e293b;background:#e2c97a;font-weight:700;">Vàng</td><td>—</td><td>×0,1</td><td>±5%</td><td>Vàng kim quý</td></tr>
+            <tr><td style="color:#0a0e1a;background:#1e293b;border:1px solid #475569;font-weight:700;color:#f1f5f9;">Đen</td><td>0</td><td>×1</td><td>—</td><td>Không có gì = 0</td></tr>
+            <tr><td style="color:#f1f5f9;background:#7c3b0a;font-weight:700;">Nâu</td><td>1</td><td>×10</td><td>±1%</td><td>Nâu đất = 1</td></tr>
+            <tr><td style="color:#f1f5f9;background:#ef4444;font-weight:700;">Đỏ</td><td>2</td><td>×100</td><td>±2%</td><td>Đỏ = 2</td></tr>
+            <tr><td style="color:#f1f5f9;background:#f97316;font-weight:700;">Cam</td><td>3</td><td>×1k</td><td>—</td><td>Cam = 3</td></tr>
+            <tr><td style="color:#1e293b;background:#facc15;font-weight:700;">Vàng lá</td><td>4</td><td>×10k</td><td>—</td><td>Vàng lá = 4</td></tr>
+            <tr><td style="color:#f1f5f9;background:#22c55e;font-weight:700;">Xanh lá</td><td>5</td><td>×100k</td><td>±0,5%</td><td>Xanh lá = 5</td></tr>
+            <tr><td style="color:#f1f5f9;background:#3b82f6;font-weight:700;">Xanh dương</td><td>6</td><td>×1M</td><td>±0,25%</td><td>Xanh = 6</td></tr>
+            <tr><td style="color:#f1f5f9;background:#7c3aed;font-weight:700;">Tím</td><td>7</td><td>×10M</td><td>±0,1%</td><td>Tím = 7</td></tr>
+            <tr><td style="color:#f1f5f9;background:#6b7280;font-weight:700;">Xám</td><td>8</td><td>—</td><td>±0,05%</td><td>Xám = 8</td></tr>
+            <tr><td style="color:#1e293b;background:#f1f5f9;border:1px solid #94a3b8;font-weight:700;">Trắng</td><td>9</td><td>—</td><td>—</td><td>Trắng = 9</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> Mẹo nhớ 10 màu theo thứ tự</div>
+        <p>Câu ghi nhớ tiếng Việt phổ biến: <strong>"Đen Nâu Đỏ Cam Vàng Xanh Lá Xanh Dương Tím Xám Trắng"</strong> = 0 1 2 3 4 5 6 7 8 9. Hoặc câu tiếng Anh: <em>"Bad Boys Race Our Young Girls But Violet Generally Wins"</em> = Black Brown Red Orange Yellow Green Blue Violet Gray White.</p>
+      </div>
+
+      <h3>2.2 Đọc mã màu 4 vạch (phổ biến nhất)</h3>
+
+      <p>Điện trở 4 vạch (carbon film thông thường): <strong>Vạch 1 · Vạch 2 · Vạch nhân · Vạch sai số</strong></p>
+
+      <div class="circuit-ascii">  Ví dụ: Nâu · Đen · Đỏ · Vàng kim
+
+   ┌──────────────────────────────────┐
+   │  │ Nâu │ Đen │ Đỏ │Vàng│         │
+   └──────────────────────────────────┘
+        1      0    ×100  ±5%
+
+   Giá trị = 10 × 100 = 1000 Ω = 1 kΩ ± 5%
+   Dải thực tế = 950 Ω → 1050 Ω</div>
+
+      <div class="callout callout-formula">
+        <div class="callout-header"><span class="callout-icon">📐</span> Công thức đọc mã màu 4 vạch</div>
+        <p style="font-family:var(--font-mono);margin:0;">R = (D1 × 10 + D2) × M<br>Trong đó: D1 = chữ số vạch 1, D2 = chữ số vạch 2, M = hệ số nhân vạch 3</p>
+      </div>
+
+      <h4>Ví dụ tính toán 1 — Đọc điện trở 4 vạch</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Vạch 1</th><th>Vạch 2</th><th>Vạch nhân</th><th>Sai số</th><th>Giá trị</th><th>Dải thực tế</th></tr></thead>
+          <tbody>
+            <tr><td>Nâu (1)</td><td>Đen (0)</td><td>Đỏ (×100)</td><td>Vàng (±5%)</td><td><strong>1 kΩ</strong></td><td>950–1050 Ω</td></tr>
+            <tr><td>Đỏ (2)</td><td>Đỏ (2)</td><td>Nâu (×10)</td><td>Vàng (±5%)</td><td><strong>220 Ω</strong></td><td>209–231 Ω</td></tr>
+            <tr><td>Cam (3)</td><td>Cam (3)</td><td>Cam (×1k)</td><td>Vàng (±5%)</td><td><strong>33 kΩ</strong></td><td>31,35–34,65 kΩ</td></tr>
+            <tr><td>Xanh lá (5)</td><td>Xanh dương (6)</td><td>Vàng lá (×10k)</td><td>Nâu (±1%)</td><td><strong>560 kΩ</strong></td><td>554,4–565,6 kΩ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>2.3 Đọc mã màu 5 vạch (metal film, độ chính xác cao)</h3>
+
+      <p>Điện trở 5 vạch: <strong>Vạch 1 · Vạch 2 · Vạch 3 · Vạch nhân · Vạch sai số</strong></p>
+
+      <div class="circuit-ascii">  Ví dụ: Nâu · Đen · Đen · Đỏ · Nâu
+
+   ┌─────────────────────────────────────┐
+   │  │Nâu │Đen │Đen │ Đỏ │Nâu│          │
+   └─────────────────────────────────────┘
+        1     0    0   ×100  ±1%
+
+   Giá trị = (1×100 + 0×10 + 0) × 100 = 100 × 100 = 10,000 Ω = 10 kΩ ± 1%
+   Dải thực tế = 9,900 Ω → 10,100 Ω</div>
+
+      <!-- VIDEO điện trở -->
+      <div class="video-card">
+        <div class="video-header">
+          <span class="video-badge">🎬 Video</span>
+          <span class="video-header-title">Đọc mã màu điện trở</span>
+        </div>
+        <div class="video-body">
+          <div class="video-title">Resistor Color Code — Cách đọc mã màu điện trở</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: All About Electronics (tiếng Anh rõ ràng)</span>
+            <span class="video-meta-item">🌐 Ngôn ngữ: Tiếng Anh, giọng chậm và rõ</span>
+            <span class="video-meta-item">⏱ ~8 phút — xem toàn bộ</span>
+          </div>
+          <div class="video-purpose">Hướng dẫn đọc mã màu 4 và 5 vạch với nhiều ví dụ thực tế. Animation màu sắc rõ ràng. Xem sau khi đọc bảng màu để củng cố và ghi nhớ nhanh hơn.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=Fq7WOEvbVoA" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+          <div class="video-lang-note">💡 Tiếng Anh kỹ thuật — đề nghị bật phụ đề. Hoặc tìm "mã màu điện trở tiếng Việt" để có lựa chọn tiếng Việt.</div>
+        </div>
+      </div>
+
+      <!-- PHẦN 3 — SAI SỐ VÀ GIÁ TRỊ THỰC TẾ -->
+      <h2>3. Sai số, giá trị danh định và giá trị thực tế</h2>
+
+      <p>Sai số (<em>Tolerance</em>) của điện trở là khoảng giá trị mà điện trở thực tế có thể lệch so với giá trị danh định (<em>Nominal Value</em>) ghi trên mã màu. Điện trở ±5% nghĩa là giá trị thực tế nằm trong khoảng 95% đến 105% giá trị danh định.</p>
+
+      <div class="formula-block">
+        <div class="formula-main">R_min = R_nom × (1 – T/100)&nbsp;&nbsp;&nbsp;R_max = R_nom × (1 + T/100)</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">R_nom</span> = Giá trị danh định (Ω)</span>
+          <span class="formula-var"><span class="var-name">T</span> = Sai số (%)</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ tính toán 2 — Dải sai số</h4>
+      <p><strong>Điện trở 10 kΩ ±5%:</strong><br>
+      R_min = 10,000 × (1 – 0,05) = 10,000 × 0,95 = <strong>9,500 Ω</strong><br>
+      R_max = 10,000 × (1 + 0,05) = 10,000 × 1,05 = <strong>10,500 Ω</strong></p>
+
+      <p><strong>Điện trở 10 kΩ ±1% (metal film):</strong><br>
+      R_min = 10,000 × 0,99 = <strong>9,900 Ω</strong><br>
+      R_max = 10,000 × 1,01 = <strong>10,100 Ω</strong></p>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📌</span> Khi nào sai số quan trọng?</div>
+        <p>Với mạch số (digital), sai số ±5% thường không ảnh hưởng — điện trở hạn dòng LED, pull-up, pull-down không cần chính xác tuyệt đối. Với mạch analog (cầu chia áp cảm biến, bộ khuếch đại, bộ lọc), sai số ±1% trở xuống thường cần thiết. Với thiết bị đo chính xác, cần ±0,1% hoặc tốt hơn.</p>
+      </div>
+
+      <h3>3.1 Dãy điện trở tiêu chuẩn E12 và E24</h3>
+
+      <p>Điện trở không được sản xuất ở mọi giá trị. Chúng được sản xuất theo các dãy tiêu chuẩn được gọi là dãy E (<em>E-series</em>), được thiết kế sao cho khoảng giữa các giá trị liền kề gần bằng sai số của chúng — đảm bảo không có khoảng trống.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Dãy</th><th>Sai số</th><th>Số giá trị/thập phân</th><th>Dùng khi nào</th></tr></thead>
+          <tbody>
+            <tr><td><strong>E6</strong></td><td>±20%</td><td>6 giá trị</td><td>Hiếm gặp, linh kiện cũ</td></tr>
+            <tr><td><strong>E12</strong></td><td>±10%</td><td>12 giá trị</td><td>Điện trở carbon, học cơ bản</td></tr>
+            <tr><td><strong>E24</strong></td><td>±5%</td><td>24 giá trị</td><td>Điện trở carbon thông dụng nhất</td></tr>
+            <tr><td><strong>E48</strong></td><td>±2%</td><td>48 giá trị</td><td>Metal film chính xác</td></tr>
+            <tr><td><strong>E96</strong></td><td>±1%</td><td>96 giá trị</td><td>Metal film ±1%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Dãy E24 (24 giá trị trong mỗi thập phân từ 1 đến 10):</p>
+      <div style="background:var(--clr-bg-card);border:1px solid var(--clr-border);border-radius:var(--radius-lg);padding:var(--space-4) var(--space-6);font-family:var(--font-mono);font-size:var(--text-sm);color:var(--clr-accent-light);line-height:2;">
+        1.0 &nbsp;1.1 &nbsp;1.2 &nbsp;1.3 &nbsp;1.5 &nbsp;1.6 &nbsp;1.8 &nbsp;2.0 &nbsp;2.2 &nbsp;2.4 &nbsp;2.7 &nbsp;3.0<br>
+        3.3 &nbsp;3.6 &nbsp;3.9 &nbsp;4.3 &nbsp;4.7 &nbsp;5.1 &nbsp;5.6 &nbsp;6.2 &nbsp;6.8 &nbsp;7.5 &nbsp;8.2 &nbsp;9.1
+      </div>
+      <p class="text-sm-note">Nhân với 10, 100, 1k, 10k, 100k, 1M để có giá trị thực. Ví dụ: 2,2 kΩ, 4,7 kΩ, 10 kΩ đều là giá trị E24 phổ biến.</p>
+
+      <!-- PHẦN 4 — SMD -->
+      <h2>4. Đọc nhãn điện trở SMD</h2>
+
+      <p>Điện trở dán bề mặt (SMD — Surface Mount Device) không dùng mã màu mà in số trực tiếp. Có hai hệ thống:</p>
+
+      <h3>4.1 Hệ thống 3 chữ số (sai số ±5%)</h3>
+      <p>Format: <code>ABС</code> → giá trị = AB × 10^C</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nhãn SMD</th><th>Giá trị</th><th>Giải thích</th></tr></thead>
+          <tbody>
+            <tr><td><code>100</code></td><td>10 Ω</td><td>10 × 10⁰ = 10</td></tr>
+            <tr><td><code>220</code></td><td>22 Ω</td><td>22 × 10⁰ = 22</td></tr>
+            <tr><td><code>471</code></td><td>470 Ω</td><td>47 × 10¹ = 470</td></tr>
+            <tr><td><code>103</code></td><td>10 kΩ</td><td>10 × 10³ = 10,000</td></tr>
+            <tr><td><code>474</code></td><td>470 kΩ</td><td>47 × 10⁴ = 470,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4.2 Hệ thống 4 chữ số (sai số ±1%)</h3>
+      <p>Format: <code>ABCD</code> → giá trị = ABC × 10^D</p>
+      <p>Ví dụ: <code>1001</code> = 100 × 10¹ = 1000 Ω = 1 kΩ; &nbsp;<code>4992</code> = 499 × 10² = 49.9 kΩ</p>
+
+      <!-- THỰC HÀNH -->
+      <h2>5. Thực hành: Đo và phân loại bộ điện trở</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Đo 10 điện trở từ bộ assorted</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Lấy ngẫu nhiên 10 điện trở từ bộ assorted. Đặt lên mặt phẳng trắng.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Với mỗi điện trở: đọc mã màu 4 vạch, tính giá trị danh định và ghi vào cột "Lý thuyết."</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Dùng multimeter đo giá trị thực tế, ghi vào cột "Đo được."</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Tính sai số: <code>Sai số% = |R_đo – R_lý thuyết| / R_lý thuyết × 100%</code></p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đánh giá: nếu sai số ≤ 5% → Pass; nếu > 5% → Fail hoặc đọc mã màu sai.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th>Điện trở</th><th>Mã màu</th><th>Lý thuyết (Ω)</th><th>Đo được (Ω)</th><th>Sai số (%)</th><th>P/F</th></tr></thead>
+          <tbody>
+            <tr><td>R1</td><td>___·___·___·___</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td></tr>
+            <tr><td>R2</td><td>___·___·___·___</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td></tr>
+            <tr><td>R3</td><td>___·___·___·___</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td></tr>
+            <tr><td>R4</td><td>___·___·___·___</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td></tr>
+            <tr><td>R5</td><td>___·___·___·___</td><td>_____</td><td>_____</td><td>_____</td><td>_____</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- DEBUG -->
+      <h2>6. Debug — Lỗi thường gặp khi đọc mã màu</h2>
+
+      <div class="table-wrap">
+        <table class="debug-table">
+          <thead><tr><th>Lỗi</th><th>Nguyên nhân</th><th>Kiểm tra</th><th>Xử lý</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="symptom">Đọc sai 5x giá trị (ví dụ đọc 10kΩ thay vì 2kΩ)</td>
+              <td class="cause">Cầm ngược điện trở, đọc từ phải sang trái</td>
+              <td>Vạch sai số luôn ở xa hơn — nâu/đen/đỏ là vạch chữ số, vàng/bạc là sai số</td>
+              <td class="fix">Xoay điện trở 180°, đọc lại từ đầu sai số ở bên phải</td>
+            </tr>
+            <tr>
+              <td class="symptom">Nhầm màu cam và đỏ dưới ánh đèn vàng</td>
+              <td class="cause">Ánh sáng ảnh hưởng đến nhận diện màu</td>
+              <td>Đo bằng multimeter để xác nhận</td>
+              <td class="fix">Dùng ánh sáng trắng; đo đối chiếu khi nghi ngờ</td>
+            </tr>
+            <tr>
+              <td class="symptom">Đo được OL (overload) khi đo điện trở</td>
+              <td class="cause">Thang đo nhỏ hơn giá trị điện trở</td>
+              <td>Thử chuyển lên thang cao hơn</td>
+              <td class="fix">Chọn thang phù hợp: &lt;1kΩ → 2kΩ; &lt;10kΩ → 20kΩ...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 3</div>
+        <div class="exercise-part">
+          <div class="exercise-part-title">A. Đọc mã màu (8 câu × 5 điểm)</div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Vàng lá · Tím · Đỏ · Vàng kim = ? Ω</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Đỏ · Đỏ · Vàng lá · Vàng kim = ? Ω</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Nâu · Đen · Lá · Nâu (5 vạch) = ? Ω</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Xanh lá · Xanh dương · Cam · Vàng kim = ? Ω</div></div>
+          <div class="exercise-item"><span class="exercise-num">5</span><div class="exercise-text">Cam · Trắng · Đen · Nâu (5 vạch) = ? Ω</div></div>
+        </div>
+        <div class="exercise-part">
+          <div class="exercise-part-title">B. Tính sai số (3 câu × 10 điểm)</div>
+          <div class="exercise-item"><span class="exercise-num">6</span><div class="exercise-text">Điện trở 47 kΩ ±5%. Đo được 44 kΩ. Có đạt sai số không?</div></div>
+          <div class="exercise-item"><span class="exercise-num">7</span><div class="exercise-text">Bạn cần điện trở chính xác 10 kΩ ±1% cho mạch op-amp. Bộ điện trở của bạn chỉ có loại ±5%. Giải thích tại sao có thể gặp vấn đề và cách giải quyết.</div></div>
+          <div class="exercise-item"><span class="exercise-num">8</span><div class="exercise-text">Điện trở SMD ghi "472". Giá trị là bao nhiêu? Tính dải sai số ±5%.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>A1:</strong> Vàng lá(4) · Tím(7) · Đỏ(×100) · Vàng(±5%) = 47 × 100 = <strong>4,700 Ω = 4,7 kΩ ±5%</strong></p>
+            <p><strong>A2:</strong> Đỏ(2) · Đỏ(2) · Vàng lá(×10k) · Vàng(±5%) = 22 × 10,000 = <strong>220,000 Ω = 220 kΩ ±5%</strong></p>
+            <p><strong>A3:</strong> Nâu(1) · Đen(0) · Lá(5) · Lá(×100k) · Nâu(±1%) = 105 × 100,000 = <strong>10,500,000 Ω = 10,5 MΩ ±1%</strong></p>
+            <p><strong>A4:</strong> Xanh lá(5) · Xanh dương(6) · Cam(×1k) · Vàng(±5%) = 56 × 1000 = <strong>56 kΩ ±5%</strong></p>
+            <p><strong>A5:</strong> Cam(3) · Trắng(9) · Đen(0) · Nâu(×10) · Nâu(±1%) = 390 × 10 = <strong>3,900 Ω = 3,9 kΩ ±1%</strong></p>
+            <p><strong>B6:</strong> Dải cho phép: 47k × 0,95 = 44,650 Ω đến 47k × 1,05 = 49,350 Ω. Đo 44,000 Ω &lt; 44,650 Ω → <strong>Không đạt sai số ±5%</strong> (có thể điện trở lỗi hoặc đọc mã màu sai).</p>
+            <p><strong>B7:</strong> Điện trở ±5% có thể sai lên đến 500Ω (10kΩ × 5%). Với mạch op-amp cần độ chính xác cao, sai số này gây offset điện áp và sai số khuếch đại. Giải quyết: đo thực tế và chọn điện trở gần nhất ±1%; hoặc mua điện trở metal film ±1%.</p>
+            <p><strong>B8:</strong> "472" = 47 × 10² = <strong>4,700 Ω = 4,7 kΩ</strong>. Dải ±5%: 4,465 kΩ → 4,935 kΩ.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 3</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b3"><label for="c1b3">Tôi đọc được mã màu 4 vạch không cần tra bảng</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b3"><label for="c2b3">Tôi hiểu sai số và tính được dải thực tế</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b3"><label for="c3b3">Tôi đã đo ít nhất 5 điện trở và ghi kết quả</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b3"><label for="c4b3">Tôi biết khi nào cần điện trở ±1% thay vì ±5%</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c5b3"><label for="c5b3">Tôi đọc được nhãn SMD 3 chữ số</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week1/day02.html" class="lesson-nav-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 2: Breadboard & Multimeter</div></div>
+        </a>
+        <a href="../week1/day04.html" class="lesson-nav-btn next">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          <div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 4: LED & Điện trở hạn dòng</div></div>
+        </a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day03.html');</script>
+</body>
+</html>

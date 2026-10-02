@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 29: Mô Phỏng Mạch — Falstad & LTSpice — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 29: Mô phỏng mạch điện với Falstad Circuit Simulator và LTSpice — phân tích DC, AC, transient trước khi làm thực tế.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 5</span><span class="tag tag-day">Ngày 29</span><span class="tag tag-difficulty-intermediate">Mô phỏng</span></div>
+        <h1 class="lesson-title">Mô Phỏng Mạch — Falstad & LTSpice</h1>
+        <p class="lesson-subtitle">Thiết kế và kiểm tra mạch điện trên máy tính trước khi làm thực tế — tiết kiệm linh kiện, phát hiện lỗi sớm.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~25 phút</span><span class="lesson-stat">💻 Thực hành phần mềm: 60 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Biết mô phỏng là gì và tại sao quan trọng trong thiết kế điện tử</li>
+          <li>Sử dụng Falstad Circuit Simulator (web, miễn phí) cho mạch cơ bản</li>
+          <li>Mô phỏng mạch RC, BJT switch, Op-Amp trên Falstad</li>
+          <li>Cài và sử dụng LTSpice (miễn phí) cho mạch phức tạp hơn</li>
+          <li>Phân tích DC Operating Point — tìm V, I tại mọi nút</li>
+          <li>Phân tích Transient — xem dạng sóng theo thời gian</li>
+          <li>Phân tích AC — đáp ứng tần số của mạch filter</li>
+          <li>So sánh kết quả mô phỏng với đo kiểm thực tế — hiệu chỉnh</li>
+        </ul>
+      </div>
+
+      <!-- PHẦN 1 — TẠI SAO MÔ PHỎNG -->
+      <h2>1. Tại sao cần mô phỏng trước khi làm thực tế?</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Không mô phỏng</th><th>Có mô phỏng</th></tr></thead>
+          <tbody>
+            <tr><td>Hỏng linh kiện do tính sai → tốn tiền</td><td>Phát hiện lỗi trước — không tốn linh kiện</td></tr>
+            <tr><td>Khó debug khi nhiều lỗi cùng lúc</td><td>Cô lập từng vấn đề trong phần mềm</td></tr>
+            <tr><td>Không thấy dạng sóng nếu không có oscilloscope</td><td>Xem waveform ngay trên màn hình</td></tr>
+            <tr><td>Thay đổi giá trị linh kiện tốn công</td><td>Thay R, C trong 1 giây, chạy lại</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 2 — FALSTAD -->
+      <h2>2. Falstad Circuit Simulator — Mô phỏng trực tuyến</h2>
+
+      <p>Falstad (<a href="https://www.falstad.com/circuit/" target="_blank" rel="noopener">falstad.com/circuit</a>) là trình mô phỏng mạch miễn phí chạy trên trình duyệt. Hiển thị dòng điện chạy như animation — rất trực quan để hiểu nguyên lý hoạt động.</p>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">💻</span> Thực hành A: Mô phỏng mạch RC trên Falstad</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Mở <a href="https://www.falstad.com/circuit/" target="_blank" rel="noopener">falstad.com/circuit</a>. Xóa mạch mặc định (Edit → Clear All).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thêm: Voltage Source (Draw → Voltage Source) → đặt 5V DC. Thêm Resistor 10kΩ nối tiếp. Thêm Capacitor 10µF song song với đầu ra.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Right-click lên Voltage Source → Edit → Waveform: Square Wave, 1Hz, Amplitude 5V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Right-click lên nút output → Add Scope → quan sát dạng sóng nạp/xả tụ. Xác nhận τ = RC = 10k × 10µF = 0,1s.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thay C = 1µF → quan sát τ nhỏ hơn 10×. So sánh với lý thuyết.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">💻</span> Thực hành B: Mô phỏng BJT NPN switch trên Falstad</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Draw → Transistors → NPN Transistor. Đặt VCC=5V, R_C=1kΩ, LED load, R_B=10kΩ từ Base.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đặt V_Base = 0V → LED tắt. Đặt V_Base = 3,3V → LED sáng. Đọc I_C từ Scope.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Right-click transistor → Edit → xem thông số hFE. Thay đổi hFE → xem V_CE thay đổi thế nào.</p></div></li>
+        </ol>
+      </div>
+
+      <!-- PHẦN 3 — LTSPICE -->
+      <h2>3. LTSpice — Mô phỏng mạch chuyên nghiệp</h2>
+
+      <p>LTSpice do Analog Devices cung cấp miễn phí — là công cụ mô phỏng SPICE mạnh nhất miễn phí, dùng trong công nghiệp. Tải tại: <a href="https://www.analog.com/en/design-center/design-tools-and-calculators/ltspice-simulator.html" target="_blank" rel="noopener">analog.com/en/.../ltspice</a>.</p>
+
+      <h3>3.1 Ba loại phân tích quan trọng trong LTSpice</h3>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Phân tích</th><th>Lệnh</th><th>Dùng để</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td>DC Operating Point</td><td><code>.op</code></td><td>Tìm điện áp, dòng tại mọi nút khi mạch DC ổn định</td><td>Kiểm tra Q-point BJT</td></tr>
+            <tr><td>Transient Analysis</td><td><code>.tran 10ms</code></td><td>Dạng sóng theo thời gian (step response, oscillation)</td><td>Xem mạch RC nạp/xả</td></tr>
+            <tr><td>AC Analysis</td><td><code>.ac dec 100 10Hz 1MHz</code></td><td>Đáp ứng tần số — Bode plot (magnitude, phase)</td><td>Đặc tính bộ lọc RC</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">💻</span> Thực hành C: Phân tích AC mạch RC Low-Pass Filter trong LTSpice</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Vẽ mạch: V1 (AC source, amplitude 1V) → R=10kΩ → C=100nF → GND. Đặt probe tại đầu ra C.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Run → AC Analysis: <code>.ac dec 100 10Hz 1MHz</code></p></div></li>
+          <li class="step-item"><div class="step-content"><p>Xem Bode plot. Tại f_c = 159Hz (= 1/2π×10k×100n): magnitude phải = –3dB (≈ 0,707 × V_in).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thay C = 10nF → f_c dịch chuyển đến 1,59kHz. So sánh với công thức.</p></div></li>
+        </ol>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">LTSpice cho người mới bắt đầu</span></div>
+        <div class="video-body">
+          <div class="video-title">LTSpice Tutorial for Beginners — DC, Transient, AC Analysis</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: FesZ Electronics</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~25 phút</span>
+          </div>
+          <div class="video-purpose">Hướng dẫn LTSpice từ đầu: vẽ mạch, chạy DC/Transient/AC, đọc Bode plot và so sánh với lý thuyết.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=dHOuR3CnFv4" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 29</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Mô phỏng mạch RC High-Pass Filter (R và C đổi chỗ) trên Falstad. f_c = ? khi R=22kΩ, C=47nF. Xác nhận bằng Bode plot.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Mô phỏng mạch CE Amplifier (Bài 17) trong LTSpice. Chạy Transient với V_in = 10mVpp, 1kHz. Đo A_V thực tế từ waveform V_out/V_in.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Tại sao kết quả mô phỏng và thực tế thường khác nhau? Liệt kê 3 lý do chính.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> HPF: R nối tiếp đầu ra, C nối đầu vào. f_c = 1/(2π×22000×0,000000047) = 1/0,00651 = <strong>153,7Hz</strong>. Trên Bode plot: gain tăng với tần số, –3dB tại ~154Hz.</p>
+            <p><strong>2:</strong> Đo biên độ V_out đỉnh-đỉnh / V_in đỉnh-đỉnh từ waveform. So sánh với tính toán: A_V_tính = –R_C/r_e. Kết quả mô phỏng thường gần với lý thuyết hơn thực tế.</p>
+            <p><strong>3:</strong> (a) <strong>Mô hình SPICE không hoàn hảo</strong>: model transistor/op-amp giả định tham số lý tưởng, thực tế có sai số sản xuất ±20–50%; (b) <strong>Ký sinh (parasitics)</strong>: điện trở đường dây, tụ ký sinh PCB, inductance — không có trong mô phỏng đơn giản; (c) <strong>Nhiệt độ và lão hóa</strong>: linh kiện thực thay đổi theo nhiệt độ và thời gian sử dụng.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 29</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b29"><label for="c1b29">Tôi mô phỏng mạch RC và quan sát dạng sóng nạp/xả trên Falstad</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b29"><label for="c2b29">Tôi cài và chạy phân tích AC trong LTSpice — đọc Bode plot</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b29"><label for="c3b29">Tôi biết 3 loại phân tích SPICE: DC, Transient, AC</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b29"><label for="c4b29">Tôi hiểu hạn chế của mô phỏng so với thực tế</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week4/day28.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Tuần 4</div><div class="nav-title">Bài 28: Ôn tập Tuần 4</div></div></a>
+        <a href="../week5/day30.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 30: Oscilloscope — Đọc & Đo Dạng Sóng</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day29.html');</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 48: Viết Tài Liệu Kỹ Thuật — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 48: Viết tài liệu kỹ thuật chuyên nghiệp — User Manual, Schematic Documentation, API Reference và README.md.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 7</span><span class="tag tag-day">Ngày 48</span><span class="tag tag-difficulty-intermediate">Tài liệu</span></div>
+        <h1 class="lesson-title">Viết Tài Liệu Kỹ Thuật</h1>
+        <p class="lesson-subtitle">Sản phẩm không có tài liệu = sản phẩm chưa hoàn chỉnh. Kỹ năng viết doc là dấu hiệu của kỹ sư chuyên nghiệp.</p>
+        <div class="lesson-stats"><span class="lesson-stat">📝 Viết tài liệu: 90 phút</span><span class="lesson-stat">🔗 GitHub upload: 30 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu các loại tài liệu kỹ thuật — khi nào viết loại nào</li>
+          <li>Viết README.md theo chuẩn GitHub — project page chuyên nghiệp</li>
+          <li>Viết User Manual — hướng dẫn sử dụng cho người dùng cuối</li>
+          <li>Comment code đúng cách — Doxygen format</li>
+          <li>Tạo schematic documentation với chú thích đầy đủ</li>
+          <li>Upload project lên GitHub — version control + public showcase</li>
+          <li>Changelog — ghi lại thay đổi theo version</li>
+        </ul>
+      </div>
+
+      <h2>1. Các loại tài liệu kỹ thuật</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Loại tài liệu</th><th>Đối tượng</th><th>Nội dung chính</th></tr></thead>
+          <tbody>
+            <tr><td>README.md</td><td>Developer / GitHub visitor</td><td>Mô tả dự án, tính năng, cách cài đặt, cách dùng, ảnh demo</td></tr>
+            <tr><td>User Manual</td><td>Người dùng cuối</td><td>Hướng dẫn sử dụng, troubleshooting, cảnh báo an toàn</td></tr>
+            <tr><td>Technical Design Doc</td><td>Kỹ sư khác / future self</td><td>Kiến trúc, quyết định thiết kế, API, protocol</td></tr>
+            <tr><td>BOM & Schematic Doc</td><td>Nhà sản xuất, kỹ sư phần cứng</td><td>Danh sách linh kiện, giá, nguồn cung, datasheet links</td></tr>
+            <tr><td>Test Report</td><td>QA, khách hàng</td><td>Kết quả test, P/F, lỗi đã biết, version được test</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>2. README.md — Template chuẩn GitHub</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;"># 🌡️ IoT Weather Station — ESP32 + BME280
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![PlatformIO](https://img.shields.io/badge/PlatformIO-5.x-orange)](https://platformio.org)
+
+Trạm thời tiết IoT với ESP32, đo nhiệt/ẩm/áp và upload lên Adafruit IO.
+
+![Demo Screenshot](docs/demo.jpg)
+
+## ✨ Tính năng
+- 🌡️ Đo nhiệt độ ±0,5°C (BME280)
+- 💧 Đo độ ẩm ±2% RH
+- ☁️ Upload Adafruit IO mỗi 60 giây
+- 📱 Cảnh báo Telegram khi nhiệt độ bất thường
+- 🔋 Pin LiPo 2000mAh — &gt;24h hoạt động
+- 📊 Log dữ liệu SD card
+
+## 🛠️ Phần cứng cần thiết
+| Linh kiện | Số lượng | Link |
+|-----------|----------|------|
+| ESP32 DevKit v1 | 1 | Shopee |
+| BME280 I2C | 1 | Shopee |
+| SSD1306 OLED 128×64 | 1 | Shopee |
+
+## 📦 Cài đặt
+1. Clone repo: `git clone https://github.com/user/weather-station`
+2. Mở PlatformIO IDE, open folder
+3. Sửa `src/config.h`: nhập WiFi SSID, password, Adafruit IO key
+4. Build và Upload: Ctrl+Alt+U
+
+## 📖 Hướng dẫn sử dụng
+[Xem User Manual](docs/USER_MANUAL.md)
+
+## 🔧 Troubleshooting
+- **OLED không hiển thị**: Kiểm tra địa chỉ I2C bằng I2C Scanner
+- **WiFi không kết nối**: Đảm bảo router dùng WPA2, không WPA3-only
+
+## 📜 License
+MIT License — Tự do sử dụng, học tập và chia sẻ.</pre>
+      </div>
+
+      <h2>3. Comment code — Doxygen format</h2>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">/**
+ * @brief Đọc nhiệt độ từ BME280 với calibration offset.
+ * 
+ * @param offset Offset hiệu chỉnh (°C) — mặc định 0.0
+ * @return float Nhiệt độ đã hiệu chỉnh (°C), hoặc NAN nếu lỗi
+ * 
+ * @note Hàm này gọi bme.readTemperature() bên trong thư viện Adafruit BME280.
+ *       Thời gian đọc: ~2ms. Không gọi quá 1 lần/100ms.
+ * 
+ * @example
+ *   float temp = getCalibratedTemp(-1.5);  // Offset -1.5°C
+ *   if (!isnan(temp)) Serial.println(temp);
+ */
+float getCalibratedTemp(float offset = 0.0) {
+  float raw = bme.readTemperature();
+  if (isnan(raw)) return NAN;
+  return raw + offset;
+}</pre>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 48</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Viết README.md hoàn chỉnh cho đồ án: tên, mô tả, tính năng, BOM, cài đặt, hướng dẫn dùng, troubleshooting.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Comment tất cả function public trong firmware theo Doxygen format: @brief, @param, @return, @note.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Tạo GitHub repository, upload toàn bộ code + README + schematic + BOM. Share link.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Hướng dẫn GitHub</button>
+          <div class="answer-content">
+            <p>Cấu trúc repository khuyến nghị: <code>/src</code> (code firmware), <code>/hardware</code> (KiCad files, Gerber zip), <code>/docs</code> (README, User Manual, ảnh demo), <code>/bom.csv</code> (Bill of Materials), <code>LICENSE</code> (MIT), <code>.gitignore</code> (loại bỏ .pio/, build/). Để thêm ảnh demo vào README: chụp ảnh → upload vào <code>/docs/</code> → dùng <code>![caption](docs/filename.jpg)</code> trong README.md.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 48</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b48"><label for="c1b48">README.md hoàn chỉnh với ảnh demo và hướng dẫn cài đặt</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b48"><label for="c2b48">Tất cả function public có Doxygen comment</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b48"><label for="c3b48">GitHub repository public, có code + hardware + docs</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week7/day47.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 47: Integration Test</div></div></a>
+        <a href="../week7/day49.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 49: Ôn Tập Tuần 7 & Chuẩn Bị Demo</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day48.html');</script>
+</body>
+</html>

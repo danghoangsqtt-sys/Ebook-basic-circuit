@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 35: Ôn Tập Tuần 5 & Mini Project PCB Buck Converter — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 35: Ôn tập Tuần 5 và mini project thiết kế PCB Buck converter 12V→5V/1A hoàn chỉnh với KiCad.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 5</span><span class="tag tag-day">Ngày 35</span><span class="tag tag-difficulty-advanced">Ôn tập + Project</span></div>
+        <h1 class="lesson-title">Ôn Tập Tuần 5 & Mini Project: PCB Buck Converter</h1>
+        <p class="lesson-subtitle">Tổng hợp mô phỏng, oscilloscope, bộ lọc, nguồn switching và KiCad — thiết kế PCB Buck 12V→5V hoàn chỉnh.</p>
+        <div class="lesson-stats">
+          <span class="lesson-stat">⏱ Ôn tập: ~20 phút</span>
+          <span class="lesson-stat">💻 Project KiCad: 120 phút</span>
+        </div>
+      </div>
+
+      <h2>1. Ôn tập nhanh Tuần 5</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Câu hỏi</th><th>Đáp án</th></tr></thead>
+          <tbody>
+            <tr><td>3 loại phân tích SPICE quan trọng nhất?</td><td>.op (DC), .tran (Transient), .ac (AC Sweep)</td></tr>
+            <tr><td>Oscilloscope: Volt/div=500mV, 6 ô dọc → Vpp = ?</td><td>6 × 500mV = 3Vpp</td></tr>
+            <tr><td>RC LPF: R=22kΩ, C=47nF → f_c = ?</td><td>1/(2π×22000×47×10⁻⁹) = 153,7Hz</td></tr>
+            <tr><td>Buck converter: V_in=9V, V_out=3,3V → D = ?</td><td>D = 3,3/9 = 36,7%</td></tr>
+            <tr><td>Tại sao freewheeling diode phải là Schottky?</td><td>t_rr ngắn (ns) — diode thường 1N4007 quá chậm cho f &gt;100kHz</td></tr>
+            <tr><td>Track width tối thiểu cho dòng 1A trên PCB?</td><td>~0,8–1mm (1oz copper)</td></tr>
+            <tr><td>Kiểm tra PCB: GND↔VCC đo được 5Ω → làm gì?</td><td>KHÔNG cấp nguồn. Tìm và sửa short circuit trước.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- MINI PROJECT -->
+      <h2>2. Mini Project Tuần 5: PCB Buck Converter 12V→5V/1A</h2>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📋</span> Thông số kỹ thuật</div>
+        <ul>
+          <li><strong>IC:</strong> LM2596S-5.0 (TO-263, fixed 5V output) — hoặc LM2596S-ADJ (điều chỉnh)</li>
+          <li><strong>V_in:</strong> 8–40V (terminal screw 5.08mm)</li>
+          <li><strong>V_out:</strong> 5V ±2%, I_max = 1A</li>
+          <li><strong>Cuộn cảm:</strong> L = 68µH (SMD 8×8mm hoặc THT có chân)</li>
+          <li><strong>Diode freewheeling:</strong> SS14 Schottky SMA, 1A/40V</li>
+          <li><strong>Tụ đầu vào:</strong> 100µF/50V electrolytic + 100nF ceramic</li>
+          <li><strong>Tụ đầu ra:</strong> 220µF/16V ESR thấp + 100nF ceramic</li>
+          <li><strong>Output indicator LED:</strong> LED xanh + R=1kΩ/0805</li>
+          <li><strong>Connector đầu ra:</strong> 2-pin JST 2.54mm hoặc screw terminal</li>
+        </ul>
+      </div>
+
+      <h3>2.1 Schematic LM2596S-5.0</h3>
+
+      <div class="circuit-ascii">  Mạch LM2596S-5V chuẩn từ datasheet:
+
+   VIN(+) ─────┬──────── [L=68µH] ─────┬── VOUT(+)
+               │                        │
+          [C_in 100µF]            [C_out 220µF]
+          [100nF parallel]        [100nF parallel]
+               │         [SS14 Schottky] │
+   VIN(−) ─────┴──── Cathode ←── Anode ─┴── VOUT(−) = GND
+
+  LM2596S chân: [1=OUT 2=VIN 3=GND 4=FB 5=ON/OFF] (TO-263)
+  Fixed 5V: FB (pin 4) nối thẳng VOUT — không cần R_fb
+  ON/OFF (pin 5): nối GND để luôn ON</div>
+
+      <h3>2.2 Quy trình thiết kế PCB trong KiCad</h3>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">💻</span> Thiết kế PCB Buck Converter từng bước</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Vẽ schematic đầy đủ theo sơ đồ trên. Chú ý symbol LM2596S trong KiCad library (Regulator_Switching).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Assign footprint: LM2596 → TO-263-5, SS14 → D_SMA, L → IND SMD 7×7, C_out 220µF → CP_Radial_D8mm.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>PCB Layout: VIN connector → C_in → LM2596 → L → C_out → VOUT connector. <strong>Layout phải compact, loop VIN→IC→L→C_out→GND phải ngắn nhất có thể.</strong></p></div></li>
+          <li class="step-item"><div class="step-content"><p>Track width: VIN, VOUT, GND power = 2mm (1A). Tín hiệu ON/OFF = 0,3mm.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Ground plane B.Cu. Thermal relief cho IC TO-263 trên GND pad.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thêm silk screen: "IN+", "IN−", "OUT+", "OUT−". Version, date.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>DRC → 0 errors → Xuất Gerber + Drill files → Tải lên JLCPCB/PCBWay để báo giá (5 PCB ~$2–5).</p></div></li>
+        </ol>
+      </div>
+
+      <h3>2.3 Điểm quan trọng về layout Buck Converter</h3>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚡</span> Layout Buck Converter — 3 lỗi phổ biến nhất</div>
+        <ol>
+          <li><strong>Loop nhiễu lớn:</strong> Vòng lặp VIN → IC switch → D_freewheeling → GND phải cực nhỏ. Loop lớn = ăng-ten EMI → nhiễu xuyên sang mạch khác.</li>
+          <li><strong>Cạnh switching node (SW) dài:</strong> Nút SW (nối IC output, diode anode, cuộn cảm) là nguồn EMI chính. Track phải cực ngắn và không gần tín hiệu analog nhạy cảm.</li>
+          <li><strong>Tụ đầu vào xa IC:</strong> C_in phải sát chân VIN của IC — loại bỏ spike dòng khi MOSFET bật.</li>
+        </ol>
+      </div>
+
+      <h2>3. Tổng kết Tuần 5</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Bài</th><th>Kiến thức cốt lõi đạt được</th></tr></thead>
+          <tbody>
+            <tr><td>29</td><td>Mô phỏng Falstad & LTSpice — DC/Transient/AC</td></tr>
+            <tr><td>30</td><td>Oscilloscope — đọc waveform, trigger, probe calibration</td></tr>
+            <tr><td>31</td><td>Bộ lọc RC — LPF, HPF, BPF, tính f_c</td></tr>
+            <tr><td>32</td><td>Buck/Boost converter — nguyên lý, hiệu suất, chọn diode</td></tr>
+            <tr><td>33</td><td>KiCad — schematic, footprint, PCB layout, DRC, Gerber</td></tr>
+            <tr><td>34</td><td>Hàn SMD — kỹ thuật, lỗi, kiểm tra PCB 5 bước</td></tr>
+            <tr><td>35</td><td>Tổng hợp — PCB Buck converter hoàn chỉnh</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">🚀</span> Chuẩn bị Tuần 6 — Dự Án Thực Tế</div>
+        <p>Tuần 6 bắt đầu xây dựng các <strong>dự án thực tế hoàn chỉnh</strong>: từ ý tưởng → thiết kế mạch → firmware → PCB → test. Chuẩn bị ESP32, màn hình OLED, cảm biến và nguồn pin LiPo nếu có. Đây là tuần học thực hành nhiều nhất trong toàn khóa.</p>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist hoàn thành Tuần 5</div>
+        <div class="checklist-item"><input type="checkbox" id="wk5c1"><label for="wk5c1">Tôi mô phỏng mạch được trong Falstad và LTSpice</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk5c2"><label for="wk5c2">Tôi sử dụng oscilloscope để đo PWM và ripple nguồn</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk5c3"><label for="wk5c3">Tôi thiết kế và xuất PCB trong KiCad</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk5c4"><label for="wk5c4">Tôi hàn SMD và kiểm tra PCB thành công</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk5c5"><label for="wk5c5">Tôi hoàn thiện PCB Buck Converter với layout chuẩn</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week5/day34.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 34: Hàn SMD & Kiểm Tra PCB</div></div></a>
+        <a href="../week6/day36.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Tuần 6, Bài 36 →</div><div class="nav-title">Bài 36: Dự Án — Đồng Hồ Thời Gian Thực DS3231</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day35.html');</script>
+</body>
+</html>

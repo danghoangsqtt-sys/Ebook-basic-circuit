@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 17: Mạch Khuếch Đại BJT Common Emitter — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 17: Mạch khuếch đại BJT cấu hình Common Emitter — điểm làm việc Q, voltage gain, phân cực phân áp thực tế.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 3</span><span class="tag tag-day">Ngày 17</span><span class="tag tag-difficulty-intermediate">Khuếch đại</span></div>
+        <h1 class="lesson-title">Mạch Khuếch Đại BJT — Common Emitter</h1>
+        <p class="lesson-subtitle">Cấu hình khuếch đại phổ biến nhất — điểm Q, độ lợi điện áp, phân cực phân áp và phân tích mạch thực tế.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~55 phút</span><span class="lesson-stat">🔬 Thực hành: 40 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu cấu hình Common Emitter (CE) là gì và tại sao phổ biến</li>
+          <li>Hiểu điểm làm việc (Q-point) và tại sao cần chọn đúng</li>
+          <li>Tính độ lợi điện áp A_V = –R_C / r_e</li>
+          <li>Thiết kế phân cực phân áp (voltage divider bias) ổn định Q-point</li>
+          <li>Tính và chọn R1, R2, R_C, R_E cho mạch khuếch đại thực tế</li>
+          <li>Hiểu tại sao CE khuếch đại tín hiệu nhưng đảo pha 180°</li>
+          <li>Khảo sát giới hạn: clipping, distortion khi tín hiệu quá lớn</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>Transistor BC547</td><td>NPN, hFE=100–300</td><td>2</td></tr>
+            <tr><td>Điện trở 1kΩ, 2,2kΩ, 4,7kΩ, 10kΩ, 47kΩ, 100kΩ</td><td>¼W — nhiều giá trị để thử phân cực</td><td>2 mỗi loại</td></tr>
+            <tr><td>Tụ 10µF/25V (ghép tín hiệu, bypass)</td><td>Electrolytic</td><td>3</td></tr>
+            <tr><td>Tụ 100nF</td><td>Ceramic, decoupling</td><td>2</td></tr>
+            <tr><td>Nguồn tín hiệu xoay chiều nhỏ (nếu có)</td><td>Function generator hoặc tạo từ Arduino: analogWrite, 1kHz ~100mVpp</td><td>1</td></tr>
+            <tr><td>Oscilloscope (nếu có)</td><td>Để quan sát dạng sóng vào/ra và đảo pha</td><td>1</td></tr>
+            <tr><td>Multimeter + nguồn 12V</td><td>—</td><td>1 bộ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — CẤU HÌNH CE -->
+      <h2>1. Cấu hình Common Emitter (CE)</h2>
+
+      <p>Trong cấu hình Common Emitter, cực Emitter là điểm chung (reference) cho cả tín hiệu vào (Base–Emitter) và tín hiệu ra (Collector–Emitter). Đây là cấu hình khuếch đại phổ biến nhất vì cho độ lợi điện áp (voltage gain) lớn nhất trong 3 cấu hình BJT.</p>
+
+      <div class="circuit-ascii">  Mạch khuếch đại CE cơ bản:
+
+                   VCC (+12V)
+                       │
+                     [R_C = 4,7kΩ]  ← Tải Collector
+                       │
+   Vin ──[C_in=10µF]──├── Collector (C)
+                       │  [BC547]
+  [R1=100kΩ] ────────── Base (B)
+  [R2= 22kΩ] ──────────┘
+                          Emitter (E)
+                              │
+                         [R_E=1kΩ]  ← Ổn định Q-point
+                              │
+                    [C_E=47µF] (bypass R_E cho AC)
+                              │
+                             GND
+                              │
+   Vout ──[C_out=10µF]── Collector (C)</div>
+
+      <!-- PHẦN 2 — Q-POINT -->
+      <h2>2. Điểm làm việc Q-Point</h2>
+
+      <p>Q-Point (<em>Quiescent Point</em>) là điểm hoạt động của transistor khi không có tín hiệu vào — tức là giá trị V_CE và I_C ở trạng thái "nghỉ". Chọn Q-point đúng là bước quan trọng nhất trong thiết kế mạch khuếch đại:</p>
+
+      <ul>
+        <li><strong>Q-point quá cao</strong> (I_C lớn, V_CE nhỏ): transistor bão hòa — tín hiệu dương bị clipping</li>
+        <li><strong>Q-point quá thấp</strong> (I_C nhỏ, V_CE lớn): transistor cutoff — tín hiệu âm bị clipping</li>
+        <li><strong>Q-point giữa (VCC/2)</strong>: biên độ swing lớn nhất — tín hiệu không bị méo</li>
+      </ul>
+
+      <p>Quy tắc thiết kế: V_CE_Q = V_CC / 2 (điểm giữa đường tải).</p>
+
+      <!-- PHẦN 3 — PHÂN CỰC PHÂN ÁP -->
+      <h2>3. Phân cực phân áp — Voltage Divider Bias</h2>
+
+      <p>Phân cực đơn (chỉ một điện trở Base) kém ổn định: Q-point phụ thuộc vào hFE — mà hFE thay đổi rất nhiều giữa các transistor cùng loại (BC547: hFE = 110–800!) và theo nhiệt độ. <strong>Phân cực phân áp với R_E</strong> giải quyết vấn đề này bằng negative feedback tự động:</p>
+
+      <ul>
+        <li>R1–R2 tạo V_B cố định</li>
+        <li>V_E = V_B – 0,7V → I_E = V_E / R_E → cố định I_C ≈ I_E</li>
+        <li>Nếu hFE tăng → I_C tăng → V_E tăng → V_BE giảm → I_B giảm → I_C giảm lại (tự ổn định)</li>
+      </ul>
+
+      <h3>3.1 Quy trình thiết kế mạch CE với phân cực phân áp</h3>
+
+      <h4>Ví dụ: VCC=12V, BC547 (hFE=150), IC_Q=1mA</h4>
+
+      <p><strong>Bước 1: Chọn điểm Q</strong><br>
+      I_C_Q = 1mA. V_CE_Q = VCC/2 = 6V. V_E = V_CE_Q/10 = 0,6V (quy tắc thực hành: V_E ≈ VCC/10)</p>
+
+      <p><strong>Bước 2: Tính R_E</strong><br>
+      R_E = V_E / I_C_Q = 0,6V / 0,001A = <strong>600Ω → chọn 560Ω hoặc 620Ω</strong></p>
+
+      <p><strong>Bước 3: Tính R_C</strong><br>
+      V_RC = VCC – V_CE_Q – V_E = 12 – 6 – 0,6 = 5,4V<br>
+      R_C = V_RC / I_C = 5,4V / 0,001A = <strong>5,400Ω → chọn 4,7kΩ</strong></p>
+
+      <p><strong>Bước 4: Tính phân áp R1, R2</strong><br>
+      V_B = V_E + V_BE = 0,6 + 0,7 = 1,3V<br>
+      I_div = 10 × I_B = 10 × (I_C/hFE) = 10 × (0,001/150) = 10 × 6,67µA = 0,0667mA<br>
+      R2 = V_B / I_div = 1,3V / 0,0000667A = <strong>19,5kΩ → chọn 20kΩ hoặc 22kΩ</strong><br>
+      R1 = (VCC – V_B) / I_div = (12 – 1,3) / 0,0000667 = 10,7V / 0,0000667 = <strong>160kΩ → chọn 150kΩ</strong></p>
+
+      <h3>3.2 Độ lợi điện áp (Voltage Gain)</h3>
+
+      <div class="formula-block">
+        <div class="formula-main">A_V = –R_C / r_e &nbsp;(không có C_E bypass)</div>
+        <div class="formula-main" style="margin-top:8px;">A_V = –R_C / (r_e + R_E) &nbsp;(có R_E, không bypass)</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">r_e</span> = 26mV / I_C_Q (điện trở emitter động — ở 25°C)</span>
+          <span class="formula-var">Dấu âm (–) = tín hiệu ra đảo pha 180° so với tín hiệu vào</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ: I_C_Q = 1mA, R_C = 4,7kΩ</h4>
+      <p>r_e = 26mV / 1mA = <strong>26Ω</strong><br>
+      A_V (bypass C_E) = –4700 / 26 = <strong>–180,7 lần ≈ –181</strong> (đảo pha, khuếch đại ~181 lần)</p>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📌</span> Tại sao CE đảo pha 180°?</div>
+        <p>Khi V_in tăng → V_BE tăng → I_B tăng → I_C tăng → V_RC (sụt áp trên R_C) tăng → V_CE = VCC – V_RC <strong>giảm</strong>. Vậy V_out (= V_CE) giảm khi V_in tăng → đảo pha 180°. Điều này là bình thường và cần tính đến trong thiết kế tầng khuếch đại nhiều tầng.</p>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">Common Emitter Amplifier</span></div>
+        <div class="video-body">
+          <div class="video-title">Common Emitter Amplifier — circuit design from scratch</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: All About Electronics</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~18 phút</span>
+          </div>
+          <div class="video-purpose">Thiết kế mạch CE hoàn chỉnh với phân cực phân áp, tính toán từng bước. Rất phù hợp xem đồng thời với bài này.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=GvIpnUf2NAU" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 17</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Mạch CE: VCC=9V, IC_Q=2mA, hFE=200. Tính R_E, R_C, R1, R2.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">I_C_Q=2mA, R_C=2,2kΩ. Tính r_e và A_V (có bypass C_E). Nếu V_in=10mV đỉnh, V_out đỉnh là bao nhiêu?</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Giải thích tại sao tụ C_E (bypass R_E) làm tăng độ lợi nhưng giảm ổn định Q-point với tín hiệu lớn.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> V_E = 9/10 = 0,9V. R_E = 0,9/0,002 = 450Ω → <strong>chọn 470Ω</strong>. V_CE_Q = 9/2 = 4,5V. V_RC = 9–4,5–0,9 = 3,6V. R_C = 3,6/0,002 = <strong>1800Ω → chọn 1,8kΩ</strong>. V_B = 0,9+0,7 = 1,6V. I_div = 10×(2mA/200) = 0,1mA. R2 = 1,6/0,0001 = <strong>16kΩ → chọn 15kΩ</strong>. R1 = (9–1,6)/0,0001 = <strong>74kΩ → chọn 75kΩ hoặc 68kΩ+6,8kΩ</strong>.</p>
+            <p><strong>2:</strong> r_e = 26mV/2mA = <strong>13Ω</strong>. A_V = –2200/13 = <strong>–169 lần</strong>. V_out_peak = 10mV × 169 = <strong>1,69V đỉnh</strong> (đảo pha).</p>
+            <p><strong>3:</strong> C_E bypass làm trở kháng R_E = 0 với AC → A_V = –R_C/r_e (lớn). Nhưng với DC: R_E vẫn ổn định Q-point. Tuy nhiên, khi tín hiệu lớn, A_V cao → V_out swing rộng → dễ clipping ở biên. Không có C_E bypass: A_V = –R_C/(r_e+R_E) nhỏ hơn nhưng ổn định hơn với tín hiệu lớn và ít distortion.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 17</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b17"><label for="c1b17">Tôi hiểu Q-point và tại sao phải đặt giữa đường tải</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b17"><label for="c2b17">Tôi tính được R1, R2, R_C, R_E cho mạch CE với phân cực phân áp</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b17"><label for="c3b17">Tôi tính được A_V và hiểu tại sao CE đảo pha 180°</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b17"><label for="c4b17">Tôi biết vai trò của C_E bypass và trade-off với nó</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week3/day16.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 16: Switch BJT — Relay & Motor DC</div></div></a>
+        <a href="../week3/day18.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 18: MOSFET — NMOS & PMOS</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day17.html');</script>
+</body>
+</html>

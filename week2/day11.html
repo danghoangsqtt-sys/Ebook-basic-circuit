@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 11: Diode — Nguyên Lý & Ứng Dụng — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 11: Diode bán dẫn — đặc tuyến I-V, phân cực thuận/nghịch, các loại diode và ứng dụng chỉnh lưu, bảo vệ mạch.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 2</span><span class="tag tag-day">Ngày 11</span><span class="tag tag-difficulty-beginner">Bán dẫn</span></div>
+        <h1 class="lesson-title">Diode — Nguyên Lý & Ứng Dụng</h1>
+        <p class="lesson-subtitle">Linh kiện bán dẫn đầu tiên — van một chiều của điện tử, nền tảng của mọi mạch chỉnh lưu và bảo vệ.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~45 phút</span><span class="lesson-stat">🔬 Thực hành: 40 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu diode là gì và tại sao chỉ dẫn dòng một chiều</li>
+          <li>Phân biệt phân cực thuận (forward bias) và nghịch (reverse bias)</li>
+          <li>Hiểu và đọc đặc tuyến I-V của diode</li>
+          <li>Biết điện áp thuận V_f và điện áp đánh thủng V_BR</li>
+          <li>Phân biệt các loại diode: 1N4007, 1N4148, Schottky, Zener</li>
+          <li>Lắp mạch chỉnh lưu bán sóng và toàn sóng (cầu diode)</li>
+          <li>Ứng dụng: bảo vệ cực tính, clamping, chỉnh lưu nguồn</li>
+          <li>Đo và kiểm tra diode bằng multimeter chế độ diode</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ và linh kiện</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>Diode 1N4007</td><td>1A, 1000V PIV — diode chỉnh lưu thông dụng nhất</td><td>4</td></tr>
+            <tr><td>Diode 1N4148</td><td>200mA, 75V — diode tín hiệu nhỏ nhanh</td><td>4</td></tr>
+            <tr><td>LED đỏ 5mm</td><td>Diode phát quang — đã quen từ Bài 4</td><td>1</td></tr>
+            <tr><td>Tụ điện 1000µF/25V</td><td>Tụ lọc cho mạch chỉnh lưu</td><td>1</td></tr>
+            <tr><td>Điện trở 470Ω, 1kΩ</td><td>¼W</td><td>2 mỗi loại</td></tr>
+            <tr><td>Nguồn AC 6–12V (adapter có thể đo)</td><td>Hoặc máy biến áp nhỏ nếu có — KHÔNG dùng 220V</td><td>1</td></tr>
+            <tr><td>Breadboard + multimeter</td><td>—</td><td>1 bộ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — DIODE LÀ GÌ -->
+      <h2>1. Diode — Cấu tạo và nguyên lý hoạt động</h2>
+
+      <p>Diode là linh kiện bán dẫn có hai cực: <strong>anode (A)</strong> và <strong>cathode (K)</strong>, được tạo thành từ tiếp giáp P-N — một vùng bán dẫn loại P (nhiều lỗ trống) tiếp xúc với một vùng bán dẫn loại N (nhiều electron tự do). Tại vùng tiếp giáp, electron và lỗ trống kết hợp với nhau tạo ra vùng nghèo (<em>depletion region</em>) — một "rào thế" tự nhiên.</p>
+
+      <div class="circuit-ascii">  Cấu tạo diode và ký hiệu:
+
+   Cực A (Anode)          Cực K (Cathode)
+       │                       │
+       P ──── depletion ──── N
+              zone (rào thế)
+
+   Ký hiệu sơ đồ mạch:
+   A ──|▶|── K
+        (mũi tên chỉ chiều dòng điện quy ước)
+
+   Nhớ: dòng điện chạy theo chiều mũi tên (A→K)
+        Electron chạy ngược chiều mũi tên (K→A)</div>
+
+      <h3>1.1 Phân cực thuận — Forward Bias</h3>
+      <p>Khi đặt điện áp dương vào anode (A) và âm vào cathode (K), rào thế bị thu hẹp. Khi V_AK đủ lớn (~0,6–0,7V với diode silicon; ~0,2–0,3V với diode Schottky), rào thế bị thắng, dòng điện chạy từ A → K. Diode <strong>dẫn điện</strong>.</p>
+
+      <h3>1.2 Phân cực nghịch — Reverse Bias</h3>
+      <p>Khi đặt điện áp dương vào cathode (K), rào thế càng rộng ra. Gần như không có dòng điện chạy qua (chỉ có dòng rỉ cực nhỏ nA–µA). Diode <strong>không dẫn điện</strong>. Nếu điện áp nghịch tăng quá cao (V_BR — breakdown voltage), diode bị đánh thủng và hỏng.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Trạng thái</th><th>V_AK</th><th>Dòng qua diode</th><th>Mô hình đơn giản</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Phân cực thuận</strong></td><td>> V_f ≈ 0,6–0,7V</td><td>Lớn (mA–A)</td><td>Ngắn mạch + V_f cố định</td></tr>
+            <tr><td><strong>Vùng ngưỡng</strong></td><td>0 → V_f</td><td>Nhỏ, phi tuyến</td><td>—</td></tr>
+            <tr><td><strong>Phân cực nghịch</strong></td><td>< 0V</td><td>Cực nhỏ (nA–µA)</td><td>Hở mạch</td></tr>
+            <tr><td><strong>Đánh thủng</strong></td><td>< –V_BR</td><td>Lớn đột ngột (hỏng)</td><td>Nguy hiểm (trừ Zener)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 2 — PHÂN LOẠI -->
+      <h2>2. Các loại diode thông dụng</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Loại</th><th>Mã</th><th>V_f</th><th>I_max</th><th>V_BR</th><th>Dùng cho</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Chỉnh lưu (Rectifier)</strong></td><td>1N4007</td><td>0,7V</td><td>1A</td><td>1000V</td><td>Chỉnh lưu AC→DC, bảo vệ nguồn</td></tr>
+            <tr><td><strong>Tín hiệu nhỏ (Signal)</strong></td><td>1N4148</td><td>0,7V</td><td>200mA</td><td>75V</td><td>Clamping, logic, switching nhanh</td></tr>
+            <tr><td><strong>Schottky</strong></td><td>1N5819, SS14</td><td>0,2–0,3V</td><td>1–3A</td><td>40–60V</td><td>Hiệu suất cao, DC-DC, điều chỉnh nguồn</td></tr>
+            <tr><td><strong>Zener</strong></td><td>5V1, 3V3...</td><td>0,7V thuận</td><td>—</td><td>Xác định (3,3V–100V)</td><td>Ổn áp tham chiếu, bảo vệ quá áp</td></tr>
+            <tr><td><strong>LED</strong></td><td>Đỏ, xanh...</td><td>1,8–3,5V</td><td>20–50mA</td><td>5–10V</td><td>Phát sáng — đã học Bài 4</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> Tại sao Schottky có V_f thấp hơn?</div>
+        <p>Diode Schottky dùng tiếp giáp kim loại–bán dẫn thay vì P-N. Không có vùng nghèo P-N → rào thế thấp hơn (0,2–0,3V thay vì 0,6–0,7V). Điều này rất quan trọng trong mạch pin: với V_f=0,7V, bạn tốn 0,7V chỉ để "vào" diode bảo vệ; với Schottky chỉ tốn 0,2–0,3V → tiết kiệm điện áp và hiệu suất tốt hơn.</p>
+      </div>
+
+      <!-- PHẦN 3 — MẠCH CHỈNH LƯU -->
+      <h2>3. Mạch chỉnh lưu — Rectifier</h2>
+
+      <h3>3.1 Chỉnh lưu bán sóng (Half-Wave Rectifier)</h3>
+
+      <div class="circuit-ascii">  Mạch chỉnh lưu bán sóng:
+
+   AC ──[D1]──┬── DC+ (chỉ có nửa sóng dương)
+              [R_load]
+              │
+   AC ─────────┴── DC– (GND)
+
+  Đầu vào:   ┌─┐   ┌─┐        (sóng sin đầy đủ)
+          ───┘ └───┘ └──
+  Đầu ra:    ┌─┐   ┌─┐        (chỉ nửa dương)
+          ─────┘ ─────┘ ──
+
+  V_out_avg = V_peak / π ≈ 0,318 × V_peak
+  Hiệu suất thấp — chỉ dùng một nửa chu kỳ AC</div>
+
+      <h3>3.2 Chỉnh lưu toàn sóng cầu (Full-Wave Bridge Rectifier)</h3>
+
+      <div class="circuit-ascii">  Cầu diode 4 linh kiện:
+
+           D1            D3
+   AC+ ──|▶|──┬── DC+ ──|◀|── AC-
+              [R_L]
+   AC- ──|▶|──┴── DC– ──|◀|── AC+
+           D2            D4
+
+  Đầu ra:    ┌─┐ ┌─┐ ┌─┐      (toàn sóng)
+          ────┘ └┘ └┘ └───
+  V_out_avg = 2 × V_peak / π ≈ 0,636 × V_peak
+  Hiệu suất gấp đôi so với bán sóng</div>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📌</span> Tụ lọc sau chỉnh lưu</div>
+        <p>Sau mạch chỉnh lưu, điện áp vẫn có gợn sóng (ripple). Tụ điện lớn (1000µF–10000µF) đặt song song với tải giúp làm phẳng điện áp. Tụ lớn hơn → ripple nhỏ hơn → điện áp DC sạch hơn. Đây là nguyên lý của mọi adapter điện tử.</p>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">Diode và mạch chỉnh lưu</span></div>
+        <div class="video-body">
+          <div class="video-title">Diodes Explained — The basics</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: The Engineering Mindset</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~13 phút</span>
+          </div>
+          <div class="video-purpose">Giải thích diode từ cấu trúc bán dẫn P-N đến đặc tuyến I-V, các loại diode và mạch chỉnh lưu. Cực kỳ trực quan.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=Fwj_d3uO5g8" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>4. Thực hành: Đo diode và lắp mạch bảo vệ cực tính</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành A: Đo V_f diode 1N4007 và 1N4148</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Chế độ <code>|▶|</code> (Diode) trên multimeter. Que đỏ vào anode, que đen vào cathode (nhìn vạch trắng trên thân = cathode).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V_f của 1N4007: kỳ vọng 0,6–0,7V. Ghi lại.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V_f của 1N4148: kỳ vọng 0,6–0,7V (tương tự nhưng thường hơi thấp hơn). Ghi lại.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đổi que đo (que đỏ vào cathode, que đen vào anode): màn hình hiển thị "OL" = diode tốt, không dẫn nghịch.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành B: Mạch bảo vệ cực tính nguồn</div>
+        <p style="margin-bottom:12px;">Một trong những ứng dụng thực tế nhất của diode: bảo vệ mạch khỏi cắm ngược nguồn điện.</p>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Lắp mạch: nguồn (+) → D1(1N4007) → LED đỏ + R(470Ω) → GND. Kết nối đúng chiều: LED sáng.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V_out sau diode (trước LED): kỳ vọng = V_supply – V_f ≈ 5 – 0,7 = 4,3V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đổi cực nguồn (cắm ngược): LED tắt — diode chặn hoàn toàn. Mạch được bảo vệ!</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V sau diode khi cắm ngược: gần 0V. Diode đang phân cực nghịch → không dẫn.</p></div></li>
+        </ol>
+      </div>
+
+      <!-- DEBUG -->
+      <h2>5. Debug — Lỗi thường gặp với diode</h2>
+
+      <div class="table-wrap">
+        <table class="debug-table">
+          <thead><tr><th>Hiện tượng</th><th>Nguyên nhân</th><th>Kiểm tra</th><th>Xử lý</th></tr></thead>
+          <tbody>
+            <tr><td class="symptom">Diode đo V_f = 0V (hai chiều)</td><td class="cause">Diode bị ngắn mạch (shorted) — thường do quá dòng hoặc quá áp nghịch</td><td>Đo hai chiều: nếu cả hai đều ~0V → hỏng</td><td class="fix">Thay diode mới; kiểm tra nguyên nhân gây hỏng</td></tr>
+            <tr><td class="symptom">Diode đo OL cả hai chiều</td><td class="cause">Diode bị hở mạch (open) — tiếp giáp P-N bị phá hủy</td><td>Đo hai chiều đều OL</td><td class="fix">Thay diode mới</td></tr>
+            <tr><td class="symptom">Mạch chỉnh lưu ra điện áp thấp hơn mong đợi</td><td class="cause">Mỗi diode sụt 0,7V; cầu 4 diode sụt 2 × 0,7V = 1,4V</td><td>Tính V_out = V_peak – 1,4V (hoặc –0,7V với bán sóng)</td><td class="fix">Dùng Schottky để giảm sụt áp xuống còn 2 × 0,3V = 0,6V</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 11</div>
+        <div class="exercise-part">
+          <div class="exercise-part-title">Diode và mạch chỉnh lưu (5 câu)</div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Cầu chỉnh lưu 4 diode 1N4007, nguồn AC V_peak=12V. Tính V_DC_avg và V_DC sau khi lọc (tụ lớn).</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Tại sao nên dùng diode Schottky thay 1N4007 trong mạch pin sạc 5V? Tính hiệu suất cải thiện.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Mạch clamping: diode 1N4148 anode vào GND, cathode vào đường tín hiệu. Giải thích tác dụng bảo vệ khi tín hiệu âm đột ngột.</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Bạn đo diode: chiều thuận V=0,68V, chiều nghịch OL. Đây là diode gì và có tốt không?</div></div>
+          <div class="exercise-item"><span class="exercise-num">5</span><div class="exercise-text">Vẽ (bằng ASCII) sơ đồ mạch bảo vệ ngược nguồn dùng 1 diode 1N4007 cho mạch 12V. Nên dùng diode ở đâu: dây (+) hay dây (–)?</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> V_peak = 12V. Cầu diode sụt 2×0,7=1,4V. V_DC_avg = 0,636 × (12–1,4) = 0,636 × 10,6 = <strong>6,74V</strong>. Sau tụ lọc lớn: V_DC ≈ V_peak – 1,4V = <strong>10,6V</strong> (ripple nhỏ).</p>
+            <p><strong>2:</strong> 1N4007 sụt 0,7V; Schottky sụt 0,3V. Với nguồn 5V: 1N4007 còn 4,3V (14% tổn thất); Schottky còn 4,7V (6% tổn thất). Cải thiện ~8% — quan trọng khi chạy bằng pin.</p>
+            <p><strong>3:</strong> Khi tín hiệu bình thường (dương): diode phân cực nghịch → không ảnh hưởng. Khi tín hiệu âm: diode phân cực thuận → kẹp điện áp tại khoảng –0,7V → bảo vệ input ADC/GPIO khỏi điện áp âm phá hủy.</p>
+            <p><strong>4:</strong> Diode silicon (V_f=0,68V ≈ 0,7V silicon). Kiểm tra tốt: thuận dẫn (0,68V), nghịch chặn (OL) → <strong>Diode tốt</strong>.</p>
+            <p><strong>5:</strong> Dây (+): <code>12V(+) ──[D: 1N4007]──→ VCC_circuit</code>. Cathode (vạch) vào mạch. Đặt ở dây (+) để khi cắm ngược, diode chặn hoàn toàn và không có dòng nào vào mạch từ bất cứ hướng nào.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 11</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b11"><label for="c1b11">Tôi giải thích được tại sao diode chỉ dẫn một chiều</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b11"><label for="c2b11">Tôi phân biệt được 1N4007, 1N4148, Schottky qua thông số</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b11"><label for="c3b11">Tôi đo được V_f diode bằng multimeter</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b11"><label for="c4b11">Tôi lắp được mạch bảo vệ cực tính và xác nhận hoạt động</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c5b11"><label for="c5b11">Tôi biết cách tính V_DC từ mạch cầu chỉnh lưu</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week2/day10.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 10: Cuộn cảm & Mạch RL</div></div></a>
+        <a href="../week2/day12.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 12: Diode Zener & Ổn áp</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day11.html');</script>
+</body>
+</html>

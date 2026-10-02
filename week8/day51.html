@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 51: PID Control — Điều Khiển Vòng Kín — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 51: PID controller — P, I, D từng phần, tuning Ziegler-Nichols, ứng dụng điều khiển nhiệt độ và tốc độ motor.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 8</span><span class="tag tag-day">Ngày 51</span><span class="tag tag-difficulty-advanced">Điều khiển</span></div>
+        <h1 class="lesson-title">PID Control — Điều Khiển Vòng Kín</h1>
+        <p class="lesson-subtitle">Thuật toán điều khiển phổ biến nhất trong công nghiệp — từ tủ lạnh đến tên lửa, máy bay đến robot — tất cả đều dùng PID.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~45 phút</span><span class="lesson-stat">🔬 Thực hành: 60 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu vòng điều khiển kín — Setpoint, Error, Output, Feedback</li>
+          <li>P (Proportional): tỷ lệ với sai số — phản ứng nhanh nhưng có offset</li>
+          <li>I (Integral): tích phân sai số — loại bỏ steady-state error</li>
+          <li>D (Derivative): đạo hàm sai số — giảm overshoot</li>
+          <li>Triển khai PID rời rạc (discrete) trong vi điều khiển</li>
+          <li>Tuning PID thực hành: bắt đầu với P, thêm I, thêm D</li>
+          <li>Ứng dụng: điều khiển nhiệt độ lò sấy bằng PWM heating element</li>
+          <li>Bảo vệ: windup prevention cho tích phân I</li>
+        </ul>
+      </div>
+
+      <h2>1. Vòng điều khiển kín (Closed-Loop Control)</h2>
+
+      <div class="circuit-ascii">  Vòng điều khiển PID:
+
+  Setpoint(SP) ─[+]─→ [PID Controller] ─→ [Plant/Process] ─→ Output
+               [-]                                                │
+                └──────────── [Sensor / Feedback] ←──────────────┘
+
+  Error = Setpoint - Measurement (từ cảm biến)
+  Output = Kp×e + Ki×∫e dt + Kd×(de/dt)
+
+  Ví dụ: Điều khiển nhiệt độ lò
+  SP = 100°C, Measurement = 85°C → Error = +15°C
+  → PID tăng PWM heating element
+  → Nhiệt độ tăng → Error giảm → PWM giảm → cân bằng tại 100°C</div>
+
+      <h2>2. PID rời rạc — Code vi điều khiển</h2>
+
+      <div class="formula-block">
+        <div class="formula-main">u(k) = Kp×e(k) + Ki×Σe(k)×dt + Kd×(e(k)–e(k-1))/dt</div>
+        <div class="formula-vars">
+          <span class="formula-var">u(k) = output hiện tại (PWM duty, 0–255)</span>
+          <span class="formula-var">e(k) = error hiện tại = SP – measurement</span>
+          <span class="formula-var">Σe(k)×dt = tổng tích lũy sai số × thời gian (integral)</span>
+          <span class="formula-var">e(k)–e(k-1) = thay đổi sai số so với lần trước (derivative)</span>
+          <span class="formula-var">dt = chu kỳ điều khiển (ví dụ: 100ms)</span>
+        </div>
+      </div>
+
+      <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
+<pre style="margin:0;white-space:pre-wrap;">// PID Controller cho điều khiển nhiệt độ
+struct PID {
+  float Kp, Ki, Kd;
+  float setpoint;
+  float integral = 0;
+  float prevError = 0;
+  float integralMax = 255;  // Windup protection
+  
+  float compute(float measurement, float dt) {
+    float error = setpoint - measurement;
+    
+    // Proportional
+    float P = Kp * error;
+    
+    // Integral với anti-windup
+    integral += error * dt;
+    integral = constrain(integral, -integralMax, integralMax);
+    float I = Ki * integral;
+    
+    // Derivative
+    float D = Kd * (error - prevError) / dt;
+    prevError = error;
+    
+    // Tổng output, giới hạn 0–255
+    return constrain(P + I + D, 0, 255);
+  }
+};
+
+// Sử dụng
+PID tempPID = {2.0, 0.5, 0.1, 100.0};  // Kp, Ki, Kd, SP=100°C
+const int HEATER_PIN = 9;
+const float DT = 0.1;  // 100ms chu kỳ
+
+void loop() {
+  float temp = readTemperature();  // Từ BME280 hoặc PT100
+  float pwm = tempPID.compute(temp, DT);
+  analogWrite(HEATER_PIN, (int)pwm);
+  delay(100);
+}</pre>
+      </div>
+
+      <h2>3. Tuning PID — Phương pháp thực hành</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Bước</th><th>Làm gì</th><th>Quan sát</th></tr></thead>
+          <tbody>
+            <tr><td>1. Chỉ P</td><td>Ki=0, Kd=0. Tăng Kp dần từ 0</td><td>Hệ thống phản ứng. Còn steady-state error. Nếu oscillate → giảm Kp</td></tr>
+            <tr><td>2. Thêm I</td><td>Tăng Ki từ 0 rất chậm</td><td>Steady-state error giảm dần về 0. Quá nhiều I → oscillate chậm</td></tr>
+            <tr><td>3. Thêm D</td><td>Tăng Kd từ 0</td><td>Overshoot giảm, phản ứng dứt khoát hơn. Quá nhiều D → nhiễu cao tần khuếch đại</td></tr>
+            <tr><td>4. Fine-tune</td><td>Điều chỉnh nhỏ Kp/Ki/Kd</td><td>Cân bằng giữa tốc độ, overshoot và ổn định</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> Ứng dụng PID phổ biến trong điện tử thực hành</div>
+        <ul>
+          <li><strong>Điều khiển nhiệt độ:</strong> Lò hàn reflow, máy ấp trứng, nhiệt kế incubator</li>
+          <li><strong>Điều khiển tốc độ motor:</strong> Robot dò line cần tốc độ 2 bánh bằng nhau</li>
+          <li><strong>Điều khiển góc servo:</strong> Camera gimbal chống rung</li>
+          <li><strong>Điều khiển áp suất/dòng:</strong> Máy bơm, van điện từ</li>
+          <li><strong>Cân bằng robot 2 bánh:</strong> Inverted pendulum (Kp lớn, Kd cần thiết)</li>
+        </ul>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">PID Controller — Giải thích trực quan</span></div>
+        <div class="video-body">
+          <div class="video-title">PID Controller Explained — Understanding PID</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: MATLAB</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~8 phút</span>
+          </div>
+          <div class="video-purpose">Giải thích P, I, D từng phần bằng animation trực quan — dễ hiểu nhất về PID.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=wkfEZmsQqiA" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 51</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Mô phỏng PID trên Falstad/Excel: SP=50, measurement bắt đầu từ 0, Kp=2, Ki=0.1, Kd=0.5, dt=0.1s. Tính u(0), u(1), u(2). Steady state khi nào?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Implement PID điều khiển nhiệt độ: sensor NTC (ADC) + MOSFET heater (PWM). Tune Kp bắt đầu từ 1.0 đến khi không overshoot quá 5°C.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án câu 1</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> k=0: e=50-0=50. P=2×50=100. I=50×0.1=5→Ki×I=0.5. D=(50-0)/0.1×0.5=250. u(0)=100+0.5+250=350.5 → constrain→255. k=1: measurement tăng (giả sử 20). e=30. P=60. I=(5+3)→0.8. D=(30-50)/0.1×0.5=-100. u(1)=60+0.8-100=<b>-39.2→constrain→0</b>. Thấy: D lớn làm output dao động mạnh lúc đầu. Tuning cần giảm Kd.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 51</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b51"><label for="c1b51">Tôi hiểu vai trò của P, I, D từng phần</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b51"><label for="c2b51">Tôi implement PID rời rạc đúng công thức</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b51"><label for="c3b51">Tôi thêm anti-windup cho phần integral</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b51"><label for="c4b51">Tôi tune PID thực tế — hệ thống ổn định tại setpoint</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week8/day50.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 50: Demo Đồ Án</div></div></a>
+        <a href="../week8/day52.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 52: FreeRTOS — Đa Nhiệm Thực Thời</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day51.html');</script>
+</body>
+</html>

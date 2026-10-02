@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 6: Cầu Chia Áp, KVL & KCL — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 6: Định luật KVL và KCL, cầu chia áp — nền tảng của mọi phân tích mạch. Tính toán, đo kiểm và ứng dụng thực tế với cảm biến.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 1</span><span class="tag tag-day">Ngày 6</span><span class="tag tag-difficulty-beginner">Nhập môn</span></div>
+        <h1 class="lesson-title">Cầu Chia Áp, KVL & KCL</h1>
+        <p class="lesson-subtitle">Ba công cụ phân tích mạch quan trọng nhất — nền tảng để debug và thiết kế bất kỳ mạch điện nào.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~50 phút</span><span class="lesson-stat">🔬 Thực hành: 45 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Phát biểu và áp dụng KVL (Kirchhoff's Voltage Law)</li>
+          <li>Phát biểu và áp dụng KCL (Kirchhoff's Current Law)</li>
+          <li>Tính toán cầu chia áp (voltage divider) cho bất kỳ cặp R nào</li>
+          <li>Hiểu tại sao cầu chia áp bị "sụt áp" khi nối tải (loading effect)</li>
+          <li>Ứng dụng cầu chia áp: đọc cảm biến LDR, NTC thermistor</li>
+          <li>Xác nhận KVL và KCL bằng đo thực tế</li>
+          <li>Debug mạch bằng KVL: tìm điểm hở từ điện áp đo được</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>Điện trở 10 kΩ</td><td>¼W, ±5%</td><td>4</td></tr>
+            <tr><td>Điện trở 4,7 kΩ</td><td>¼W, ±5%</td><td>2</td></tr>
+            <tr><td>LDR (quang trở)</td><td>5mm, GL5516 hoặc tương đương</td><td>1</td></tr>
+            <tr><td>Nguồn 5V</td><td>Adapter USB</td><td>1</td></tr>
+            <tr><td>Breadboard + jumper</td><td>—</td><td>1 bộ</td></tr>
+            <tr><td>Multimeter</td><td>DCV</td><td>1</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — KVL -->
+      <h2>1. KVL — Kirchhoff's Voltage Law (Định luật điện áp Kirchhoff)</h2>
+
+      <p>KVL phát biểu: <strong>Tổng đại số các điện áp xung quanh một vòng kín bất kỳ trong mạch bằng 0.</strong> Nói cách khác, tổng điện áp nguồn bằng tổng điện áp rơi trên tất cả các tải trong vòng đó.</p>
+
+      <p>KVL xuất phát từ nguyên lý bảo toàn năng lượng: nếu đi theo một vòng kín từ điểm A quay lại điểm A, tổng thay đổi thế năng phải bằng 0 (bạn trở về cùng mức thế năng ban đầu).</p>
+
+      <div class="formula-block">
+        <div class="formula-main">ΣV = 0 &nbsp;(quanh một vòng kín)</div>
+        <div class="formula-vars">
+          <span class="formula-var">Quy ước: Điện áp nguồn = dương (+); Điện áp rơi trên tải = âm (–)</span>
+          <span class="formula-var">Hay viết: V_source = V_R1 + V_R2 + ... + V_Rn</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ áp dụng KVL — Mạch 3 điện trở</h4>
+
+      <div class="circuit-ascii">  Mạch: 5V → R1(1kΩ) → R2(2kΩ) → R3(2kΩ) → GND
+
+   Áp dụng KVL theo chiều kim đồng hồ:
+   +V_supply – V_R1 – V_R2 – V_R3 = 0
+   5 – V_R1 – V_R2 – V_R3 = 0
+
+   R_total = 1k + 2k + 2k = 5kΩ
+   I = 5V / 5kΩ = 1 mA
+
+   V_R1 = 1mA × 1kΩ = 1V
+   V_R2 = 1mA × 2kΩ = 2V
+   V_R3 = 1mA × 2kΩ = 2V
+
+   Kiểm tra: 5 – 1 – 2 – 2 = 0 ✓</div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> KVL dùng để debug</div>
+        <p>KVL rất hữu ích khi debug. Nếu bạn đo V_R1 = 0V và V_R2 = 5V trong mạch 2 điện trở nối tiếp, điều này cho thấy R1 = 0Ω (ngắn mạch) hoặc R2 = ∞Ω (hở mạch tại R2). KVL cho bạn biết điện áp "đang kẹt ở đâu" trong mạch.</p>
+      </div>
+
+      <!-- PHẦN 2 — KCL -->
+      <h2>2. KCL — Kirchhoff's Current Law (Định luật dòng điện Kirchhoff)</h2>
+
+      <p>KCL phát biểu: <strong>Tổng đại số các dòng điện tại bất kỳ node (nút) nào trong mạch bằng 0.</strong> Nói đơn giản: tổng dòng chạy vào node bằng tổng dòng chạy ra khỏi node.</p>
+
+      <p>KCL xuất phát từ nguyên lý bảo toàn điện tích: điện tích không thể tích lũy (hay biến mất) tại một điểm trong mạch.</p>
+
+      <div class="formula-block">
+        <div class="formula-main">ΣI_vào = ΣI_ra &nbsp;(tại bất kỳ node nào)</div>
+        <div class="formula-vars">
+          <span class="formula-var">Hay: ΣI = 0 với quy ước dương cho dòng vào, âm cho dòng ra</span>
+        </div>
+      </div>
+
+      <div class="circuit-ascii">  Minh họa KCL tại node A:
+
+          I_1 = 5mA
+          ↓
+  ────────A────────
+          │   ↗ I_3 = ?
+          ↓ I_2 = 3mA
+
+  KCL: I_1 = I_2 + I_3
+       5mA = 3mA + I_3
+       I_3 = 2mA ↗
+
+  Tổng dòng vào (I_1 = 5mA) = Tổng dòng ra (3mA + 2mA = 5mA) ✓</div>
+
+      <!-- PHẦN 3 — CẦU CHIA ÁP -->
+      <h2>3. Cầu chia áp — Voltage Divider</h2>
+
+      <p>Cầu chia áp là mạch gồm 2 điện trở mắc nối tiếp giữa nguồn và GND, lấy điện áp đầu ra tại điểm giữa. Đây là một trong những cấu trúc mạch được dùng nhiều nhất trong điện tử analog: đọc cảm biến, thiết lập điểm làm việc transistor, tạo điện áp tham chiếu.</p>
+
+      <div class="circuit-ascii">  Cầu chia áp cơ bản:
+
+   VCC ──[R1]──┬──[R2]── GND
+               │
+             V_out
+              (đo tại đây so với GND)</div>
+
+      <div class="formula-block">
+        <div class="formula-main">V_out = V_in × R2 / (R1 + R2)</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">V_out</span> = Điện áp đầu ra (V)</span>
+          <span class="formula-var"><span class="var-name">V_in</span> = Điện áp nguồn (V)</span>
+          <span class="formula-var"><span class="var-name">R1</span> = Điện trở trên (giữa VCC và V_out)</span>
+          <span class="formula-var"><span class="var-name">R2</span> = Điện trở dưới (giữa V_out và GND)</span>
+        </div>
+      </div>
+
+      <h4>Ví dụ tính toán 1 — Cầu chia áp</h4>
+      <p><strong>Cho:</strong> V_in = 5V, R1 = 10 kΩ, R2 = 10 kΩ</p>
+      <p>V_out = 5 × 10000 / (10000 + 10000) = 5 × 0,5 = <strong>2,5V</strong></p>
+      <p>Trực giác: R1 = R2 → điểm giữa ở đúng giữa → V_out = V_in / 2 ✓</p>
+
+      <h4>Ví dụ tính toán 2 — Chọn R để có V_out mong muốn</h4>
+      <p><strong>Bài toán:</strong> Thiết kế cầu chia áp từ 5V để ra 2V. Cho R2 = 10 kΩ. Tìm R1.</p>
+      <p>Từ công thức: V_out = V_in × R2 / (R1 + R2)</p>
+      <p>→ 2 = 5 × 10000 / (R1 + 10000)</p>
+      <p>→ R1 + 10000 = 5 × 10000 / 2 = 25000</p>
+      <p>→ R1 = 25000 – 10000 = <strong>15 kΩ</strong></p>
+      <p>Chọn R1 = 15kΩ (E24: 15kΩ có sẵn). Kiểm tra: V_out = 5 × 10k/(15k+10k) = 5 × 0,4 = 2V ✓</p>
+
+      <h3>3.1 Loading Effect — Hiệu ứng tải làm sụt áp đầu ra</h3>
+
+      <p>Khi nối một tải (load) vào V_out của cầu chia áp, tải này mắc song song với R2. Điện trở tương đương R2 || R_load nhỏ hơn R2 → V_out giảm xuống so với tính toán. Đây là <strong>loading effect</strong> (hiệu ứng tải).</p>
+
+      <div class="circuit-ascii">  Cầu chia áp với tải R_load:
+
+   VCC ──[R1=10kΩ]──┬──[R2=10kΩ]── GND
+                     │
+                  V_out
+                     │
+                [R_load]
+                     │
+                    GND
+
+   R2 || R_load = (10k × R_load) / (10k + R_load)
+
+   Nếu R_load = 10kΩ: R_eq = 5kΩ → V_out = 5 × 5/(10+5) = 1,67V (thay vì 2,5V!)
+   Nếu R_load = 100kΩ: R_eq = 9,09kΩ → V_out = 5 × 9,09/(10+9,09) = 2,38V (gần 2,5V hơn)
+   Nếu R_load = ∞ (không tải): V_out = 2,5V (lý thuyết)</div>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> Quy tắc ngón tay cái cho cầu chia áp</div>
+        <p>Để loading effect không đáng kể (&lt;1%): R_load ≥ 100 × (R1 || R2). Ví dụ: cầu chia áp dùng R1=R2=10kΩ, trở kháng tương đương = 5kΩ. Tải cần ≥ 500 kΩ để không ảnh hưởng. ADC của ESP32 có trở kháng vào ~1 MΩ — khá ổn với cầu chia áp 10kΩ. Nhưng op-amp non-inverting có trở kháng vào hàng GΩ — lý tưởng nhất.</p>
+      </div>
+
+      <!-- PHẦN 4 — CẢM BIẾN LDR -->
+      <h2>4. Ứng dụng: Cầu chia áp đọc cảm biến LDR</h2>
+
+      <p>LDR (Light Dependent Resistor — quang trở) là điện trở thay đổi giá trị theo cường độ ánh sáng. Trong bóng tối: R_LDR ≈ 1 MΩ. Dưới ánh sáng mạnh: R_LDR ≈ 1–10 kΩ.</p>
+
+      <p>Bằng cách kết hợp LDR vào cầu chia áp với một điện trở cố định R, ta chuyển đổi sự thay đổi điện trở (khó đo) thành sự thay đổi điện áp (dễ đo bằng ADC). Đây là nguyên lý của hầu hết giao diện cảm biến điện trở.</p>
+
+      <div class="circuit-ascii">  Cầu chia áp LDR — Cảm biến ánh sáng:
+
+   VCC(3.3V) ──[R_fixed=10kΩ]──┬──[R_LDR]── GND
+                                │
+                             V_out → ESP32 ADC
+
+   Khi tối: R_LDR lớn (1MΩ) → V_out ≈ 3,3 × 1M/(10k+1M) ≈ 3,27V (gần VCC)
+   Khi sáng: R_LDR nhỏ (1kΩ) → V_out ≈ 3,3 × 1k/(10k+1k) ≈ 0,30V (thấp)
+
+   → Môi trường sáng thì V_out thấp, tối thì V_out cao
+   → Đảo chiều bằng cách hoán đổi vị trí R_fixed và R_LDR</div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">Cầu chia áp và ứng dụng</span></div>
+        <div class="video-body">
+          <div class="video-title">Voltage Divider Circuit</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: The Engineering Mindset</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~9 phút</span>
+          </div>
+          <div class="video-purpose">Giải thích cầu chia áp từ cơ bản đến ứng dụng thực tế, có loading effect. Xem trước khi thực hành với LDR.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=XxLKgBMnFEc" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>5. Thực hành: Xác nhận KVL, KCL và cầu chia áp</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành A: Xác nhận KVL</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Lắp mạch: 5V → R1(10kΩ) → R2(10kΩ) → GND trên breadboard.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo điện áp: V_supply (hai đầu nguồn), V_R1 (hai đầu R1), V_R2 (hai đầu R2).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Kiểm tra: V_R1 + V_R2 = V_supply (KVL). Ghi sai số.</p></div></li>
+        </ol>
+      </div>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành B: Cầu chia áp với LDR</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Lắp mạch: 3,3V (hoặc 5V) → R_fixed(10kΩ) → R_LDR → GND. Đo V_out tại điểm giữa (junction R_fixed và LDR).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Che LDR bằng tay (tối): đo V_out. Ghi kết quả.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Chiếu đèn pin vào LDR (sáng): đo V_out. Ghi kết quả.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>So sánh hai giá trị. LDR nào ở trên (R_fixed hay R_LDR) quyết định V_out tăng hay giảm khi có ánh sáng?</p></div></li>
+        </ol>
+      </div>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead><tr><th>Điều kiện</th><th>V_out (V)</th><th>R_LDR ước tính (kΩ)</th><th>Nhận xét</th></tr></thead>
+          <tbody>
+            <tr><td>Bóng tối hoàn toàn</td><td>_____</td><td>_____</td><td>—</td></tr>
+            <tr><td>Ánh sáng phòng bình thường</td><td>_____</td><td>_____</td><td>—</td></tr>
+            <tr><td>Chiếu đèn pin trực tiếp</td><td>_____</td><td>_____</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><em>Tính R_LDR ước tính từ V_out:</em> Từ công thức V_out = V_in × R_LDR / (R_fixed + R_LDR), ta suy ra:<br>
+      R_LDR = R_fixed × V_out / (V_in – V_out)</p>
+
+      <!-- DEBUG -->
+      <h2>6. Debug với KVL</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🐛</span> Kỹ thuật debug: "Đo điện áp theo từng điểm"</div>
+        <p>Khi mạch không hoạt động, đo điện áp tại từng điểm từ nguồn đến GND. Gọi các điểm là A, B, C... KVL sẽ cho bạn biết "điện áp đang bị kẹt ở đâu":</p>
+        <ul>
+          <li>Nếu V_A = V_supply và V_B = 0V trong khi R1 nằm giữa A và B → R1 hở mạch (toàn bộ điện áp rơi trên R1 hở)</li>
+          <li>Nếu V_A = V_supply và V_B = V_supply → có ngắn mạch tại điểm nào đó sau B</li>
+          <li>Theo dõi điểm điện áp "nhảy" đột ngột → đó là điểm lỗi</li>
+        </ul>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 6</div>
+        <div class="exercise-part">
+          <div class="exercise-part-title">A. KVL và cầu chia áp (5 câu)</div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Mạch: 9V → R1(3,3kΩ) → R2(6,8kΩ) → GND. Tính V tại điểm junction (V_out) bằng công thức cầu chia áp.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Bạn cần V_out = 1,65V từ nguồn 3,3V. Chọn R2 = 4,7kΩ. Tính R1 cần thiết.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Cầu chia áp R1=R2=10kΩ, V_in=5V. Khi nối R_load=10kΩ, V_out thực tế bằng bao nhiêu? Sai lệch bao nhiêu % so với không tải?</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Trong mạch LDR+10kΩ, V_supply=3,3V, đo được V_out=2,1V. Tính R_LDR tại thời điểm đó.</div></div>
+          <div class="exercise-item"><span class="exercise-num">5</span><div class="exercise-text">Mạch: I_1=8mA vào node A; I_2=3mA ra node A; I_3=? ra node A. Áp dụng KCL tính I_3.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>A1:</strong> V_out = 9 × 6800 / (3300 + 6800) = 9 × 6800/10100 = 9 × 0,673 = <strong>6,06 V</strong></p>
+            <p><strong>A2:</strong> 1,65 = 3,3 × 4700/(R1+4700) → R1+4700 = 3,3×4700/1,65 = 9400 → R1 = <strong>4,7 kΩ</strong> (R1=R2 vì V_out = V_in/2)</p>
+            <p><strong>A3:</strong> R2||R_load = 10k||10k = 5kΩ. V_out = 5 × 5k/(10k+5k) = 5/3 = <strong>1,667V</strong>. Sai lệch = (2,5-1,667)/2,5 × 100% = <strong>33,3%</strong> — loading effect rất lớn!</p>
+            <p><strong>A4:</strong> R_LDR = R_fixed × V_out / (V_in – V_out) = 10000 × 2,1 / (3,3 – 2,1) = 21000/1,2 = <strong>17,5 kΩ</strong></p>
+            <p><strong>A5:</strong> KCL: I_vào = I_ra → 8mA = 3mA + I_3 → I_3 = <strong>5 mA</strong> ra khỏi node A</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 6</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b6"><label for="c1b6">Tôi phát biểu được KVL và KCL bằng lời</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b6"><label for="c2b6">Tôi tính được V_out cầu chia áp với bất kỳ R1, R2 nào</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b6"><label for="c3b6">Tôi hiểu loading effect và biết khi nào nó quan trọng</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b6"><label for="c4b6">Tôi đã lắp và đo cầu chia áp thực tế — xác nhận KVL</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c5b6"><label for="c5b6">Tôi đã thực hành cầu chia áp với LDR và quan sát sự thay đổi V_out</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week1/day05.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 5: Mạch nối tiếp & Song song</div></div></a>
+        <a href="../week1/day07.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 7: Ôn tập & Mini Project LED</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day06.html');</script>
+</body>
+</html>

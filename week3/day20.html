@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 20: Op-Amp — Khuếch Đại Thuật Toán Cơ Bản — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 20: Op-Amp LM358/TL071 — cấu hình inverting, non-inverting, voltage follower, comparator và ứng dụng thực tế.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 3</span><span class="tag tag-day">Ngày 20</span><span class="tag tag-difficulty-intermediate">Op-Amp</span></div>
+        <h1 class="lesson-title">Op-Amp — Khuếch Đại Thuật Toán Cơ Bản</h1>
+        <p class="lesson-subtitle">Linh kiện analog đa năng nhất — khuếch đại, so sánh, lọc, tạo dao động và xử lý tín hiệu analog chuyên nghiệp.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~55 phút</span><span class="lesson-stat">🔬 Thực hành: 45 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu Op-Amp là gì — đặc tính lý tưởng và thực tế</li>
+          <li>Nhận biết IC LM358 (dual op-amp) và TL071 — đọc sơ đồ chân</li>
+          <li>Phân tích mạch Inverting Amplifier — tính A_V = –R_f/R_in</li>
+          <li>Phân tích mạch Non-Inverting Amplifier — tính A_V = 1 + R_f/R1</li>
+          <li>Mạch Voltage Follower (Unity Gain Buffer) — tại sao cần</li>
+          <li>Mạch Comparator — so sánh hai điện áp, đầu ra nhị phân</li>
+          <li>Hiểu tại sao cần decoupling 100nF sát chân VCC của Op-Amp</li>
+          <li>Lắp và đo kiểm các cấu hình thực tế</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>IC LM358</td><td>Dual op-amp, single supply 3–32V, DIP-8</td><td>2</td></tr>
+            <tr><td>Điện trở 1kΩ, 10kΩ, 47kΩ, 100kΩ</td><td>¼W — nhiều giá trị cho các tỷ lệ khuếch đại</td><td>3 mỗi loại</td></tr>
+            <tr><td>Biến trở (potentiometer) 10kΩ</td><td>Để tạo tín hiệu đầu vào thay đổi</td><td>1</td></tr>
+            <tr><td>Tụ 100nF gốm (decoupling VCC)</td><td>2 cái sát chân VCC op-amp</td><td>4</td></tr>
+            <tr><td>LED + R470Ω (test output comparator)</td><td>—</td><td>1</td></tr>
+            <tr><td>Nguồn 5V hoặc 9V + breadboard + multimeter</td><td>—</td><td>1 bộ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — OP-AMP -->
+      <h2>1. Op-Amp — Khuếch đại thuật toán lý tưởng và thực tế</h2>
+
+      <p>Op-Amp (<em>Operational Amplifier</em>) là IC khuếch đại vi sai (differential amplifier) có độ lợi vòng hở (open-loop gain) cực lớn (100,000–1,000,000 lần). Khi thêm mạch phản hồi âm (negative feedback) qua điện trở, độ lợi được điều chỉnh chính xác theo tỷ lệ điện trở.</p>
+
+      <div class="circuit-ascii">  Ký hiệu Op-Amp và chân LM358 (DIP-8):
+
+       Ký hiệu mạch:
+          V+ ─────(+)┐
+                     │▷── Vout
+          V– ─────(–)┘
+
+       LM358 DIP-8 — 2 op-amp độc lập:
+        ┌─────────────────┐
+     1OUT ┤1             8├ VCC (+)
+     1IN– ┤2             7├ 2OUT
+     1IN+ ┤3             6├ 2IN–
+      GND ┤4             5├ 2IN+
+        └─────────────────┘
+
+  Decoupling: 100nF từ VCC(pin 8) xuống GND(pin 4) — sát IC!</div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Đặc tính</th><th>Op-Amp lý tưởng</th><th>LM358 thực tế</th></tr></thead>
+          <tbody>
+            <tr><td>Độ lợi vòng hở</td><td>∞</td><td>~100,000</td></tr>
+            <tr><td>Trở kháng đầu vào</td><td>∞ (không hút dòng)</td><td>~1MΩ</td></tr>
+            <tr><td>Trở kháng đầu ra</td><td>0</td><td>~50Ω</td></tr>
+            <tr><td>Băng thông (GBP)</td><td>∞</td><td>1MHz</td></tr>
+            <tr><td>Output swing (single supply 5V)</td><td>0V–5V</td><td>~0V–3,5V (không rail-to-rail)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 2 — CẤU HÌNH -->
+      <h2>2. Bốn cấu hình op-amp cơ bản nhất</h2>
+
+      <h3>2.1 Inverting Amplifier — Khuếch đại đảo pha</h3>
+
+      <div class="formula-block">
+        <div class="formula-main">A_V = –R_f / R_in</div>
+        <div class="formula-vars">
+          <span class="formula-var">V_out = –(R_f/R_in) × V_in</span>
+          <span class="formula-var">Dấu âm = đảo pha 180° (V_in tăng → V_out giảm)</span>
+          <span class="formula-var">Ví dụ: R_f=100kΩ, R_in=10kΩ → A_V = –10 (10 lần, đảo pha)</span>
+        </div>
+      </div>
+
+      <div class="circuit-ascii">  Inverting Amplifier:
+
+               R_f = 100kΩ
+         ┌──────────────────┐
+         │                  │
+  V_in──[R_in=10kΩ]──(–)──[LM358]── V_out
+                      (+)──────── GND (hoặc V_ref)
+
+  V_out = –(100k/10k) × V_in = –10 × V_in</div>
+
+      <h3>2.2 Non-Inverting Amplifier — Khuếch đại thuận pha</h3>
+
+      <div class="formula-block">
+        <div class="formula-main">A_V = 1 + R_f / R1</div>
+        <div class="formula-vars">
+          <span class="formula-var">V_out = (1 + R_f/R1) × V_in</span>
+          <span class="formula-var">Không đảo pha — V_in tăng → V_out tăng</span>
+          <span class="formula-var">Ví dụ: R_f=90kΩ, R1=10kΩ → A_V = 1 + 9 = 10 lần</span>
+        </div>
+      </div>
+
+      <h3>2.3 Voltage Follower (Unity Gain Buffer)</h3>
+
+      <div class="circuit-ascii">  Voltage Follower — A_V = 1, không đảo pha:
+
+  V_in──(+)──[LM358]──┬── V_out ≈ V_in
+              (–)──────┘
+
+  Tại sao cần? Trở kháng đầu vào = ~∞ → không tải nguồn tín hiệu yếu
+  Trở kháng đầu ra = ~50Ω → có thể lái tải nhỏ mà không sụt áp
+  Dùng: buffer cảm biến (nhiệt điện, quang điện), isolate nguồn reference</div>
+
+      <h3>2.4 Comparator — So sánh điện áp</h3>
+
+      <div class="circuit-ascii">  Comparator:
+
+  V_in──(+)──[LM358]── V_out (HIGH hoặc LOW)
+  V_ref──(–)
+
+  Khi V_in > V_ref: V_out = HIGH (~V_CC-ish)
+  Khi V_in < V_ref: V_out = LOW (~0V)
+  Không có vòng phản hồi → open-loop → output "kẹp" ở cực trị
+
+  Ứng dụng: phát hiện ngưỡng nhiệt độ, mức nước, ánh sáng</div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> LM358 vs LM393 (dedicated comparator)</div>
+        <p>LM358 op-amp có thể dùng làm comparator nhưng chậm hơn (slew rate thấp). LM393 được thiết kế riêng làm comparator: nhanh hơn, có output open-collector → dễ ghép với các mức logic khác. Với ứng dụng chậm (nhiệt độ, mức nước) LM358 comparator đủ tốt. Với tốc độ cao, dùng LM393.</p>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">Op-Amp — 4 cấu hình cơ bản</span></div>
+        <div class="video-body">
+          <div class="video-title">Op-Amp Circuits — Inverting, Non-Inverting, Buffer, Comparator</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: All About Electronics</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~15 phút</span>
+          </div>
+          <div class="video-purpose">4 cấu hình op-amp với tính toán và mạch thực tế. Xem sau khi đọc lý thuyết để củng cố.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=kiiZnFXcFHw" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>3. Thực hành: Non-Inverting Amplifier LM358</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Non-Inverting A_V=10, đo kiểm</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Lắp LM358 op-amp 1 (chân 3=IN+, chân 2=IN–, chân 1=OUT). VCC=5V vào pin 8, GND vào pin 4. Tụ 100nF từ VCC→GND sát IC.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Non-Inverting: R_f=90kΩ (hoặc 2×47kΩ nối tiếp) từ OUT→IN–. R1=10kΩ từ IN–→GND.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Biến trở 10kΩ: một đầu VCC, một đầu GND, giữa vào IN+. Điều chỉnh để V_in = 0,2V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V_out: kỳ vọng = 10 × 0,2V = 2V. Tăng V_in đến 0,35V → V_out kỳ vọng 3,5V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Tăng V_in đến 0,5V → V_out kỳ vọng 5V nhưng thực tế bị clamp ở ~3,5V (LM358 output swing limit). Ghi nhận.</p></div></li>
+        </ol>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 20</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Inverting amp: R_in=2,2kΩ, R_f=22kΩ. V_in=0,5V. Tính A_V và V_out.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Non-Inverting amp: A_V cần = 15. Chọn R1=10kΩ. Tính R_f.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Comparator: V_ref=1V (từ Zener 1V hoặc phân áp). Cảm biến quang tạo 0–3,3V. Mô tả hành vi output khi ánh sáng thay đổi.</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Tại sao phải có tụ 100nF decoupling sát chân VCC của LM358? Điều gì xảy ra nếu thiếu?</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> A_V = –22kΩ/2,2kΩ = <strong>–10</strong>. V_out = –10 × 0,5V = <strong>–5V</strong>. Chú ý: nếu dùng single supply 5V và GND, V_out âm không thực hiện được — LM358 chỉ ra 0V ở mức thấp nhất. Cần dual supply hoặc dùng virtual ground.</p>
+            <p><strong>2:</strong> 15 = 1 + R_f/10kΩ → R_f = 14 × 10kΩ = <strong>140kΩ</strong>. Chọn 2×68kΩ nối tiếp = 136kΩ hoặc 150kΩ.</p>
+            <p><strong>3:</strong> Ánh sáng mạnh → V_sensor cao (&gt;1V) → V_in(+) &gt; V_ref(–) → V_out HIGH (~VCC). Ánh sáng yếu → V_sensor thấp (&lt;1V) → V_out LOW (~0V). Ứng dụng: bật đèn tự động khi tối (sensor &lt; threshold).</p>
+            <p><strong>4:</strong> LM358 chuyển mạch nội bộ tạo dòng spike ngắn trên VCC. Không có tụ decoupling → spike đi qua dây nguồn ảnh hưởng IC khác (VCC sụt cục bộ, nhiễu analog). Với tụ 100nF sát chân: spike được hấp thụ tại chỗ → mạch ổn định hơn, ADC chính xác hơn.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 20</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b20"><label for="c1b20">Tôi nhận biết chân LM358 và biết cách cắm trên breadboard</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b20"><label for="c2b20">Tôi tính được A_V cho Inverting và Non-Inverting</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b20"><label for="c3b20">Tôi biết khi nào dùng Voltage Follower và Comparator</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b20"><label for="c4b20">Tôi lắp và đo mạch Non-Inverting thực tế — xác nhận A_V</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week3/day19.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 19: PWM — Điều Rộng Xung</div></div></a>
+        <a href="../week3/day21.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 21: Ôn tập Tuần 3 & Mini Project Mạch Báo Nhiệt</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day20.html');</script>
+</body>
+</html>

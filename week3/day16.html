@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 16: Switch BJT — Relay & Motor DC — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 16: Mạch switch BJT điều khiển relay và motor DC — tính toán, freewheeling diode, back-EMF và thực hành thực tế.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình 56 bài</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../front/components.html">Linh kiện</a></nav>
+  <div class="header-progress"><span class="progress-label">0/56 bài</span><div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content">
+    <div class="content-area">
+
+      <div class="lesson-header">
+        <div class="lesson-meta"><span class="tag tag-week">Tuần 3</span><span class="tag tag-day">Ngày 16</span><span class="tag tag-difficulty-intermediate">Ứng dụng</span></div>
+        <h1 class="lesson-title">Mạch Switch BJT — Điều Khiển Relay & Motor DC</h1>
+        <p class="lesson-subtitle">Dùng transistor NPN làm giao diện giữa GPIO 3,3V và tải công suất — relay, motor DC, solenoid, buzzer.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~40 phút</span><span class="lesson-stat">🔬 Thực hành: 50 phút</span></div>
+      </div>
+
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Thiết kế mạch driver relay hoàn chỉnh với BJT NPN</li>
+          <li>Hiểu tại sao relay cần transistor làm driver (GPIO không đủ dòng)</li>
+          <li>Tính toán R_B, chọn transistor phù hợp dòng relay</li>
+          <li>Bắt buộc: freewheeling diode (back-EMF protection)</li>
+          <li>Điều khiển motor DC một chiều — đảo chiều bằng L293D sơ lược</li>
+          <li>Điều khiển buzzer 5V bằng BJT từ GPIO 3,3V</li>
+          <li>Debug: relay click nhưng không giữ, transistor nóng</li>
+          <li>Kiểm tra mạch relay hoàn chỉnh thực tế</li>
+        </ul>
+      </div>
+
+      <h2>Dụng cụ</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
+          <tbody>
+            <tr><td>Transistor NPN BC337</td><td>45V, 800mA — đủ mạnh cho relay</td><td>2</td></tr>
+            <tr><td>Relay 5V (cuộn 5V, contact 250VAC/10A)</td><td>5V coil, 1 cuộn ~70–80Ω</td><td>1</td></tr>
+            <tr><td>Diode 1N4007</td><td>Freewheeling</td><td>2</td></tr>
+            <tr><td>Motor DC 5V nhỏ (FA-130 hoặc tương đương)</td><td>Tùy chọn — nếu có</td><td>1</td></tr>
+            <tr><td>Buzzer 5V active</td><td>Có oscillator nội — chỉ cần cấp VCC là kêu</td><td>1</td></tr>
+            <tr><td>Điện trở 1kΩ, 2,2kΩ, 10kΩ</td><td>¼W</td><td>3 mỗi loại</td></tr>
+            <tr><td>Nguồn 5V + breadboard + multimeter</td><td>—</td><td>1 bộ</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PHẦN 1 — TẠI SAO CẦN TRANSISTOR DRIVER -->
+      <h2>1. Tại sao GPIO không trực tiếp chạy relay?</h2>
+
+      <p>GPIO của ESP32 hay Arduino chỉ cung cấp tối đa <strong>12–40 mA</strong> mỗi pin (an toàn là &lt; 10mA với ESP32). Trong khi đó, cuộn dây relay 5V thông thường cần <strong>50–100 mA</strong> để đóng tiếp điểm. Nếu kết nối trực tiếp:</p>
+      <ul>
+        <li>GPIO cung cấp không đủ dòng → relay không đóng hoặc đóng không chắc</li>
+        <li>GPIO bị kéo dòng quá mức → vi điều khiển nóng, giảm tuổi thọ hoặc hỏng ngay</li>
+      </ul>
+
+      <p><strong>Giải pháp:</strong> Dùng transistor NPN làm driver. GPIO cung cấp dòng nhỏ vào Base (~1–5mA), transistor khuếch đại thành dòng lớn hơn (50–100mA) chạy cuộn relay từ nguồn 5V riêng.</p>
+
+      <!-- PHẦN 2 — MẠCH RELAY HOÀN CHỈNH -->
+      <h2>2. Mạch driver relay NPN hoàn chỉnh</h2>
+
+      <div class="circuit-ascii">  Mạch relay driver BC337 — sơ đồ chuẩn:
+
+              VCC_5V
+                │
+              [D_fw: 1N4007]  ← Freewheeling diode (Cathode lên)
+                │
+              [Cuộn relay]
+                │
+   GPIO ─[R_B=1kΩ]─── Base(B)
+                          │
+                       [BC337] (NPN)
+                          │
+                        Emitter
+                          │
+                         GND
+
+  Tiếp điểm relay (Contact):
+  COM ─────────────── NO (Normally Open)
+       └─────────────── NC (Normally Closed)
+
+  Khi GPIO=HIGH: Transistor ON → Relay đóng → NO nối với COM
+  Khi GPIO=LOW:  Transistor OFF → Relay mở → NC nối với COM</div>
+
+      <h3>2.1 Tính toán mạch relay</h3>
+
+      <h4>Ví dụ: Relay 5V, R_coil = 70Ω, từ GPIO ESP32 (3,3V)</h4>
+      <p><strong>Bước 1: Tính I_C (dòng chạy cuộn relay)</strong><br>
+      I_C = V_CC / R_coil = 5V / 70Ω = <strong>71,4 mA</strong></p>
+
+      <p><strong>Bước 2: Chọn transistor</strong><br>
+      I_C = 71mA → Chọn BC337 (I_C_max = 800mA). Hệ số an toàn tốt.</p>
+
+      <p><strong>Bước 3: Tính R_B (overdrive 10×, hFE_min BC337 = 100)</strong><br>
+      I_B_target = I_C / (hFE_min / 10) = 0,0714 / 10 = 7,14mA<br>
+      R_B = (V_GPIO – V_BE) / I_B = (3,3 – 0,7) / 0,00714 = 2,6 / 0,00714 = <strong>364Ω → chọn 330Ω</strong></p>
+
+      <p><strong>Bước 4: Freewheeling diode</strong><br>
+      Dùng 1N4007. Cathode → VCC_5V. Anode → Collector transistor (điểm nối cuộn relay). Diode này hấp thụ spike khi GPIO→LOW ngắt dòng cuộn relay.</p>
+
+      <div class="callout callout-danger">
+        <div class="callout-header"><span class="callout-icon">🚫</span> Không bao giờ bỏ qua diode freewheeling</div>
+        <p>Khi transistor ngắt, cuộn relay tạo spike điện áp cực cao (có thể 50–200V trong µs). Không có diode → spike này phá hủy transistor ngay lập tức. Đây là lỗi phổ biến nhất khi mới học điều khiển relay.</p>
+      </div>
+
+      <!-- PHẦN 3 — BUZZER -->
+      <h2>3. Điều khiển Buzzer Active 5V từ GPIO 3,3V</h2>
+
+      <div class="circuit-ascii">  Mạch buzzer với NPN switch:
+
+              VCC_5V
+                │
+              [Buzzer Active 5V]
+                │
+   GPIO ─[R_B=2.2kΩ]─── Base(B)
+                             │
+                          [BC547 hoặc BC337]
+                             │
+                           Emitter
+                             │
+                            GND
+
+  I_buzzer thường = 30–50mA → BC547 đủ nếu I &lt; 100mA
+  Nếu buzzer vẫn kêu khi GPIO=LOW: kiểm tra R_B không bị nối tắt
+  Nếu buzzer không kêu khi GPIO=HIGH: R_B quá lớn → transistor không bão hòa</div>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> Buzzer Active vs Passive</div>
+        <ul>
+          <li><strong>Active buzzer:</strong> có oscillator nội — chỉ cần cấp VCC là kêu âm cố định. Dùng trong bài này.</li>
+          <li><strong>Passive buzzer:</strong> không có oscillator — cần tín hiệu PWM từ GPIO để tạo âm. Có thể thay đổi tần số âm → làm nhạc, tones khác nhau.</li>
+        </ul>
+      </div>
+
+      <!-- VIDEO -->
+      <div class="video-card">
+        <div class="video-header"><span class="video-badge">🎬 Video</span><span class="video-header-title">Transistor Switch — điều khiển relay thực tế</span></div>
+        <div class="video-body">
+          <div class="video-title">How to use a transistor to control a relay</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: GreatScott!</span>
+            <span class="video-meta-item">🌐 Tiếng Anh</span>
+            <span class="video-meta-item">⏱ ~6 phút</span>
+          </div>
+          <div class="video-purpose">Demo thực tế mạch relay driver với transistor, giải thích freewheeling diode và cách đo kiểm.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=2zPnFGvUFsM" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+        </div>
+      </div>
+
+      <!-- THỰC HÀNH -->
+      <h2>4. Thực hành: Mạch relay driver hoàn chỉnh</h2>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Lắp mạch relay và test</div>
+        <ol class="step-list">
+          <li class="step-item"><div class="step-content"><p>Đo R_coil relay: nối multimeter (Ω) vào 2 chân cuộn relay. Ghi lại giá trị.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Lắp mạch theo sơ đồ: BC337, R_B=330Ω, diode 1N4007 (đúng chiều!), cuộn relay từ 5V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Chạm Base (qua R_B) vào 3,3V: nghe tiếng "click" relay đóng. Đo V_CE → kỳ vọng &lt; 0,3V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Ngắt Base (về GND): nghe tiếng "click" relay mở. Đo V_CE → kỳ vọng ≈ 5V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Test diode: rút diode ra, bật tắt nhanh vài lần → transistor có thể nóng hơn đột ngột (spike ngắn). Lắp lại diode.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Lắp LED vào tiếp điểm NO-COM của relay (nguồn 5V). Điều khiển relay bật tắt LED qua tiếp điểm cơ học.</p></div></li>
+        </ol>
+      </div>
+
+      <!-- DEBUG -->
+      <h2>5. Debug — Lỗi phổ biến mạch relay</h2>
+
+      <div class="table-wrap">
+        <table class="debug-table">
+          <thead><tr><th>Hiện tượng</th><th>Nguyên nhân</th><th>Kiểm tra</th><th>Xử lý</th></tr></thead>
+          <tbody>
+            <tr><td class="symptom">Relay click nhưng tiếp điểm không đủ mạnh / tự nhả</td><td class="cause">Transistor không bão hòa đủ — I_B quá nhỏ</td><td>Đo V_CE: nếu &gt; 0,5V → chưa bão hòa</td><td class="fix">Giảm R_B xuống một bước (ví dụ: 1kΩ → 470Ω)</td></tr>
+            <tr><td class="symptom">Transistor nóng khi relay ON</td><td class="cause">Chưa bão hòa hoàn toàn (vùng Active) → tiêu tán nhiệt lớn</td><td>Đo V_CE — nếu &gt; 1V là vấn đề</td><td class="fix">Tăng I_B (giảm R_B) để đưa vào saturation</td></tr>
+            <tr><td class="symptom">Transistor hỏng ngay sau vài lần đóng relay</td><td class="cause">Không có diode freewheeling — back-EMF phá transistor</td><td>Kiểm tra có diode không và chiều diode</td><td class="fix">Lắp 1N4007 đúng chiều, thay transistor mới</td></tr>
+            <tr><td class="symptom">Relay ON cả khi GPIO = LOW</td><td class="cause">GPIO floating (không kéo về GND rõ ràng) hoặc R_B bị bypass</td><td>Đo V_Base khi GPIO=LOW: phải &lt; 0,4V</td><td class="fix">Thêm pull-down 10kΩ từ Base xuống GND</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BÀI TẬP -->
+      <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 16</div>
+        <div class="exercise-part">
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Relay 12V, R_coil=120Ω. GPIO=5V. BC337 (hFE_min=100). Tính I_relay, I_B, R_B.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Thiết kế mạch dùng 1 ESP32 GPIO điều khiển đồng thời 2 relay độc lập. Vẽ ASCII sơ đồ.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Pull-down resistor 10kΩ từ Base xuống GND có ảnh hưởng đến mạch switch không? Giải thích.</div></div>
+        </div>
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <p><strong>1:</strong> I_relay = 12/120 = <strong>100mA</strong>. I_B = 100mA/(100/10) = 10mA. R_B = (5–0,7)/0,010 = 4,3/0,01 = <strong>430Ω → chọn 390Ω hoặc 470Ω</strong>.</p>
+            <p><strong>2:</strong> Mỗi relay cần 1 transistor driver riêng. GPIO1 → R_B1 → Q1(BC337) → Relay1+Diode1. GPIO2 → R_B2 → Q2(BC337) → Relay2+Diode2. Dùng nguồn 12V chung cho cả 2 cuộn relay, GND chung với ESP32.</p>
+            <p><strong>3:</strong> Pull-down 10kΩ từ Base → GND không ảnh hưởng nhiều khi GPIO=HIGH: I_Base = (V_GPIO–V_BE)/R_B >> I_pulldown. Nhưng khi GPIO floating hoặc HIGH-Z (ví dụ: ESP32 đang boot/reset), pull-down kéo V_Base xuống 0V → transistor tắt chắc chắn → relay không tự bật ngẫu nhiên khi reset. Đây là biện pháp an toàn quan trọng.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist Bài 16</div>
+        <div class="checklist-item"><input type="checkbox" id="c1b16"><label for="c1b16">Tôi tính được R_B cho relay driver từ thông số relay và transistor</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b16"><label for="c2b16">Tôi lắp mạch relay với diode freewheeling đúng chiều</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b16"><label for="c3b16">Tôi nghe tiếng click relay và đo V_CE để xác nhận bão hòa</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b16"><label for="c4b16">Tôi biết debug 4 lỗi phổ biến của mạch relay driver</label></div>
+      </div>
+
+      <div class="lesson-nav">
+        <a href="../week3/day15.html" class="lesson-nav-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg><div><div class="nav-label">← Bài trước</div><div class="nav-title">Bài 15: Transistor BJT — NPN & PNP</div></div></a>
+        <a href="../week3/day17.html" class="lesson-nav-btn next"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">Bài 17: Mạch Khuếch Đại BJT — Common Emitter</div></div></a>
+      </div>
+
+    </div>
+  </main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>renderSidebar('day16.html');</script>
+</body>
+</html>

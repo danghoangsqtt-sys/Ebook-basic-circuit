@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 1: Điện Áp, Dòng Điện & GND — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 1: Hiểu điện áp, dòng điện, GND, DC, mạch kín/hở và đo điện áp bằng multimeter. Giáo trình điện tử thực hành từ cơ bản đến thiết kế mạch.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header">
+  <a href="../index.html" class="logo">
+    <div class="logo-icon">⚡</div>
+    <div>
+      <div class="logo-text">Điện Tử Thực Hành</div>
+      <div class="logo-sub">Giáo trình 56 bài</div>
+    </div>
+  </a>
+  <button class="btn-menu" aria-label="Menu">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <nav class="header-nav">
+    <a href="../index.html">Trang chủ</a>
+    <a href="../front/guide.html">Hướng dẫn</a>
+    <a href="../front/components.html">Linh kiện</a>
+    <a href="../appendix/glossary.html">Phụ lục</a>
+  </nav>
+  <div class="header-progress">
+    <span class="progress-label">0/56 bài</span>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" style="width:0%"></div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ LAYOUT ═══ -->
+<div class="app-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <!-- Populated by sidebar-data.js -->
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+    <div class="content-area">
+
+      <!-- LESSON HEADER -->
+      <div class="lesson-header">
+        <div class="lesson-meta">
+          <span class="tag tag-week">Tuần 1</span>
+          <span class="tag tag-day">Ngày 1</span>
+          <span class="tag tag-difficulty-beginner">Nhập môn</span>
+        </div>
+        <h1 class="lesson-title">Điện Áp, Dòng Điện, GND & Mạch Điện</h1>
+        <p class="lesson-subtitle">Xây dựng nền tảng tư duy đúng về điện trước khi chạm vào linh kiện đầu tiên.</p>
+        <div class="lesson-stats">
+          <span class="lesson-stat">⏱ Thời gian đọc: ~45 phút</span>
+          <span class="lesson-stat">🔬 Thực hành: 30 phút</span>
+          <span class="lesson-stat">📏 Đo kiểm: 15 phút</span>
+        </div>
+      </div>
+
+      <!-- MỤC TIÊU -->
+      <div class="objectives-box">
+        <div class="objectives-title">🎯 Mục tiêu bài học</div>
+        <ul class="objectives-list">
+          <li>Hiểu điện áp là gì và tại sao nó luôn là đại lượng tương đối</li>
+          <li>Phân biệt điện áp (V) và dòng điện (A) — hai khái niệm thường bị nhầm lẫn</li>
+          <li>Hiểu GND là điểm tham chiếu, không phải "âm tuyệt đối"</li>
+          <li>Phân biệt DC và AC — tại sao giáo trình này chỉ dùng DC an toàn</li>
+          <li>Hiểu mạch kín/mạch hở và tại sao mạch hở không có dòng</li>
+          <li>Đo điện áp bằng multimeter đúng kỹ thuật</li>
+          <li>Hiểu khái niệm điện tích, electron và cơ chế dẫn điện ở mức trực giác</li>
+          <li>Biết tại sao đơn vị Volt, Ampere, Ohm được đặt theo tên người</li>
+        </ul>
+      </div>
+
+      <!-- DỤNG CỤ -->
+      <h2>Dụng cụ và linh kiện bài này</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Tên</th><th>Thông số / Ghi chú</th><th>Số lượng</th></tr></thead>
+          <tbody>
+            <tr><td>Multimeter (đồng hồ vạn năng)</td><td>Bất kỳ loại nào có thang DC Voltage — khuyên dùng DT-830B trở lên</td><td>1</td></tr>
+            <tr><td>Pin AA</td><td>1.5 V — loại thông dụng</td><td>2</td></tr>
+            <tr><td>Hộp pin đôi AA</td><td>Có dây dẫn ra 2 cực</td><td>1</td></tr>
+            <tr><td>Adapter DC 5 V</td><td>Adapter sạc điện thoại cũ có dây USB-A hoặc micro-USB</td><td>1</td></tr>
+            <tr><td>Dây jumper (dây cắm)</td><td>Male-to-Male, bộ assorted</td><td>Vài sợi</td></tr>
+            <tr><td>LED bất kỳ</td><td>5 mm, màu đỏ hoặc xanh lá</td><td>1 (quan sát)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PHẦN 1 — ĐIỆN TỬ LÀ GÌ?
+           ═══════════════════════════════════════ -->
+      <h2>1. Điện tử là gì? Tại sao cần học từ đầu?</h2>
+
+      <p>Bạn đã làm việc với ESP32, viết firmware, cắm module vào và nó chạy. Nhưng khi module không chạy — bạn làm gì? Khi LED tắt ngúm dù đã cấp nguồn, khi màn hình không hiện gì, khi bơm nước quay không đúng chiều, khi cảm biến luôn trả về giá trị sai — bạn bắt đầu từ đâu?</p>
+
+      <p>Đó chính xác là vấn đề của người lập trình nhúng không có nền tảng điện tử: họ có thể viết code, nhưng không thể <em>hiểu mạch điện đang xảy ra chuyện gì</em>. Giáo trình này sẽ lấp đầy khoảng trống đó.</p>
+
+      <p>Điện tử (<em>Electronics</em>) là ngành nghiên cứu và ứng dụng sự chuyển động có kiểm soát của các hạt mang điện — cụ thể là electron — để xử lý thông tin và chuyển đổi năng lượng. Điểm khác biệt quan trọng so với điện lực (<em>Electrical Engineering</em>) là: điện tử quan tâm đến tín hiệu nhỏ, điều khiển chính xác và mạch logic; điện lực quan tâm đến truyền tải và biến đổi năng lượng lớn.</p>
+
+      <div class="callout callout-note">
+        <div class="callout-header"><span class="callout-icon">📌</span> Lưu ý phạm vi</div>
+        <p>Toàn bộ giáo trình này sử dụng điện áp an toàn: 1,5 V, 3,3 V, 5 V, 9 V và 12 V DC. Không có nội dung thực hành trực tiếp với điện lưới 220 V AC. Nếu cần giải thích về chỉnh lưu điện lưới, chỉ trình bày lý thuyết và mô phỏng.</p>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PHẦN 2 — ELECTRON VÀ ĐIỆN TÍCH
+           ═══════════════════════════════════════ -->
+      <h2>2. Điện tích và electron — nền tảng của mọi thứ</h2>
+
+      <p>Mọi vật chất đều cấu tạo từ nguyên tử. Mỗi nguyên tử có hạt nhân mang điện dương (proton) và các electron mang điện âm quay quanh. Trong trạng thái bình thường, số proton bằng số electron — nguyên tử trung hòa điện.</p>
+
+      <p>Khi một vật có <strong>thừa electron</strong>, nó mang điện âm. Khi <strong>thiếu electron</strong>, nó mang điện dương. Điện tích (<em>Electric Charge</em>, ký hiệu <em>Q</em>) đo lượng electron thừa hoặc thiếu này. Đơn vị là <strong>Coulomb (C)</strong> — đặt theo tên nhà vật lý người Pháp Charles-Augustin de Coulomb (1736–1806). Một Coulomb xấp xỉ tương ứng với 6,24 × 10¹⁸ electron.</p>
+
+      <p>Điểm then chốt: <strong>các điện tích cùng dấu đẩy nhau, khác dấu hút nhau</strong>. Đây là lực điện từ — nền tảng của mọi hiện tượng điện.</p>
+
+      <div class="figure">
+        <div class="figure-placeholder">
+          <div>⚛</div>
+          <div><strong>Hình 1.1 — Cấu trúc nguyên tử đơn giản</strong></div>
+          <div style="font-size:0.8rem;color:var(--clr-text-muted);margin-top:8px;">Electron (e⁻) mang điện âm quay quanh hạt nhân mang điện dương</div>
+        </div>
+        <div class="figure-caption">
+          <div class="figure-number">Hình 1.1</div>
+          <div class="figure-text">Mô hình nguyên tử đơn giản: electron mang điện âm (e⁻) quay quanh hạt nhân (proton p⁺ và neutron n). Trong dây dẫn kim loại, các electron ở lớp ngoài cùng (electron tự do) có thể dịch chuyển từ nguyên tử này sang nguyên tử khác.</div>
+          <div class="figure-source">Nguồn: Wikimedia Commons (CC BY-SA) — <a href="https://commons.wikimedia.org/wiki/File:Atom_diagram.png" target="_blank" rel="noopener">commons.wikimedia.org</a></div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PHẦN 3 — ĐIỆN ÁP
+           ═══════════════════════════════════════ -->
+      <h2>3. Điện áp (Voltage) — đại lượng quan trọng nhất</h2>
+
+      <p>Điện áp (<em>Voltage</em>, hay <em>Electric Potential Difference</em>) là đại lượng mô tả <strong>chênh lệch thế năng điện</strong> giữa hai điểm trong mạch. Nó cho biết nếu ta đặt một điện tích dương từ điểm A đến điểm B, bao nhiêu năng lượng sẽ được giải phóng (hoặc tiêu tốn) trên một đơn vị điện tích.</p>
+
+      <p>Hãy tưởng tượng điện áp giống như độ cao trong địa hình: bạn không thể nói "ngọn núi cao bao nhiêu" mà không có mốc so sánh. Tương tự, điện áp luôn là đại lượng <strong>tương đối</strong> — nó chỉ có nghĩa khi so với một điểm tham chiếu.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> Sai lầm thường gặp ngay từ đầu</div>
+        <p>Khi nói "điện áp tại điểm A là 5 V," câu này chỉ đầy đủ khi biết <em>điểm tham chiếu</em>. Trong thực tế, điểm tham chiếu này là <strong>GND (Ground)</strong>. Tức là "5 V" thực ra là "5 V cao hơn GND." Nếu GND thay đổi, con số 5 V cũng thay đổi theo. Đây là lý do tại sao hai mạch có GND khác nhau không thể kết nối trực tiếp tín hiệu.</p>
+      </div>
+
+      <h3>3.1 Đơn vị Volt và ký hiệu</h3>
+
+      <p>Điện áp được đo bằng đơn vị <strong>Volt (V)</strong> — đặt theo tên nhà vật lý người Ý Alessandro Volta (1745–1827), người phát minh ra pin điện hóa đầu tiên (Voltaic Pile) năm 1800. Ký hiệu trong công thức thường là <em>V</em> hoặc <em>U</em> (theo quy ước châu Âu).</p>
+
+      <p>Trong thực tế kỹ thuật, bạn sẽ thường gặp các bội số và ước số của Volt:</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Ký hiệu</th><th>Tên</th><th>Giá trị</th><th>Ví dụ thực tế</th></tr></thead>
+          <tbody>
+            <tr><td><code>µV</code></td><td>Microvolt</td><td>10⁻⁶ V</td><td>Tín hiệu điện não (EEG)</td></tr>
+            <tr><td><code>mV</code></td><td>Millivolt</td><td>10⁻³ V</td><td>Tín hiệu thermocouple, đầu ra op-amp nhỏ</td></tr>
+            <tr><td><code>V</code></td><td>Volt</td><td>1 V</td><td>Pin AA = 1,5 V; ESP32 logic = 3,3 V</td></tr>
+            <tr><td><code>kV</code></td><td>Kilovolt</td><td>10³ V</td><td>Đường dây trung thế</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>3.2 Ví dụ trực quan: viên pin AA</h3>
+
+      <p>Một viên pin AA có điện áp danh định 1,5 V. Điều này có nghĩa là: cực dương (+) của pin có thế năng điện cao hơn cực âm (–) 1,5 V. Nếu ta gọi cực âm là GND (0 V), thì cực dương là 1,5 V. Nếu ta nối hai viên pin AA nối tiếp, tổng điện áp là 3,0 V — hai mức chênh lệch cộng lại.</p>
+
+      <div class="circuit-ascii">  Hai pin AA nối tiếp:
+
+   (+1.5V)──[PIN 1]──(Junction)──[PIN 2]──(–) = GND = 0V
+     │                   │                           │
+   +3.0V              +1.5V                        0V (GND)
+
+   Điện áp tại cực dương của PIN 2, so với GND = 3.0 V
+   Điện áp tại junction giữa hai pin, so với GND   = 1.5 V
+   Điện áp tại GND, so với GND                     = 0.0 V</div>
+
+      <p>Chú ý rằng "junction" ở giữa không phải GND — nó chỉ là 1,5 V nếu ta chọn cực âm của pin thứ hai làm GND. Nếu ta chọn junction làm GND, thì cực dương pin 2 sẽ là +1,5 V và cực âm pin 1 sẽ là –1,5 V. Con số phụ thuộc hoàn toàn vào điểm tham chiếu.</p>
+
+      <!-- VIDEO 1 -->
+      <div class="video-card">
+        <div class="video-header">
+          <span class="video-badge">🎬 Video</span>
+          <span class="video-header-title">Xem ngay sau khi đọc phần này</span>
+        </div>
+        <div class="video-body">
+          <div class="video-title">Voltage Explained — What is Voltage?</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: The Engineering Mindset</span>
+            <span class="video-meta-item">🌐 Ngôn ngữ: Tiếng Anh</span>
+            <span class="video-meta-item">⏱ Nên xem: toàn bộ video (~9 phút)</span>
+          </div>
+          <div class="video-purpose">Video giải thích trực quan về điện áp: thế năng điện, điểm tham chiếu, tại sao điện áp luôn là đại lượng chênh lệch. Sử dụng animation rất dễ hiểu, phù hợp để củng cố phần lý thuyết vừa đọc.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=t-1-3u4tZ9o" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+          <div class="video-lang-note">💡 Khuyến nghị: bật phụ đề tự động → chọn "Vietnamese" để xem tiếng Việt. Hoặc bật phụ đề Anh rồi đọc song song với giải thích trong bài.</div>
+        </div>
+      </div>
+
+      <p>Sau khi xem video, hãy quay lại ví dụ pin AA ở trên. Bạn sẽ thấy rằng "áp suất" mà video dùng để ví von chính là điện áp — nó đo "áp lực" đẩy electron chạy qua dây dẫn.</p>
+
+      <!-- READ CARD -->
+      <div class="read-card">
+        <span class="read-icon">📖</span>
+        <div class="read-content">
+          <div class="read-label">Đọc thêm</div>
+          <div class="read-title">All About Circuits — Chapter 1: Basic Concepts of Electricity</div>
+          <div class="read-description">Chương 1 của textbook miễn phí All About Circuits. Đọc các mục: "Static electricity," "Conductors, insulators, and electron flow," "Voltage and current." Đây là tài liệu học thuật chất lượng cao, tương đương giáo trình đại học.</div>
+          <a class="read-link" href="https://www.allaboutcircuits.com/textbook/direct-current/chpt-1/" target="_blank" rel="noopener">→ Đọc tại allaboutcircuits.com</a>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PHẦN 4 — DÒNG ĐIỆN
+           ═══════════════════════════════════════ -->
+      <h2>4. Dòng điện (Current) — sự chuyển động có hướng của điện tích</h2>
+
+      <p>Trong khi điện áp mô tả <em>áp lực</em> hoặc <em>chênh lệch thế năng</em>, dòng điện (<em>Electric Current</em>) mô tả <em>tốc độ</em> mà điện tích thực sự chạy qua một điểm trong mạch. Cụ thể, dòng điện là lượng điện tích đi qua một tiết diện dây dẫn trong một đơn vị thời gian.</p>
+
+      <div class="formula-block">
+        <div class="formula-main">I = Q / t</div>
+        <div class="formula-vars">
+          <span class="formula-var"><span class="var-name">I</span> = Dòng điện (Ampere, A)</span>
+          <span class="formula-var"><span class="var-name">Q</span> = Điện tích (Coulomb, C)</span>
+          <span class="formula-var"><span class="var-name">t</span> = Thời gian (giây, s)</span>
+        </div>
+      </div>
+
+      <p>Đơn vị dòng điện là <strong>Ampere (A)</strong> — đặt theo tên nhà vật lý và toán học người Pháp André-Marie Ampère (1775–1836). Một Ampere tương ứng với một Coulomb điện tích đi qua trong một giây. Nói cách khác, 1 A ≈ 6,24 × 10¹⁸ electron đi qua một điểm trong mỗi giây — một con số khổng lồ, nhưng trong thực tế linh kiện điện tử thường chỉ cần mA hoặc µA.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Ký hiệu</th><th>Tên</th><th>Giá trị</th><th>Ứng dụng thực tế</th></tr></thead>
+          <tbody>
+            <tr><td><code>µA</code></td><td>Microampere</td><td>10⁻⁶ A</td><td>ESP32 deep sleep (~10 µA), cảm biến ultra-low power</td></tr>
+            <tr><td><code>mA</code></td><td>Milliampere</td><td>10⁻³ A</td><td>LED (~10–20 mA), ESP32 active (~80–260 mA)</td></tr>
+            <tr><td><code>A</code></td><td>Ampere</td><td>1 A</td><td>Motor nhỏ, relay, bơm mini</td></tr>
+            <tr><td><code>kA</code></td><td>Kiloampere</td><td>10³ A</td><td>Sét, điện phân công nghiệp</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>4.1 Chiều dòng điện — convention vs. thực tế vật lý</h3>
+
+      <p>Đây là điểm nhiều người nhầm lẫn. Trong lịch sử, Benjamin Franklin (thế kỷ 18) định nghĩa dòng điện chạy từ cực dương (+) sang cực âm (–). Định nghĩa này được gọi là <strong>chiều dòng điện quy ước (Conventional Current)</strong> và vẫn được sử dụng trong tất cả sơ đồ mạch và tính toán điện tử đến ngày nay.</p>
+
+      <p>Tuy nhiên, chúng ta biết ngày nay rằng ở mức vật lý, thứ thực sự di chuyển là electron — và electron mang điện âm, nên chúng chạy từ cực âm sang cực dương, <em>ngược chiều quy ước</em>. Đây gọi là <strong>chiều dòng electron (Electron Flow)</strong>.</p>
+
+      <div class="callout callout-tip">
+        <div class="callout-header"><span class="callout-icon">💡</span> Mẹo thực hành</div>
+        <p>Trong tất cả tính toán mạch điện và đọc sơ đồ, hãy dùng <strong>chiều dòng điện quy ước</strong> (từ + sang –). Đây là chuẩn công nghiệp toàn cầu. Bạn chỉ cần nhớ chiều electron flow khi học vật lý bán dẫn sâu hơn (như nguyên lý hoạt động của diode và transistor).</p>
+      </div>
+
+      <div class="circuit-ascii">  Chiều dòng điện trong mạch đơn giản:
+
+   (+) ──────────────────────────────── (–)
+    │         Conventional Current →          │
+    │                                         │
+   [Battery]                               [Resistor]
+    │                                         │
+    │         ← Electron Flow               │
+   (–) ──────────────────────────────── (+)
+
+   Mũi tên trên sơ đồ mạch = chiều dòng điện QUY ƯỚC (+ → –)
+   Electron thực sự chạy ngược chiều đó</div>
+
+      <!-- VIDEO 2 -->
+      <div class="video-card">
+        <div class="video-header">
+          <span class="video-badge">🎬 Video</span>
+          <span class="video-header-title">Dòng điện và chiều electron</span>
+        </div>
+        <div class="video-body">
+          <div class="video-title">Electrical Current Explained</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: The Engineering Mindset</span>
+            <span class="video-meta-item">🌐 Ngôn ngữ: Tiếng Anh</span>
+            <span class="video-meta-item">⏱ Nên xem: toàn bộ (~8 phút)</span>
+          </div>
+          <div class="video-purpose">Giải thích dòng điện, chiều dòng quy ước vs. chiều electron, đơn vị Ampere và ứng dụng thực tế. Animation rõ ràng, rất phù hợp xem ngay sau phần lý thuyết trên.</div>
+          <a class="video-link" href="https://www.youtube.com/watch?v=oVPrJ9N4qK8" target="_blank" rel="noopener">▶ Xem trên YouTube</a>
+          <div class="video-lang-note">💡 Khuyến nghị: bật phụ đề tự động tiếng Anh, hoặc chuyển sang tiếng Việt trong cài đặt YouTube.</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PHẦN 5 — GND
+           ═══════════════════════════════════════ -->
+      <h2>5. GND — Điểm tham chiếu của toàn bộ mạch</h2>
+
+      <p>GND (viết tắt của <em>Ground</em>, hay <em>Mass</em> trong tiếng Pháp) là điểm điện áp 0 V được chọn làm tham chiếu cho toàn bộ mạch. Đây là một trong những khái niệm bị hiểu sai nhiều nhất khi mới học điện tử.</p>
+
+      <h3>5.1 GND không phải "đất thật"</h3>
+
+      <p>Trong hệ thống điện lưới, "earth ground" thực sự là một dây được cắm xuống đất (cọc tiếp địa). Nhưng trong mạch điện tử trên breadboard của bạn, GND chỉ là một điểm được chọn tùy ý làm mốc 0 V — thường là cực âm của nguồn cấp. Không có kết nối vật lý nào xuống đất thật cả.</p>
+
+      <h3>5.2 Tại sao GND quan trọng?</h3>
+
+      <p>Tưởng tượng bạn đang đo chiều cao của một tòa nhà. Nếu bạn đứng ở tầng 3 và đo, bạn sẽ thấy tầng mái thấp hơn so với khi đứng ở tầng trệt. "Chiều cao" của tầng mái phụ thuộc vào bạn đứng ở đâu. Tương tự, điện áp của mọi điểm trong mạch phụ thuộc vào GND được chọn ở đâu.</p>
+
+      <p>Trong thực tế, quy ước là: <strong>GND = cực âm của nguồn cấp chính</strong>. Mọi điện áp trong mạch đều được đo so với điểm này. Khi bạn nói "chân VCC của ESP32 là 3,3 V" — ý nghĩa là: chân VCC có điện áp cao hơn GND 3,3 V.</p>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> Lỗi thực tế phổ biến</div>
+        <p><strong>Floating GND (GND lơ lửng):</strong> Khi bạn nối ESP32 với một mạch ngoài (ví dụ mạch MOSFET) nhưng quên nối GND chung, hai mạch có thể hoạt động hoàn toàn bình thường khi đo riêng lẻ, nhưng lại không hoạt động khi ghép lại. Nguyên nhân: chúng không có điểm tham chiếu chung — điện áp tín hiệu từ ESP32 không có ý nghĩa gì với mạch MOSFET vì GND khác nhau. Luôn nối GND chung trước khi nối tín hiệu.</p>
+      </div>
+
+      <h3>5.3 Ký hiệu GND trong sơ đồ mạch</h3>
+
+      <p>Trong sơ đồ mạch, GND có nhiều ký hiệu tùy theo loại mạch:</p>
+
+      <div class="circuit-ascii">  Các ký hiệu GND phổ biến:
+
+   Power GND (mạnh):       Signal GND (tín hiệu):    Earth GND (điện lưới):
+       ┬                          ┬                         ┬
+       │                          │                         │
+      ═══                        ───                       ─┼─
+      ═══                         ─                        ─┴─
+      ═══
+
+   Trong mạch ESP32 của bạn: dùng Power GND (dòng lớn)
+   và Signal GND (tín hiệu analog) có thể cần tách nhau</div>
+
+      <!-- ═══════════════════════════════════════
+           PHẦN 6 — DC VÀ AC
+           ═══════════════════════════════════════ -->
+      <h2>6. DC và AC — Hai loại điện căn bản</h2>
+
+      <p>Điện có hai dạng cơ bản dựa trên cách chiều dòng điện thay đổi theo thời gian:</p>
+
+      <h3>6.1 Điện một chiều (DC — Direct Current)</h3>
+
+      <p><strong>DC</strong> là dòng điện chạy theo một chiều cố định, không đổi theo thời gian. Điện áp DC có giá trị không đổi (hoặc thay đổi rất chậm). Ví dụ: pin AA (1,5 V DC), adapter điện thoại (5 V DC), nguồn laptop (19 V DC), ESP32 (3,3 V DC nội bộ).</p>
+
+      <p>Toàn bộ giáo trình này sử dụng DC. Lý do: an toàn (không gây điện giật nguy hiểm ở điện áp thấp), dễ đo đạc và dự đoán, là dạng điện mà vi điều khiển và linh kiện điện tử hoạt động.</p>
+
+      <h3>6.2 Điện xoay chiều (AC — Alternating Current)</h3>
+
+      <p><strong>AC</strong> là dòng điện đổi chiều liên tục theo chu kỳ. Điện lưới 220 V ở Việt Nam là AC với tần số 50 Hz — nghĩa là chiều dòng điện đổi 100 lần mỗi giây (50 chu kỳ × 2 lần đổi chiều). Con số "220 V" thực ra là <em>giá trị hiệu dụng RMS</em>, không phải đỉnh — đỉnh điện áp thực tế là khoảng 311 V.</p>
+
+      <div class="callout callout-danger">
+        <div class="callout-header"><span class="callout-icon">🚫</span> An toàn — Quan trọng</div>
+        <p>Tuyệt đối không thực hành trực tiếp với điện lưới 110/220 V AC khi chưa được đào tạo an toàn điện. Ngưỡng nguy hiểm cho tim người là khoảng 50 mA AC qua ngực — và điện lưới có thể cung cấp hàng chục Ampere. Điện lưới giết người không phải vì điện áp cao, mà vì điện trở cơ thể người tương đối thấp (~1000–10000 Ω) cho phép dòng lớn chạy qua.</p>
+      </div>
+
+      <div class="circuit-ascii">  So sánh dạng sóng DC và AC:
+
+  DC (pin 3V):          AC (lưới 220V, 50Hz):
+
+  V ▲                   V ▲
+3V │──────────────────    │     /\      /\
+   │                      │    /  \    /  \
+   │                   0V─┤───/    \──/    \──────
+   │                      │  1/50s  \      /
+0V └──────────► t         │          \    /
+                           │           \  /
+                           │            \/
+                           └──────────────────► t
+
+  Hằng số theo thời gian     Thay đổi theo chu kỳ T=20ms</div>
+
+      <!-- ═══════════════════════════════════════
+           PHẦN 7 — MẠCH KÍN / MẠCH HỞ
+           ═══════════════════════════════════════ -->
+      <h2>7. Mạch kín và mạch hở</h2>
+
+      <p>Để dòng điện có thể chạy, phải có một vòng dẫn điện liên tục từ cực dương của nguồn, qua tải (load), đến cực âm của nguồn. Đây gọi là <strong>mạch kín (Closed Circuit)</strong>.</p>
+
+      <p>Khi vòng này bị gián đoạn tại bất kỳ điểm nào — dù chỉ một điểm — không có dòng điện nào có thể chạy. Đây là <strong>mạch hở (Open Circuit)</strong>. Điện áp vẫn tồn tại ở hai đầu nguồn, nhưng không có dòng.</p>
+
+      <div class="circuit-ascii">  Mạch kín (có dòng):         Mạch hở (không có dòng):
+
+   [+]───[R]───[LED]───[−]        [+]───[R]──╳──[LED]───[−]
+    │                    │         │               ↑         │
+    └────────────────────┘         └─────────── HỞ ──────────┘
+
+   → Dòng I chạy vòng quanh      → Không có dòng nào chạy
+   → LED sáng                     → LED tắt
+   → Có thể đo dòng               → Điện áp tại điểm hở = V nguồn</div>
+
+      <p>Điểm thú vị: trong mạch hở, nếu bạn đặt que đo điện áp tại điểm hở, bạn sẽ đo được <strong>toàn bộ điện áp nguồn</strong> — vì không có phân áp nào xảy ra. Đây là căn cứ để debug: nếu một đoạn mạch đọc được toàn bộ điện áp nguồn, rất có thể đoạn đó đang hở mạch.</p>
+
+      <h3>7.1 Short Circuit — Ngắn mạch</h3>
+
+      <p><strong>Ngắn mạch (Short Circuit)</strong> xảy ra khi hai cực của nguồn được nối trực tiếp với nhau (hoặc qua điện trở rất nhỏ). Theo định luật Ohm: <code>I = V / R</code>. Khi R ≈ 0, I → ∞. Trong thực tế, dòng sẽ bị giới hạn bởi điện trở nội của nguồn — nhưng vẫn đủ lớn để:</p>
+      <ul>
+        <li>Làm nóng và đứt dây dẫn (hỏa hoạn)</li>
+        <li>Làm hỏng nguồn cấp</li>
+        <li>Nổ tụ điện phân cực</li>
+        <li>Hỏng IC và linh kiện</li>
+      </ul>
+
+      <div class="callout callout-danger">
+        <div class="callout-header"><span class="callout-icon">🚫</span> Không bao giờ ngắn mạch nguồn</div>
+        <p>Ngay cả với pin AA 1,5 V, ngắn mạch có thể làm pin nóng lên đến mức gây bỏng tay và rò rỉ hóa chất. Với adapter 5V hay 12V, ngắn mạch có thể làm hỏng nguồn và gây cháy. Luôn kiểm tra mạch trên sơ đồ trước khi cấp nguồn.</p>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PHẦN 8 — ĐO ĐIỆN ÁP BẰNG MULTIMETER
+           ═══════════════════════════════════════ -->
+      <h2>8. Đo điện áp bằng multimeter</h2>
+
+      <p>Multimeter (đồng hồ vạn năng) là dụng cụ đo điện tử quan trọng nhất trong giáo trình này. Nó có thể đo điện áp, dòng điện, điện trở, kiểm tra thông mạch (continuity) và nhiều chức năng khác. Trong bài này, chúng ta chỉ dùng chức năng đo điện áp DC.</p>
+
+      <div class="figure">
+        <div class="figure-placeholder">
+          <div style="font-size:3rem;">📟</div>
+          <div><strong>Hình 1.2 — Multimeter kỹ thuật số (DMM)</strong></div>
+          <div style="font-size:0.8rem;color:var(--clr-text-muted);margin-top:8px;">DT-830B — loại phổ biến nhất, giá ~80.000–150.000 VNĐ</div>
+        </div>
+        <div class="figure-caption">
+          <div class="figure-number">Hình 1.2</div>
+          <div class="figure-text">Multimeter kỹ thuật số (Digital Multimeter — DMM) model DT-830B. Các bộ phận chính: (1) Màn hình LCD hiển thị giá trị đo, (2) Núm chọn chức năng (selector switch), (3) Khe cắm que đo COM (màu đen) và VΩmA (màu đỏ), (4) Que đo đỏ (dương) và đen (âm/COM).</div>
+          <div class="figure-source">Nguồn: Wikimedia Commons (CC BY-SA) — <a href="https://commons.wikimedia.org/wiki/File:Multimeter_ET-973.jpg" target="_blank" rel="noopener">commons.wikimedia.org</a></div>
+        </div>
+      </div>
+
+      <h3>8.1 Cấu tạo multimeter cần biết</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Bộ phận</th><th>Mô tả</th><th>Lưu ý</th></tr></thead>
+          <tbody>
+            <tr><td>Màn hình LCD</td><td>Hiển thị giá trị đo và đơn vị</td><td>Thường 3½ chữ số (max 1999)</td></tr>
+            <tr><td>Selector Switch</td><td>Núm xoay chọn chức năng và thang đo</td><td>Phải chọn đúng trước khi đo</td></tr>
+            <tr><td>Khe COM</td><td>Cắm que đen (âm, tham chiếu)</td><td>Luôn cắm que đen vào đây</td></tr>
+            <tr><td>Khe VΩmA</td><td>Cắm que đỏ (dương) khi đo V, Ω, mA nhỏ</td><td>Không dùng cho dòng lớn</td></tr>
+            <tr><td>Khe 10A/20A</td><td>Cắm que đỏ khi đo dòng lớn</td><td>Một số máy có, một số không</td></tr>
+            <tr><td>Que đỏ</td><td>Que dương (+), cắm vào VΩmA</td><td>Màu đỏ = dương theo quy ước</td></tr>
+            <tr><td>Que đen</td><td>Que âm (–/COM), tham chiếu</td><td>Luôn tiếp xúc GND hoặc điểm thấp hơn</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>8.2 Hướng dẫn đo điện áp DC từng bước</h3>
+
+      <div class="callout callout-practice">
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Đo điện áp pin AA</div>
+        <ol class="step-list">
+          <li class="step-item">
+            <div class="step-content">
+              <p><strong>Cắm que đo:</strong> Que đen → khe COM; Que đỏ → khe VΩmA. Đây là cấu hình chuẩn cho mọi phép đo điện áp và điện trở.</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-content">
+              <p><strong>Chọn chức năng DCV (DC Voltage):</strong> Xoay núm selector về vị trí DC Voltage. Nếu máy không tự động chọn thang (auto-ranging), chọn thang <strong>20V</strong> để đo pin AA 1,5 V. Nguyên tắc: chọn thang lớn hơn giá trị dự kiến nhưng gần nhất.</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-content">
+              <p><strong>Đặt que đo:</strong> Que đỏ chạm <strong>cực dương (+)</strong> của pin AA; que đen chạm <strong>cực âm (–)</strong> của pin. Giữ chắc, đừng để hai que chạm nhau.</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-content">
+              <p><strong>Đọc kết quả:</strong> Màn hình hiển thị khoảng <strong>1,45 V đến 1,65 V</strong> tùy pin mới hay cũ. Giá trị dương = que đỏ ở điện áp cao hơn que đen (đúng). Nếu hiển thị giá trị âm (–1,5 V), bạn đang đặt ngược que đo — không hỏng máy, nhưng hãy đổi lại.</p>
+            </div>
+          </li>
+          <li class="step-item">
+            <div class="step-content">
+              <p><strong>Ghi kết quả:</strong> Ghi vào bảng kết quả bên dưới. Tiếp tục đo adapter 5 V và thử đo ở các thang khác nhau để quan sát sự thay đổi hiển thị.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <h3>8.3 Ý nghĩa của giá trị âm khi đo điện áp</h3>
+
+      <p>Nếu màn hình hiển thị giá trị âm (ví dụ –1,5 V) khi đo pin AA, đây không phải lỗi — nó có nghĩa là que đỏ đang đặt ở điện áp <em>thấp hơn</em> que đen. Multimeter luôn đo: V<sub>đỏ</sub> – V<sub>đen</sub>. Nếu kết quả dương, đỏ cao hơn đen. Nếu âm, đỏ thấp hơn đen. Điều này rất hữu ích khi debug: giá trị âm bất ngờ thường báo hiệu que đo bị ngược.</p>
+
+      <div class="measurement-box">
+        <div class="measurement-header">📏 Bảng đo kiểm — Bài 1</div>
+        <div class="measurement-body">
+          <div class="measurement-row">
+            <span class="meas-label">Chức năng đo</span>
+            <span class="meas-value">DCV (DC Voltage)</span>
+            <span class="meas-note">Chế độ đo điện áp một chiều</span>
+          </div>
+          <div class="measurement-row">
+            <span class="meas-label">Que đen (COM)</span>
+            <span class="meas-value">Cực âm (–) của nguồn</span>
+            <span class="meas-note">Luôn đặt ở điểm tham chiếu (GND)</span>
+          </div>
+          <div class="measurement-row">
+            <span class="meas-label">Que đỏ</span>
+            <span class="meas-value">Điểm cần đo</span>
+            <span class="meas-note">Đặt ở điểm muốn biết điện áp</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="result-table">
+          <thead>
+            <tr>
+              <th>Nguồn đo</th>
+              <th>Giá trị danh định</th>
+              <th>Giá trị đo được</th>
+              <th>Sai lệch</th>
+              <th>Ghi chú</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Pin AA (mới)</td>
+              <td>1,500 V</td>
+              <td>_____ V</td>
+              <td>_____ %</td>
+              <td>Ghi lại của bạn</td>
+            </tr>
+            <tr>
+              <td>Pin AA (cũ)</td>
+              <td>~1,200 V</td>
+              <td>_____ V</td>
+              <td>_____ %</td>
+              <td>Pin đã qua sử dụng</td>
+            </tr>
+            <tr>
+              <td>2 pin AA nối tiếp</td>
+              <td>3,000 V</td>
+              <td>_____ V</td>
+              <td>_____ %</td>
+              <td>Cộng hai điện áp</td>
+            </tr>
+            <tr>
+              <td>Adapter 5V USB</td>
+              <td>5,000 V</td>
+              <td>_____ V</td>
+              <td>_____ %</td>
+              <td>Đo tại cổng USB A</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- VIDEO 3 -->
+      <div class="video-card">
+        <div class="video-header">
+          <span class="video-badge">🎬 Video</span>
+          <span class="video-header-title">Cách sử dụng multimeter đo điện áp</span>
+        </div>
+        <div class="video-body">
+          <div class="video-title">Hướng dẫn sử dụng đồng hồ vạn năng — Đo điện áp, dòng điện, điện trở</div>
+          <div class="video-meta">
+            <span class="video-meta-item">📺 Kênh: Bách Khoa Điện Tử (tiếng Việt)</span>
+            <span class="video-meta-item">🌐 Ngôn ngữ: Tiếng Việt ✓</span>
+            <span class="video-meta-item">⏱ Tìm kiếm: "hướng dẫn dùng đồng hồ vạn năng tiếng việt"</span>
+          </div>
+          <div class="video-purpose">Hướng dẫn thực tế cách dùng multimeter: cắm que, chọn thang đo, đọc kết quả. Xem phần đo điện áp trước khi thực hành. Nếu không tìm được video này, tìm từ khoá: "hướng dẫn dùng đồng hồ vạn năng tiếng việt" trên YouTube.</div>
+          <a class="video-link" href="https://www.youtube.com/results?search_query=h%C6%B0%E1%BB%9Bng+d%E1%BA%ABn+d%C3%B9ng+%C4%91%E1%BB%93ng+h%E1%BB%93+v%E1%BA%A1n+n%C4%83ng+ti%E1%BA%BFng+vi%E1%BB%87t" target="_blank" rel="noopener">🔍 Tìm trên YouTube</a>
+          <div class="video-lang-note">📌 Video tiếng Việt — không cần phụ đề. Có nhiều lựa chọn từ các kênh: Bách Khoa Điện Tử, Điện Tử Việt, Học Nghề Kỹ Sư Điện.</div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PHẦN 9 — SAI LẦM THƯỜNG GẶP
+           ═══════════════════════════════════════ -->
+      <h2>9. Debug — Bảng lỗi thường gặp</h2>
+
+      <div class="table-wrap">
+        <table class="debug-table">
+          <thead>
+            <tr><th>Hiện tượng</th><th>Nguyên nhân có thể</th><th>Cách kiểm tra</th><th>Cách xử lý</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="symptom">Màn hình multimeter hiển thị "OL" hoặc "1."</td>
+              <td class="cause">Thang đo nhỏ hơn giá trị cần đo (overload)</td>
+              <td>Quan sát giá trị danh định nguồn cần đo</td>
+              <td class="fix">Chuyển sang thang cao hơn (vd: từ 2V lên 20V)</td>
+            </tr>
+            <tr>
+              <td class="symptom">Đọc được giá trị âm bất ngờ</td>
+              <td class="cause">Que đo bị ngược: đỏ thấp hơn đen</td>
+              <td>Xem lại que đỏ đặt ở đâu, que đen ở đâu</td>
+              <td class="fix">Đổi chiều que đo hoặc kiểm tra nguồn điện</td>
+            </tr>
+            <tr>
+              <td class="symptom">Đo pin mới chỉ được 1,2V thay vì 1,5V</td>
+              <td class="cause">Pin đã qua sử dụng hoặc bị phóng điện</td>
+              <td>Đo nhiều pin khác nhau để so sánh</td>
+              <td class="fix">Thay pin mới; đây là bình thường với pin cũ</td>
+            </tr>
+            <tr>
+              <td class="symptom">Đo adapter 5V được 5,2V hoặc 4,8V</td>
+              <td class="cause">Sai số bình thường của adapter giá rẻ</td>
+              <td>Hầu hết USB adapter có sai số ±5–10%</td>
+              <td class="fix">Chấp nhận nếu trong khoảng 4,75–5,25V; dùng adapter tốt hơn nếu cần chính xác</td>
+            </tr>
+            <tr>
+              <td class="symptom">Màn hình hiển thị số bất ổn, nhảy liên tục</td>
+              <td class="cause">Tiếp xúc que đo không tốt hoặc pin multimeter yếu</td>
+              <td>Ấn que chắc hơn, thử thay pin 9V của multimeter</td>
+              <td class="fix">Làm sạch đầu que đo; thay pin multimeter</td>
+            </tr>
+            <tr>
+              <td class="symptom">Đo nguồn DC adapter được 0V</td>
+              <td class="cause">Mạch hở: dây nguồn đứt hoặc không cắm điện</td>
+              <td>Kiểm tra đèn báo nguồn, thử ổ cắm khác</td>
+              <td class="fix">Đảm bảo adapter được cắm và bật nguồn</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           PHẦN 10 — SAI LẦM THƯỜNG GẶP
+           ═══════════════════════════════════════ -->
+      <h2>10. Sai lầm tư duy cần tránh ngay từ đầu</h2>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> Sai lầm 1: "Điện áp cao thì dòng điện lớn"</div>
+        <p>Điện áp và dòng điện là hai đại lượng <em>khác nhau</em>. Điện áp là "áp lực," dòng điện là "lưu lượng." Dòng điện phụ thuộc vào cả điện áp <em>lẫn</em> điện trở của mạch. Máy hàn 12V có thể cấp dòng 100A nếu điện trở mạch đủ nhỏ. Pin 9V có thể không thắp sáng được đèn 12V nếu dòng không đủ. Định luật Ohm sẽ giải thích rõ điều này ở bài 3.</p>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> Sai lầm 2: "GND là điện âm, VCC là điện dương"</div>
+        <p>GND chỉ là điểm tham chiếu — không có nghĩa là "âm tuyệt đối." Trong mạch có nguồn đôi (dual supply), GND thực sự nằm giữa, +12V ở trên và –12V ở dưới. Op-amp thường cần nguồn đôi. Hãy luôn nghĩ GND là điểm 0V tham chiếu, không phải "cực âm."</p>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> Sai lầm 3: "Mạch không hoạt động vì thiếu điện áp"</div>
+        <p>Thực tế, mạch có thể không hoạt động vì rất nhiều lý do: mạch hở, ngắn mạch, linh kiện hỏng, GND không chung, điện trở quá lớn/nhỏ, chân IC bị lật, v.v. "Thiếu điện áp" chỉ là một trong hàng chục nguyên nhân. Luôn đo điện áp <em>thực tế</em> trước khi kết luận.</p>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> Sai lầm 4: "Dây màu đỏ luôn là 5V, dây màu đen luôn là GND"</div>
+        <p>Đây là quy ước, không phải quy tắc vật lý. Trong thực tế, màu dây phụ thuộc nhà sản xuất và quốc gia. Luôn đo điện áp thực tế bằng multimeter trước khi cắm bất kỳ dây nào vào mạch. Đặc biệt với dây được tháo từ thiết bị cũ hoặc nguồn không rõ nguồn gốc.</p>
+      </div>
+
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> Sai lầm 5: Đặt multimeter ở chế độ Ampe rồi đo điện áp</div>
+        <p>Đây là lỗi nghiêm trọng và có thể hỏng máy. Khi multimeter ở chế độ đo Ampe, nó có điện trở nội rất nhỏ (gần 0). Nếu đặt hai que vào nguồn điện áp, bạn đang tạo ra ngắn mạch qua máy đo — cầu chì bên trong sẽ đứt ngay lập tức. Luôn kiểm tra chế độ trên núm selector trước khi đo.</p>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           BÀI TẬP
+           ═══════════════════════════════════════ -->
+      <div class="section-divider">
+        <span class="section-divider-label">Bài tập & Đánh giá</span>
+      </div>
+
+      <div class="exercise-section">
+        <div class="exercise-title">📝 Bài tập Bài 1</div>
+
+        <!-- PHẦN A: TRẮC NGHIỆM -->
+        <div class="exercise-part">
+          <div class="exercise-part-title">A. Trắc nghiệm (10 câu × 2 điểm = 20 điểm)</div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">1</span>
+            <div class="exercise-text">Điện áp là đại lượng đo:<br>
+              a) Số electron đi qua một điểm mỗi giây<br>
+              b) Chênh lệch thế năng điện giữa hai điểm<br>
+              c) Lượng điện tích tích trữ trong tụ điện<br>
+              d) Tốc độ electron chạy trong dây dẫn</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">2</span>
+            <div class="exercise-text">Đơn vị của dòng điện là:<br>
+              a) Volt (V)<br>b) Ohm (Ω)<br>c) Ampere (A)<br>d) Coulomb (C)</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">3</span>
+            <div class="exercise-text">GND trong mạch điện tử breadboard là:<br>
+              a) Kết nối vật lý xuống đất thật<br>
+              b) Điện áp –5V<br>
+              c) Điểm tham chiếu 0V được chọn trong mạch<br>
+              d) Cực âm của tụ điện</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">4</span>
+            <div class="exercise-text">Trong mạch hở, điện áp tại điểm bị hở sẽ là:<br>
+              a) 0 V<br>b) Bằng điện áp nguồn<br>c) Vô cực<br>d) Không xác định được</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">5</span>
+            <div class="exercise-text">Khi đặt que đo ngược (đỏ ở cực âm, đen ở cực dương), multimeter hiển thị:<br>
+              a) Giá trị 0V<br>b) Giá trị âm (ví dụ –1,5V)<br>c) Giá trị lớn bất thường<br>d) Thông báo lỗi</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">6</span>
+            <div class="exercise-text">Chiều dòng điện quy ước (Conventional Current) chạy từ:<br>
+              a) Cực âm sang cực dương<br>b) Cực dương sang cực âm<br>c) GND sang nguồn<br>d) Electron sang proton</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">7</span>
+            <div class="exercise-text">Nếu multimeter hiển thị "OL" khi đo điện áp, điều đó có nghĩa là:<br>
+              a) Mạch bị hở<br>b) Giá trị đo vượt quá thang đo đang chọn<br>c) Pin multimeter yếu<br>d) Que đo bị đứt</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">8</span>
+            <div class="exercise-text">Điện áp lưới 220V AC ở Việt Nam có tần số:<br>
+              a) 60 Hz<br>b) 50 Hz<br>c) 100 Hz<br>d) 220 Hz</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">9</span>
+            <div class="exercise-text">Đặt thang đo 2V để đo adapter 5V sẽ dẫn đến:<br>
+              a) Hỏng máy đo<br>b) Hiển thị "OL" (overload)<br>c) Hiển thị 2.00V<br>d) Hiển thị 0.00V</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">10</span>
+            <div class="exercise-text">Hai viên pin AA 1,5V mắc nối tiếp sẽ cho điện áp tổng là:<br>
+              a) 1,5 V<br>b) 0,75 V<br>c) 3,0 V<br>d) 2,25 V</div>
+          </div>
+        </div>
+
+        <!-- PHẦN B: TỰ LUẬN -->
+        <div class="exercise-part">
+          <div class="exercise-part-title">B. Tự luận (5 câu × 8 điểm = 40 điểm)</div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">1</span>
+            <div class="exercise-text">Giải thích tại sao "điện áp tại một điểm là 5V" không có nghĩa nếu không biết điểm tham chiếu. Cho ví dụ cụ thể bằng cách vẽ sơ đồ mạch đơn giản.</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">2</span>
+            <div class="exercise-text">Phân biệt mạch kín và mạch hở. Giải thích tại sao đèn LED lại sáng trong mạch kín và tắt trong mạch hở, mặc dù nguồn điện không thay đổi.</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">3</span>
+            <div class="exercise-text">Bạn đang debug một mạch: đo điện áp tại chân VCC của ESP32 và thấy kết quả là 0V. Liệt kê ít nhất 5 nguyên nhân có thể gây ra kết quả này và cách kiểm tra từng nguyên nhân.</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">4</span>
+            <div class="exercise-text">Tại sao khi nối hai mạch (ví dụ ESP32 và mạch MOSFET), việc đầu tiên cần làm là nối GND chung trước khi nối bất kỳ tín hiệu nào? Điều gì xảy ra nếu không nối GND chung?</div>
+          </div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">5</span>
+            <div class="exercise-text">Giải thích sự khác nhau giữa chiều dòng điện quy ước (conventional current) và chiều electron flow. Trong thực tế vẽ sơ đồ mạch, bạn dùng chiều nào và tại sao?</div>
+          </div>
+        </div>
+
+        <!-- PHẦN C: THỰC HÀNH -->
+        <div class="exercise-part">
+          <div class="exercise-part-title">C. Thực hành (1 bài × 40 điểm)</div>
+
+          <div class="exercise-item">
+            <span class="exercise-num">TH</span>
+            <div class="exercise-text">
+              <strong>Bài thực hành: Khảo sát điện áp nhiều nguồn</strong><br><br>
+              Dùng multimeter đo điện áp của các nguồn sau và ghi kết quả:<br>
+              1. Pin AA mới (1 cái)<br>
+              2. Pin AA đã dùng (1 cái, nếu có)<br>
+              3. Hai pin AA nối tiếp<br>
+              4. USB adapter 5V (đo tại đầu ra USB)<br>
+              5. Điểm giữa (junction) của hai pin AA nối tiếp so với cực âm pin 1<br>
+              6. Điểm giữa so với cực dương pin 2<br><br>
+              <strong>Báo cáo:</strong> Ghi kết quả đo, so sánh với giá trị lý thuyết, tính sai số phần trăm. Giải thích tại sao kết quả câu 5 và câu 6 không bằng nhau về giá trị tuyệt đối nhưng tổng của chúng bằng điện áp tổng hai pin.
+            </div>
+          </div>
+        </div>
+
+        <!-- ĐÁP ÁN -->
+        <div class="answer-section">
+          <button class="answer-toggle">👁 Xem đáp án</button>
+          <div class="answer-content">
+            <div style="font-weight:700;color:var(--clr-accent);margin-bottom:16px;">Đáp án phần A — Trắc nghiệm:</div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Câu</th><th>Đáp án</th><th>Giải thích ngắn</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td><strong>b)</strong></td><td>Điện áp = chênh lệch thế năng điện giữa hai điểm</td></tr>
+                  <tr><td>2</td><td><strong>c)</strong></td><td>Ampere (A), đặt theo André-Marie Ampère</td></tr>
+                  <tr><td>3</td><td><strong>c)</strong></td><td>GND là điểm tham chiếu 0V được chọn, không phải kết nối đất thật</td></tr>
+                  <tr><td>4</td><td><strong>b)</strong></td><td>Khi mạch hở, không có phân áp → toàn bộ điện áp nguồn rơi trên điểm hở</td></tr>
+                  <tr><td>5</td><td><strong>b)</strong></td><td>Giá trị âm (–1,5V) — máy đo V_đỏ – V_đen, kết quả âm khi đỏ thấp hơn đen</td></tr>
+                  <tr><td>6</td><td><strong>b)</strong></td><td>Chiều dòng quy ước: + → –. Electron thực tế đi ngược lại</td></tr>
+                  <tr><td>7</td><td><strong>b)</strong></td><td>OL = Overload = giá trị vượt thang đo. Chuyển sang thang cao hơn</td></tr>
+                  <tr><td>8</td><td><strong>b)</strong></td><td>50 Hz — chuẩn điện lưới châu Á (Mỹ dùng 60 Hz)</td></tr>
+                  <tr><td>9</td><td><strong>b)</strong></td><td>Thang 2V không đủ để hiển thị 5V → overload hiển thị OL</td></tr>
+                  <tr><td>10</td><td><strong>c)</strong></td><td>Nối tiếp: V_tổng = 1,5 + 1,5 = 3,0 V</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="font-weight:700;color:var(--clr-accent);margin:20px 0 12px;">Gợi ý đáp án phần B:</div>
+            <p style="font-size:0.875rem;color:var(--clr-text-secondary);">B1: Vẽ mạch với nguồn 3V, điểm giữa 1,5V và GND. Nếu chọn điểm giữa làm GND, các điện áp thay đổi. Điện áp phụ thuộc điểm tham chiếu.</p>
+            <p style="font-size:0.875rem;color:var(--clr-text-secondary);">B3 (5 nguyên nhân VCC=0V): (1) Nguồn chưa bật, (2) Cầu chì nguồn đứt, (3) Dây nguồn đứt, (4) Chân nguồn ESP32 không được kết nối, (5) Ngắn mạch trên đường nguồn làm sụt áp về 0.</p>
+            <p style="font-size:0.875rem;color:var(--clr-text-secondary);">B5: Thực hành ghi đầy đủ: V_junction_so_với_GND = 1,5V; V_junction_so_với_cực_dương_pin2 = –1,5V. Chú ý dấu âm khi đo ngược chiều.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHECKLIST -->
+      <div class="checklist">
+        <div class="checklist-title">✅ Checklist hoàn thành Bài 1</div>
+        <div class="checklist-item">
+          <input type="checkbox" id="c1" name="c1">
+          <label for="c1">Tôi hiểu điện áp là đại lượng tương đối, luôn cần điểm tham chiếu</label>
+        </div>
+        <div class="checklist-item">
+          <input type="checkbox" id="c2" name="c2">
+          <label for="c2">Tôi phân biệt được điện áp (V) và dòng điện (A)</label>
+        </div>
+        <div class="checklist-item">
+          <input type="checkbox" id="c3" name="c3">
+          <label for="c3">Tôi hiểu GND là điểm tham chiếu, không phải "âm tuyệt đối"</label>
+        </div>
+        <div class="checklist-item">
+          <input type="checkbox" id="c4" name="c4">
+          <label for="c4">Tôi đã đo điện áp pin AA và adapter bằng multimeter thực tế</label>
+        </div>
+        <div class="checklist-item">
+          <input type="checkbox" id="c5" name="c5">
+          <label for="c5">Tôi biết cách chọn thang đo đúng trên multimeter</label>
+        </div>
+        <div class="checklist-item">
+          <input type="checkbox" id="c6" name="c6">
+          <label for="c6">Tôi hiểu mạch kín cần có vòng điện liên tục để có dòng</label>
+        </div>
+        <div class="checklist-item">
+          <input type="checkbox" id="c7" name="c7">
+          <label for="c7">Tôi đã xem ít nhất 1 video trong bài và hiểu nội dung</label>
+        </div>
+        <div class="checklist-item">
+          <input type="checkbox" id="c8" name="c8">
+          <label for="c8">Tôi đã hoàn thành bảng kết quả đo kiểm với ít nhất 3 nguồn khác nhau</label>
+        </div>
+      </div>
+
+      <!-- TÀI LIỆU THAM KHẢO -->
+      <h2>Tài liệu tham khảo Bài 1</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nguồn</th><th>Nội dung</th><th>Link</th></tr></thead>
+          <tbody>
+            <tr><td>All About Circuits</td><td>Chapter 1 — Basic Concepts of Electricity</td><td><a href="https://www.allaboutcircuits.com/textbook/direct-current/chpt-1/" target="_blank">allaboutcircuits.com</a></td></tr>
+            <tr><td>The Engineering Mindset</td><td>Voltage Explained</td><td><a href="https://www.youtube.com/watch?v=t-1-3u4tZ9o" target="_blank">youtube.com</a></td></tr>
+            <tr><td>The Engineering Mindset</td><td>Electrical Current Explained</td><td><a href="https://www.youtube.com/watch?v=oVPrJ9N4qK8" target="_blank">youtube.com</a></td></tr>
+            <tr><td>MIT OpenCourseWare 6.002</td><td>Circuits and Electronics — Lecture 1</td><td><a href="https://ocw.mit.edu/courses/6-002-circuits-and-electronics-spring-2007/" target="_blank">ocw.mit.edu</a></td></tr>
+            <tr><td>Wikimedia Commons</td><td>Atomic structure diagrams (CC BY-SA)</td><td><a href="https://commons.wikimedia.org/wiki/Category:Atoms" target="_blank">commons.wikimedia.org</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- LESSON NAV -->
+      <div class="lesson-nav">
+        <a href="../index.html" class="lesson-nav-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <div>
+            <div class="nav-label">Trang chủ</div>
+            <div class="nav-title">Mục lục giáo trình</div>
+          </div>
+        </a>
+        <a href="../week1/day02.html" class="lesson-nav-btn next">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          <div>
+            <div class="nav-label">Bài tiếp theo →</div>
+            <div class="nav-title">Bài 2: Breadboard & Multimeter nâng cao</div>
+          </div>
+        </a>
+      </div>
+
+    </div><!-- /content-area -->
+  </main>
+</div><!-- /app-layout -->
+
+<script src="../assets/js/sidebar-data.js"></script>
+<script src="../assets/js/main.js"></script>
+<script>
+  // Render sidebar với file hiện tại là active
+  renderSidebar('day01.html');
+</script>
+</body>
+</html>
