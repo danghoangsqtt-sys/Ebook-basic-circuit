@@ -6,5 +6,5 @@
 | Task | Trạng thái | Bằng chứng |
 | --- | --- | --- |
 | P4-01 | PASS | `docs/qa/visual-baseline.md`; checker + 3 fixture lỗi |
-| P4-02 | PLANNED | — |
+| P4-02 | IN_PROGRESS | Đã ghi kế hoạch; bắt đầu rà 80 sơ đồ |
 | P4-03 | PLANNED | — |

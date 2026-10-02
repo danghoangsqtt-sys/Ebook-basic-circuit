@@ -95,7 +95,7 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 | Task | Trạng thái | Bằng chứng |
 | --- | --- | --- |
 | P4-01 | PASS | 56 bài/3 img/4 tài sản/80 ASCII; fixture 3 lỗi phát hiện đúng |
-| P4-02 | PLANNED | — |
+| P4-02 | IN_PROGRESS | Đang đối chiếu 80 sơ đồ ký tự |
 | P4-03 | PLANNED | — |
 | P5-01 | PLANNED | — |
 | P5-02 | PLANNED | — |
