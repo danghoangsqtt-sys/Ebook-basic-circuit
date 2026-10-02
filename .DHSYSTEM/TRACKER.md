@@ -1,7 +1,7 @@
 # Theo dõi tiến độ
 
 - Cập nhật: 2026-10-02
-- Trạng thái: kế hoạch đã lập, chưa triển khai mã ứng dụng
+- Trạng thái: đang triển khai Phase 1
 - Phase hiện tại: Phase 1
 - Việc kế tiếp: P1-01
 - Phiên bản phát hành: chưa có
@@ -10,7 +10,7 @@
 
 | Phase | Tổng nhiệm vụ | Hoàn tất | Trạng thái |
 | --- | ---: | ---: | --- |
-| Phase 1 | 8 | 0 | Chưa bắt đầu |
+| Phase 1 | 8 | 0 | Đang thực hiện |
 | Phase 2 | 3 | 0 | Chờ Phase 1 |
 | Phase 3 | 2 | 0 | Chờ Phase 2 / cổng quyết định |
 
@@ -18,7 +18,7 @@
 
 | ID | Việc | Trạng thái | Bằng chứng nghiệm thu |
 | --- | --- | --- | --- |
-| P1-01 | Đo hiện trạng và kiểm tra liên kết | Chưa bắt đầu | — |
+| P1-01 | Đo hiện trạng và kiểm tra liên kết | Đang thực hiện | Hợp đồng nhiệm vụ trong `phases/phase-1/tasks/P1-01.md` |
 | P1-02 | Trang mở đầu | Chưa bắt đầu | — |
 | P1-03 | Khung đọc mobile | Chưa bắt đầu | — |
 | P1-04 | Thanh kéo cỡ chữ | Chưa bắt đầu | — |
