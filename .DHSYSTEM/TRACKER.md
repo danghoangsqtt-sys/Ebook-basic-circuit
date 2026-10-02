@@ -3,14 +3,14 @@
 - Cập nhật: 2026-10-02
 - Trạng thái: đang triển khai Phase 1
 - Phase hiện tại: Phase 1
-- Việc kế tiếp: P1-04/P1-05
+- Việc kế tiếp: P1-06
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
 
 | Phase | Tổng nhiệm vụ | Hoàn tất | Trạng thái |
 | --- | ---: | ---: | --- |
-| Phase 1 | 8 | 4 | Đang thực hiện |
+| Phase 1 | 8 | 5 | Đang thực hiện |
 | Phase 2 | 3 | 0 | Chờ Phase 1 |
 | Phase 3 | 2 | 0 | Chờ Phase 2 / cổng quyết định |
 
@@ -22,8 +22,8 @@
 | P1-02 | Trang mở đầu | PASS | 8 tuần, 56 link bài có thật; Chromium 320–1280 px không tràn; menu click/Enter/Escape, skip link; anchor chuẩn bị Bài 1 |
 | P1-03 | Khung đọc mobile | PASS | Chromium Bài 1/28/56 ở 320–430 px và viewport zoom 200%; không tràn; sidebar 8 tuần/56 bài, Escape/focus |
 | P1-04 | Thanh kéo cỡ chữ | PASS | Playwright HTTP: 24 px/reload/reset/ArrowLeft, storage bị chặn, Bài 1 ở 160–430 px không tràn |
-| P1-05 | Chỉ mục và tìm kiếm nội bộ | Đã kiểm tra, chờ cổng Git | `build_search_index.py --check` 56 bài; Playwright Bài 1/28/56, có/không dấu, câu dài, không kết quả, Escape/focus |
-| P1-06 | Chọn chữ và tra cứu | Chưa bắt đầu | — |
+| P1-05 | Chỉ mục và tìm kiếm nội bộ | PASS | `build_search_index.py --check` 56 bài; Playwright Bài 1/28/56, có/không dấu, câu dài, không kết quả, Escape/focus |
+| P1-06 | Chọn chữ và tra cứu | Đang thực hiện | Hợp đồng `phases/phase-1/tasks/P1-06.md` |
 | P1-07 | Bút đánh dấu | Chưa bắt đầu | — |
 | P1-08 | Liên kết và nghiệm thu | Chưa bắt đầu | — |
 
