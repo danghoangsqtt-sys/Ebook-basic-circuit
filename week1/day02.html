@@ -129,15 +129,11 @@
   • Rail + và Rail – → KHÔNG NỐI với nhau</div>
 
       <div class="figure">
-        <div class="figure-placeholder">
-          <div style="font-size:2rem;">🔌</div>
-          <div><strong>Hình 2.1 — Cấu tạo bên trong breadboard</strong></div>
-          <div style="font-size:0.8rem;color:var(--clr-text-muted);margin-top:8px;">Các thanh kim loại bên trong nối các lỗ theo hướng cột (terminal strip) và hàng (power rail)</div>
-        </div>
+        <img src="../assets/images/lessons/breadboard-400-cc0.webp" width="1200" height="884" loading="lazy" decoding="async" alt="Ảnh hai mặt breadboard 400 lỗ: bên trái là các lỗ cắm, bên phải lộ các thanh kim loại nối từng nhóm năm lỗ và các đoạn rail nguồn ở hai bên.">
         <div class="figure-caption">
           <div class="figure-number">Hình 2.1</div>
-          <div class="figure-text">Bên dưới mặt nhựa của breadboard là các thanh kim loại đàn hồi (spring clips). Trong vùng linh kiện: mỗi nhóm 5 lỗ theo chiều dọc (a1–e1, hoặc f1–j1) được nối bởi một thanh kim loại. Trong rail nguồn: tất cả lỗ trên một hàng (+) hoặc (–) được nối bởi một thanh kim loại dài chạy theo chiều ngang.</div>
-          <div class="figure-source">Nguồn: SparkFun Electronics (CC BY-SA) — <a href="https://learn.sparkfun.com/tutorials/how-to-use-a-breadboard" target="_blank" rel="noopener">learn.sparkfun.com</a></div>
+          <div class="figure-text">Ảnh hai mặt của breadboard <strong>400 lỗ</strong> minh họa cùng nguyên lý kết nối với loại 830 lỗ đang học: mỗi nhóm 5 lỗ a–e hoặc f–j có một thanh tiếp xúc riêng; rãnh giữa cách ly hai nhóm. Rail nguồn ở hai bên có thể bị chia thành nhiều đoạn như trong ảnh, nên cần dùng đồng hồ kiểm tra thông mạch trước khi coi cả rail là một nút điện.</div>
+          <div class="figure-source">Ảnh: Guhuru, <a href="https://commons.wikimedia.org/wiki/File:Breadboard.png" target="_blank" rel="noopener">Wikimedia Commons</a> (CC0 1.0); đã thu nhỏ và chuyển sang WebP.</div>
         </div>
       </div>
 
@@ -202,7 +198,7 @@
           </li>
           <li class="step-item">
             <div class="step-content">
-              <p><strong>Test breadboard — trong cùng nhóm 5 lỗ:</strong> Cắm một đầu dây jumper vào lỗ a1. Đặt que đỏ vào d1, que đen vào đầu kia của dây jumper (cắm vào nguồn 3V, chú ý không cấp điện khi test continuity). Máy phải beep — a1 và d1 được nối với nhau.</p>
+              <p><strong>Test breadboard — trong cùng nhóm 5 lỗ:</strong> Ngắt hoàn toàn nguồn khỏi breadboard. Cắm một đầu dây jumper vào lỗ a1; đặt que đỏ vào d1 và que đen vào đầu kia của dây jumper. Máy sẽ báo thông mạch nếu a1 và d1 được nối với nhau.</p>
             </div>
           </li>
           <li class="step-item">

@@ -172,3 +172,7 @@ flowchart LR
 - [MDN range input](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/range)
 - [MDN localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 - [MDN contextmenu event](https://developer.mozilla.org/en-US/docs/Web/API/Element/contextmenu_event)
+
+## Kiến trúc hình minh họa (Phase 4–6)
+
+Hình tĩnh đặt dưới `assets/images/lessons/`; ảnh raster dùng WebP, sơ đồ tự vẽ dùng SVG. `assets/images/lessons/SOURCES.md` giữ xuất xứ theo từng tệp, giấy phép, ngày kiểm tra, biến đổi và bài dùng. Mỗi HTML bài tham chiếu tài sản cục bộ với alt text và chú thích. `tools/check_visuals.py` kiểm tra 56 bài, liên kết hình và nguồn; `tools/qa_browser.py` kiểm tra hiển thị mobile. Khi sửa HTML bài, chạy lại `tools/build_search_index.py`. Không thêm dịch vụ hoặc quyền truy cập mạng lúc người đọc mở trang.

@@ -1,9 +1,9 @@
 # Theo dõi tiến độ
 
 - Cập nhật: 2026-10-02
-- Trạng thái: hoàn tất Phase 1–3; audit/debug sau mỗi phase
-- Phase hiện tại: Phase 3 (hoàn tất)
-- Việc kế tiếp: không có
+- Trạng thái: Phase 1–3 hoàn tất; Phase 4–6 hình minh họa đã lên kế hoạch
+- Phase hiện tại: Phase 4 (planned)
+- Việc kế tiếp: P4-01
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -13,6 +13,9 @@
 | Phase 1 | 8 | 8 | Hoàn tất; audit/debug PASS |
 | Phase 2 | 3 | 3 | Hoàn tất; audit/debug PASS |
 | Phase 3 | 2 | 2 | Hoàn tất; audit/debug PASS |
+| Phase 4 | 3 | 0 | Đã lên kế hoạch |
+| Phase 5 | 4 | 0 | Đã lên kế hoạch |
+| Phase 6 | 2 | 0 | Đã lên kế hoạch |
 
 ## Phase 1
 
@@ -84,3 +87,19 @@ Phase 1 đã triển khai; bằng chứng nghiệm thu theo từng nhiệm vụ 
 2026-10-02 P3-01: xuất/nhập JSON khôi phục dấu, cỡ chữ, theme, tiến độ và checklist. Kiểm tra tệp sai, thiếu trường, version cũ, ngày sai, quote dài, xung đột ID và lỗi ghi giữa chừng; Chromium toàn bộ 56 bài, WebKit mẫu; trang sao lưu ở 320–430 px không tràn. 59 trang/487 link nội bộ, 0 lỗi. P3-02 hoãn backend vì chưa có nhu cầu/điều kiện được xác nhận; JSON là cách chuyển dữ liệu hiện hoạt.
 
 2026-10-02 Audit Phase 3: Tier 1 PASS; Tier 2 thiếu module sao lưu trong kiến trúc, `dh-debug` đã cập nhật sơ đồ và bốn sidecar Mermaid. Tier 3 phát hiện `Date.parse` chấp nhận ngày 31/02; `dh-debug` sửa kiểm tra lịch và thêm ca hồi quy. Chromium toàn bộ 56 bài và WebKit mẫu qua lại; `check_links.py` 59 trang/487 tham chiếu, 0 lỗi; chỉ mục còn mới. Báo cáo `.DHSYSTEM/audit-report.md`. Phase 3 hoàn tất.
+
+## Phase 4–6 — Đợt hình minh họa
+
+Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai SVG Bài 1–2 là mẫu thực hiện trước khi mở milestone.
+
+| Task | Trạng thái | Bằng chứng |
+| --- | --- | --- |
+| P4-01 | PLANNED | — |
+| P4-02 | PLANNED | — |
+| P4-03 | PLANNED | — |
+| P5-01 | PLANNED | — |
+| P5-02 | PLANNED | — |
+| P5-03 | PLANNED | — |
+| P5-04 | PLANNED | — |
+| P6-01 | PLANNED | — |
+| P6-02 | PLANNED | — |

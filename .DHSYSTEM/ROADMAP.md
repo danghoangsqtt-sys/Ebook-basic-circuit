@@ -16,6 +16,9 @@ Ngày chốt: 2026-10-02. Nguồn phạm vi: `docs/brainstorm/session-2026-10-02
 | Phase 1 | Đọc được trên điện thoại và dùng trọn công cụ đọc/tra cứu cơ bản | P1-01 đến P1-08 đạt nghiệm thu |
 | Phase 2 | Quản lý dấu và nâng chất lượng tìm kiếm | P2-01 đến P2-03 đạt nghiệm thu hoặc quyết định hoãn P2-03 |
 | Phase 3 | Xuất/nhập và quyết định đồng bộ | P3-01 hoàn tất; P3-02 là cổng quyết định, chỉ tạo backlog backend nếu có nhu cầu |
+| Phase 4 | Kiểm định hình và quy chuẩn | P4-01 đến P4-03 đạt nghiệm thu |
+| Phase 5 | Minh họa sát nội dung cho 56 bài | P5-01 đến P5-04 đạt nghiệm thu |
+| Phase 6 | Sơ đồ tổng hợp và QA toàn bộ | P6-01 đến P6-02 đạt nghiệm thu |
 
 ## Phase 1 — Đọc được và điều hướng đúng
 
@@ -123,3 +126,21 @@ Quyết định 2026-10-02: hoãn backend/tài khoản/đồng bộ. Chưa có n
 - Không còn nhiệm vụ dở dang hoặc lỗi chặn thuộc phase.
 - Kết quả kiểm tra được ghi trong `TRACKER.md` với ngày và bằng chứng.
 - `HANDOFF.json` phản ánh phase hiện tại và nhiệm vụ kế tiếp.
+
+## Milestone hình minh họa — Phase 4–6
+
+Nguồn: `docs/brainstorm/session-2026-10-02-visuals.md` và `docs/brainstorm/visual-inventory-2026-10-02.md`. Phase 1–3 ở trên đã hoàn tất; Phase 4–6 là đợt mới. Ảnh ngoài chỉ CC0/miền công cộng được xác minh trên trang tệp; dự án tiếp tục giữ bản quyền riêng và không tạo `LICENSE`.
+
+| Task | Phụ thuộc | Kết quả |
+| --- | --- | --- |
+| P4-01 | Không | Script kiểm tra ảnh/nguồn và baseline 56 bài |
+| P4-02 | P4-01 | Audit đủ 80 sơ đồ ASCII và danh sách lỗi kỹ thuật |
+| P4-03 | P4-01 | Quy chuẩn hình và mẫu Bài 1–2 trên điện thoại |
+| P5-01 | Phase 4 | Minh họa Bài 1–14, audit và sửa lỗi |
+| P5-02 | P5-01 | Minh họa Bài 15–28, audit và sửa lỗi |
+| P5-03 | P5-02 | Minh họa Bài 29–42, audit và sửa lỗi |
+| P5-04 | P5-03 | Minh họa Bài 43–56, audit và sửa lỗi |
+| P6-01 | Phase 5 | 12 sơ đồ tư duy/khối cho bài ôn tập và dự án |
+| P6-02 | P6-01 | QA 56/56 bài, nguồn, mobile, alt/caption và nội dung |
+
+Chi tiết đường dẫn, kế hoạch từng tệp và lệnh nghiệm thu nằm trong `.DHSYSTEM/phases/phase-{4,5,6}/tasks/`. Sau mỗi Phase chạy `dh-audit`; phát hiện lỗi thì `dh-debug` và sửa trước Phase kế tiếp.

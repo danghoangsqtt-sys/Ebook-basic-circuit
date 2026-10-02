@@ -30,3 +30,7 @@
 ## Cập nhật tiến độ
 
 Chỉ đánh dấu nhiệm vụ hoàn tất trong `TRACKER.md` sau khi có bằng chứng theo tiêu chí của ROADMAP. Giữ `HANDOFF.json` cùng trạng thái với tracker.
+
+## Đợt hình minh họa
+
+Đọc `../docs/brainstorm/session-2026-10-02-visuals.md`, `../docs/brainstorm/visual-inventory-2026-10-02.md`, `phases/phase-4/` đến `phase-6/` và `../assets/images/lessons/SOURCES.md` trước khi làm hình. Giữ bản quyền riêng, chỉ nhận ảnh CC0/miền công cộng đã xác minh trên trang tệp.

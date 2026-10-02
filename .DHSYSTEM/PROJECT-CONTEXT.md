@@ -64,3 +64,7 @@ Giúp người học đọc và thực hành trọn bộ 56 bài điện tử tr
 
 - Nhiều màu đánh dấu và ghi chú riêng có cần thiết không? Mặc định đưa vào Phase 2 sau khi có dữ liệu sử dụng.
 - Có cần viết riêng các trang Hướng dẫn/Linh kiện/Phụ lục không? Phase 1 xử lý các liên kết hỏng bằng đích đã có; biên tập trang mới cần nội dung riêng.
+
+## Milestone hình minh họa (Phase 4–6)
+
+Quyết định ngày 2026-10-02: biên tập hình cho 56 bài theo `docs/brainstorm/session-2026-10-02-visuals.md`. Đợt này cho phép sửa văn bản kỹ thuật gắn với hình, thay cho giới hạn không viết lại bài của Phase 1–3. Kết hợp ảnh thật CC0/miền công cộng được xác minh theo tệp với SVG tự tạo; mỗi bài có hình sát nội dung, caption/alt rõ và nguồn. Rà 80 sơ đồ ASCII, ưu tiên sơ đồ nguồn, pinout, tải cảm và pin LiPo. Thêm infographic, sơ đồ khối và sơ đồ tư duy cho bài phù hợp.
