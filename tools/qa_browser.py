@@ -171,6 +171,53 @@ def check_reader_flow(browser, server: ThreadingHTTPServer) -> None:
     page.close()
 
 
+def check_library_flow(browser, server: ThreadingHTTPServer) -> None:
+    page = browser.new_page(viewport={"width": 390, "height": 800})
+    errors: list[str] = []
+    page.on("pageerror", lambda error: errors.append(str(error)))
+    for path in ("week1/day01.html", "week4/day28.html"):
+        page.goto(page_url(server, path))
+        page.locator("[data-action=highlight]").wait_for(state="attached")
+        select_prose(page)
+        page.locator(".ebook-selection-trigger").click()
+        page.locator("[data-action=highlight]").click()
+        check(page.locator("mark[data-ebook-highlight-id]").count() > 0, f"No mark in {path}")
+    page.goto(page_url(server, "highlights.html"))
+    page.locator(".highlight-state[data-state=anchored]").first.wait_for()
+    check(page.locator(".highlight-item").count() == 2, "Library did not show 2 lessons")
+    for width in (320, 360, 390, 430):
+        page.set_viewport_size({"width": width, "height": 800})
+        check(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),
+              f"Library overflows at {width}px")
+    page.locator("#highlight-lesson").select_option("day28")
+    check(page.locator(".highlight-item").count() == 1, "Lesson filter failed")
+    page.locator("#highlight-lesson").select_option("")
+    page.locator("#highlight-query").fill("Tổng hợp")
+    check(page.locator(".highlight-item").count() == 1, "Quote filter failed")
+    page.locator("#highlight-query").fill("")
+    page.evaluate("""() => {
+      const all = JSON.parse(localStorage.getItem('ebook-highlights-v1'));
+      const orphan = structuredClone(all[0]);
+      orphan.id = 'qa-orphan';
+      orphan.quote = 'Đoạn không còn trong bài này';
+      localStorage.setItem('ebook-highlights-v1', JSON.stringify([...all, orphan]));
+    }""")
+    page.reload()
+    page.locator(".highlight-state[data-state=orphan]").wait_for()
+    orphan = page.locator(".highlight-item").filter(has_text="Đoạn không còn trong bài này")
+    check("highlight=" not in orphan.locator("a").get_attribute("href"),
+          "Orphan link must not jump to an uncertain position")
+    page.locator("#highlight-state").select_option("orphan")
+    check(page.locator(".highlight-item").count() == 1, "Anchor-state filter failed")
+    page.locator("#highlight-state").select_option("")
+    page.locator(".highlight-item").filter(has_text="Đoạn không còn trong bài này").locator("button").click()
+    check(page.locator(".highlight-item").count() == 2, "Deleting one mark affected others")
+    page.locator(".highlight-item").first.locator("a").click()
+    page.locator("mark[data-ebook-highlight-id]").first.wait_for()
+    check(not errors, f"Library JavaScript errors: {errors[:3]}")
+    page.close()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--quick", action="store_true", help="scan 3 lessons instead of all 56")
@@ -186,12 +233,13 @@ def main() -> int:
                 home = check_home(browser, server)
                 lessons = check_layout(browser, server, args.quick)
                 check_reader_flow(browser, server)
+                check_library_flow(browser, server)
             finally:
                 browser.close()
     finally:
         server.shutdown()
         thread.join(timeout=5)
-    print(f"QA PASS ({args.browser}): {home} home viewports, {lessons} lesson/viewport checks, reader flow")
+    print(f"QA PASS ({args.browser}): {home} home viewports, {lessons} lesson/viewport checks, reader and library flows")
     return 0
 
 

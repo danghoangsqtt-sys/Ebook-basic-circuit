@@ -391,7 +391,11 @@
     const privacy = document.createElement('p');
     privacy.className = 'ebook-highlights-privacy';
     privacy.textContent = 'Dấu chỉ lưu trên thiết bị này; bạn có thể xóa từng dấu bất cứ lúc nào.';
-    panel.append(summary, status, privacy, list);
+    const library = document.createElement('a');
+    library.className = 'ebook-highlights-library-link';
+    library.href = script?.src ? new URL('../../highlights.html', script.src).href : new URL('../highlights.html', document.baseURI).href;
+    library.textContent = 'Mở thư viện dấu của 56 bài →';
+    panel.append(summary, status, privacy, library, list);
     const selectionStatus = content.querySelector('.ebook-selection-status');
     if (selectionStatus) selectionStatus.after(panel);
     else content.prepend(panel);

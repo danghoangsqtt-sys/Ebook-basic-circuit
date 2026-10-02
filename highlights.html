@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102c3e">
+  <meta name="description" content="Tìm lại các đoạn đã đánh dấu trong 56 bài học điện tử.">
+  <title>Thư viện dấu — Kỹ thuật Điện tử Cơ bản</title>
+  <link rel="stylesheet" href="assets/css/highlight-library.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Đi tới nội dung chính</a>
+  <header class="library-header"><div class="shell">
+    <a class="brand" href="index.html">⚡ Điện tử thực hành</a>
+    <nav aria-label="Điều hướng"><a href="index.html">Trang đầu</a><a href="week1/day01.html">Vào Bài 1</a></nav>
+  </div></header>
+  <main class="shell" id="main">
+    <p class="eyebrow">CÔNG CỤ ĐỌC</p>
+    <h1>Thư viện dấu</h1>
+    <p class="intro">Tìm lại những đoạn bạn đã đánh dấu trong 56 bài. Dữ liệu hiện chỉ lưu trong trình duyệt trên thiết bị này.</p>
+    <section class="library-card" aria-labelledby="filter-title">
+      <h2 id="filter-title">Tìm và lọc</h2>
+      <div class="filters">
+        <label>Tìm trong đoạn trích<input id="highlight-query" type="search" autocomplete="off" placeholder="Ví dụ: điện áp"></label>
+        <label>Bài học<select id="highlight-lesson"><option value="">Tất cả bài</option></select></label>
+        <label>Trạng thái<select id="highlight-state"><option value="">Tất cả trạng thái</option><option value="anchored">Còn vị trí</option><option value="orphan">Mất vị trí</option><option value="unknown">Chưa kiểm tra được</option></select></label>
+      </div>
+      <p id="highlight-status" role="status" aria-live="polite">Đang đọc dấu đã lưu…</p>
+      <ul id="highlight-list" class="highlight-list"></ul>
+    </section>
+  </main>
+  <footer><div class="shell">© 2026 Lê Bá Đăng Hoàng · Dữ liệu dấu được lưu trên thiết bị của bạn.</div></footer>
+  <script src="assets/js/sidebar-data.js"></script>
+  <script src="assets/js/highlight-library.js"></script>
+</body>
+</html>

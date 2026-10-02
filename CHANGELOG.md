@@ -18,3 +18,4 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 - Thêm menu chọn chữ để sao chép, tìm giải thích trên Google, video YouTube và bài học liên quan.
 - Thêm bút đánh dấu lưu cục bộ, khôi phục theo câu trích/ngữ cảnh và danh sách dấu của bài đang đọc.
 - Sửa toàn bộ liên kết nội bộ còn hỏng và kiểm tra cả anchor; bổ sung bộ kiểm thử trình duyệt cho trang đầu, 56 bài và các thao tác đọc.
+- Thêm thư viện dấu xuyên 56 bài với tìm/lọc, kiểm tra vị trí neo, mở đúng đoạn và xóa từng dấu.

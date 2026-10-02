@@ -1,4 +1,4 @@
-"""Check local href/src targets and static HTML fragments in 57 pages.
+"""Check local href/src targets and static HTML fragments in site pages.
 
 Usage: python tools/check_links.py [--root PATH] [--verbose]
 Remote URLs, query-only links, and anchors created by JavaScript are not checked.
@@ -48,7 +48,8 @@ def pages(root: Path) -> list[Path]:
         raise ValueError("\n".join(details))
     if not (root / "index.html").is_file():
         raise ValueError("Missing index.html")
-    return [root / "index.html", *lessons]
+    other_pages = sorted(path for path in root.glob("*.html") if path.name != "index.html")
+    return [root / "index.html", *other_pages, *lessons]
 
 
 def local_target(root: Path, source: Path, value: str) -> Path | None:

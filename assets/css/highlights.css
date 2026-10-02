@@ -40,6 +40,8 @@
   color: var(--clr-text-secondary, #a8b5c7);
   font-size: .85rem;
 }
+.ebook-highlights-library-link { display: inline-block; margin: 0 0 .9rem; font-weight: 700; }
+.ebook-highlights-library-link:focus-visible { outline: 3px solid var(--clr-accent, #f59e0b); outline-offset: 3px; }
 .ebook-highlights-list {
   display: grid;
   gap: .65rem;
