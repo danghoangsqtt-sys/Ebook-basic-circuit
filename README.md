@@ -12,6 +12,8 @@ Trang đầu có lộ trình 8 tuần và danh sách 56 bài. Trong mỗi bài, 
 
 Tìm kiếm nội bộ chấp nhận từ khóa có hoặc không dấu và một số thuật ngữ Anh–Việt trong bài. Kết quả hiển thị đề mục và đoạn trích phù hợp; [bộ truy vấn kiểm tra](docs/qa/search-evaluation.md) ghi các trường hợp đã thử.
 
+[Sao lưu dữ liệu đọc](reader-data.html) tải tệp JSON gồm dấu, tiến độ, checklist và cài đặt. Khi nhập, trang kiểm tra tệp, cho xem trước số lượng/xung đột rồi mới ghi sau khi bạn xác nhận. Bạn có thể gộp với dữ liệu hiện có hoặc thay thế. Tệp được xử lý trong trình duyệt, không gửi lên máy chủ.
+
 ## Kiểm tra dự án
 
 Chạy `python tools/check_links.py` để kiểm tra link/fragment nội bộ và `python tools/build_search_index.py --check` để xác nhận chỉ mục tìm kiếm. Nếu đã cài Playwright Python và trình duyệt của nó, chạy `python tools/qa_browser.py`; thêm `--quick --browser webkit` để kiểm tra mẫu với WebKit. [Kết quả nghiệm thu Phase 1](docs/qa/phase1-results.md).
@@ -24,7 +26,7 @@ Chạy `python tools/check_links.py` để kiểm tra link/fragment nội bộ v
 - [Bản mẫu giao diện](.DHSYSTEM/ui-direction/2026-10-02/index.html)
 - [Phiên brainstorm đã chốt](docs/brainstorm/session-2026-10-02.md)
 
-Phase 1 đã triển khai trang đầu, giao diện đọc mobile, cỡ chữ, tìm kiếm, chọn chữ và đánh dấu. Phase 2 đang mở rộng thư viện dấu và tìm kiếm; Phase 3 thêm xuất/nhập dữ liệu đọc.
+Phase 1 đã triển khai trang đầu, giao diện đọc mobile, cỡ chữ, tìm kiếm, chọn chữ và đánh dấu. Phase 2 đã mở thư viện dấu và nâng tìm kiếm. Phase 3 bổ sung xuất/nhập dữ liệu đọc; tài khoản/đồng bộ được quyết định riêng.
 
 ## Bản quyền
 

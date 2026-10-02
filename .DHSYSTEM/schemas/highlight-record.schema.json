@@ -6,7 +6,7 @@
   "required": ["version", "id", "lessonId", "quote", "anchor", "createdAt"],
   "properties": {
     "version": { "const": 1 },
-    "id": { "type": "string", "minLength": 1 },
+    "id": { "type": "string", "minLength": 1, "maxLength": 128 },
     "lessonId": { "type": "string", "pattern": "^day(0[1-9]|[1-4][0-9]|5[0-6])$" },
     "quote": { "type": "string", "minLength": 1, "maxLength": 1000 },
     "anchor": {
@@ -16,8 +16,8 @@
       "properties": {
         "prefix": { "type": "string", "maxLength": 120 },
         "suffix": { "type": "string", "maxLength": 120 },
-        "occurrence": { "type": "integer", "minimum": 0 },
-        "sectionId": { "type": "string" }
+        "occurrence": { "type": "integer", "minimum": 0, "maximum": 1000000 },
+        "sectionId": { "type": "string", "maxLength": 256 }
       }
     },
     "createdAt": { "type": "string", "format": "date-time" }

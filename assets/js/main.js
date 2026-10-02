@@ -544,7 +544,11 @@ class FontSizeController {
     reset.type = 'button';
     reset.textContent = 'Mặc định';
     reset.addEventListener('click', () => this.applySize(this.defaultSize));
-    panel.append(label, this.slider, this.output, reset);
+    const backup = document.createElement('a');
+    backup.className = 'reader-data-link';
+    backup.href = new URL('../reader-data.html', window.location.href).href;
+    backup.textContent = 'Sao lưu dữ liệu';
+    panel.append(label, this.slider, this.output, reset, backup);
     this.content.prepend(panel);
   }
 }

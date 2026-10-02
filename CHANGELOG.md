@@ -20,3 +20,4 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 - Sửa toàn bộ liên kết nội bộ còn hỏng và kiểm tra cả anchor; bổ sung bộ kiểm thử trình duyệt cho trang đầu, 56 bài và các thao tác đọc.
 - Thêm thư viện dấu xuyên 56 bài với tìm/lọc, kiểm tra vị trí neo, mở đúng đoạn và xóa từng dấu.
 - Bổ sung từ đồng nghĩa điện tử Anh–Việt và đoạn trích tìm kiếm căn theo vị trí khớp; lưu bộ truy vấn đánh giá.
+- Thêm xuất/nhập JSON dữ liệu đọc với kiểm tra tệp, xem trước xung đột, gộp hoặc thay thế và cố khôi phục khi ghi lỗi.

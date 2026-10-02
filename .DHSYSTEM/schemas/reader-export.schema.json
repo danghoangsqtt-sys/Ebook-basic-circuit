@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Electric Basic reader data backup",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "version", "exportedAt", "data"],
+  "properties": {
+    "format": { "const": "electric-basic-reader-data" },
+    "version": { "const": 1 },
+    "exportedAt": { "type": "string", "format": "date-time" },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["highlights", "progress", "checklists", "settings"],
+      "properties": {
+        "highlights": { "type": "array", "maxItems": 2000, "items": { "$ref": "highlight-record.schema.json" }, "uniqueItems": true },
+        "progress": { "type": "object", "patternProperties": { "^day(0[1-9]|[1-4][0-9]|5[0-6])$": { "type": "boolean" } }, "additionalProperties": false },
+        "checklists": {
+          "type": "object",
+          "patternProperties": {
+            "^day(0[1-9]|[1-4][0-9]|5[0-6])$": {
+              "type": "object",
+              "patternProperties": { "^(0|[1-9][0-9]?)$": { "type": "boolean" } },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "settings": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["fontSizePx", "theme", "weekStates"],
+          "properties": {
+            "fontSizePx": { "type": "integer", "minimum": 16, "maximum": 24 },
+            "theme": { "enum": ["light", "dark"] },
+            "weekStates": { "type": "object", "patternProperties": { "^week[1-8]$": { "type": "boolean" } }, "additionalProperties": false }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102c3e">
+  <meta name="description" content="Xuất và nhập bản sao lưu dữ liệu đọc giáo trình điện tử trên thiết bị của bạn.">
+  <title>Sao lưu dữ liệu đọc — Kỹ thuật Điện tử Cơ bản</title>
+  <link rel="stylesheet" href="assets/css/reader-data.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Đi tới nội dung chính</a>
+  <header class="data-header"><div class="shell"><a class="brand" href="index.html">⚡ Điện tử thực hành</a><nav aria-label="Điều hướng"><a href="index.html">Trang đầu</a><a href="highlights.html">Thư viện dấu</a></nav></div></header>
+  <main class="shell" id="main">
+    <p class="eyebrow">DỮ LIỆU CỦA BẠN</p>
+    <h1>Sao lưu dữ liệu đọc</h1>
+    <p class="intro">Tải bản sao JSON của dấu, tiến độ, checklist và cài đặt. Tệp được xử lý ngay trong trình duyệt; trang này không tải dữ liệu của bạn lên máy chủ.</p>
+    <div class="card-grid">
+      <section class="card" aria-labelledby="export-title"><h2 id="export-title">1. Xuất bản sao</h2><p>Tải tệp JSON để giữ riêng hoặc chuyển sang thiết bị khác.</p><button id="export-button" type="button">Tải bản sao JSON</button><p id="export-status" role="status" aria-live="polite"></p></section>
+      <section class="card" aria-labelledby="import-title"><h2 id="import-title">2. Chọn tệp để nhập</h2><label for="import-file">Tệp sao lưu JSON</label><input id="import-file" type="file" accept=".json,application/json"><p id="import-status" role="status" aria-live="polite">Chọn tệp để xem trước. Dữ liệu hiện có chưa thay đổi.</p></section>
+    </div>
+    <section class="card preview" id="import-preview" aria-labelledby="preview-title" hidden>
+      <h2 id="preview-title">3. Xem trước và xác nhận</h2>
+      <p id="preview-summary"></p>
+      <ul id="preview-details"></ul>
+      <fieldset><legend>Cách nhập</legend>
+        <label><input type="radio" name="import-mode" value="merge" checked> Gộp với dữ liệu hiện có: giữ dấu trùng ID, cộng tiến độ/checklist đã đánh dấu; cài đặt dùng giá trị từ tệp.</label>
+        <label><input type="radio" name="import-mode" value="replace"> Thay thế dữ liệu đọc hiện có bằng đúng nội dung tệp.</label>
+      </fieldset>
+      <button id="import-button" type="button">Xác nhận nhập dữ liệu</button>
+      <p class="small">Chỉ sau khi nhấn xác nhận, dữ liệu trên thiết bị này mới được ghi.</p>
+    </section>
+  </main>
+  <footer><div class="shell">© 2026 Lê Bá Đăng Hoàng · Hãy giữ tệp sao lưu ở nơi bạn tin cậy.</div></footer>
+  <script src="assets/js/reader-data.js"></script>
+</body>
+</html>

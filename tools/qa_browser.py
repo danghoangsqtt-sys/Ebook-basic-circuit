@@ -7,6 +7,7 @@ Run ``python tools/qa_browser.py`` or ``python tools/qa_browser.py --quick --bro
 from __future__ import annotations
 
 import argparse
+import json
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -226,6 +227,116 @@ def check_library_flow(browser, server: ThreadingHTTPServer) -> None:
     page.close()
 
 
+def check_reader_data_flow(browser, server: ThreadingHTTPServer) -> None:
+    page = browser.new_page(viewport={"width": 390, "height": 800}, accept_downloads=True)
+    errors: list[str] = []
+    page.on("pageerror", lambda error: errors.append(str(error)))
+    page.goto(page_url(server, "week1/day01.html"))
+    page.locator("[data-action=highlight]").wait_for(state="attached")
+    select_prose(page)
+    page.locator(".ebook-selection-trigger").click()
+    page.locator("[data-action=highlight]").click()
+    page.locator("#reader-font-size").fill("21")
+    page.locator(".checklist-item input[type=checkbox]").first.check()
+    page.locator(".a11y-btn-theme").click()
+    page.locator(".reader-data-link").click()
+    check(page.url.endswith("reader-data.html"), "Lesson backup link failed")
+    page.evaluate("""() => {
+      localStorage.removeItem('ebook-fontsize-px');
+      localStorage.setItem('ebook-fontsize', '4');
+    }""")
+    check(page.evaluate("ReaderData.readCurrent().settings.fontSizePx") == 20,
+          "Legacy font setting was not included in backup")
+    page.evaluate("""() => {
+      localStorage.setItem('ebook-fontsize-px', '21');
+      localStorage.removeItem('ebook-fontsize');
+    }""")
+    for width in (320, 360, 390, 430):
+        page.set_viewport_size({"width": width, "height": 800})
+        check(page.evaluate("document.documentElement.scrollWidth <= innerWidth"),
+              f"Reader data page overflows at {width}px")
+    with page.expect_download() as info:
+        page.locator("#export-button").click()
+    exported = json.loads(Path(info.value.path()).read_text(encoding="utf-8"))
+    check(len(exported["data"]["highlights"]) == 1, "Export missed highlight")
+    check(exported["data"]["settings"]["fontSizePx"] == 21, "Export missed font size")
+    check(exported["data"]["checklists"].get("day01", {}).get("0") is True,
+          "Export missed checklist")
+    backup_bytes = json.dumps(exported, ensure_ascii=False).encode("utf-8")
+    original_quote = exported["data"]["highlights"][0]["quote"]
+    page.evaluate("""() => {
+      for (const key of Object.keys(localStorage)) {
+        if (key.startsWith('checklist_') || ['ebook-highlights-v1','lessonProgress','ebook-fontsize-px','ebook-theme','weekStates'].includes(key)) localStorage.removeItem(key);
+      }
+    }""")
+
+    def upload(data: bytes) -> None:
+        page.locator("#import-file").set_input_files({"name": "reader.json", "mimeType": "application/json", "buffer": data})
+
+    upload(b"{broken")
+    check("JSON không hợp lệ" in page.locator("#import-status").inner_text(), "Invalid JSON accepted")
+    invalid = json.loads(json.dumps(exported))
+    del invalid["data"]["settings"]
+    upload(json.dumps(invalid).encode())
+    check(page.locator("#import-preview").is_hidden(), "Missing settings accepted")
+    invalid = json.loads(json.dumps(exported))
+    invalid["version"] = 0
+    upload(json.dumps(invalid).encode())
+    check(page.locator("#import-preview").is_hidden(), "Old version accepted")
+    invalid = json.loads(json.dumps(exported))
+    invalid["exportedAt"] = "1"
+    upload(json.dumps(invalid).encode())
+    check(page.locator("#import-preview").is_hidden(), "Invalid date accepted")
+    invalid = json.loads(json.dumps(exported))
+    invalid["data"]["highlights"][0]["quote"] = "x" * 1001
+    upload(json.dumps(invalid).encode())
+    check(page.locator("#import-preview").is_hidden(), "Oversize quote accepted")
+    check(page.evaluate("localStorage.getItem('ebook-highlights-v1')") is None,
+          "Invalid import modified existing data")
+
+    upload(backup_bytes)
+    page.locator("#import-preview").wait_for(state="visible")
+    check("1 dấu trong tệp" in page.locator("#preview-summary").inner_text(), "Preview count wrong")
+    page.locator("input[value=replace]").check()
+    page.locator("#import-button").click()
+    restored = page.evaluate("ReaderData.readCurrent()")
+    check(len(restored["highlights"]) == 1 and restored["highlights"][0]["quote"] == original_quote,
+          "Round trip lost highlight")
+    check(restored["settings"]["fontSizePx"] == 21 and restored["settings"]["theme"] == "light",
+          "Round trip lost settings")
+    check(restored["progress"].get("day01") is True and restored["checklists"]["day01"]["0"] is True,
+          "Round trip lost progress or checklist")
+
+    conflict = json.loads(json.dumps(exported))
+    conflict["data"]["highlights"][0]["quote"] = "Khác nội dung cùng ID"
+    upload(json.dumps(conflict, ensure_ascii=False).encode("utf-8"))
+    page.locator("#import-preview").wait_for(state="visible")
+    check("1 xung đột" in page.locator("#preview-summary").inner_text(), "Conflict not reported")
+    page.locator("input[value=merge]").check()
+    page.locator("#import-button").click()
+    check(page.evaluate("ReaderData.readCurrent().highlights[0].quote") == original_quote,
+          "Merge overwrote conflicting mark")
+
+    upload(backup_bytes)
+    page.locator("#import-preview").wait_for(state="visible")
+    before_failure = page.evaluate("JSON.stringify(ReaderData.readCurrent())")
+    page.evaluate("""() => {
+      const old = Storage.prototype.setItem;
+      let writes = 0;
+      Storage.prototype.setItem = function(...args) {
+        writes += 1;
+        if (writes === 2) throw new Error('simulated storage error');
+        return old.apply(this, args);
+      };
+    }""")
+    page.locator("#import-button").click()
+    check("Lưu thất bại" in page.locator("#import-status").inner_text(), "Storage failure not reported")
+    check(page.evaluate("JSON.stringify(ReaderData.readCurrent())") == before_failure,
+          "Storage failure changed existing data")
+    check(not errors, f"Reader data JavaScript errors: {errors[:3]}")
+    page.close()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--quick", action="store_true", help="scan 3 lessons instead of all 56")
@@ -242,12 +353,13 @@ def main() -> int:
                 lessons = check_layout(browser, server, args.quick)
                 check_reader_flow(browser, server)
                 check_library_flow(browser, server)
+                check_reader_data_flow(browser, server)
             finally:
                 browser.close()
     finally:
         server.shutdown()
         thread.join(timeout=5)
-    print(f"QA PASS ({args.browser}): {home} home viewports, {lessons} lesson/viewport checks, reader and library flows")
+    print(f"QA PASS ({args.browser}): {home} home viewports, {lessons} lesson/viewport checks, reader, library and backup flows")
     return 0
 
 
