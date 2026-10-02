@@ -387,6 +387,16 @@ function initCopyButtons() {
   });
 }
 
+function loadReaderScript(fileName) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = new URL(`../assets/js/${fileName}`, window.location.href).href;
+    script.onload = resolve;
+    script.onerror = () => reject(new Error(`Cannot load ${fileName}`));
+    document.head.appendChild(script);
+  });
+}
+
 // ═══════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════
@@ -402,6 +412,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initCopyButtons();
   new ThemeController();
   new FontSizeController();
+
+  loadReaderScript('search-index.js')
+    .then(() => loadReaderScript('search.js'))
+    .then(() => window.EbookSearch.init())
+    .catch(error => console.warn('Tìm kiếm nội bộ chưa sẵn sàng:', error));
 
   // Fade in content
   document.querySelector('.content-area')?.classList.add('animate-fade-in-up');

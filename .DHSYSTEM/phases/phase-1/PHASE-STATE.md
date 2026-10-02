@@ -10,7 +10,7 @@
 | P1-02 | PASS | Trang chủ mới, 8 tuần/56 bài, Chromium 320–1280 px không tràn, menu bàn phím |
 | P1-03 | PASS | Chromium Bài 1/28/56 ở 320–430 px và zoom 200%, không tràn; sidebar/menu bàn phím |
 | P1-04 | PASS | Slider 16–24 px, reload/reset/phím, storage bị chặn, 160–430 px không tràn |
-| P1-05 | in_progress | Hợp đồng `tasks/P1-05.md` |
+| P1-05 | verified_pending_persistence | Chỉ mục sinh 56 bài, tìm có/không dấu, câu dài, kết quả đúng tuần, bàn phím |
 | P1-06 | planned | — |
 | P1-07 | planned | — |
 | P1-08 | planned | — |
