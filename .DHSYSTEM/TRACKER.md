@@ -2,7 +2,7 @@
 
 - Cập nhật: 2026-10-02
 - Trạng thái: Phase 1–3 hoàn tất; Phase 4–6 hình minh họa đã lên kế hoạch
-- Phase hiện tại: Phase 4 (planned)
+- Phase hiện tại: Phase 4 (in_progress)
 - Việc kế tiếp: P4-01
 - Phiên bản phát hành: chưa có
 
@@ -94,7 +94,7 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 
 | Task | Trạng thái | Bằng chứng |
 | --- | --- | --- |
-| P4-01 | PLANNED | — |
+| P4-01 | IN_PROGRESS | Đã ghi plan và bắt đầu cổng kiểm tra hình |
 | P4-02 | PLANNED | — |
 | P4-03 | PLANNED | — |
 | P5-01 | PLANNED | — |
