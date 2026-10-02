@@ -1,7 +1,7 @@
 # Theo dõi tiến độ
 
 - Cập nhật: 2026-10-02
-- Trạng thái: Phase 1 hoàn tất; chuẩn bị Phase 2
+- Trạng thái: đang triển khai Phase 2
 - Phase hiện tại: Phase 2
 - Việc kế tiếp: P2-01
 - Phiên bản phát hành: chưa có
@@ -11,7 +11,7 @@
 | Phase | Tổng nhiệm vụ | Hoàn tất | Trạng thái |
 | --- | ---: | ---: | --- |
 | Phase 1 | 8 | 8 | Hoàn tất; audit/debug PASS |
-| Phase 2 | 3 | 0 | Chờ Phase 1 |
+| Phase 2 | 3 | 0 | Đang thực hiện |
 | Phase 3 | 2 | 0 | Chờ Phase 2 / cổng quyết định |
 
 ## Phase 1
@@ -31,7 +31,7 @@
 
 | ID | Việc | Trạng thái |
 | --- | --- | --- |
-| P2-01 | Thư viện đoạn đã đánh dấu | Chờ |
+| P2-01 | Thư viện đoạn đã đánh dấu | Đang thực hiện |
 | P2-02 | Tìm kiếm nâng cao | Chờ |
 | P2-03 | Quyết định nhiều màu và ghi chú | Chờ |
 
