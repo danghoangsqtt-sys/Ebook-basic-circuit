@@ -16,7 +16,7 @@ Ngày chốt: 2026-10-02. Nguồn phạm vi: `docs/brainstorm/session-2026-10-02
 | Phase 1 | Đọc được trên điện thoại và dùng trọn công cụ đọc/tra cứu cơ bản | P1-01 đến P1-08 đạt nghiệm thu |
 | Phase 2 | Quản lý dấu và nâng chất lượng tìm kiếm | P2-01 đến P2-03 đạt nghiệm thu hoặc quyết định hoãn P2-03 |
 | Phase 3 | Xuất/nhập và quyết định đồng bộ | P3-01 hoàn tất; P3-02 là cổng quyết định, chỉ tạo backlog backend nếu có nhu cầu |
-| Phase 4 | Kiểm định hình và quy chuẩn | P4-01 đến P4-03 đạt nghiệm thu |
+| Phase 4 | Kiểm định hình và quy chuẩn | P4-01 đến P4-04 đạt nghiệm thu; P4-04 sửa lỗi HIGH từ audit |
 | Phase 5 | Minh họa sát nội dung cho 56 bài | P5-01 đến P5-04 đạt nghiệm thu |
 | Phase 6 | Sơ đồ tổng hợp và QA toàn bộ | P6-01 đến P6-02 đạt nghiệm thu |
 
@@ -136,6 +136,7 @@ Nguồn: `docs/brainstorm/session-2026-10-02-visuals.md` và `docs/brainstorm/vi
 | P4-01 | Không | Script kiểm tra ảnh/nguồn và baseline 56 bài |
 | P4-02 | P4-01 | Audit đủ 80 sơ đồ ASCII và danh sách lỗi kỹ thuật |
 | P4-03 | P4-01 | Quy chuẩn hình và mẫu Bài 1–2 trên điện thoại |
+| P4-04 | Audit Phase 4 | Sửa lỗi kỹ thuật đã xác nhận trước khi tạo thêm hình |
 | P5-01 | Phase 4 | Minh họa Bài 1–14, audit và sửa lỗi |
 | P5-02 | P5-01 | Minh họa Bài 15–28, audit và sửa lỗi |
 | P5-03 | P5-02 | Minh họa Bài 29–42, audit và sửa lỗi |

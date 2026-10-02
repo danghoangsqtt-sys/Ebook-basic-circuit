@@ -2,8 +2,8 @@
 
 - Cập nhật: 2026-10-02
 - Trạng thái: Phase 1–3 hoàn tất; Phase 4–6 hình minh họa đã lên kế hoạch
-- Phase hiện tại: Phase 4 (auditing)
-- Việc kế tiếp: audit Phase 4
+- Phase hiện tại: Phase 4 (debugging)
+- Việc kế tiếp: P4-04
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -13,7 +13,7 @@
 | Phase 1 | 8 | 8 | Hoàn tất; audit/debug PASS |
 | Phase 2 | 3 | 3 | Hoàn tất; audit/debug PASS |
 | Phase 3 | 2 | 2 | Hoàn tất; audit/debug PASS |
-| Phase 4 | 3 | 3 | Đang audit |
+| Phase 4 | 4 | 3 | Đang debug lỗi audit |
 | Phase 5 | 4 | 0 | Đã lên kế hoạch |
 | Phase 6 | 2 | 0 | Đã lên kế hoạch |
 
@@ -97,6 +97,7 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 | P4-01 | PASS | 56 bài/3 img/4 tài sản/80 ASCII; fixture 3 lỗi phát hiện đúng |
 | P4-02 | PASS | 80/80 sơ đồ phân loại; 31 nhóm phát hiện; `docs/qa/visual-technical-audit.md` |
 | P4-03 | PASS | `docs/qa/visual-prototype.md`; 8 mobile cases, caption 24px, QA Chromium |
+| P4-04 | IN_PROGRESS | Sửa lỗi HIGH từ audit Phase 4 |
 | P5-01 | PLANNED | — |
 | P5-02 | PLANNED | — |
 | P5-03 | PLANNED | — |

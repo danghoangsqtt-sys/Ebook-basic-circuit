@@ -1,0 +1,22 @@
+{
+  "id": "visual-phase4",
+  "status": "active",
+  "created_at": "2026-10-02T22:00:00+07:00",
+  "updated_at": "2026-10-02T22:00:00+07:00",
+  "problem": {
+    "description": "Audit Phase 4 xác nhận 31 nhóm sai lệch kỹ thuật trong sơ đồ và lời giảng điện tử; hình mới có nguy cơ lặp lại lỗi.",
+    "symptoms": ["Nối sai nút mạch và cực linh kiện", "Ví dụ GPIO/nguồn có thể vượt giới hạn", "Một số mô tả không khớp sơ đồ hoặc mã"],
+    "error_messages": [],
+    "affected_files": ["docs/qa/visual-technical-audit.md", "week1/day07.html", "week2/day11.html", "week5/day35.html", "week6/day42.html"]
+  },
+  "investigation": {
+    "hypotheses": [
+      {"id": 1, "description": "Sơ đồ ASCII được dựng theo bố cục ký tự nhưng chưa kiểm tra nút điện và đường hồi dòng", "status": "confirmed"},
+      {"id": 2, "description": "Giá trị và pinout được khái quát từ một biến thể module sang mọi biến thể", "status": "confirmed"},
+      {"id": 3, "description": "Ví dụ thực hành chưa được soát với datasheet và phần giải thích", "status": "confirmed"}
+    ],
+    "tests_run": [{"command": "dh-audit: đối chiếu 80 circuit-ascii, bài thực hành và datasheet", "output": "31 nhóm lỗi P0/P1/P2 xác nhận trong docs/qa/visual-technical-audit.md", "timestamp": "2026-10-02T22:00:00+07:00"}],
+    "findings": ["P0 phải sửa trước rollout hình mới", "Kết quả kiểm tra HTML/link không đủ xác nhận tính đúng điện tử"]
+  },
+  "resolution": null
+}

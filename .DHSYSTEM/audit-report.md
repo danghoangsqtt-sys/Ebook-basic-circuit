@@ -56,3 +56,29 @@ Kiến trúc chưa ghi trang xuất/nhập, định dạng JSON version 1 và lu
 ## Tier 4 — Không áp dụng
 
 Đây là dự án giáo trình, không phải kho nguồn DHSYSTEM.
+
+---
+
+# DH-AUDIT — Phase 4 — 2026-10-02
+
+## Tier 1 — Trạng thái DHSYSTEM: PASS trong giai đoạn audit
+
+P4-01/P4-02/P4-03 đều PASS và có task contract/bằng chứng/tag Git. TRACKER, PHASE-STATE và HANDOFF cùng ghi Phase 4 đang audit. Phase 1–3 vẫn hoàn tất; chưa tạo tag Phase 4 complete trước khi debug đóng lỗi. Git sạch và đã đẩy commit nhiệm vụ.
+
+## Tier 2 — Tài liệu: LOW
+
+README chưa nhắc đợt minh họa Phase 4–6, dù ROADMAP, PROJECT-CONTEXT, ARCHITECTURE, source manifest và hai báo cáo QA đã có. `dh-debug` cần thêm trạng thái đợt hình vào README. Quét `docs/`, README, CHANGELOG không có URL placeholder/TODO.
+
+## Tier 3 — Nội dung điện tử: HIGH, cần debug trước Phase 5
+
+`docs/qa/visual-technical-audit.md` ghi đủ 80/80 sơ đồ (36 ưu tiên cao, 29 vừa, 15 thấp) và 31 nhóm lỗi/điểm sửa. Các sơ đồ về chỉnh lưu cầu, nguồn LM2596, Zener, tụ lọc, diode flyback, mạch CE, A4988, H-bridge, điện áp GPIO và bài pin/nguồn có thể khiến người học đấu sai mạch. Đây là lỗi nội dung đang tồn tại, không chỉ lỗi hình. Yêu cầu `dh-debug` sửa các nhóm xác nhận trước khi dùng hình làm mẫu ở Phase 5; kiểm tra lại với datasheet theo đúng mã và bài thực hành.
+
+Kiểm tra ứng dụng: `check_visuals.py` 0 lỗi hình/nguồn; `check_links.py` 59 trang/490 tham chiếu, 0 lỗi; chỉ mục 56 bài còn mới; Chromium QA quick đạt. Điện thoại thật và kỹ sư điện tử độc lập chưa có trong môi trường.
+
+## Tier 4 — Không áp dụng
+
+Đây là kho giáo trình, không phải kho framework DHSYSTEM.
+
+## Quyết định cổng
+
+Chưa đánh dấu Phase 4 complete vì Tier 3 có lỗi HIGH. Mở tác vụ P4-04 debug nội dung/sơ đồ đã xác nhận; sau khi sửa và chạy lại audit mới chuyển Phase 5.
