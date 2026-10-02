@@ -1,0 +1,143 @@
+# Kiến trúc nâng cấp website giáo trình
+
+## Tổng quan
+
+Website hiện là một tập trang HTML tĩnh. Trang chủ là `index.html`; 56 bài nằm trong `week1/`–`week8/`. Mỗi bài dùng `assets/css/style.css`, `assets/js/main.js` và `assets/js/sidebar-data.js`. Phase 1 giữ cấu trúc này và thêm công cụ đọc/tìm kiếm trong tài nguyên dùng chung.
+
+## DHSYSTEM organization context
+
+Không có `.DHSYSTEM/META.md` hoặc profile tổ chức. Dự án được xử lý như giáo trình cá nhân; thông tin tổ chức không được suy đoán.
+
+## Quyết định công nghệ
+
+| Quyết định | Lý do | Giới hạn |
+| --- | --- | --- |
+| HTML/CSS/JavaScript thuần | Phù hợp kho mã hiện tại, không cần hạ tầng mới cho các tính năng đã chốt | Cần kỷ luật tách module dùng chung |
+| Chỉ mục tìm kiếm tĩnh tạo từ 56 bài | Tìm nội bộ nhanh và nhất quán với nội dung gốc | Cần chạy lại bộ tạo chỉ mục khi biên tập bài |
+| `localStorage` cho cỡ chữ và dấu | Không cần tài khoản ở Phase 1 | Theo origin/thiết bị, có thể bị chặn; không là bản sao lưu |
+| Selection/Range + neo bằng đoạn trích/ngữ cảnh | Phục hồi dấu sau khi tải lại, chịu được một phần thay đổi HTML | Không tô nếu quote/ngữ cảnh không khớp chắc chắn |
+| CSS Custom Highlight API với phương án dự phòng | Tô chữ mà không làm thay đổi cấu trúc DOM trên trình duyệt hỗ trợ | Kiểm tra hỗ trợ; giữ tín hiệu tiếp cận cho dấu |
+
+## Ranh giới module dự kiến
+
+| Module | Trách nhiệm | Nguồn/đích |
+| --- | --- | --- |
+| Landing | Giới thiệu, lộ trình, lối vào bài | `index.html` + CSS chung |
+| Lesson shell | Header, menu tuần/bài, vùng đọc | 56 tệp `week*/day*.html` + `sidebar-data.js` |
+| Reader settings | Thanh kéo, khôi phục cỡ chữ, chế độ lưu thất bại | `assets/js/main.js` hoặc module chung mới |
+| Selection actions | Xác thực đoạn chọn, menu desktop/mobile, URL Google/YouTube | Module chung mới trong `assets/js/` |
+| Highlights | Tạo/xóa/khôi phục dấu, đối chiếu quote/ngữ cảnh | Module chung mới + `localStorage` |
+| Search index | Trích tiêu đề/đề mục/đoạn từ 56 bài | Script tạo chỉ mục, `assets/js/search-index.js` |
+| Search UI | Xếp hạng và hiển thị bài liên quan, mở bài | Module chung mới trong `assets/js/` |
+
+Tên tệp mới là đề xuất cho lúc triển khai; giữ một nguồn dữ liệu cho mỗi chức năng. Chỉ mục `.js` giúp trang mở trực tiếp từ thư mục vẫn nạp được dữ liệu; tính năng lưu trữ chỉ được nghiệm thu trên HTTP(S).
+
+## Luồng đọc và tra cứu
+
+1. Mở trang bài → mã chung dựng điều hướng, tải cỡ chữ đã lưu và dấu của bài.
+2. Chọn một đoạn trong vùng bài → kiểm tra đoạn chọn, hiển thị công cụ gần đoạn chọn.
+3. “Đánh dấu” → lưu `lessonId`, quote, ngữ cảnh và vị trí; render dấu khi có thể xác minh.
+4. “Tìm bài liên quan” → tra chỉ mục 56 bài, ưu tiên tiêu đề/đề mục rồi nội dung; kết quả hiển thị ngay trên website.
+5. “Tìm giải thích trên Google” hoặc “Tìm video YouTube” → tạo URL truy vấn an toàn và mở tab mới sau thao tác của người dùng.
+
+## Diagram applicability matrix
+
+| Diagram | Trạng thái | Lý do |
+| --- | --- | --- |
+| `system-overview` | required | Có ranh giới rõ giữa trang, công cụ đọc, lưu cục bộ và nguồn ngoài |
+| `data-flow` | required | Đường đi của đoạn chọn và dấu là trọng tâm tính năng |
+| `event-flows` | optional | Luồng sự kiện đã nêu bằng bước; chưa có message broker |
+| `module-dependencies` | required | Cần ngăn logic lặp trên 56 trang |
+| `deployment` | N/A | Chưa biết dịch vụ hosting; chỉ yêu cầu chạy đúng trên HTTP(S) |
+| `user-use-case` | required | Có các hành động người đọc cần nghiệm thu |
+
+## System overview
+
+```mermaid
+flowchart LR
+  U[Người đọc] --> P[Trang chủ và 56 trang bài]
+  P --> A[CSS và JavaScript dùng chung]
+  A --> I[Chỉ mục tìm kiếm tĩnh]
+  A --> L[(localStorage trên thiết bị)]
+  A --> G[Google Search]
+  A --> Y[YouTube Search]
+```
+
+## Data flow
+
+```mermaid
+flowchart TD
+  S[Người đọc chọn đoạn trong bài] --> V{Đoạn hợp lệ?}
+  V -- Không --> N[Giữ hành vi trình duyệt]
+  V -- Có --> M[Menu thao tác]
+  M --> H[Đánh dấu]
+  H --> Q[Quote + ngữ cảnh + mã bài]
+  Q --> L[(localStorage)]
+  L --> R[Đối chiếu lại khi tải bài]
+  R --> C{Khớp chắc chắn?}
+  C -- Có --> D[Hiển thị dấu]
+  C -- Không --> E[Giữ bản ghi chưa định vị]
+  M --> F[Tìm bài liên quan]
+  F --> I[Tra chỉ mục 56 bài]
+  M --> X[Google hoặc YouTube]
+```
+
+## Event flows
+
+Không có hàng đợi sự kiện. Sự kiện trình duyệt cần xử lý là `input` của thanh kéo, `selectionchange`/thao tác chọn chữ, `contextmenu` trên desktop, click/chạm vào lệnh và tải trang. Menu gốc chỉ bị thay thế khi có Selection hợp lệ trong vùng bài; có lối thao tác tương đương bằng bàn phím. Cần kiểm thử khác biệt trình duyệt, đặc biệt `contextmenu`.
+
+## Module dependencies
+
+```mermaid
+flowchart TD
+  L[Trang chủ index.html] --> C[style.css]
+  B[56 trang bài] --> C
+  B --> N[sidebar-data.js]
+  B --> M[main.js]
+  M --> T[reader-tools.js dự kiến]
+  T --> S[search-index.js tạo tự động]
+  T --> P[(localStorage)]
+  G[Script tạo chỉ mục] --> S
+  G --> B
+```
+
+## Deployment
+
+N/A cho sơ đồ triển khai: kho mã chưa ghi dịch vụ hosting hoặc CI. Khi triển khai, phục vụ toàn bộ website qua HTTP(S) cùng origin, kiểm tra đường dẫn tương đối và `localStorage`; không dựa vào hành vi `file:`.
+
+## User use case
+
+```mermaid
+flowchart LR
+  U[Người học] --> A[Mở Bài 1 từ trang đầu]
+  U --> B[Đi theo lộ trình 8 tuần]
+  U --> C[Chỉnh cỡ chữ]
+  U --> D[Chọn và đánh dấu đoạn]
+  U --> E[Tìm bài liên quan trong 56 bài]
+  U --> F[Mở Google hoặc YouTube cho đoạn chọn]
+  U --> G[Xóa và khôi phục dấu]
+```
+
+## UI Direction đã đọc
+
+- `.DHSYSTEM/ui-direction/2026-10-02/index.html`: hub hai màn hình mẫu.
+- `pages/home.html`: trang đầu giới thiệu gọn, một hành động chính và lộ trình 8 tuần.
+- `pages/reader.html`: bố cục bài, thanh kéo cỡ chữ; lệnh chọn chữ là minh họa giao diện.
+- `style.css`, `notes.md`, `design.md`: quy tắc chữ, màu, lưới và mobile. Pages inventory khớp cả hai trang trong `pages/`.
+
+## Rủi ro và xử lý
+
+- **Bài HTML có cấu trúc không đồng đều:** rà mẫu bài đầu, giữa, cuối; công cụ chọn chữ chỉ hoạt động trong vùng xác định, không dựa vào vị trí DOM cứng.
+- **Quote trùng hoặc bài được sửa:** dùng ngữ cảnh hai phía và vị trí gợi ý; không khớp chắc chắn thì không tô.
+- **Trình duyệt không hỗ trợ API tô chữ mới:** dùng phương án dự phòng đã kiểm thử hoặc báo chức năng đánh dấu không khả dụng nhưng vẫn cho đọc/tra cứu.
+- **Lưu trữ bị chặn:** đọc trang và công cụ tìm kiếm vẫn hoạt động; báo rõ dấu/cỡ chữ không được lưu.
+- **Mobile tràn ngang:** sửa phần tử gây tràn, không che nội dung; kiểm tra bảng và sơ đồ ở 320 px.
+
+## Nguồn chính thức đã tham khảo
+
+- [MDN responsive design](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Responsive_Design)
+- [W3C WCAG 2.2](https://www.w3.org/TR/wcag/)
+- [MDN range input](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/range)
+- [MDN CSS Custom Highlight API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API)
+- [MDN localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
+- [MDN contextmenu event](https://developer.mozilla.org/en-US/docs/Web/API/Element/contextmenu_event)

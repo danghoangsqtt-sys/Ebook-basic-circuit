@@ -1,0 +1,14 @@
+flowchart TD
+  S[Người đọc chọn đoạn trong bài] --> V{Đoạn hợp lệ?}
+  V -- Không --> N[Giữ hành vi trình duyệt]
+  V -- Có --> M[Menu thao tác]
+  M --> H[Đánh dấu]
+  H --> Q[Quote + ngữ cảnh + mã bài]
+  Q --> L[(localStorage)]
+  L --> R[Đối chiếu lại khi tải bài]
+  R --> C{Khớp chắc chắn?}
+  C -- Có --> D[Hiển thị dấu]
+  C -- Không --> E[Giữ bản ghi chưa định vị]
+  M --> F[Tìm bài liên quan]
+  F --> I[Tra chỉ mục 56 bài]
+  M --> X[Google hoặc YouTube]

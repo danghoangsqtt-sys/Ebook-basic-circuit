@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "crystallize_version": "0.8.0",
+  "crystallized_at": "2026-10-02",
+  "project": "Giao trinh Ky thuat Dien tu Co ban",
+  "status": "planned",
+  "current_phase": "Phase 1",
+  "next_task": "P1-01",
+  "phase_inventory": [
+    { "id": "Phase 1", "task_ids": ["P1-01", "P1-02", "P1-03", "P1-04", "P1-05", "P1-06", "P1-07", "P1-08"] },
+    { "id": "Phase 2", "task_ids": ["P2-01", "P2-02", "P2-03"] },
+    { "id": "Phase 3", "task_ids": ["P3-01", "P3-02"] }
+  ],
+  "ui_direction_read_complete": true,
+  "ui_pages": ["index.html", "pages/home.html", "pages/reader.html"],
+  "stakeholder_review_complete": true,
+  "architect_read_complete": null,
+  "profile_resolved": "none",
+  "license": "not selected; all rights reserved",
+  "application_code_changed": false
+}

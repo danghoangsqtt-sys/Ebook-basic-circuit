@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trang đọc bài · Bản phác thảo</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="reader-page">
+  <header class="site-header"><div class="container header-inner"><a class="brand" href="home.html"><span class="brand-mark">⚡</span><span><strong>Điện tử thực hành</strong><small>Đang đọc Bài 1</small></span></a><a class="back-link" href="home.html">← Trang chủ</a><details class="mobile-nav"><summary aria-label="Mở menu bài học">☰ <span>Bài học</span></summary><nav aria-label="Điều hướng bài học"><a href="home.html">Trang chủ</a><a href="home.html#tat-ca-bai">Mục lục 56 bài</a><a href="#noi-dung">Nội dung</a><a href="#cong-cu">Công cụ đọc</a></nav></details></div></header>
+  <div class="reader-shell container">
+    <aside class="lesson-sidebar" aria-label="Mục lục bài học"><p class="eyebrow">TUẦN 1 · BÀI 1</p><h2>Trong bài này</h2><a href="#noi-dung">Điện áp là gì?</a><a href="#gnd">Hiểu đúng về GND</a><a href="#cong-cu">Công cụ đọc</a><a href="home.html#tat-ca-bai">Mục lục 56 bài →</a><div class="sidebar-note">56 bài học · Tiến độ được lưu trên thiết bị</div></aside>
+    <main class="reader-main" id="noi-dung">
+      <div class="reader-topline"><span>Tuần 1 / Bài 1</span><span>Khoảng 45 phút đọc</span></div>
+      <h1>Điện áp, dòng điện và mạch điện</h1>
+      <p class="reader-intro">Bắt đầu từ những khái niệm cần thiết nhất để nhìn một sơ đồ mạch và hiểu điều gì đang xảy ra.</p>
+      <section class="reading-tools" id="cong-cu" aria-label="Công cụ đọc"><div class="tools-heading"><strong>Chế độ đọc</strong><span>Cài đặt lưu trên thiết bị</span></div><div class="font-tool"><label for="font-range">Cỡ chữ</label><span class="small-a" aria-hidden="true">A</span><input id="font-range" type="range" min="16" max="24" value="18" step="1" aria-valuemin="16" aria-valuemax="24" aria-valuenow="18"><span class="large-a" aria-hidden="true">A</span><output id="font-value" for="font-range">18 px</output><button type="button" id="font-reset">Đặt lại</button></div><p class="tool-help">Chọn chữ trong bài để đánh dấu hoặc tìm giải thích, video và bài liên quan.</p></section>
+      <article class="article-sample" id="article-sample"><h2>1. Điện áp là gì?</h2><p>Điện áp mô tả sự chênh lệch thế năng điện giữa hai điểm. Nó luôn cần một điểm tham chiếu: nói “điểm A có điện áp 5 V” chỉ đầy đủ khi biết 5 V đó được đo so với đâu.</p><p>Hãy hình dung độ cao của một ngọn đồi. Con số độ cao chỉ có nghĩa khi ta chọn mốc để so sánh. Với mạch điện, điểm tham chiếu thường được gọi là <strong>GND</strong>.</p><div class="reader-callout" id="gnd"><strong>Ghi nhớ</strong><p>GND là mốc điện áp của mạch, không phải một cực âm tuyệt đối cho mọi tình huống.</p></div><h2>2. Dòng điện đi qua đâu?</h2><p>Dòng điện chỉ chạy khi có đường dẫn khép kín. Khi đo kiểm, hãy quan sát cả nguồn, tải và đường trở về nguồn. Một dây bị hở có thể làm mạch ngừng hoạt động dù điện áp nguồn vẫn đúng.</p></article>
+      <div class="selection-demo"><p><strong>Minh họa thao tác chọn chữ</strong></p><p>Trên máy tính: chọn một câu rồi bấm chuột phải. Trên điện thoại: nhấn giữ và chọn chữ. Các hành động dự kiến sẽ hiện gần đoạn được chọn:</p><div class="selection-actions"><button type="button">🖍 Đánh dấu</button><button type="button">Tìm giải thích trên Google</button><button type="button">Tìm video YouTube</button><button type="button">Tìm bài liên quan</button></div><small>Đây là mẫu bố cục. Menu chọn chữ và đánh dấu thật sẽ được triển khai trong website sau khi chốt hướng.</small></div>
+      <div class="next-lesson"><span>Minh họa đường dẫn bài tiếp theo</span><strong>Điện trở và định luật Ohm →</strong></div>
+    </main>
+  </div>
+  <script>
+    const slider = document.getElementById('font-range');
+    const output = document.getElementById('font-value');
+    const article = document.getElementById('article-sample');
+    let saved;
+    try { saved = Number(localStorage.getItem('prototype-reader-font')); } catch { saved = 18; }
+    slider.value = saved >= 16 && saved <= 24 ? saved : 18;
+    function updateFont() { article.style.fontSize = slider.value + 'px'; output.value = slider.value + ' px'; slider.setAttribute('aria-valuenow', slider.value); try { localStorage.setItem('prototype-reader-font', slider.value); } catch { /* Mẫu vẫn cho chỉnh chữ khi lưu trữ bị chặn. */ } }
+    slider.addEventListener('input', updateFont);
+    document.getElementById('font-reset').addEventListener('click', () => { slider.value = 18; updateFont(); });
+    updateFont();
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+flowchart TD
+  L[Trang chủ index.html] --> C[style.css]
+  B[56 trang bài] --> C
+  B --> N[sidebar-data.js]
+  B --> M[main.js]
+  M --> T[reader-tools.js dự kiến]
+  T --> S[search-index.js tạo tự động]
+  T --> P[(localStorage)]
+  G[Script tạo chỉ mục] --> S
+  G --> B

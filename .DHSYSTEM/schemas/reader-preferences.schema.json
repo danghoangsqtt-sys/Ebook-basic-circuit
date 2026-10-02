@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Reader preferences",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "fontSizePx"],
+  "properties": {
+    "version": { "const": 1 },
+    "fontSizePx": { "type": "integer", "minimum": 16, "maximum": 24 }
+  }
+}

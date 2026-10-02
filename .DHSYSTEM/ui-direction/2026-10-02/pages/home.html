@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trang mở đầu · Bản phác thảo</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark">⚡</span><span><strong>Điện tử thực hành</strong><small>Giáo trình tự học</small></span></a>
+      <nav class="desktop-nav" aria-label="Điều hướng chính"><a href="#lo-trinh">Lộ trình</a><a href="#cach-hoc">Cách học</a><a class="header-cta" href="reader.html">Mở Bài 1</a></nav>
+      <details class="mobile-nav"><summary aria-label="Mở menu">☰ <span>Menu</span></summary><nav aria-label="Điều hướng trên điện thoại"><a href="#lo-trinh">Lộ trình</a><a href="#cach-hoc">Cách học</a><a href="reader.html">Mở Bài 1</a></nav></details>
+    </div>
+  </header>
+  <main>
+    <section class="home-hero">
+      <div class="container hero-layout">
+        <div class="hero-copy">
+          <p class="eyebrow">GIÁO TRÌNH TỰ HỌC · 8 TUẦN</p>
+          <h1>Hiểu mạch điện.<br><em>Tự tay làm được.</em></h1>
+          <p class="lead">56 bài học đưa bạn từ điện áp, dòng điện và linh kiện cơ bản đến đo kiểm, mô phỏng và thiết kế PCB. Mỗi bài có mục tiêu, phần thực hành và cách tự kiểm tra.</p>
+          <div class="hero-actions"><a class="button button-primary" href="reader.html">Bắt đầu Bài 1 <span aria-hidden="true">→</span></a><a class="button button-quiet" href="#lo-trinh">Xem lộ trình 8 tuần</a></div>
+          <p class="prepare-note">Trước khi thực hành: <a href="../../../../week1/day01.html">xem dụng cụ và lưu ý an toàn trong Bài 1</a>.</p>
+          <div class="hero-facts"><span><strong>56</strong> bài học</span><span><strong>8</strong> tuần</span><span><strong>0</strong> kiến thức đầu vào bắt buộc</span></div>
+        </div>
+        <div class="hero-visual"><div class="cover-frame"><img src="../../../../assets/images/cover.jpg" alt="Bìa giáo trình Kỹ thuật Điện tử Cơ bản"></div><div class="visual-caption">Học theo tiến độ của bạn · Đọc trên máy tính và điện thoại</div></div>
+      </div>
+    </section>
+    <section class="section" id="cach-hoc"><div class="container"><p class="eyebrow">CÁCH HỌC</p><h2>Đọc một ý. Làm một việc. Hiểu một bước.</h2><div class="steps"><article><span>01</span><h3>Nắm nguyên lý</h3><p>Khái niệm được giải thích cùng ví dụ gần với mạch thực tế.</p></article><article><span>02</span><h3>Đo và thử</h3><p>Làm theo bài thực hành và đối chiếu kết quả đo.</p></article><article><span>03</span><h3>Ghi lại điều quan trọng</h3><p>Chọn đoạn văn, đánh dấu và tìm thêm tài liệu khi cần.</p></article></div></div></section>
+    <section class="section roadmap-section" id="lo-trinh"><div class="container"><div class="section-top"><div><p class="eyebrow">LỘ TRÌNH</p><h2>8 tuần, từng bước rõ ràng</h2></div><a class="text-link" href="reader.html">Mở bài học đầu tiên →</a></div><div class="roadmap"><article><small>Tuần 01–02</small><h3>Nền tảng điện và linh kiện</h3><p>Điện áp, dòng điện, điện trở, tụ và cách đo.</p></article><article><small>Tuần 03–04</small><h3>Phân tích và điều khiển mạch</h3><p>Diode, transistor, MOSFET và mạch nguồn.</p></article><article><small>Tuần 05–06</small><h3>Mô phỏng và tích hợp</h3><p>Đọc sơ đồ, LTspice và kết nối hệ thống.</p></article><article><small>Tuần 07–08</small><h3>Thiết kế và hoàn thiện</h3><p>KiCad, PCB, kiểm tra và sửa lỗi.</p></article></div></div></section>
+    <section class="section" id="tat-ca-bai"><div class="container"><p class="eyebrow">MỤC LỤC</p><h2>Mở trực tiếp một trong 56 bài</h2><div id="full-catalog" class="full-catalog"></div></div></section>
+  </main>
+  <footer class="site-footer"><div class="container">Bản mẫu cho phiên brainstorm · <a href="../index.html">Xem hai màn hình</a></div></footer>
+  <script src="../../../../assets/js/sidebar-data.js"></script>
+  <script>
+    const catalog = document.getElementById('full-catalog');
+    CURRICULUM.weeks.forEach(week => {
+      const group = document.createElement('details');
+      const heading = document.createElement('summary');
+      heading.textContent = `${week.label} · ${week.title}`;
+      const links = document.createElement('div');
+      links.className = 'catalog-links';
+      week.lessons.forEach(lesson => {
+        const link = document.createElement('a');
+        link.href = '../../../../' + lesson.file.replace(/^\.\.\//, '');
+        link.textContent = `Bài ${lesson.day} · ${lesson.title}`;
+        links.appendChild(link);
+      });
+      group.append(heading, links);
+      catalog.appendChild(group);
+    });
+  </script>
+</body>
+</html>
