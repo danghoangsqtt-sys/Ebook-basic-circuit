@@ -2,7 +2,7 @@
 
 - Trạng thái: in_progress
 - Bắt đầu: 2026-10-02
-- Nhiệm vụ hiện tại: P1-08
+- Nhiệm vụ hiện tại: audit Phase 1
 
 | Task | Trạng thái | Bằng chứng |
 | --- | --- | --- |
@@ -13,4 +13,4 @@
 | P1-05 | PASS | Chỉ mục sinh 56 bài, tìm có/không dấu, câu dài, kết quả đúng tuần, bàn phím |
 | P1-06 | PASS | Chuột phải/phím/cảm ứng mô phỏng, Google/YouTube/bài liên quan; Chromium + WebKit |
 | P1-07 | PASS | Lưu/tải lại/xóa/đến dấu, quote trùng/mất neo/storage lỗi, Chromium + WebKit |
-| P1-08 | in_progress | Hợp đồng `tasks/P1-08.md` |
+| P1-08 | PASS | 57 trang, 470 tham chiếu, 0 link/fragment hỏng; Chromium 56 bài, WebKit mẫu; `docs/qa/phase1-results.md` |

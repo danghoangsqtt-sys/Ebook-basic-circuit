@@ -3,14 +3,14 @@
 - Cập nhật: 2026-10-02
 - Trạng thái: đang triển khai Phase 1
 - Phase hiện tại: Phase 1
-- Việc kế tiếp: P1-08
+- Việc kế tiếp: audit/debug Phase 1
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
 
 | Phase | Tổng nhiệm vụ | Hoàn tất | Trạng thái |
 | --- | ---: | ---: | --- |
-| Phase 1 | 8 | 7 | Đang thực hiện |
+| Phase 1 | 8 | 8 | Đang audit |
 | Phase 2 | 3 | 0 | Chờ Phase 1 |
 | Phase 3 | 2 | 0 | Chờ Phase 2 / cổng quyết định |
 
@@ -25,7 +25,7 @@
 | P1-05 | Chỉ mục và tìm kiếm nội bộ | PASS | `build_search_index.py --check` 56 bài; Playwright Bài 1/28/56, có/không dấu, câu dài, không kết quả, Escape/focus |
 | P1-06 | Chọn chữ và tra cứu | PASS | Chromium desktop/mobile 320–430; WebKit mobile; menu/Google/YouTube/tìm bài, Escape/focus; chưa thiết bị thật |
 | P1-07 | Bút đánh dấu | PASS | Chromium+WebKit chọn xuyên inline, lưu/reload/xóa/jump; quote trùng, mất neo, storage lỗi; chưa điện thoại thật |
-| P1-08 | Liên kết và nghiệm thu | Đang thực hiện | Hợp đồng `phases/phase-1/tasks/P1-08.md` |
+| P1-08 | Liên kết và nghiệm thu | PASS | 0 link hỏng; Chromium 56 bài, WebKit mẫu; `docs/qa/phase1-results.md` |
 
 ## Phase 2
 
@@ -53,7 +53,7 @@
 
 ## Nhật ký kiểm tra
 
-Chưa có mã Phase 1 để nghiệm thu. Chỉ xác nhận cấu trúc tài liệu kế hoạch và bản mẫu giao diện ở bước crystallize.
+Phase 1 đã triển khai; bằng chứng nghiệm thu theo từng nhiệm vụ và `docs/qa/phase1-results.md`.
 
 2026-10-02 P1-01: `python tools/check_links.py` trả exit 1 đúng kỳ vọng vì 73 link hỏng thuộc 4 đích thiếu; fixture độc lập kiểm tra exit 1/0. Chromium 148 đo `index.html`, Bài 1, 28, 56 ở 320/360/390/430 px. Bài 1 tràn đến 714 px; trang đầu có nav bị cắt dù toàn trang không cuộn ngang. Chi tiết trong `docs/qa/baseline-phase1.md`. Chưa kiểm thử thiết bị thật.
 
@@ -68,3 +68,5 @@ Chưa có mã Phase 1 để nghiệm thu. Chỉ xác nhận cấu trúc tài li�
 2026-10-02 P1-06: chọn chữ và mở menu bằng chuột phải, phím hoặc cảm ứng mô phỏng; ba lệnh Google/YouTube/tìm bài hoạt động. Lỗi menu tự đóng khi focus gây scroll được sửa và kiểm tra lại trên Chromium 320–430 px; WebKit mobile mô phỏng cảm ứng đã mở menu và chạy tra cứu nội bộ/Google. Chưa thử long press trên iOS/Android thật.
 
 2026-10-02 P1-07: Chromium+WebKit tích hợp trên Bài 1 xác nhận tô/lưu/tải lại/nhảy đến/xóa. Chọn xuyên `<em>` tạo các mảnh mark chung một bản ghi. Chromium kiểm tra quote trùng bị từ chối, sửa nội dung thành mất neo, storage bị chặn không tô nhầm, `?highlight=<id>` và Enter. Dữ liệu chỉ trên thiết bị; chưa thử nhấn giữ trên điện thoại thật.
+
+2026-10-02 P1-08: `check_links.py` 57 trang/470 tham chiếu, 0 lỗi file/fragment/escape. `qa_browser.py` Chromium kiểm tra 56 bài ở 320 px và các viewport 160–430 px ở 24 px cho Bài 1/28/56; WebKit kiểm tra mẫu. Sửa khối báo cáo Bài 7 tràn ngang. Menu, slider, tiến độ, checklist, đáp án, in, tìm kiếm, đánh dấu, theme đều qua kiểm tra. Thiết bị thật chưa kiểm tra.
