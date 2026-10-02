@@ -6,6 +6,8 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 
 ### Tài liệu
 
+- Lập kế hoạch Phase 4–6 làm mới hình cho 56 bài; thêm baseline và cổng kiểm tra ảnh/nguồn.
+
 - Chốt hướng nâng cấp trang mở đầu, đọc trên điện thoại, công cụ chọn chữ và tìm kiếm bài liên quan.
 - Tạo kiến trúc, roadmap, tracker, schema dữ liệu cục bộ và bản mẫu giao diện.
 
