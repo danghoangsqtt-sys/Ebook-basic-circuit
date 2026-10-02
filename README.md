@@ -14,6 +14,8 @@ Tìm kiếm nội bộ chấp nhận từ khóa có hoặc không dấu và mộ
 
 [Sao lưu dữ liệu đọc](reader-data.html) tải tệp JSON gồm dấu, tiến độ, checklist và cài đặt. Khi nhập, trang kiểm tra tệp, cho xem trước số lượng/xung đột rồi mới ghi sau khi bạn xác nhận. Bạn có thể gộp với dữ liệu hiện có hoặc thay thế. Tệp được xử lý trong trình duyệt, không gửi lên máy chủ.
 
+Chưa có tài khoản hoặc đồng bộ tự động. Nếu chuyển thiết bị, xuất JSON ở thiết bị cũ rồi nhập tại thiết bị mới.
+
 ## Kiểm tra dự án
 
 Chạy `python tools/check_links.py` để kiểm tra link/fragment nội bộ và `python tools/build_search_index.py --check` để xác nhận chỉ mục tìm kiếm. Nếu đã cài Playwright Python và trình duyệt của nó, chạy `python tools/qa_browser.py`; thêm `--quick --browser webkit` để kiểm tra mẫu với WebKit. [Kết quả nghiệm thu Phase 1](docs/qa/phase1-results.md).

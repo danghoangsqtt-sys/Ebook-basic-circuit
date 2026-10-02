@@ -112,6 +112,8 @@ Quyết định 2026-10-02: hoãn triển khai nhiều màu/ghi chú. Yêu cầu
 
 ### P3-02 · Cổng quyết định tài khoản/đồng bộ
 
+Quyết định 2026-10-02: hoãn backend/tài khoản/đồng bộ. Chưa có nhu cầu nhiều thiết bị hoặc ràng buộc quyền riêng tư/chi phí được xác nhận; trang xuất/nhập JSON là cách chuyển dữ liệu. Mở lại khi có yêu cầu rõ về thiết bị, tài khoản, lưu trữ và chi phí.
+
 - **Phụ thuộc:** P3-01 và nhu cầu người dùng được xác nhận.
 - **Công việc:** Thu thập yêu cầu quyền riêng tư, thiết bị, sao lưu và chi phí vận hành trước khi chọn backend. Nếu chưa có nhu cầu, đóng ở trạng thái “chưa triển khai”.
 - **Nghiệm thu:** Có quyết định và lý do; không tạo backend theo suy đoán.

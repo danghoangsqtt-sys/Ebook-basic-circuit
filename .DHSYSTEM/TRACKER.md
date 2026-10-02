@@ -3,7 +3,7 @@
 - Cập nhật: 2026-10-02
 - Trạng thái: đang triển khai Phase 3
 - Phase hiện tại: Phase 3
-- Việc kế tiếp: P3-01
+- Việc kế tiếp: audit/debug Phase 3
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -12,7 +12,7 @@
 | --- | ---: | ---: | --- |
 | Phase 1 | 8 | 8 | Hoàn tất; audit/debug PASS |
 | Phase 2 | 3 | 3 | Hoàn tất; audit/debug PASS |
-| Phase 3 | 2 | 0 | Đang thực hiện |
+| Phase 3 | 2 | 2 | Đang audit |
 
 ## Phase 1
 
@@ -39,8 +39,8 @@
 
 | ID | Việc | Trạng thái |
 | --- | --- | --- |
-| P3-01 | Xuất/nhập dữ liệu đọc | Đang thực hiện |
-| P3-02 | Cổng quyết định tài khoản/đồng bộ | Chờ |
+| P3-01 | Xuất/nhập dữ liệu đọc | PASS |
+| P3-02 | Cổng quyết định tài khoản/đồng bộ | PASS — hoãn backend |
 
 ## Decision log
 
@@ -51,6 +51,7 @@
 | 2026-10-02 | Giữ HTML/CSS/JavaScript thuần cho Phase 1–2 |
 | 2026-10-02 | Bản quyền riêng; chưa chọn giấy phép, chưa tạo LICENSE |
 | 2026-10-02 | Giữ bút đánh dấu một màu và schema v1; hoãn nhiều màu/ghi chú vì chưa có nhu cầu được xác nhận |
+| 2026-10-02 | Hoãn tài khoản/đồng bộ vì chưa xác nhận nhu cầu nhiều thiết bị hoặc điều kiện riêng tư/chi phí; dùng JSON để chuyển dữ liệu |
 
 ## Nhật ký kiểm tra
 
@@ -79,3 +80,5 @@ Phase 1 đã triển khai; bằng chứng nghiệm thu theo từng nhiệm vụ 
 2026-10-02 P2-02: 7 truy vấn tiếng Việt/Anh được chạy trên Bài 1/28/56 trong `qa_browser.py`; kết quả đầu đúng bài, có đề mục/đoạn trích. Chromium toàn bộ 56 bài và WebKit mẫu qua kiểm tra; chỉ mục còn mới. P2-03 quyết định hoãn nhiều màu/ghi chú, không đổi dữ liệu dấu v1.
 
 2026-10-02 Audit Phase 2: Tier 1 và Tier 3 PASS; Tier 2 thấy kiến trúc thiếu thư viện dấu, `dh-debug` đã cập nhật tài liệu và bốn sidecar Mermaid; chúng khớp nhau. Báo cáo `.DHSYSTEM/audit-report.md`. Phase 2 hoàn tất.
+
+2026-10-02 P3-01: xuất/nhập JSON khôi phục dấu, cỡ chữ, theme, tiến độ và checklist. Kiểm tra tệp sai, thiếu trường, version cũ, ngày sai, quote dài, xung đột ID và lỗi ghi giữa chừng; Chromium toàn bộ 56 bài, WebKit mẫu; trang sao lưu ở 320–430 px không tràn. 59 trang/487 link nội bộ, 0 lỗi. P3-02 hoãn backend vì chưa có nhu cầu/điều kiện được xác nhận; JSON là cách chuyển dữ liệu hiện hoạt.
