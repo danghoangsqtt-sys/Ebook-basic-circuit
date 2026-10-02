@@ -10,6 +10,8 @@ Trang đầu có lộ trình 8 tuần và danh sách 56 bài. Trong mỗi bài, 
 
 [Thư viện dấu](highlights.html) tập hợp các đoạn đã lưu trong nhiều bài. Bạn có thể lọc theo bài hoặc trạng thái, tìm trong đoạn trích, mở lại bài và xóa từng dấu. Trạng thái vị trí được kiểm tra với nội dung bài khi trang thư viện tải.
 
+Tìm kiếm nội bộ chấp nhận từ khóa có hoặc không dấu và một số thuật ngữ Anh–Việt trong bài. Kết quả hiển thị đề mục và đoạn trích phù hợp; [bộ truy vấn kiểm tra](docs/qa/search-evaluation.md) ghi các trường hợp đã thử.
+
 ## Kiểm tra dự án
 
 Chạy `python tools/check_links.py` để kiểm tra link/fragment nội bộ và `python tools/build_search_index.py --check` để xác nhận chỉ mục tìm kiếm. Nếu đã cài Playwright Python và trình duyệt của nó, chạy `python tools/qa_browser.py`; thêm `--quick --browser webkit` để kiểm tra mẫu với WebKit. [Kết quả nghiệm thu Phase 1](docs/qa/phase1-results.md).

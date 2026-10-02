@@ -79,6 +79,14 @@ def check_layout(browser, server: ThreadingHTTPServer, quick: bool) -> int:
         width = page.evaluate("document.documentElement.scrollWidth")
         check(width <= 320, f"{path} overflows at 320px: {width}px")
         check(page.locator(".sidebar-lesson").count() == 56, f"{path} sidebar has != 56 lessons")
+        if path in SAMPLES:
+            for query, expected in (("điện áp", "day01"), ("dien ap", "day01"),
+                                    ("voltage", "day01"), ("resistor", "day03"),
+                                    ("capacitor", "day08"), ("sensor", "day27"),
+                                    ("pcb", "day33")):
+                first = page.evaluate("q => EbookSearch.search(q)[0]", query)
+                check(first and first["id"] == expected and first["snippet"] and first["heading"],
+                      f"Search quality failed for {query} on {path}: {first}")
         count += 1
     for path in SAMPLES:
         for width in (360, 390, 430, 160, 180, 195, 215):

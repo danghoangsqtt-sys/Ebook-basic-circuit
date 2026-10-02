@@ -5,6 +5,16 @@
   const script = document.currentScript || document.querySelector('script[src$="/search.js"]');
   const siteRoot = script ? new URL('../../', script.src) : new URL('../', document.baseURI);
   const stopWords = new Set('và là của cho trong một những các với được từ đến khi như trên dưới này đó thì sẽ có bạn bài học phần để về bằng tại hay hoặc mà cần nên sau trước theo tìm giải thích liên quan'.split(' '));
+  // Editorial aliases for terms used in the lessons, not an open-ended query expansion.
+  const concepts = [
+    ['dien ap', 'voltage', 'volt'],
+    ['dong dien', 'current', 'ampere'],
+    ['dien tro', 'resistor', 'resistance'],
+    ['tu dien', 'capacitor', 'capacitance'],
+    ['vi dieu khien', 'microcontroller', 'mcu'],
+    ['mach in', 'pcb', 'printed circuit board'],
+    ['cam bien', 'sensor']
+  ];
   const limit = 8;
   let overlay, input, results, status, trigger, returnFocus, previousOverflow;
   let cachedIndex, normalizedIndex;
@@ -14,8 +24,19 @@
   }
 
   function terms(query) {
-    const words = normalize(query).match(/[a-z0-9]+/g) || [];
-    return [...new Set(words.filter(word => word.length >= 2 && !stopWords.has(word)))].slice(0, 10);
+    let remaining = normalize(query).replace(/[^a-z0-9]+/g, ' ').trim();
+    const units = [];
+    for (const aliases of concepts) {
+      const matched = aliases.find(alias => new RegExp(`(?:^| )${alias}(?: |$)`).test(remaining));
+      if (!matched) continue;
+      units.push({ variants: aliases, exact: matched });
+      remaining = remaining.replace(new RegExp(`(?:^| )${matched}(?= |$)`), ' ').replace(/\s+/g, ' ').trim();
+    }
+    const words = remaining.match(/[a-z0-9]+/g) || [];
+    for (const word of new Set(words.filter(part => part.length >= 2 && !stopWords.has(part)))) {
+      units.push({ variants: [word], exact: word });
+    }
+    return units.slice(0, 10);
   }
 
   function getIndex() {
@@ -33,33 +54,49 @@
     return normalizedIndex;
   }
 
-  function snippet(text, words) {
-    const flat = normalize(text);
-    const positions = words.map(word => flat.indexOf(word)).filter(position => position >= 0);
+  function snippet(text, units) {
+    // Map accent-folded positions back to the original text so Vietnamese snippets start at the match.
+    let flat = '';
+    const offsets = [];
+    for (let at = 0; at < text.length;) {
+      const char = String.fromCodePoint(text.codePointAt(at));
+      const folded = normalize(char);
+      flat += folded;
+      for (let i = 0; i < folded.length; i += 1) offsets.push(at);
+      at += char.length;
+    }
+    const positions = units.flatMap(unit => unit.variants.map(variant => flat.indexOf(variant)))
+      .filter(position => position >= 0);
     const first = positions.length ? Math.min(...positions) : 0;
-    const start = Math.max(0, first - 55);
-    const end = Math.min(text.length, Math.max(first + 105, start + 155));
+    const startPosition = Math.max(0, first - 55);
+    const endPosition = Math.min(flat.length, Math.max(first + 105, startPosition + 155));
+    const start = offsets[startPosition] || 0;
+    const end = endPosition >= offsets.length ? text.length : offsets[endPosition];
     return (start ? '…' : '') + text.slice(start, end).trim() + (end < text.length ? '…' : '');
   }
 
   function search(query) {
-    const words = terms(String(query || '').slice(0, 240));
-    if (!words.length) return [];
+    const units = terms(String(query || '').slice(0, 240));
+    if (!units.length) return [];
     const phrase = normalize(query).trim();
     return getIndex().map(item => {
-      const titleHits = words.filter(word => item.title.includes(word)).length;
-      const matchedHeading = item.headings.find(heading => words.some(word => heading.includes(word)));
-      const headingHits = Math.max(0, ...item.headings.map(heading => words.filter(word => heading.includes(word)).length));
-      const bodyHits = words.filter(word => item.text.includes(word)).length;
+      const hits = field => units.filter(unit => unit.variants.some(variant => field.includes(variant))).length;
+      const exactHits = field => units.filter(unit => field.includes(unit.exact)).length;
+      const titleHits = hits(item.title);
+      const headingHitsByIndex = item.headings.map(hits);
+      const headingHits = Math.max(0, ...headingHitsByIndex);
+      const bodyHits = hits(item.text);
       const tier = titleHits ? 1000 : headingHits ? 100 : bodyHits ? 10 : 0;
       if (!tier) return null;
       const score = tier + titleHits * 20 + headingHits * 8 + bodyHits * 2
+        + exactHits(item.title) * 10 + exactHits(item.text)
         + (phrase.length <= 80 && item.title.includes(phrase) ? 35 : 0)
         + (phrase.length <= 80 && item.headings.some(heading => heading.includes(phrase)) ? 12 : 0);
-      const heading = matchedHeading ? item.lesson.headings[item.headings.indexOf(matchedHeading)] : '';
+      const headingIndex = headingHits ? headingHitsByIndex.indexOf(headingHits) : -1;
+      const heading = headingIndex >= 0 ? item.lesson.headings[headingIndex] : '';
       return { id: item.lesson.id, title: item.lesson.title, heading,
         url: new URL(item.lesson.url, siteRoot).href,
-        snippet: snippet(item.lesson.text, words), score };
+        snippet: snippet(item.lesson.text, units), score };
     }).filter(Boolean).sort((a, b) => b.score - a.score || a.id.localeCompare(b.id)).slice(0, limit);
   }
 
