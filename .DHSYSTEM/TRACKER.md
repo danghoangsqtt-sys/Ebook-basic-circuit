@@ -22,7 +22,7 @@
 | P1-02 | Trang mở đầu | Đang thực hiện | Hợp đồng `phases/phase-1/tasks/P1-02.md` |
 | P1-03 | Khung đọc mobile | Đang thực hiện | Hợp đồng `phases/phase-1/tasks/P1-03.md` |
 | P1-04 | Thanh kéo cỡ chữ | Chưa bắt đầu | — |
-| P1-05 | Chỉ mục và tìm kiếm nội bộ | Chưa bắt đầu | — |
+| P1-05 | Chỉ mục và tìm kiếm nội bộ | Đang thực hiện | Hợp đồng `phases/phase-1/tasks/P1-05.md` |
 | P1-06 | Chọn chữ và tra cứu | Chưa bắt đầu | — |
 | P1-07 | Bút đánh dấu | Chưa bắt đầu | — |
 | P1-08 | Liên kết và nghiệm thu | Chưa bắt đầu | — |
