@@ -96,7 +96,7 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 | --- | --- | --- |
 | P4-01 | PASS | 56 bài/3 img/4 tài sản/80 ASCII; fixture 3 lỗi phát hiện đúng |
 | P4-02 | PASS | 80/80 sơ đồ phân loại; 31 nhóm phát hiện; `docs/qa/visual-technical-audit.md` |
-| P4-03 | PLANNED | — |
+| P4-03 | IN_PROGRESS | Quy chuẩn hình và kiểm tra mẫu mobile |
 | P5-01 | PLANNED | — |
 | P5-02 | PLANNED | — |
 | P5-03 | PLANNED | — |

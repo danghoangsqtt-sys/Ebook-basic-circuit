@@ -7,4 +7,4 @@
 | --- | --- | --- |
 | P4-01 | PASS | `docs/qa/visual-baseline.md`; checker + 3 fixture lỗi |
 | P4-02 | PASS | 80/80 sơ đồ phân loại; 31 nhóm lỗi/điểm sửa trong audit |
-| P4-03 | PLANNED | — |
+| P4-03 | IN_PROGRESS | Kế hoạch trong task contract đã xác thực |
