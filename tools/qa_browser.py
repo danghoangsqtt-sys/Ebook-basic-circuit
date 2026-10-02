@@ -287,6 +287,9 @@ def check_reader_data_flow(browser, server: ThreadingHTTPServer) -> None:
     invalid["exportedAt"] = "1"
     upload(json.dumps(invalid).encode())
     check(page.locator("#import-preview").is_hidden(), "Invalid date accepted")
+    invalid["exportedAt"] = "2026-02-31T00:00:00Z"
+    upload(json.dumps(invalid).encode())
+    check(page.locator("#import-preview").is_hidden(), "Impossible calendar date accepted")
     invalid = json.loads(json.dumps(exported))
     invalid["data"]["highlights"][0]["quote"] = "x" * 1001
     upload(json.dumps(invalid).encode())

@@ -8,8 +8,14 @@ flowchart TD
   L --> R[Đối chiếu lại khi tải bài]
   L --> HL[Thư viện dấu xuyên bài]
   HL --> VH[Đối chiếu với HTML bài]
-  VH --> E
-  VH --> D
+  VH --> C
+  L --> BA[Xuất JSON sau xác thực]
+  BA --> J[Tệp sao lưu trên thiết bị]
+  J --> IM[Kiểm tra và xem trước]
+  IM --> CF{Người đọc xác nhận?}
+  CF -- Có --> WR[Gộp hoặc thay thế trong localStorage]
+  WR --> L
+  CF -- Không --> NO[Giữ dữ liệu hiện có]
   R --> C{Khớp chắc chắn?}
   C -- Có --> D[Hiển thị dấu]
   C -- Không --> E[Giữ bản ghi chưa định vị]

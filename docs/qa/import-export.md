@@ -13,6 +13,6 @@ Tệp JSON `electric-basic-reader-data` version 1 gồm `exportedAt`, dấu, ti�
 
 ## Bằng chứng trình duyệt
 
-`python tools/qa_browser.py` trên Chromium đạt: xuất rồi nhập khôi phục đúng dấu, cỡ chữ 21 px, theme sáng, tiến độ và checklist; xem trước đúng số dấu/xung đột; gộp không ghi đè dấu cùng ID; từ chối JSON hỏng, thiếu trường, version cũ, ngày sai, quote quá dài; lỗi ghi lần hai được báo và dữ liệu cũ khôi phục. Khóa cỡ chữ cũ được chuyển đổi 4 → 20 px. Trang sao lưu không tràn ngang ở 320/360/390/430 px. `python tools/qa_browser.py --quick --browser webkit` đạt cùng luồng đại diện. `python tools/check_links.py`: 59 trang, 487 tham chiếu, 0 lỗi.
+`python tools/qa_browser.py` trên Chromium đạt: xuất rồi nhập khôi phục đúng dấu, cỡ chữ 21 px, theme sáng, tiến độ và checklist; xem trước đúng số dấu/xung đột; gộp không ghi đè dấu cùng ID; từ chối JSON hỏng, thiếu trường, version cũ, ngày sai (kể cả 31/02), quote quá dài; lỗi ghi lần hai được báo và dữ liệu cũ khôi phục. Khóa cỡ chữ cũ được chuyển đổi 4 → 20 px. Trang sao lưu không tràn ngang ở 320/360/390/430 px. `python tools/qa_browser.py --quick --browser webkit` đạt cùng luồng đại diện. `python tools/check_links.py`: 59 trang, 487 tham chiếu, 0 lỗi.
 
 Giới hạn: trình duyệt không cung cấp giao dịch nhiều khóa cho `localStorage`; khi thiết bị từ chối cả thao tác rollback, ứng dụng báo rõ và người đọc cần dùng tệp sao lưu để khôi phục. Tệp JSON lưu trên thiết bị người đọc, không có máy chủ đồng bộ. Chưa thử trên iOS/Android thật.

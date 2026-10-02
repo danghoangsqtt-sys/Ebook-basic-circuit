@@ -14,7 +14,8 @@ Không có `.DHSYSTEM/META.md` hoặc profile tổ chức. Dự án được x�
 | --- | --- | --- |
 | HTML/CSS/JavaScript thuần | Phù hợp kho mã hiện tại, không cần hạ tầng mới cho các tính năng đã chốt | Cần kỷ luật tách module dùng chung |
 | Chỉ mục tìm kiếm tĩnh tạo từ 56 bài | Tìm nội bộ nhanh và nhất quán với nội dung gốc | Cần chạy lại bộ tạo chỉ mục khi biên tập bài |
-| `localStorage` cho cỡ chữ và dấu | Không cần tài khoản ở Phase 1 | Theo origin/thiết bị, có thể bị chặn; không là bản sao lưu |
+| `localStorage` cho dữ liệu đọc | Không cần tài khoản để dùng công cụ đọc | Theo origin/thiết bị, có thể bị chặn; cần xuất JSON để có bản sao lưu |
+| JSON version 1 để xuất/nhập | Người đọc chủ động chuyển dữ liệu, xem trước xung đột trước khi ghi | Không đồng bộ tự động; rollback nhiều khóa phụ thuộc quyền lưu trữ của trình duyệt |
 | Selection/Range + neo bằng đoạn trích/ngữ cảnh | Phục hồi dấu sau khi tải lại, chịu được một phần thay đổi HTML | Không tô nếu quote/ngữ cảnh không khớp chắc chắn |
 | Bọc từng text node bằng `<mark>` | Hiển thị nhất quán trên Chromium/WebKit, kể cả chọn xuyên thẻ inline; cho phép focus và cuộn tới dấu | Phải xác thực quote/ngữ cảnh trước mỗi lần tô và tháo mark khi render lại |
 
@@ -30,6 +31,7 @@ Không có `.DHSYSTEM/META.md` hoặc profile tổ chức. Dự án được x�
 | Search index | Trích tiêu đề/đề mục/đoạn từ 56 bài | Script tạo chỉ mục, `assets/js/search-index.js` |
 | Search UI | Xếp hạng tiêu đề/đề mục/nội dung, từ đồng nghĩa Anh–Việt và đoạn trích khớp | `assets/js/search.js`, `assets/css/search.css` |
 | Highlight library | Tìm/lọc dấu xuyên bài, đối chiếu neo với HTML bài, mở/xóa từng dấu | `highlights.html`, `assets/js/highlight-library.js`, `assets/css/highlight-library.css` |
+| Reader data | Xuất/nhập JSON, xác thực toàn bộ tệp, xem trước, gộp/thay thế và cố khôi phục khi ghi lỗi | `reader-data.html`, `assets/js/reader-data.js`, `assets/css/reader-data.css`, `.DHSYSTEM/schemas/reader-export.schema.json` |
 
 Chỉ mục `.js` được tạo bằng `tools/build_search_index.py`; sau khi biên tập bài, chạy lại script và xác nhận bằng `--check`. Tính năng lưu trữ được nghiệm thu trên HTTP(S).
 
@@ -41,6 +43,7 @@ Chỉ mục `.js` được tạo bằng `tools/build_search_index.py`; sau khi b
 4. “Tìm bài liên quan” → tra chỉ mục 56 bài, ưu tiên tiêu đề/đề mục rồi nội dung; kết quả hiển thị ngay trên website.
 5. “Tìm giải thích trên Google” hoặc “Tìm video YouTube” → tạo URL truy vấn an toàn và mở tab mới sau thao tác của người dùng.
 6. Mở thư viện dấu → đọc bản ghi cục bộ, tải HTML của từng bài có dấu để xác thực neo; dấu còn neo mở bằng `?highlight=<id>`, dấu mất neo chỉ mở đầu bài.
+7. Xuất dữ liệu → đọc các khóa `localStorage` của bộ đọc, chuyển cỡ chữ phiên bản cũ nếu cần, xác thực và tải JSON. Nhập dữ liệu → kiểm tra tệp, xem trước số dấu/xung đột, chọn gộp/thay thế rồi mới ghi; khi ghi lỗi thì thử phục hồi các khóa cũ.
 
 ## Diagram applicability matrix
 
@@ -59,8 +62,10 @@ Chỉ mục `.js` được tạo bằng `tools/build_search_index.py`; sau khi b
 flowchart LR
   U[Người đọc] --> P[Trang chủ và 56 trang bài]
   U --> H[Thư viện dấu]
+  U --> RD[Sao lưu dữ liệu đọc]
   P --> A[CSS và JavaScript dùng chung]
   H --> A
+  RD --> A
   A --> I[Chỉ mục tìm kiếm tĩnh]
   A --> L[(localStorage trên thiết bị)]
   A --> G[Google Search]
@@ -80,8 +85,14 @@ flowchart TD
   L --> R[Đối chiếu lại khi tải bài]
   L --> HL[Thư viện dấu xuyên bài]
   HL --> VH[Đối chiếu với HTML bài]
-  VH --> E
-  VH --> D
+  VH --> C
+  L --> BA[Xuất JSON sau xác thực]
+  BA --> J[Tệp sao lưu trên thiết bị]
+  J --> IM[Kiểm tra và xem trước]
+  IM --> CF{Người đọc xác nhận?}
+  CF -- Có --> WR[Gộp hoặc thay thế trong localStorage]
+  WR --> L
+  CF -- Không --> NO[Giữ dữ liệu hiện có]
   R --> C{Khớp chắc chắn?}
   C -- Có --> D[Hiển thị dấu]
   C -- Không --> E[Giữ bản ghi chưa định vị]
@@ -92,7 +103,7 @@ flowchart TD
 
 ## Event flows
 
-Không có hàng đợi sự kiện. Sự kiện trình duyệt cần xử lý là `input` của thanh kéo, `selectionchange`/thao tác chọn chữ, `contextmenu` trên desktop, click/chạm vào lệnh và tải trang. Menu gốc chỉ bị thay thế khi có Selection hợp lệ trong vùng bài; có lối thao tác tương đương bằng bàn phím. Cần kiểm thử khác biệt trình duyệt, đặc biệt `contextmenu`.
+Không có hàng đợi sự kiện. Sự kiện trình duyệt cần xử lý là `input` của thanh kéo, `selectionchange`/thao tác chọn chữ, `contextmenu` trên desktop, click/chạm vào lệnh, chọn tệp JSON và tải trang. Menu gốc chỉ bị thay thế khi có Selection hợp lệ trong vùng bài; có lối thao tác tương đương bằng bàn phím. Cần kiểm thử khác biệt trình duyệt, đặc biệt `contextmenu`.
 
 ## Module dependencies
 
@@ -113,6 +124,9 @@ flowchart TD
   HL[highlights.html] --> HJ[highlight-library.js]
   HJ --> P
   HJ --> B
+  RD[reader-data.html] --> RJ[reader-data.js]
+  RJ --> P
+  RJ -. định dạng .-> HS[reader-export.schema.json]
   G[Script tạo chỉ mục] --> S
   G --> B
 ```
@@ -133,6 +147,7 @@ flowchart LR
   U --> F[Mở Google hoặc YouTube cho đoạn chọn]
   U --> G[Xóa và khôi phục dấu]
   U --> H[Mở thư viện dấu xuyên bài]
+  U --> I[Xuất hoặc nhập bản sao JSON]
 ```
 
 ## UI Direction đã đọc

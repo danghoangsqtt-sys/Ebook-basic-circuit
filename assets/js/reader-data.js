@@ -23,8 +23,14 @@
       && required.every(key => Object.hasOwn(value, key));
   }
   function validDate(value) {
-    return typeof value === 'string'
-      && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.test(value)
+    if (typeof value !== 'string') return false;
+    const match = value.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})(?:\.\d+)?(Z|([+-])(\d{2}):(\d{2}))$/);
+    if (!match) return false;
+    const [, year, month, day, hour, minute, second, , , zoneHour, zoneMinute] = match;
+    const y = Number(year), m = Number(month), d = Number(day);
+    return m >= 1 && m <= 12 && d >= 1 && d <= new Date(Date.UTC(y, m, 0)).getUTCDate()
+      && Number(hour) <= 23 && Number(minute) <= 59 && Number(second) <= 59
+      && (zoneHour === undefined || (Number(zoneHour) <= 23 && Number(zoneMinute) <= 59))
       && !Number.isNaN(Date.parse(value));
   }
 

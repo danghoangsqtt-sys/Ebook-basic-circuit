@@ -14,5 +14,8 @@ flowchart TD
   HL[highlights.html] --> HJ[highlight-library.js]
   HJ --> P
   HJ --> B
+  RD[reader-data.html] --> RJ[reader-data.js]
+  RJ --> P
+  RJ -. định dạng .-> HS[reader-export.schema.json]
   G[Script tạo chỉ mục] --> S
   G --> B

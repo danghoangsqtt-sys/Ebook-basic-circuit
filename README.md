@@ -28,7 +28,7 @@ Chạy `python tools/check_links.py` để kiểm tra link/fragment nội bộ v
 - [Bản mẫu giao diện](.DHSYSTEM/ui-direction/2026-10-02/index.html)
 - [Phiên brainstorm đã chốt](docs/brainstorm/session-2026-10-02.md)
 
-Phase 1 đã triển khai trang đầu, giao diện đọc mobile, cỡ chữ, tìm kiếm, chọn chữ và đánh dấu. Phase 2 đã mở thư viện dấu và nâng tìm kiếm. Phase 3 bổ sung xuất/nhập dữ liệu đọc; tài khoản/đồng bộ được quyết định riêng.
+Phase 1 đã triển khai trang đầu, giao diện đọc mobile, cỡ chữ, tìm kiếm, chọn chữ và đánh dấu. Phase 2 đã mở thư viện dấu và nâng tìm kiếm. Phase 3 đã bổ sung xuất/nhập dữ liệu đọc; tài khoản/đồng bộ hiện được hoãn theo quyết định trong tracker.
 
 ## Bản quyền
 

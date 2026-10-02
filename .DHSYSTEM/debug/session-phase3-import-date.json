@@ -1,0 +1,20 @@
+{
+  "id": "phase3-import-date",
+  "status": "resolved",
+  "created_at": "2026-10-02T21:17:50+07:00",
+  "updated_at": "2026-10-02T21:17:50+07:00",
+  "problem": {
+    "description": "Date.parse chấp nhận ngày lịch không tồn tại trong tệp nhập và chuẩn hóa sang ngày khác.",
+    "symptoms": ["2026-02-31T00:00:00Z trở thành 2026-03-03 trong JavaScript"],
+    "error_messages": [],
+    "affected_files": ["assets/js/reader-data.js", "tools/qa_browser.py"]
+  },
+  "investigation": {
+    "hypotheses": [{"id": 1, "description": "Date.parse không tự kiểm tra ngày hợp lệ theo tháng", "status": "confirmed"}],
+    "tests_run": [
+      {"command": "node -e Date.parse/new Date với 2026-02-31", "output": "Tự chuẩn hóa thành 2026-03-03", "timestamp": "2026-10-02T21:17:50+07:00"},
+      {"command": "python tools/qa_browser.py --quick", "output": "PASS; ngày 31/02 bị từ chối trước khi ghi", "timestamp": "2026-10-02T21:17:50+07:00"}
+    ]
+  },
+  "resolution": "Kiểm tra tháng/ngày theo lịch và giờ/phút/giây, múi giờ trước Date.parse; bổ sung ca hồi quy nhập tệp sai ngày."
+}

@@ -1,8 +1,10 @@
 flowchart LR
   U[Người đọc] --> P[Trang chủ và 56 trang bài]
   U --> H[Thư viện dấu]
+  U --> RD[Sao lưu dữ liệu đọc]
   P --> A[CSS và JavaScript dùng chung]
   H --> A
+  RD --> A
   A --> I[Chỉ mục tìm kiếm tĩnh]
   A --> L[(localStorage trên thiết bị)]
   A --> G[Google Search]

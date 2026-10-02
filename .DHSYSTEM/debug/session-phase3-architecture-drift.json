@@ -1,0 +1,17 @@
+{
+  "id": "phase3-architecture-drift",
+  "status": "resolved",
+  "created_at": "2026-10-02T21:17:50+07:00",
+  "updated_at": "2026-10-02T21:17:50+07:00",
+  "problem": {
+    "description": "Kiến trúc chưa ghi xuất/nhập JSON và luồng xác nhận trước khi ghi của Phase 3.",
+    "symptoms": ["Thiếu reader-data.html trong ranh giới module", "Thiếu bước xem trước/khôi phục trong sơ đồ"],
+    "error_messages": [],
+    "affected_files": [".DHSYSTEM/ARCHITECTURE.md", ".DHSYSTEM/architecture/*.mermaid"]
+  },
+  "investigation": {
+    "hypotheses": [{"id": 1, "description": "Sơ đồ được lập trước khi triển khai Phase 3", "status": "confirmed"}],
+    "tests_run": [{"command": "Đối chiếu sơ đồ với reader-data.html, assets/js/reader-data.js và schema xuất", "output": "Thiếu module và luồng sao lưu", "timestamp": "2026-10-02T21:17:50+07:00"}]
+  },
+  "resolution": "Cập nhật ranh giới module, luồng xuất/nhập và bốn sidecar Mermaid; xác nhận nội dung Mermaid đồng bộ."
+}

@@ -37,3 +37,22 @@ Kiến trúc chưa ghi thư viện dấu xuyên bài, luồng đối chiếu neo
 ## Tier 4 — Không áp dụng
 
 Đây là dự án giáo trình, không phải kho nguồn DHSYSTEM.
+---
+
+# DH-AUDIT — Phase 3 — 2026-10-02
+
+## Tier 1 — Trạng thái DHSYSTEM: PASS
+
+TRACKER, PHASE-STATE và HANDOFF cùng ghi P3-01 PASS, P3-02 quyết định hoãn backend và Phase 3 đang audit. Tag hoàn tất Phase 1/2 có trong Git; Phase 3 được gắn tag sau khi audit/debug khép lại.
+
+## Tier 2 — Tài liệu: LOW → RESOLVED
+
+Kiến trúc chưa ghi trang xuất/nhập, định dạng JSON version 1 và luồng xem trước/xác nhận/khôi phục khi ghi lỗi. `dh-debug` đã cập nhật `ARCHITECTURE.md` và bốn sidecar Mermaid. README, CHANGELOG, báo cáo `docs/qa/import-export.md` và schema đã có. Schema và mã đều giới hạn trường/kiểu/độ dài; mã kiểm tra ID dấu trùng trong khi schema dùng `uniqueItems` cho bản ghi.
+
+## Tier 3 — Website tĩnh: PASS trong phạm vi đã thử
+
+59 trang/487 tham chiếu nội bộ, 0 link hoặc fragment hỏng. Chỉ mục tìm kiếm 56 bài còn mới; toàn bộ JavaScript qua `node --check`. Chromium kiểm tra 56 bài ở 320 px và các luồng đọc, thư viện, sao lưu; WebKit kiểm tra mẫu. Xuất→nhập khôi phục dấu/cỡ chữ/theme/tiến độ/checklist. JSON hỏng, thiếu trường, version cũ, ngày sai, quote quá dài đều bị từ chối trước ghi; xung đột ID được báo; lỗi ghi mô phỏng đã rollback dữ liệu cũ. Rà mã thấy `Date.parse` tự chuẩn hóa ngày không tồn tại (ví dụ 31/02); `dh-debug` đã thêm kiểm tra ngày theo lịch và ca hồi quy. Chưa thử trên điện thoại thật.
+
+## Tier 4 — Không áp dụng
+
+Đây là dự án giáo trình, không phải kho nguồn DHSYSTEM.
