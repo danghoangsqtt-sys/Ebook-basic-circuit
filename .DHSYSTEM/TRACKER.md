@@ -10,7 +10,7 @@
 
 | Phase | Tổng nhiệm vụ | Hoàn tất | Trạng thái |
 | --- | ---: | ---: | --- |
-| Phase 1 | 8 | 3 | Đang thực hiện |
+| Phase 1 | 8 | 4 | Đang thực hiện |
 | Phase 2 | 3 | 0 | Chờ Phase 1 |
 | Phase 3 | 2 | 0 | Chờ Phase 2 / cổng quyết định |
 
@@ -21,7 +21,7 @@
 | P1-01 | Đo hiện trạng và kiểm tra liên kết | PASS | `docs/qa/baseline-phase1.md`; 57 trang, 479 tham chiếu, 73 link hỏng, 16 phép đo Chromium; fixture exit 1/0 đúng |
 | P1-02 | Trang mở đầu | PASS | 8 tuần, 56 link bài có thật; Chromium 320–1280 px không tràn; menu click/Enter/Escape, skip link; anchor chuẩn bị Bài 1 |
 | P1-03 | Khung đọc mobile | PASS | Chromium Bài 1/28/56 ở 320–430 px và viewport zoom 200%; không tràn; sidebar 8 tuần/56 bài, Escape/focus |
-| P1-04 | Thanh kéo cỡ chữ | Đã kiểm tra, chờ cổng Git | Playwright HTTP: 24 px/reload/reset/ArrowLeft, storage bị chặn, Bài 1 ở 160–430 px không tràn |
+| P1-04 | Thanh kéo cỡ chữ | PASS | Playwright HTTP: 24 px/reload/reset/ArrowLeft, storage bị chặn, Bài 1 ở 160–430 px không tràn |
 | P1-05 | Chỉ mục và tìm kiếm nội bộ | Đang thực hiện | Hợp đồng `phases/phase-1/tasks/P1-05.md` |
 | P1-06 | Chọn chữ và tra cứu | Chưa bắt đầu | — |
 | P1-07 | Bút đánh dấu | Chưa bắt đầu | — |
