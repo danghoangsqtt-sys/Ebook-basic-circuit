@@ -1,8 +1,8 @@
 # Phase 1 — Đọc được và điều hướng đúng
 
-- Trạng thái: in_progress
+- Trạng thái: complete (audit/debug PASS 2026-10-02)
 - Bắt đầu: 2026-10-02
-- Nhiệm vụ hiện tại: audit Phase 1
+- Nhiệm vụ hiện tại: không có
 
 | Task | Trạng thái | Bằng chứng |
 | --- | --- | --- |

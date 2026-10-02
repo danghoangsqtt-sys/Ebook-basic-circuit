@@ -2,7 +2,7 @@
 
 ## Tổng quan
 
-Website hiện là một tập trang HTML tĩnh. Trang chủ là `index.html`; 56 bài nằm trong `week1/`–`week8/`. Mỗi bài dùng `assets/css/style.css`, `assets/js/main.js` và `assets/js/sidebar-data.js`. Phase 1 giữ cấu trúc này và thêm công cụ đọc/tìm kiếm trong tài nguyên dùng chung.
+Website là tập trang HTML tĩnh. Trang chủ là `index.html`; 56 bài nằm trong `week1/`–`week8/`. Mỗi bài dùng `assets/css/style.css`, `assets/js/main.js` và `assets/js/sidebar-data.js`. Phase 1 đã thêm công cụ đọc/tìm kiếm trong tài nguyên dùng chung.
 
 ## DHSYSTEM organization context
 
@@ -18,7 +18,7 @@ Không có `.DHSYSTEM/META.md` hoặc profile tổ chức. Dự án được x�
 | Selection/Range + neo bằng đoạn trích/ngữ cảnh | Phục hồi dấu sau khi tải lại, chịu được một phần thay đổi HTML | Không tô nếu quote/ngữ cảnh không khớp chắc chắn |
 | Bọc từng text node bằng `<mark>` | Hiển thị nhất quán trên Chromium/WebKit, kể cả chọn xuyên thẻ inline; cho phép focus và cuộn tới dấu | Phải xác thực quote/ngữ cảnh trước mỗi lần tô và tháo mark khi render lại |
 
-## Ranh giới module dự kiến
+## Ranh giới module hiện tại
 
 | Module | Trách nhiệm | Nguồn/đích |
 | --- | --- | --- |
@@ -28,9 +28,9 @@ Không có `.DHSYSTEM/META.md` hoặc profile tổ chức. Dự án được x�
 | Selection actions | Xác thực đoạn chọn, menu desktop/mobile, URL Google/YouTube | `assets/js/selection-actions.js` |
 | Highlights | Tạo/xóa/khôi phục dấu, đối chiếu quote/ngữ cảnh | `assets/js/highlights.js` + `localStorage` |
 | Search index | Trích tiêu đề/đề mục/đoạn từ 56 bài | Script tạo chỉ mục, `assets/js/search-index.js` |
-| Search UI | Xếp hạng và hiển thị bài liên quan, mở bài | Module chung mới trong `assets/js/` |
+| Search UI | Xếp hạng và hiển thị bài liên quan, mở bài | `assets/js/search.js`, `assets/css/search.css` |
 
-Tên tệp mới là đề xuất cho lúc triển khai; giữ một nguồn dữ liệu cho mỗi chức năng. Chỉ mục `.js` giúp trang mở trực tiếp từ thư mục vẫn nạp được dữ liệu; tính năng lưu trữ chỉ được nghiệm thu trên HTTP(S).
+Chỉ mục `.js` được tạo bằng `tools/build_search_index.py`; sau khi biên tập bài, chạy lại script và xác nhận bằng `--check`. Tính năng lưu trữ được nghiệm thu trên HTTP(S).
 
 ## Luồng đọc và tra cứu
 

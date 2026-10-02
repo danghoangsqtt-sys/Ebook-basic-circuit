@@ -4,8 +4,8 @@
   "crystallized_at": "2026-10-02",
   "project": "Giao trinh Ky thuat Dien tu Co ban",
   "status": "in_progress",
-  "current_phase": "Phase 1",
-  "next_task": "Phase 1 audit",
+  "current_phase": "Phase 2",
+  "next_task": "P2-01",
   "phase_inventory": [
     { "id": "Phase 1", "task_ids": ["P1-01", "P1-02", "P1-03", "P1-04", "P1-05", "P1-06", "P1-07", "P1-08"] },
     { "id": "Phase 2", "task_ids": ["P2-01", "P2-02", "P2-03"] },

@@ -1,0 +1,17 @@
+{
+  "id": "phase1-doc-drift",
+  "status": "resolved",
+  "created_at": "2026-10-02T15:52:47+07:00",
+  "updated_at": "2026-10-02T15:52:47+07:00",
+  "problem": {
+    "description": "Tài liệu kiến trúc còn mô tả Phase 1 và Search UI như chưa triển khai.",
+    "symptoms": ["Cụm 'dự kiến' và 'module chung mới' trong ARCHITECTURE.md"],
+    "error_messages": [],
+    "affected_files": [".DHSYSTEM/ARCHITECTURE.md"]
+  },
+  "investigation": {
+    "hypotheses": [{"id": 1, "description": "Tài liệu lập ở crystallize chưa được cập nhật sau mã Phase 1", "status": "confirmed"}],
+    "tests_run": [{"command": "Đối chiếu ARCHITECTURE.md với assets/js/search.js và tools/build_search_index.py", "output": "Module đã tồn tại; tài liệu còn mô tả kế hoạch", "timestamp": "2026-10-02T15:52:47+07:00"}]
+  },
+  "resolution": "Cập nhật phần tổng quan, ranh giới module và tên tệp hiện có; rà lại README, CHANGELOG và sidecar diagram."
+}

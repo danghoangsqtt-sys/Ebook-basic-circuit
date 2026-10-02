@@ -1,16 +1,16 @@
 # Theo dõi tiến độ
 
 - Cập nhật: 2026-10-02
-- Trạng thái: đang triển khai Phase 1
-- Phase hiện tại: Phase 1
-- Việc kế tiếp: audit/debug Phase 1
+- Trạng thái: Phase 1 hoàn tất; chuẩn bị Phase 2
+- Phase hiện tại: Phase 2
+- Việc kế tiếp: P2-01
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
 
 | Phase | Tổng nhiệm vụ | Hoàn tất | Trạng thái |
 | --- | ---: | ---: | --- |
-| Phase 1 | 8 | 8 | Đang audit |
+| Phase 1 | 8 | 8 | Hoàn tất; audit/debug PASS |
 | Phase 2 | 3 | 0 | Chờ Phase 1 |
 | Phase 3 | 2 | 0 | Chờ Phase 2 / cổng quyết định |
 
@@ -70,3 +70,5 @@ Phase 1 đã triển khai; bằng chứng nghiệm thu theo từng nhiệm vụ 
 2026-10-02 P1-07: Chromium+WebKit tích hợp trên Bài 1 xác nhận tô/lưu/tải lại/nhảy đến/xóa. Chọn xuyên `<em>` tạo các mảnh mark chung một bản ghi. Chromium kiểm tra quote trùng bị từ chối, sửa nội dung thành mất neo, storage bị chặn không tô nhầm, `?highlight=<id>` và Enter. Dữ liệu chỉ trên thiết bị; chưa thử nhấn giữ trên điện thoại thật.
 
 2026-10-02 P1-08: `check_links.py` 57 trang/470 tham chiếu, 0 lỗi file/fragment/escape. `qa_browser.py` Chromium kiểm tra 56 bài ở 320 px và các viewport 160–430 px ở 24 px cho Bài 1/28/56; WebKit kiểm tra mẫu. Sửa khối báo cáo Bài 7 tràn ngang. Menu, slider, tiến độ, checklist, đáp án, in, tìm kiếm, đánh dấu, theme đều qua kiểm tra. Thiết bị thật chưa kiểm tra.
+
+2026-10-02 Audit Phase 1: Tier 1 và Tier 3 PASS; Tier 2 thấy mô tả kiến trúc còn ở thì tương lai, `dh-debug` đã sửa và lưu session. Báo cáo `.DHSYSTEM/audit-report.md`. Phase 1 hoàn tất.
