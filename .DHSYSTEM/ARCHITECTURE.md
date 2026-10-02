@@ -28,7 +28,8 @@ Không có `.DHSYSTEM/META.md` hoặc profile tổ chức. Dự án được x�
 | Selection actions | Xác thực đoạn chọn, menu desktop/mobile, URL Google/YouTube | `assets/js/selection-actions.js` |
 | Highlights | Tạo/xóa/khôi phục dấu, đối chiếu quote/ngữ cảnh | `assets/js/highlights.js` + `localStorage` |
 | Search index | Trích tiêu đề/đề mục/đoạn từ 56 bài | Script tạo chỉ mục, `assets/js/search-index.js` |
-| Search UI | Xếp hạng và hiển thị bài liên quan, mở bài | `assets/js/search.js`, `assets/css/search.css` |
+| Search UI | Xếp hạng tiêu đề/đề mục/nội dung, từ đồng nghĩa Anh–Việt và đoạn trích khớp | `assets/js/search.js`, `assets/css/search.css` |
+| Highlight library | Tìm/lọc dấu xuyên bài, đối chiếu neo với HTML bài, mở/xóa từng dấu | `highlights.html`, `assets/js/highlight-library.js`, `assets/css/highlight-library.css` |
 
 Chỉ mục `.js` được tạo bằng `tools/build_search_index.py`; sau khi biên tập bài, chạy lại script và xác nhận bằng `--check`. Tính năng lưu trữ được nghiệm thu trên HTTP(S).
 
@@ -39,6 +40,7 @@ Chỉ mục `.js` được tạo bằng `tools/build_search_index.py`; sau khi b
 3. “Đánh dấu” → lưu `lessonId`, quote, ngữ cảnh và vị trí; render dấu khi có thể xác minh.
 4. “Tìm bài liên quan” → tra chỉ mục 56 bài, ưu tiên tiêu đề/đề mục rồi nội dung; kết quả hiển thị ngay trên website.
 5. “Tìm giải thích trên Google” hoặc “Tìm video YouTube” → tạo URL truy vấn an toàn và mở tab mới sau thao tác của người dùng.
+6. Mở thư viện dấu → đọc bản ghi cục bộ, tải HTML của từng bài có dấu để xác thực neo; dấu còn neo mở bằng `?highlight=<id>`, dấu mất neo chỉ mở đầu bài.
 
 ## Diagram applicability matrix
 
@@ -56,7 +58,9 @@ Chỉ mục `.js` được tạo bằng `tools/build_search_index.py`; sau khi b
 ```mermaid
 flowchart LR
   U[Người đọc] --> P[Trang chủ và 56 trang bài]
+  U --> H[Thư viện dấu]
   P --> A[CSS và JavaScript dùng chung]
+  H --> A
   A --> I[Chỉ mục tìm kiếm tĩnh]
   A --> L[(localStorage trên thiết bị)]
   A --> G[Google Search]
@@ -74,6 +78,10 @@ flowchart TD
   H --> Q[Quote + ngữ cảnh + mã bài]
   Q --> L[(localStorage)]
   L --> R[Đối chiếu lại khi tải bài]
+  L --> HL[Thư viện dấu xuyên bài]
+  HL --> VH[Đối chiếu với HTML bài]
+  VH --> E
+  VH --> D
   R --> C{Khớp chắc chắn?}
   C -- Có --> D[Hiển thị dấu]
   C -- Không --> E[Giữ bản ghi chưa định vị]
@@ -102,6 +110,9 @@ flowchart TD
   M --> H[highlights.js]
   H --> T
   H --> P[(localStorage)]
+  HL[highlights.html] --> HJ[highlight-library.js]
+  HJ --> P
+  HJ --> B
   G[Script tạo chỉ mục] --> S
   G --> B
 ```
@@ -121,6 +132,7 @@ flowchart LR
   U --> E[Tìm bài liên quan trong 56 bài]
   U --> F[Mở Google hoặc YouTube cho đoạn chọn]
   U --> G[Xóa và khôi phục dấu]
+  U --> H[Mở thư viện dấu xuyên bài]
 ```
 
 ## UI Direction đã đọc

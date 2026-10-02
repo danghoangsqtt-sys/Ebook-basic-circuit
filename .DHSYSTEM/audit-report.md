@@ -17,3 +17,23 @@ Guardrail cho các phase kế: sau khi sửa bài, chạy lại `build_search_in
 ## Tier 4 — Không áp dụng
 
 Đây là dự án giáo trình, không phải kho nguồn DHSYSTEM.
+
+---
+
+# DH-AUDIT — Phase 2 — 2026-10-02
+
+## Tier 1 — Trạng thái DHSYSTEM: PASS
+
+TRACKER, PHASE-STATE và HANDOFF cùng ghi Phase 2 đã xong P2-01/P2-02, P2-03 quyết định hoãn tính năng và đang audit. Tag Phase 1 đã có; tag Phase 2 được tạo khi audit/debug khép lại.
+
+## Tier 2 — Tài liệu: LOW → RESOLVED
+
+Kiến trúc chưa ghi thư viện dấu xuyên bài, luồng đối chiếu neo và từ đồng nghĩa tìm kiếm. `dh-debug` đã cập nhật `ARCHITECTURE.md` cùng bốn sidecar Mermaid. README, CHANGELOG, báo cáo QA của thư viện và bộ truy vấn tìm kiếm đã có.
+
+## Tier 3 — Website tĩnh: PASS trong phạm vi đã thử
+
+58 trang/479 tham chiếu HTML nội bộ, 0 lỗi. Chỉ mục 56 bài còn mới; JS qua `node --check`. Chromium kiểm tra 56 bài ở 320 px, thư viện dấu ở 320–430 px, tạo dấu từ hai bài, lọc/tìm/xóa/mở, trạng thái mất neo; WebKit kiểm tra mẫu. Bảy truy vấn Anh–Việt trả bài đầu đúng ở Bài 1/28/56. Dấu mất neo không tạo URL nhảy vào vị trí không chắc chắn. Không có thiết bị điện thoại thật trong môi trường thử.
+
+## Tier 4 — Không áp dụng
+
+Đây là dự án giáo trình, không phải kho nguồn DHSYSTEM.

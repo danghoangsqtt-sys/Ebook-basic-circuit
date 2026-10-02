@@ -6,6 +6,10 @@ flowchart TD
   H --> Q[Quote + ngữ cảnh + mã bài]
   Q --> L[(localStorage)]
   L --> R[Đối chiếu lại khi tải bài]
+  L --> HL[Thư viện dấu xuyên bài]
+  HL --> VH[Đối chiếu với HTML bài]
+  VH --> E
+  VH --> D
   R --> C{Khớp chắc chắn?}
   C -- Có --> D[Hiển thị dấu]
   C -- Không --> E[Giữ bản ghi chưa định vị]

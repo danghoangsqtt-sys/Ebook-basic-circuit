@@ -1,0 +1,17 @@
+{
+  "id": "phase2-architecture-drift",
+  "status": "resolved",
+  "created_at": "2026-10-02T16:07:51+07:00",
+  "updated_at": "2026-10-02T16:07:51+07:00",
+  "problem": {
+    "description": "Kiến trúc chưa phản ánh trang thư viện dấu và tìm kiếm Anh–Việt của Phase 2.",
+    "symptoms": ["Thiếu highlight-library.js trong ranh giới module", "Thiếu luồng xác thực neo xuyên bài"],
+    "error_messages": [],
+    "affected_files": [".DHSYSTEM/ARCHITECTURE.md", ".DHSYSTEM/architecture/*.mermaid"]
+  },
+  "investigation": {
+    "hypotheses": [{"id": 1, "description": "Sơ đồ được lập trước khi triển khai Phase 2", "status": "confirmed"}],
+    "tests_run": [{"command": "Đối chiếu sơ đồ với highlights.html, highlight-library.js và search.js", "output": "Module và luồng dữ liệu Phase 2 chưa được ghi", "timestamp": "2026-10-02T16:07:51+07:00"}]
+  },
+  "resolution": "Bổ sung thư viện dấu, luồng kiểm tra neo và mô tả tìm kiếm vào ARCHITECTURE.md cùng bốn sidecar Mermaid."
+}

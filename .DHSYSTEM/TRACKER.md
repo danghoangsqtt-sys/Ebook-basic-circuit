@@ -1,9 +1,9 @@
 # Theo dõi tiến độ
 
 - Cập nhật: 2026-10-02
-- Trạng thái: đang triển khai Phase 2
-- Phase hiện tại: Phase 2
-- Việc kế tiếp: audit/debug Phase 2
+- Trạng thái: Phase 2 hoàn tất; chuẩn bị Phase 3
+- Phase hiện tại: Phase 3
+- Việc kế tiếp: P3-01
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -11,7 +11,7 @@
 | Phase | Tổng nhiệm vụ | Hoàn tất | Trạng thái |
 | --- | ---: | ---: | --- |
 | Phase 1 | 8 | 8 | Hoàn tất; audit/debug PASS |
-| Phase 2 | 3 | 3 | Đang audit |
+| Phase 2 | 3 | 3 | Hoàn tất; audit/debug PASS |
 | Phase 3 | 2 | 0 | Chờ Phase 2 / cổng quyết định |
 
 ## Phase 1
@@ -77,3 +77,5 @@ Phase 1 đã triển khai; bằng chứng nghiệm thu theo từng nhiệm vụ 
 2026-10-02 P2-01: trang thư viện dấu xuyên bài, lọc theo đoạn/bài/trạng thái; kiểm tra neo qua HTML của bài, không nhảy vào dấu mất neo; xóa một dấu không ảnh hưởng dấu khác. Chromium và WebKit kiểm tra hai bài/4 viewport; `check_links.py` quét 58 trang/479 tham chiếu, 0 lỗi. Chi tiết `docs/qa/highlight-library.md`.
 
 2026-10-02 P2-02: 7 truy vấn tiếng Việt/Anh được chạy trên Bài 1/28/56 trong `qa_browser.py`; kết quả đầu đúng bài, có đề mục/đoạn trích. Chromium toàn bộ 56 bài và WebKit mẫu qua kiểm tra; chỉ mục còn mới. P2-03 quyết định hoãn nhiều màu/ghi chú, không đổi dữ liệu dấu v1.
+
+2026-10-02 Audit Phase 2: Tier 1 và Tier 3 PASS; Tier 2 thấy kiến trúc thiếu thư viện dấu, `dh-debug` đã cập nhật tài liệu và bốn sidecar Mermaid; chúng khớp nhau. Báo cáo `.DHSYSTEM/audit-report.md`. Phase 2 hoàn tất.
