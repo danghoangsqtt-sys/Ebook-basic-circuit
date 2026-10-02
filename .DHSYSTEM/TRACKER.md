@@ -3,14 +3,14 @@
 - Cập nhật: 2026-10-02
 - Trạng thái: đang triển khai Phase 1
 - Phase hiện tại: Phase 1
-- Việc kế tiếp: P1-01
+- Việc kế tiếp: P1-02
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
 
 | Phase | Tổng nhiệm vụ | Hoàn tất | Trạng thái |
 | --- | ---: | ---: | --- |
-| Phase 1 | 8 | 0 | Đang thực hiện |
+| Phase 1 | 8 | 1 | Đang thực hiện |
 | Phase 2 | 3 | 0 | Chờ Phase 1 |
 | Phase 3 | 2 | 0 | Chờ Phase 2 / cổng quyết định |
 
@@ -18,8 +18,8 @@
 
 | ID | Việc | Trạng thái | Bằng chứng nghiệm thu |
 | --- | --- | --- | --- |
-| P1-01 | Đo hiện trạng và kiểm tra liên kết | Đang thực hiện | Hợp đồng nhiệm vụ trong `phases/phase-1/tasks/P1-01.md` |
-| P1-02 | Trang mở đầu | Chưa bắt đầu | — |
+| P1-01 | Đo hiện trạng và kiểm tra liên kết | PASS | `docs/qa/baseline-phase1.md`; 57 trang, 479 tham chiếu, 73 link hỏng, 16 phép đo Chromium; fixture exit 1/0 đúng |
+| P1-02 | Trang mở đầu | Đang thực hiện | Hợp đồng `phases/phase-1/tasks/P1-02.md` |
 | P1-03 | Khung đọc mobile | Chưa bắt đầu | — |
 | P1-04 | Thanh kéo cỡ chữ | Chưa bắt đầu | — |
 | P1-05 | Chỉ mục và tìm kiếm nội bộ | Chưa bắt đầu | — |
@@ -55,4 +55,4 @@
 
 Chưa có mã Phase 1 để nghiệm thu. Chỉ xác nhận cấu trúc tài liệu kế hoạch và bản mẫu giao diện ở bước crystallize.
 
-Số liệu nền từ rà soát chỉ đọc: 57 trang HTML hiện có; 73 tham chiếu link HTML nội bộ trỏ tới tệp chưa có. Đây là đầu vào P1-01/P1-08, chưa phải kết quả sửa lỗi.
+2026-10-02 P1-01: `python tools/check_links.py` trả exit 1 đúng kỳ vọng vì 73 link hỏng thuộc 4 đích thiếu; fixture độc lập kiểm tra exit 1/0. Chromium 148 đo `index.html`, Bài 1, 28, 56 ở 320/360/390/430 px. Bài 1 tràn đến 714 px; trang đầu có nav bị cắt dù toàn trang không cuộn ngang. Chi tiết trong `docs/qa/baseline-phase1.md`. Chưa kiểm thử thiết bị thật.

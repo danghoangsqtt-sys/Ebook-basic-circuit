@@ -2,12 +2,12 @@
 
 - Trạng thái: in_progress
 - Bắt đầu: 2026-10-02
-- Nhiệm vụ hiện tại: P1-01
+- Nhiệm vụ hiện tại: P1-02
 
 | Task | Trạng thái | Bằng chứng |
 | --- | --- | --- |
-| P1-01 | in_progress | Đang đo hiện trạng và viết kiểm tra link |
-| P1-02 | planned | — |
+| P1-01 | PASS | 57 trang/479 tham chiếu; 73 link hỏng; 16 phép đo Chromium; `docs/qa/baseline-phase1.md` |
+| P1-02 | in_progress | Hợp đồng `tasks/P1-02.md` |
 | P1-03 | planned | — |
 | P1-04 | planned | — |
 | P1-05 | planned | — |
