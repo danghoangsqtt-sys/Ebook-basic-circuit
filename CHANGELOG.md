@@ -13,6 +13,8 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 
 ### Mã ứng dụng
 
+- Mẫu hình Bài 1–2 dùng ảnh CC0 và SVG responsive; chú thích hình theo thanh cỡ chữ người đọc.
+
 - Thiết kế lại trang mở đầu với lộ trình 8 tuần, mục lục mở trực tiếp 56 bài và điều hướng mobile.
 - Sửa khung đọc 56 bài trên điện thoại, giữ bảng/sơ đồ cuộn riêng và cải thiện menu bàn phím.
 - Thêm thanh kéo cỡ chữ vùng bài 16–24 px, lưu thiết lập và hoạt động khi lưu trữ trình duyệt bị chặn.
