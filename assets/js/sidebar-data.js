@@ -146,14 +146,16 @@ function renderSidebar(activeFile, rootPrefix = '../') {
   CURRICULUM.weeks.forEach(week => {
     html += `
     <div class="sidebar-section">
-      <div class="sidebar-week-header" data-week="${week.id}">
+      <button class="sidebar-week-header" type="button" data-week="${week.id}"
+        aria-controls="${week.id}-lessons" aria-expanded="true"
+        aria-label="${week.label}: ${week.title}">
         <div class="week-badge">${week.label.replace('Tuần ','')}</div>
         <span class="week-label">${week.title}</span>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="6 9 12 15 18 9"></polyline>
         </svg>
-      </div>
-      <div class="sidebar-lessons">`;
+      </button>
+      <div class="sidebar-lessons" id="${week.id}-lessons">`;
 
     week.lessons.forEach(lesson => {
       const lessonId = `day${lesson.day}`;
@@ -161,7 +163,7 @@ function renderSidebar(activeFile, rootPrefix = '../') {
       const isDone = progress[lessonId];
       const classes = ['sidebar-lesson', isActive ? 'active' : '', isDone && !isActive ? 'completed' : ''].filter(Boolean).join(' ');
       html += `
-        <a class="${classes}" href="${lesson.file}">
+        <a class="${classes}" href="${lesson.file}"${isActive ? ' aria-current="page"' : ''}>
           <span class="lesson-num">N${lesson.day}</span>
           <span>${lesson.title}</span>
           <span class="lesson-check">${isDone ? '✓' : ''}</span>

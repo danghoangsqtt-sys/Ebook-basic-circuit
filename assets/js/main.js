@@ -18,8 +18,19 @@ class SidebarController {
 
   init() {
     if (this.menuBtn && this.sidebar) {
+      if (!this.sidebar.id) this.sidebar.id = 'sidebar';
+      this.sidebar.setAttribute('aria-label', 'Danh sách bài học');
+      this.menuBtn.setAttribute('aria-controls', this.sidebar.id);
+      this.menuBtn.setAttribute('aria-expanded', 'false');
+      this.menuBtn.setAttribute('aria-label', 'Mở danh sách bài học');
       this.menuBtn.addEventListener('click', () => this.toggleMobile());
       this.createOverlay();
+      document.addEventListener('keydown', event => this.onKeydown(event));
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && this.sidebar.classList.contains('open')) {
+          this.closeMobile(false);
+        }
+      });
     }
     this.weekHeaders.forEach(header => {
       header.addEventListener('click', () => this.toggleWeek(header));
@@ -29,54 +40,77 @@ class SidebarController {
   }
 
   toggleMobile() {
-    this.sidebar.classList.toggle('open');
-    if (this.sidebar.classList.contains('open')) {
-      this.overlay.classList.add('visible');
-      document.body.style.overflow = 'hidden';
-    } else {
-      this.overlay.classList.remove('visible');
-      document.body.style.overflow = '';
+    if (this.sidebar.classList.contains('open')) this.closeMobile();
+    else this.openMobile();
+  }
+
+  openMobile() {
+    this.sidebar.classList.add('open');
+    this.overlay.hidden = false;
+    document.body.classList.add('sidebar-is-open');
+    this.menuBtn.setAttribute('aria-expanded', 'true');
+    this.menuBtn.setAttribute('aria-label', 'Đóng danh sách bài học');
+    (this.sidebar.querySelector('.sidebar-lesson.active') ||
+      this.sidebar.querySelector('.sidebar-week-header'))?.focus();
+  }
+
+  closeMobile(returnFocus = true) {
+    this.sidebar.classList.remove('open');
+    this.overlay.hidden = true;
+    document.body.classList.remove('sidebar-is-open');
+    this.menuBtn.setAttribute('aria-expanded', 'false');
+    this.menuBtn.setAttribute('aria-label', 'Mở danh sách bài học');
+    if (returnFocus) this.menuBtn.focus();
+  }
+
+  onKeydown(event) {
+    if (!this.sidebar.classList.contains('open')) return;
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.closeMobile();
+    } else if (event.key === 'Tab') {
+      const items = [...this.sidebar.querySelectorAll('button, a[href]')]
+        .filter(item => item.getClientRects().length > 0);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
   }
 
   createOverlay() {
     this.overlay = document.createElement('div');
     this.overlay.className = 'sidebar-overlay';
-    this.overlay.style.cssText = `
-      position:fixed;inset:0;background:rgba(0,0,0,0.6);
-      z-index:849;display:none;opacity:0;transition:opacity 0.25s ease;
-    `;
-    this.overlay.addEventListener('click', () => this.toggleMobile());
+    this.overlay.hidden = true;
+    this.overlay.addEventListener('click', () => this.closeMobile());
     document.body.appendChild(this.overlay);
-
-    const observer = new MutationObserver(() => {
-      if (this.overlay.classList.contains('visible')) {
-        this.overlay.style.display = 'block';
-        setTimeout(() => this.overlay.style.opacity = '1', 10);
-      } else {
-        this.overlay.style.opacity = '0';
-        setTimeout(() => this.overlay.style.display = 'none', 250);
-      }
-    });
-    observer.observe(this.overlay, { attributes: true });
   }
 
   toggleWeek(header) {
     const weekId = header.dataset.week;
     const lessonsEl = header.nextElementSibling;
-    const isCollapsed = header.classList.contains('collapsed');
-
-    if (isCollapsed) {
-      header.classList.remove('collapsed');
-      lessonsEl.style.maxHeight = lessonsEl.scrollHeight + 'px';
-    } else {
-      header.classList.add('collapsed');
-      lessonsEl.style.maxHeight = '0';
-    }
+    if (!lessonsEl) return;
+    const expanded = header.getAttribute('aria-expanded') === 'true';
+    this.setWeekExpanded(header, !expanded);
 
     const states = this.getWeekStates();
-    states[weekId] = !isCollapsed;
-    localStorage.setItem('weekStates', JSON.stringify(states));
+    states[weekId] = !expanded;
+    try { localStorage.setItem('weekStates', JSON.stringify(states)); }
+    catch { /* Storage may be disabled; the menu still works. */ }
+  }
+
+  setWeekExpanded(header, expanded) {
+    const lessonsEl = header.nextElementSibling;
+    if (!lessonsEl) return;
+    header.classList.toggle('collapsed', !expanded);
+    header.setAttribute('aria-expanded', String(expanded));
+    lessonsEl.hidden = !expanded;
   }
 
   getWeekStates() {
@@ -88,15 +122,7 @@ class SidebarController {
     const states = this.getWeekStates();
     this.weekHeaders.forEach(header => {
       const weekId = header.dataset.week;
-      const lessonsEl = header.nextElementSibling;
-      if (!lessonsEl) return;
-
-      if (states[weekId] === false) {
-        header.classList.add('collapsed');
-        lessonsEl.style.maxHeight = '0';
-      } else {
-        lessonsEl.style.maxHeight = lessonsEl.scrollHeight + 'px';
-      }
+      this.setWeekExpanded(header, states[weekId] !== false);
     });
   }
 
@@ -106,18 +132,21 @@ class SidebarController {
       const href = link.getAttribute('href')?.split('/').pop();
       if (href === currentPath) {
         link.classList.add('active');
+        link.setAttribute('aria-current', 'page');
         // Ensure parent week is expanded
         const weekSection = link.closest('.sidebar-section');
         if (weekSection) {
           const header = weekSection.querySelector('.sidebar-week-header');
           const lessons = weekSection.querySelector('.sidebar-lessons');
           if (header && lessons) {
-            header.classList.remove('collapsed');
-            lessons.style.maxHeight = lessons.scrollHeight + 'px';
+            this.setWeekExpanded(header, true);
           }
         }
-        // Scroll into view
-        setTimeout(() => link.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 100);
+        // Keep the active item visible inside the sidebar without moving the lesson page.
+        setTimeout(() => {
+          const top = link.offsetTop - this.sidebar.clientHeight / 2;
+          this.sidebar.scrollTop = Math.max(0, top);
+        }, 100);
       }
     });
   }
