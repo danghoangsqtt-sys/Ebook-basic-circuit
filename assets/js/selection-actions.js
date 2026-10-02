@@ -27,7 +27,7 @@
 
   function forbidden(node) {
     const element = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
-    return !!element?.closest('input, textarea, select, button, pre, code, script, style, nav, .ebook-selection-trigger, .ebook-search-trigger');
+    return !!element?.closest('input, textarea, select, button, pre, code, script, style, nav, .ebook-selection-trigger, .ebook-search-trigger, .ebook-highlights-panel, .reader-font-controls');
   }
 
   function capture() {
@@ -39,7 +39,7 @@
     const text = selection.toString().replace(/\s+/g, ' ').trim();
     if (!text || text.length > 240) return null;
     const fragment = range.cloneContents();
-    if (fragment.querySelector('input, textarea, select, button, pre, code, script, style, nav')) return null;
+    if (fragment.querySelector('input, textarea, select, button, pre, code, script, style, nav, .ebook-highlights-panel, .reader-font-controls')) return null;
     const rects = [...range.getClientRects()].filter(rect => rect.width > 0 && rect.height > 0);
     if (!rects.length) return null;
     return { text, range: range.cloneRange(), rects };

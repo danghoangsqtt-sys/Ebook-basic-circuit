@@ -12,5 +12,5 @@
 | P1-04 | PASS | Slider 16–24 px, reload/reset/phím, storage bị chặn, 160–430 px không tràn |
 | P1-05 | PASS | Chỉ mục sinh 56 bài, tìm có/không dấu, câu dài, kết quả đúng tuần, bàn phím |
 | P1-06 | PASS | Chuột phải/phím/cảm ứng mô phỏng, Google/YouTube/bài liên quan; Chromium + WebKit |
-| P1-07 | in_progress | Hợp đồng `tasks/P1-07.md` |
+| P1-07 | verified_pending_persistence | Lưu/tải lại/xóa/đến dấu, quote trùng/mất neo/storage lỗi, Chromium + WebKit |
 | P1-08 | planned | — |

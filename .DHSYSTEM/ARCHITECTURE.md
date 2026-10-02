@@ -16,17 +16,17 @@ Không có `.DHSYSTEM/META.md` hoặc profile tổ chức. Dự án được x�
 | Chỉ mục tìm kiếm tĩnh tạo từ 56 bài | Tìm nội bộ nhanh và nhất quán với nội dung gốc | Cần chạy lại bộ tạo chỉ mục khi biên tập bài |
 | `localStorage` cho cỡ chữ và dấu | Không cần tài khoản ở Phase 1 | Theo origin/thiết bị, có thể bị chặn; không là bản sao lưu |
 | Selection/Range + neo bằng đoạn trích/ngữ cảnh | Phục hồi dấu sau khi tải lại, chịu được một phần thay đổi HTML | Không tô nếu quote/ngữ cảnh không khớp chắc chắn |
-| CSS Custom Highlight API với phương án dự phòng | Tô chữ mà không làm thay đổi cấu trúc DOM trên trình duyệt hỗ trợ | Kiểm tra hỗ trợ; giữ tín hiệu tiếp cận cho dấu |
+| Bọc từng text node bằng `<mark>` | Hiển thị nhất quán trên Chromium/WebKit, kể cả chọn xuyên thẻ inline; cho phép focus và cuộn tới dấu | Phải xác thực quote/ngữ cảnh trước mỗi lần tô và tháo mark khi render lại |
 
 ## Ranh giới module dự kiến
 
 | Module | Trách nhiệm | Nguồn/đích |
 | --- | --- | --- |
-| Landing | Giới thiệu, lộ trình, lối vào bài | `index.html` + CSS chung |
+| Landing | Giới thiệu, lộ trình, lối vào bài | `index.html`, `assets/css/home.css`, `assets/js/home.js` |
 | Lesson shell | Header, menu tuần/bài, vùng đọc | 56 tệp `week*/day*.html` + `sidebar-data.js` |
-| Reader settings | Thanh kéo, khôi phục cỡ chữ, chế độ lưu thất bại | `assets/js/main.js` hoặc module chung mới |
-| Selection actions | Xác thực đoạn chọn, menu desktop/mobile, URL Google/YouTube | Module chung mới trong `assets/js/` |
-| Highlights | Tạo/xóa/khôi phục dấu, đối chiếu quote/ngữ cảnh | Module chung mới + `localStorage` |
+| Reader settings | Thanh kéo, khôi phục cỡ chữ, chế độ lưu thất bại | `assets/js/main.js` |
+| Selection actions | Xác thực đoạn chọn, menu desktop/mobile, URL Google/YouTube | `assets/js/selection-actions.js` |
+| Highlights | Tạo/xóa/khôi phục dấu, đối chiếu quote/ngữ cảnh | `assets/js/highlights.js` + `localStorage` |
 | Search index | Trích tiêu đề/đề mục/đoạn từ 56 bài | Script tạo chỉ mục, `assets/js/search-index.js` |
 | Search UI | Xếp hạng và hiển thị bài liên quan, mở bài | Module chung mới trong `assets/js/` |
 
@@ -90,13 +90,18 @@ Không có hàng đợi sự kiện. Sự kiện trình duyệt cần xử lý l
 
 ```mermaid
 flowchart TD
-  L[Trang chủ index.html] --> C[style.css]
-  B[56 trang bài] --> C
+  L[Trang chủ index.html] --> HC[home.css + home.js]
+  B[56 trang bài] --> C[style.css]
   B --> N[sidebar-data.js]
   B --> M[main.js]
-  M --> T[reader-tools.js dự kiến]
-  T --> S[search-index.js tạo tự động]
-  T --> P[(localStorage)]
+  M --> S[search-index.js tạo tự động]
+  M --> Q[search.js]
+  Q --> S
+  M --> T[selection-actions.js]
+  T --> Q
+  M --> H[highlights.js]
+  H --> T
+  H --> P[(localStorage)]
   G[Script tạo chỉ mục] --> S
   G --> B
 ```
@@ -129,7 +134,7 @@ flowchart LR
 
 - **Bài HTML có cấu trúc không đồng đều:** rà mẫu bài đầu, giữa, cuối; công cụ chọn chữ chỉ hoạt động trong vùng xác định, không dựa vào vị trí DOM cứng.
 - **Quote trùng hoặc bài được sửa:** dùng ngữ cảnh hai phía và vị trí gợi ý; không khớp chắc chắn thì không tô.
-- **Trình duyệt không hỗ trợ API tô chữ mới:** dùng phương án dự phòng đã kiểm thử hoặc báo chức năng đánh dấu không khả dụng nhưng vẫn cho đọc/tra cứu.
+- **Tô chữ làm thay đổi DOM:** bọc các text node trong `<mark>` sau khi xác thực neo; khi render lại phải tháo mark cũ để không lồng thẻ hoặc làm lệch offset.
 - **Lưu trữ bị chặn:** đọc trang và công cụ tìm kiếm vẫn hoạt động; báo rõ dấu/cỡ chữ không được lưu.
 - **Mobile tràn ngang:** sửa phần tử gây tràn, không che nội dung; kiểm tra bảng và sơ đồ ở 320 px.
 
@@ -138,6 +143,5 @@ flowchart LR
 - [MDN responsive design](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/CSS_layout/Responsive_Design)
 - [W3C WCAG 2.2](https://www.w3.org/TR/wcag/)
 - [MDN range input](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/range)
-- [MDN CSS Custom Highlight API](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Custom_Highlight_API)
 - [MDN localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
 - [MDN contextmenu event](https://developer.mozilla.org/en-US/docs/Web/API/Element/contextmenu_event)

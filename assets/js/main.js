@@ -418,7 +418,9 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(() => window.EbookSearch.init())
     .then(() => loadReaderScript('selection-actions.js'))
     .then(() => window.EbookSelectionActions.init())
-    .catch(error => console.warn('Tìm kiếm nội bộ chưa sẵn sàng:', error));
+    .then(() => loadReaderScript('highlights.js'))
+    .then(() => window.EbookHighlights.init())
+    .catch(error => console.warn('Công cụ đọc chưa sẵn sàng:', error));
 
   // Fade in content
   document.querySelector('.content-area')?.classList.add('animate-fade-in-up');

@@ -1,10 +1,15 @@
 flowchart TD
-  L[Trang chủ index.html] --> C[style.css]
-  B[56 trang bài] --> C
+  L[Trang chủ index.html] --> HC[home.css + home.js]
+  B[56 trang bài] --> C[style.css]
   B --> N[sidebar-data.js]
   B --> M[main.js]
-  M --> T[reader-tools.js dự kiến]
-  T --> S[search-index.js tạo tự động]
-  T --> P[(localStorage)]
+  M --> S[search-index.js tạo tự động]
+  M --> Q[search.js]
+  Q --> S
+  M --> T[selection-actions.js]
+  T --> Q
+  M --> H[highlights.js]
+  H --> T
+  H --> P[(localStorage)]
   G[Script tạo chỉ mục] --> S
   G --> B
