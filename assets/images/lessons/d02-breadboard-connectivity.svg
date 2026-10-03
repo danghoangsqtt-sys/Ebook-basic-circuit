@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 704" role="img" aria-labelledby="title desc">
+  <title id="title">Kết nối trên breadboard: hai cột 10 và 11</title>
+  <desc id="desc">Ở cột 10, a10 đến e10 nối chung; f10 đến j10 nối chung nhưng tách khỏi nhóm a10 đến e10 bởi rãnh giữa. Cột 11 có hai nhóm riêng tương tự và không tự nối với cột 10. Hai rail nguồn tách khỏi vùng cắm, có thể bị ngắt ở giữa tùy mẫu.</desc>
+  <rect width="360" height="704" rx="18" fill="#ffffff"/>
+  <rect x="1" y="1" width="358" height="702" rx="17" fill="none" stroke="#64748b" stroke-width="2"/>
+  <text x="20" y="35" fill="#0f172a" font-family="Arial, sans-serif" font-size="21" font-weight="700">Breadboard: lỗ nào nối?</text>
+  <text x="20" y="59" fill="#334155" font-family="Arial, sans-serif" font-size="15">Nhìn từ trên xuống, ví dụ cột 10–11</text>
+
+  <rect x="18" y="77" width="324" height="126" rx="12" fill="#f1f5f9" stroke="#64748b"/>
+  <text x="30" y="101" fill="#0f172a" font-family="Arial, sans-serif" font-size="16" font-weight="700">Rail nguồn: nhóm riêng</text>
+  <text x="31" y="131" fill="#0f172a" font-family="Arial, sans-serif" font-size="16" font-weight="700">+</text>
+  <text x="31" y="163" fill="#0f172a" font-family="Arial, sans-serif" font-size="16" font-weight="700">−</text>
+  <path d="M55 126H165 M196 126H325 M55 158H165 M196 158H325" fill="none" stroke="#0f172a" stroke-width="5" stroke-linecap="round"/>
+  <path d="M180 115v54" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="31" y="189" fill="#334155" font-family="Arial, sans-serif" font-size="14">Ví dụ rail ngắt giữa; đo trên board thật.</text>
+
+  <text x="112" y="235" text-anchor="middle" fill="#0f172a" font-family="Arial, sans-serif" font-size="18" font-weight="700">Cột 10</text>
+  <text x="252" y="235" text-anchor="middle" fill="#0f172a" font-family="Arial, sans-serif" font-size="18" font-weight="700">Cột 11</text>
+  <rect x="77" y="248" width="72" height="145" rx="18" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+  <rect x="217" y="248" width="72" height="145" rx="18" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <path d="M112 267V374 M252 267V374" fill="none" stroke="#0f172a" stroke-width="4"/>
+  <g fill="#ffffff" stroke="#0f172a" stroke-width="3">
+    <circle cx="112" cy="269" r="8"/><circle cx="112" cy="295" r="8"/><circle cx="112" cy="321" r="8"/><circle cx="112" cy="347" r="8"/><circle cx="112" cy="373" r="8"/>
+    <circle cx="252" cy="269" r="8"/><circle cx="252" cy="295" r="8"/><circle cx="252" cy="321" r="8"/><circle cx="252" cy="347" r="8"/><circle cx="252" cy="373" r="8"/>
+  </g>
+  <g fill="#0f172a" font-family="Arial, sans-serif" font-size="17" font-weight="700" text-anchor="end">
+    <text x="60" y="275">a</text><text x="60" y="301">b</text><text x="60" y="327">c</text><text x="60" y="353">d</text><text x="60" y="379">e</text>
+  </g>
+  <path d="M18 411H342" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="8 5"/>
+  <rect x="109" y="397" width="142" height="28" rx="10" fill="#ffffff" stroke="#64748b"/>
+  <text x="180" y="416" text-anchor="middle" fill="#0f172a" font-family="Arial, sans-serif" font-size="15" font-weight="700">RÃNH GIỮA</text>
+  <rect x="77" y="439" width="72" height="145" rx="18" fill="#fef3c7" stroke="#92400e" stroke-width="2"/>
+  <rect x="217" y="439" width="72" height="145" rx="18" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <path d="M112 458V565 M252 458V565" fill="none" stroke="#0f172a" stroke-width="4"/>
+  <g fill="#ffffff" stroke="#0f172a" stroke-width="3">
+    <circle cx="112" cy="460" r="8"/><circle cx="112" cy="486" r="8"/><circle cx="112" cy="512" r="8"/><circle cx="112" cy="538" r="8"/><circle cx="112" cy="564" r="8"/>
+    <circle cx="252" cy="460" r="8"/><circle cx="252" cy="486" r="8"/><circle cx="252" cy="512" r="8"/><circle cx="252" cy="538" r="8"/><circle cx="252" cy="564" r="8"/>
+  </g>
+  <g fill="#0f172a" font-family="Arial, sans-serif" font-size="17" font-weight="700" text-anchor="end">
+    <text x="60" y="466">f</text><text x="60" y="492">g</text><text x="60" y="518">h</text><text x="60" y="544">i</text><text x="60" y="570">j</text>
+  </g>
+  <text x="20" y="612" fill="#0f172a" font-family="Arial, sans-serif" font-size="16" font-weight="700">a10–e10: nối chung</text>
+  <text x="20" y="638" fill="#0f172a" font-family="Arial, sans-serif" font-size="16" font-weight="700">f10–j10: nối chung, tách nhóm trên</text>
+  <text x="20" y="664" fill="#0f172a" font-family="Arial, sans-serif" font-size="16" font-weight="700">Cột 11 không tự nối với cột 10.</text>
+  <text x="20" y="688" fill="#334155" font-family="Arial, sans-serif" font-size="14">Tắt nguồn rồi đo thông mạch để xác nhận.</text>
+</svg>

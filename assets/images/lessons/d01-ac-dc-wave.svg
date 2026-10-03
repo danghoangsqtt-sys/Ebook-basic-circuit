@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 565" role="img" aria-labelledby="title desc">
+  <title id="title">Đồ thị điện áp DC 3 V và AC 50 Hz điện áp thấp cách ly</title>
+  <desc id="desc">Đồ thị trên: điện áp DC ví dụ của hai pin AA nằm ngang ở 3 V theo thời gian. Đồ thị dưới: điện áp AC hình sin điện áp thấp cách ly dao động trên và dưới mốc 0 V, mỗi chu kỳ dài 20 mili giây ở tần số 50 héc.</desc>
+  <rect width="390" height="565" rx="18" fill="#10233b"/>
+  <text x="20" y="38" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20" font-weight="700">Điện áp theo thời gian</text>
+  <g font-family="Arial,sans-serif" fill="#f8fafc" font-size="16" font-weight="700"><text x="20" y="78">DC: ví dụ nguồn pin 3 V</text><text x="20" y="321">AC: ví dụ nguồn cách ly 50 Hz</text></g>
+  <g stroke="#cbd5e1" stroke-width="2" fill="none" stroke-linecap="round"><path d="M66 110V251H355M66 352V511H355"/><path d="M66 450H355" stroke-dasharray="5 5"/></g>
+  <g fill="#cbd5e1" font-family="Arial,sans-serif" font-size="14"><text x="28" y="115">V</text><text x="30" y="166">3 V</text><text x="25" y="251">0 V</text><text x="342" y="272">t</text><text x="28" y="360">V</text><text x="25" y="456">0 V</text><text x="342" y="532">t</text></g>
+  <path d="M66 160H345" stroke="#34d399" stroke-width="4" fill="none"/>
+  <path d="M66 450Q101 360 136 450T206 450T276 450T346 450" stroke="#67e8f9" stroke-width="4" fill="none"/>
+  <g stroke="#fbbf24" stroke-width="2" fill="none"><path d="M66 547H206M66 539V555M206 539V555"/></g>
+  <text x="105" y="541" fill="#fbbf24" font-family="Arial,sans-serif" font-size="14" font-weight="700">T = 20 ms</text>
+  <text x="20" y="297" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="14">Giá trị không đổi trong ví dụ lý tưởng.</text>
+</svg>

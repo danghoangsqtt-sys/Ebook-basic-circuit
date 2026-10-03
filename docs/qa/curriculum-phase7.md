@@ -76,3 +76,24 @@ git diff --check
 - [Adafruit, Breadboard Tips & Tricks](https://learn.adafruit.com/breadboards-for-beginners/breadboard-tips-and-tricks): rail nguồn có thể bị ngắt; cần kiểm trên board thực.
 
 Các nguồn trên xác minh nguyên tắc, không chứng thực pinout của một module không rõ mã và revision. Các claim chưa có nguồn chính xác giữ trạng thái `needs_source`/`needs_exact_part`/`needs_exact_module`. Không có thử nghiệm phần cứng trong P7-02.
+
+## P7-03 — Sáu sơ đồ mẫu được thay và duyệt (2026-10-03)
+
+### Tệp và nội dung
+
+- D01-1…D01-4 tại `week1/day01.html`: thay bằng `d01-aa-series.svg`, `d01-current-loop.svg`, `d01-ground-reference.svg`, `d01-ac-dc-wave.svg`. Mỗi hình có alt, caption, liên kết mở SVG lớn và bản chữ mở bằng bàn phím. Pin ghi điện áp **danh định** theo mốc chọn; mũi tên dòng điện quy ước và electron đi ngược nhau trên cùng topology; GND mạch, chassis và PE phân biệt; AC ví dụ nguồn thấp áp cách ly, 50 Hz/T=20 ms. Đã sửa khẳng định DC phải có giá trị không đổi, an toàn điện áp thấp tuyệt đối và ngưỡng điện giật cố định.
+- D02-1 tại `week1/day02.html`: `d02-breadboard-connectivity.svg` cho thấy nhóm a10–e10, f10–j10, cột 11 độc lập, rãnh giữa và rail có thể ngắt. Bản chữ chỉ cách đo thông mạch trên board thật. Ảnh breadboard 400 lỗ kế bên vẫn ghi đúng là loại 400 lỗ.
+- D03-1 tại `week1/day03.html`: `d03-resistor-symbols.svg` thể hiện zigzag và hình chữ nhật có hai đầu nối; đã bỏ so sánh mức độ phổ biến không nguồn. Sáu SVG nguồn chỉnh sửa được, ghi bản quyền dự án trong `assets/images/lessons/SOURCES.md`.
+
+### Rà soát độc lập và sửa lỗi
+
+Reviewer `/root/p7_six_review` đọc hình học SVG và lời lân cận, chưa thấy lỗi cực tính/net ở sáu hình. Reviewer tìm thấy và đã sửa: ví dụ D02 nói sai rằng hàng d/e cùng cột thuộc hai nửa (thay bằng e/f); D01 áp một kiểu cổng VΩmA cho mọi đồng hồ và yêu cầu que đen luôn thấp thế (thay bằng cổng V trên máy cụ thể, COM là tham chiếu, tránh khe A/10A khi đo áp); đáy sóng AC sát trục thời gian (giảm biên độ hình minh họa). Bảng màu dây ở D02 nay là quy ước của bài học, không là chứng cứ về cực tính thực. GND của breadboard độc lập có thể liên hệ PE qua dụng cụ đo; văn bản đã sửa để người học kiểm thiết bị.
+
+Nguồn nguyên tắc: [OpenStax về nguồn mắc nối tiếp](https://openstax.org/books/college-physics-ap-courses/pages/21-2-electromotive-force-terminal-voltage), [chiều dòng điện](https://openstax.org/books/university-physics-volume-2/pages/9-1-electrical-current), [AC](https://openstax.org/books/university-physics-volume-2/pages/15-1-ac-sources); [KiCad về hai biểu tượng điện trở](https://docs.kicad.org/8.0/en/getting_started_in_kicad/getting_started_in_kicad.html); [TI về AGND/DGND](https://www.ti.com/lit/an/slyt499/slyt499.pdf); [Adafruit về rail breadboard](https://learn.adafruit.com/breadboards-for-beginners/breadboard-tips-and-tricks); [OSHA về an toàn điện](https://www.osha.gov/sites/default/files/2019-04/Basic_Electricity_Materials.pdf). Nguồn không được dùng để suy pinout module khác model.
+
+### Kết quả kiểm
+
+- Sáu SVG parse XML, sáu HTML tham chiếu ảnh tương ứng; 80 ID trong `diagram-register.csv` còn duy nhất và trỏ đúng vị trí hiện hành: sáu ảnh mới, 74 khối ASCII còn mở cho P7-04.
+- `python tools/check_visuals.py --require-all`: 56/56 bài có hình, 88 phần tử ảnh/89 asset, 74 ASCII, 0 lỗi nguồn/tệp. `python tools/check_links.py`: 59 trang, 580 liên kết nội bộ, 0 hỏng. Search index tái tạo và `--check`: 56 bài hiện hành.
+- `python tools/qa_lesson_visuals.py --start 1 --end 3 --widths 320 390 1280`: 9 ca PASS. Thêm 12 ca Bài 1–3 ở 320/390 px × theme sáng/tối × cỡ chữ 24 px: ảnh tải, alt có, không tràn ngang. Đã xem screenshot thực tế của cả sáu ảnh ở chiều rộng 320 px.
+- Chữ chú giải nhỏ trong SVG D01 giảm xuống khoảng 11–12 px ở màn 320 px; mỗi hình có liên kết mở SVG toàn cỡ và bản chữ chọn được. Nội dung khóa ở caption/bản chữ. Chưa chạy ERC, mô phỏng hay thử phần cứng; không coi rà soát hình học là chứng nhận sản phẩm điện.

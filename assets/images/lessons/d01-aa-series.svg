@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 525" role="img" aria-labelledby="title desc">
+  <title id="title">Hai pin AA nối tiếp, ba nút điện áp</title>
+  <desc id="desc">Hai ký hiệu pin mắc nối tiếp theo chiều dọc. Cực âm pin dưới là mốc 0 V, mối nối giữa hai pin là cộng 1,5 V, cực dương pin trên là cộng 3,0 V danh định.</desc>
+  <rect width="390" height="525" rx="18" fill="#10233b"/>
+  <text x="22" y="38" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20" font-weight="700">Hai pin AA nối tiếp</text>
+  <text x="22" y="66" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15">Mốc đo: cực âm pin dưới = 0 V</text>
+  <g stroke="#dbeafe" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M111 108V166M111 189V358M111 381V432"/>
+    <path d="M65 166H157M88 189H134M65 358H157M88 381H134"/>
+  </g>
+  <g fill="#34d399"><circle cx="111" cy="108" r="6"/><circle cx="111" cy="270" r="6"/><circle cx="111" cy="432" r="6"/></g>
+  <g font-family="Arial,sans-serif" font-weight="700" font-size="17" fill="#f8fafc">
+    <text x="172" y="112">Nút trên: +3,0 V</text>
+    <text x="172" y="275">Nút giữa: +1,5 V</text>
+    <text x="172" y="437">Nút dưới: 0 V</text>
+  </g>
+  <g font-family="Arial,sans-serif" font-size="15" fill="#cbd5e1">
+    <text x="172" y="184">Pin AA số 2: 1,5 V</text>
+    <text x="172" y="373">Pin AA số 1: 1,5 V</text>
+    <text x="22" y="484">Cực âm pin 2 nối cực dương pin 1.</text>
+    <text x="22" y="506">Giá trị danh định; điện áp thực đo có thể khác.</text>
+  </g>
+  <g font-family="Arial,sans-serif" font-size="16" font-weight="700" fill="#fbbf24">
+    <text x="29" y="164">+</text><text x="29" y="193">−</text>
+    <text x="29" y="356">+</text><text x="29" y="385">−</text>
+  </g>
+</svg>

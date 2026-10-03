@@ -96,3 +96,9 @@ Các SVG dưới đây do dự án tự vẽ từ `docs/visuals/summary-specs.js
 | `day50-summary.svg` | 50 | Tự vẽ từ bài học | Nội dung dự án | Đánh giá chức năng, chất lượng, rút kinh nghiệm và portfolio. |
 | `day55-summary.svg` | 55 | Tự vẽ từ bài học | Nội dung dự án | Năm hướng học tiếp đúng danh sách trong bài. |
 | `day56-summary.svg` | 56 | Tự vẽ từ bài học | Nội dung dự án | Bốn nhóm năng lực sau tám tuần. |
+| `d01-aa-series.svg` | Bài 1 | Tự vẽ từ Bài 1 và đối chiếu nút điện áp danh định | Nội dung dự án | Hai pin AA nối tiếp: 0 V, +1,5 V, +3,0 V theo mốc đã chọn. |
+| `d01-current-loop.svg` | Bài 1 | Tự vẽ từ Bài 1 | Nội dung dự án | Chiều dòng quy ước và electron trong cùng mạch kín kim loại. |
+| `d01-ground-reference.svg` | Bài 1 | Tự vẽ; tham chiếu [TI grounding](https://www.ti.com/lit/an/slyt499/slyt499.pdf) | Nội dung dự án | Phân biệt common/reference, chassis và protective earth; không coi AGND/DGND là quy tắc tách tuyệt đối. |
+| `d01-ac-dc-wave.svg` | Bài 1 | Tự vẽ từ Bài 1 | Nội dung dự án | Sóng DC và AC thấp áp cách ly minh họa 50 Hz, T = 20 ms; không phải hướng dẫn thử điện lưới. |
+| `d02-breadboard-connectivity.svg` | Bài 2 | Tự vẽ; tham chiếu [Adafruit breadboard](https://learn.adafruit.com/breadboards-for-beginners/breadboard-tips-and-tricks) | Nội dung dự án | Nhóm a–e/f–j, rãnh giữa và rail nguồn có thể chia đoạn. |
+| `d03-resistor-symbols.svg` | Bài 3 | Tự vẽ từ Bài 3 | Nội dung dự án | Hai cách vẽ ký hiệu điện trở zigzag và chữ nhật; không xếp hạng độ phổ biến. |

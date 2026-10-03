@@ -71,7 +71,7 @@
           <li>Hiểu điện áp là gì và tại sao nó luôn là đại lượng tương đối</li>
           <li>Phân biệt điện áp (V) và dòng điện (A) — hai khái niệm thường bị nhầm lẫn</li>
           <li>Hiểu GND là điểm tham chiếu, không phải "âm tuyệt đối"</li>
-          <li>Phân biệt DC và AC — tại sao giáo trình này chỉ dùng DC an toàn</li>
+          <li>Phân biệt DC và AC — thực hành với nguồn DC điện áp thấp trong phạm vi bài học</li>
           <li>Hiểu mạch kín/mạch hở và tại sao mạch hở không có dòng</li>
           <li>Đo điện áp bằng multimeter đúng kỹ thuật</li>
           <li>Hiểu khái niệm điện tích, electron và cơ chế dẫn điện ở mức trực giác</li>
@@ -119,7 +119,7 @@
 
       <div class="callout callout-note">
         <div class="callout-header"><span class="callout-icon">📌</span> Lưu ý phạm vi</div>
-        <p>Toàn bộ giáo trình này sử dụng điện áp an toàn: 1,5 V, 3,3 V, 5 V, 9 V và 12 V DC. Không có nội dung thực hành trực tiếp với điện lưới 220 V AC. Nếu cần giải thích về chỉnh lưu điện lưới, chỉ trình bày lý thuyết và mô phỏng.</p>
+        <p>Các bài thực hành nhập môn dùng nguồn DC điện áp thấp như pin 1,5 V hoặc nguồn 3,3–12 V có giới hạn dòng phù hợp. Điện áp thấp vẫn có thể gây nóng dây, bỏng hoặc cháy khi ngắn mạch; không tự tháo adapter hay kết nối với điện lưới. Phần điện lưới chỉ học qua lý thuyết và mô phỏng.</p>
       </div>
 
       <!-- ═══════════════════════════════════════
@@ -156,7 +156,7 @@
 
       <div class="callout callout-warning">
         <div class="callout-header"><span class="callout-icon">⚠️</span> Sai lầm thường gặp ngay từ đầu</div>
-        <p>Khi nói "điện áp tại điểm A là 5 V," câu này chỉ đầy đủ khi biết <em>điểm tham chiếu</em>. Trong thực tế, điểm tham chiếu này là <strong>GND (Ground)</strong>. Tức là "5 V" thực ra là "5 V cao hơn GND." Nếu GND thay đổi, con số 5 V cũng thay đổi theo. Đây là lý do tại sao hai mạch có GND khác nhau không thể kết nối trực tiếp tín hiệu.</p>
+        <p>Khi nói "điện áp tại điểm A là 5 V," câu này chỉ đầy đủ khi biết <em>điểm tham chiếu</em>. Trong sơ đồ đang xét, mốc thường được ghi <strong>GND</strong>; khi đó "5 V" nghĩa là điểm A cao hơn GND 5 V. Khi ghép hai mạch, phải xét điện áp tín hiệu so với mốc của mạch nhận và đường hồi dòng; giao tiếp vi sai hoặc cách ly có cách nối khác.</p>
       </div>
 
       <h3>3.1 Đơn vị Volt và ký hiệu</h3>
@@ -181,13 +181,11 @@
 
       <p>Một viên pin AA có điện áp danh định 1,5 V. Điều này có nghĩa là: cực dương (+) của pin có thế năng điện cao hơn cực âm (–) 1,5 V. Nếu ta gọi cực âm là GND (0 V), thì cực dương là 1,5 V. Nếu ta nối hai viên pin AA nối tiếp, tổng điện áp là 3,0 V — hai mức chênh lệch cộng lại.</p>
 
-      <div class="circuit-ascii">  Hai pin AA nối tiếp:
-
-    +3,0 V ── (+)[PIN 2](–) ── +1,5 V ── (+)[PIN 1](–) ── 0 V (GND)
-                       nút giữa hai pin                         cực âm pin 1
-
-    Cực âm PIN 2 nối với cực dương PIN 1.
-    Mỗi pin tạo chênh lệch 1,5 V; đo từ GND: 0 V → 1,5 V → 3,0 V.</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d01-aa-series.svg" width="390" height="525" loading="lazy" decoding="async" alt="Hai pin AA mắc nối tiếp theo chiều dọc: nút dưới 0 V, nút nối hai pin +1,5 V, nút trên +3,0 V danh định.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D01-1 — Hai pin nối tiếp</div><div class="figure-text">Cực âm pin trên nối cực dương pin dưới. Khi chọn cực âm pin dưới làm mốc 0 V, hai nút còn lại lần lượt là +1,5 V và +3,0 V danh định.</div><div class="figure-source">Sơ đồ tự vẽ. <a href="../assets/images/lessons/d01-aa-series.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả sơ đồ hai pin</summary><p>Từ dưới lên: cực âm pin 1 là 0 V; qua pin 1 đến nút giữa là +1,5 V; qua pin 2 đến nút trên là +3,0 V. Đây là giá trị danh định, điện áp thực đo phụ thuộc tình trạng pin.</p></details>
 
        <p>Chú ý rằng nút giữa không phải GND — nó chỉ là +1,5 V nếu ta chọn cực âm pin 1 làm GND. Nếu chọn nút giữa làm GND, cực dương pin 2 là +1,5 V và cực âm pin 1 là –1,5 V. Con số phụ thuộc vào điểm tham chiếu.</p>
 
@@ -264,17 +262,11 @@
         <p>Trong tất cả tính toán mạch điện và đọc sơ đồ, hãy dùng <strong>chiều dòng điện quy ước</strong> (từ + sang –). Đây là chuẩn công nghiệp toàn cầu. Bạn chỉ cần nhớ chiều electron flow khi học vật lý bán dẫn sâu hơn (như nguyên lý hoạt động của diode và transistor).</p>
       </div>
 
-      <div class="circuit-ascii">  Chiều dòng điện trong mạch đơn giản:
-
-       ┌────── dòng quy ước → ──────[R]──────┐
-       │                                     │
-    (+)│                                     │
-    [PIN]                                    │
-    (–)│                                     │
-       └────── electron qua dây → ──────────┘
-
-    Vòng kín: dòng quy ước từ cực + qua R về cực –;
-    electron trong dây kim loại đi từ cực – qua R về cực +.</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d01-current-loop.svg" width="390" height="565" loading="lazy" decoding="async" alt="Cùng mạch pin và điện trở: hình trên dòng quy ước từ cực dương qua điện trở sang phải về cực âm; hình dưới electron trong dây đi ngược chiều.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D01-2 — Hai chiều mô tả</div><div class="figure-text">Với cùng một vòng kín, dòng điện quy ước từ cực + qua R về cực −; electron trong dây kim loại di chuyển ngược chiều.</div><div class="figure-source">Sơ đồ tự vẽ. <a href="../assets/images/lessons/d01-current-loop.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả vòng dòng điện</summary><p>Ở cả hai hình, pin nằm bên trái với cực dương ở phía trên, điện trở R nằm trên cạnh trên của vòng. Trong dây dẫn ngoài nguồn, dòng quy ước đi theo chiều kim đồng hồ: từ cực dương qua R sang phải, xuống cạnh phải, theo cạnh dưới về cực âm. Electron trong dây kim loại đi ngược chiều đó.</p></details>
 
       <!-- VIDEO 2 -->
       <div class="video-card">
@@ -304,34 +296,28 @@
 
       <h3>5.1 GND không phải "đất thật"</h3>
 
-      <p>Trong hệ thống điện lưới, "earth ground" thực sự là một dây được cắm xuống đất (cọc tiếp địa). Nhưng trong mạch điện tử trên breadboard của bạn, GND chỉ là một điểm được chọn tùy ý làm mốc 0 V — thường là cực âm của nguồn cấp. Không có kết nối vật lý nào xuống đất thật cả.</p>
+      <p>Tiếp địa bảo vệ (PE) là phần của hệ thống an toàn điện. Trong một mạch pin độc lập trên breadboard, GND thường chỉ là nút được chọn làm mốc 0 V, chẳng hạn cực âm của pin. Khi nối với nguồn bàn, máy hiện sóng hoặc máy tính, mốc này <em>có thể</em> liên hệ với PE qua thiết bị; không giả định nó luôn cách ly. Kiểm tra cấu hình nguồn và dụng cụ đo trước khi ghép mạch.</p>
 
       <h3>5.2 Tại sao GND quan trọng?</h3>
 
       <p>Tưởng tượng bạn đang đo chiều cao của một tòa nhà. Nếu bạn đứng ở tầng 3 và đo, bạn sẽ thấy tầng mái thấp hơn so với khi đứng ở tầng trệt. "Chiều cao" của tầng mái phụ thuộc vào bạn đứng ở đâu. Tương tự, điện áp của mọi điểm trong mạch phụ thuộc vào GND được chọn ở đâu.</p>
 
-      <p>Trong thực tế, quy ước là: <strong>GND = cực âm của nguồn cấp chính</strong>. Mọi điện áp trong mạch đều được đo so với điểm này. Khi bạn nói "chân VCC của ESP32 là 3,3 V" — ý nghĩa là: chân VCC có điện áp cao hơn GND 3,3 V.</p>
+      <p>Trong ví dụ nguồn đơn của bài này, ta chọn cực âm nguồn làm GND và đo điện áp các nút so với mốc đó. Đây là lựa chọn của sơ đồ, không phải định nghĩa cho mọi hệ thống: mạch nguồn đối xứng hoặc mạch cách ly có thể chọn mốc khác. Khi nói đường cấp 3,3 V của ESP32, cần hiểu đó là điện áp so với chân GND tương ứng của board cụ thể.</p>
 
       <div class="callout callout-warning">
         <div class="callout-header"><span class="callout-icon">⚠️</span> Lỗi thực tế phổ biến</div>
-        <p><strong>Floating GND (GND lơ lửng):</strong> Khi bạn nối ESP32 với một mạch ngoài (ví dụ mạch MOSFET) nhưng quên nối GND chung, hai mạch có thể hoạt động hoàn toàn bình thường khi đo riêng lẻ, nhưng lại không hoạt động khi ghép lại. Nguyên nhân: chúng không có điểm tham chiếu chung — điện áp tín hiệu từ ESP32 không có ý nghĩa gì với mạch MOSFET vì GND khác nhau. Luôn nối GND chung trước khi nối tín hiệu.</p>
+        <p><strong>Thiếu đường tham chiếu chung:</strong> Khi ESP32 điều khiển trực tiếp một mạch MOSFET ngoài, tín hiệu điều khiển cần được xác định so với điểm tham chiếu của mạch nhận. Nếu quên nối đường GND theo sơ đồ giao tiếp, điện áp tín hiệu có thể không đúng và mạch hoạt động thất thường. Kiểm tra đường về của tín hiệu theo thiết kế; giao tiếp cách ly có yêu cầu nối khác.</p>
       </div>
 
       <h3>5.3 Ký hiệu GND trong sơ đồ mạch</h3>
 
       <p>Trong sơ đồ mạch, GND có nhiều ký hiệu tùy theo loại mạch:</p>
 
-      <div class="circuit-ascii">  Các ký hiệu GND phổ biến:
-
-   Power GND (mạnh):       Signal GND (tín hiệu):    Earth GND (điện lưới):
-       ┬                          ┬                         ┬
-       │                          │                         │
-      ═══                        ───                       ─┼─
-      ═══                         ─                        ─┴─
-      ═══
-
-   Trong mạch ESP32 của bạn: dùng Power GND (dòng lớn)
-   và Signal GND (tín hiệu analog) có thể cần tách nhau</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d01-ground-reference.svg" width="390" height="565" loading="lazy" decoding="async" alt="Ba ký hiệu riêng: tam giác GND mạch là mốc 0 V; các vạch xiên là khung máy; ba vạch ngang ngắn dần là tiếp địa bảo vệ PE.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D01-3 — Các điểm tham chiếu</div><div class="figure-text">GND mạch, khung máy và tiếp địa bảo vệ là ba khái niệm cần phân biệt. Việc nối chúng phụ thuộc thiết kế cụ thể; nhãn PGND/AGND cũng không tự quyết định chúng phải tách hay nối ở đâu.</div><div class="figure-source">Sơ đồ khái niệm tự vẽ. <a href="../assets/images/lessons/d01-ground-reference.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả ba ký hiệu GND</summary><p>GND mạch là mốc 0 V để đo điện áp tương đối, thường vẽ bằng tam giác hướng xuống. Ký hiệu khung máy chỉ vỏ dẫn điện. Ký hiệu ba vạch ngang ngắn dần là tiếp địa bảo vệ PE. Chúng không mặc nhiên cùng một nút.</p></details>
 
       <!-- ═══════════════════════════════════════
            PHẦN 6 — DC VÀ AC
@@ -342,34 +328,24 @@
 
       <h3>6.1 Điện một chiều (DC — Direct Current)</h3>
 
-      <p><strong>DC</strong> là dòng điện chạy theo một chiều cố định, không đổi theo thời gian. Điện áp DC có giá trị không đổi (hoặc thay đổi rất chậm). Ví dụ: pin AA (1,5 V DC), adapter điện thoại (5 V DC), nguồn laptop (19 V DC), ESP32 (3,3 V DC nội bộ).</p>
+      <p><strong>DC</strong> (một chiều) là điện áp có cực tính không đảo chiều, hoặc dòng điện giữ chiều, trong cách mô tả cơ bản. Giá trị điện áp hoặc dòng vẫn có thể thay đổi, có gợn hoặc nhiễu theo thời gian. Ví dụ: pin AA (danh định 1,5 V DC), adapter điện thoại (5 V DC), nguồn laptop (19 V DC), đường cấp 3,3 V cho ESP32. Hình dưới dùng đường ngang 3 V làm <em>ví dụ lý tưởng</em>, không phải định nghĩa của mọi nguồn DC.</p>
 
-      <p>Toàn bộ giáo trình này sử dụng DC. Lý do: an toàn (không gây điện giật nguy hiểm ở điện áp thấp), dễ đo đạc và dự đoán, là dạng điện mà vi điều khiển và linh kiện điện tử hoạt động.</p>
+      <p>Các bài thực hành cơ bản dùng nguồn DC điện áp thấp vì dễ đo đạc và phù hợp với nhiều vi điều khiển. Mức rủi ro điện giật thường thấp hơn điện lưới, nhưng nguồn vẫn có thể gây bỏng hoặc cháy khi ngắn mạch. Trước khi cấp nguồn, kiểm tra cực tính, điện áp và giới hạn dòng của chính nguồn đang dùng.</p>
 
       <h3>6.2 Điện xoay chiều (AC — Alternating Current)</h3>
 
-      <p><strong>AC</strong> là dòng điện đổi chiều liên tục theo chu kỳ. Điện lưới 220 V ở Việt Nam là AC với tần số 50 Hz — nghĩa là chiều dòng điện đổi 100 lần mỗi giây (50 chu kỳ × 2 lần đổi chiều). Con số "220 V" thực ra là <em>giá trị hiệu dụng RMS</em>, không phải đỉnh — đỉnh điện áp thực tế là khoảng 311 V.</p>
+      <p><strong>AC</strong> là điện áp đổi cực tính theo chu kỳ; khi cấp cho tải phù hợp, chiều dòng điện cũng đổi theo chu kỳ. Điện lưới 220 V ở Việt Nam là AC với tần số 50 Hz — một chu kỳ dài 20 ms. Con số "220 V" là <em>giá trị hiệu dụng RMS</em>, không phải đỉnh; với dạng sin lý tưởng, biên độ đỉnh xấp xỉ 311 V. Đây chỉ là kiến thức lý thuyết; đồ thị bên dưới dùng nguồn AC cách ly điện áp thấp.</p>
 
       <div class="callout callout-danger">
         <div class="callout-header"><span class="callout-icon">🚫</span> An toàn — Quan trọng</div>
-        <p>Tuyệt đối không thực hành trực tiếp với điện lưới 110/220 V AC khi chưa được đào tạo an toàn điện. Ngưỡng nguy hiểm cho tim người là khoảng 50 mA AC qua ngực — và điện lưới có thể cung cấp hàng chục Ampere. Điện lưới giết người không phải vì điện áp cao, mà vì điện trở cơ thể người tương đối thấp (~1000–10000 Ω) cho phép dòng lớn chạy qua.</p>
+        <p>Không thực hành trực tiếp với điện lưới 110/220 V AC trong giáo trình này. Tác hại của điện giật phụ thuộc đường dòng qua cơ thể, thời gian tiếp xúc, điều kiện da và nguồn điện; không có một ngưỡng dòng hay điện trở cơ thể cố định để coi là an toàn. Chỉ dùng nguồn cách ly điện áp thấp đã kiểm tra hoặc mô phỏng. Tham khảo <a href="https://www.osha.gov/sites/default/files/2020-11/Train-the-Trainer_Electrical_binder-English.pdf" target="_blank" rel="noopener">tài liệu an toàn điện OSHA</a>.</p>
       </div>
 
-      <div class="circuit-ascii">  So sánh dạng sóng DC và AC:
-
-  DC (pin 3V):          AC (lưới 220V, 50Hz):
-
-  V ▲                   V ▲
-3V │──────────────────    │     /\      /\
-   │                      │    /  \    /  \
-   │                   0V─┤───/    \──/    \──────
-   │                      │  1/50s  \      /
-0V └──────────► t         │          \    /
-                           │           \  /
-                           │            \/
-                           └──────────────────► t
-
-  Hằng số theo thời gian     Thay đổi theo chu kỳ T=20ms</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d01-ac-dc-wave.svg" width="390" height="565" loading="lazy" decoding="async" alt="Đồ thị trên là DC 3 V không đổi; đồ thị dưới là điện áp AC hình sin điện áp thấp cách ly, qua 0 V hai lần mỗi chu kỳ 20 ms ở 50 Hz.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D01-4 — DC và AC theo thời gian</div><div class="figure-text">Nguồn pin DC 3 V được vẽ bằng đường ngang lý tưởng. AC 50 Hz được minh họa bằng nguồn cách ly điện áp thấp: mỗi chu kỳ T = 20 ms, điện áp đổi dấu theo thời gian. Hai đồ thị không cùng thang điện áp.</div><div class="figure-source">Đồ thị khái niệm tự vẽ; không mô tả thí nghiệm điện lưới. <a href="../assets/images/lessons/d01-ac-dc-wave.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả hai đồ thị</summary><p>Trục ngang là thời gian, trục dọc là điện áp. Ở đồ thị trên, điện áp DC ví dụ giữ ở +3 V so với mốc 0 V. Ở đồ thị dưới, điện áp AC minh họa dao động qua mốc 0 V; ở tần số 50 Hz, một chu kỳ kéo dài 20 ms. Đây là nguồn AC cách ly điện áp thấp dùng để giải thích, không phải lời mời đo điện lưới.</p></details>
 
       <!-- ═══════════════════════════════════════
            PHẦN 7 — MẠCH KÍN / MẠCH HỞ
@@ -430,11 +406,11 @@
           <tbody>
             <tr><td>Màn hình LCD</td><td>Hiển thị giá trị đo và đơn vị</td><td>Thường 3½ chữ số (max 1999)</td></tr>
             <tr><td>Selector Switch</td><td>Núm xoay chọn chức năng và thang đo</td><td>Phải chọn đúng trước khi đo</td></tr>
-            <tr><td>Khe COM</td><td>Cắm que đen (âm, tham chiếu)</td><td>Luôn cắm que đen vào đây</td></tr>
-            <tr><td>Khe VΩmA</td><td>Cắm que đỏ (dương) khi đo V, Ω, mA nhỏ</td><td>Không dùng cho dòng lớn</td></tr>
-            <tr><td>Khe 10A/20A</td><td>Cắm que đỏ khi đo dòng lớn</td><td>Một số máy có, một số không</td></tr>
-            <tr><td>Que đỏ</td><td>Que dương (+), cắm vào VΩmA</td><td>Màu đỏ = dương theo quy ước</td></tr>
-            <tr><td>Que đen</td><td>Que âm (–/COM), tham chiếu</td><td>Luôn tiếp xúc GND hoặc điểm thấp hơn</td></tr>
+            <tr><td>Khe COM</td><td>Cắm que đen làm điểm tham chiếu của phép đo</td><td>Đọc nhãn trên chính đồng hồ</td></tr>
+            <tr><td>Khe đo V/Ω</td><td>Cắm que đỏ khi đo điện áp/điện trở; nhãn có thể là VΩ hoặc VΩmA</td><td>Kiểm đúng khe theo hướng dẫn máy</td></tr>
+            <tr><td>Khe A/10A</td><td>Khe đo dòng điện, nếu đồng hồ có</td><td>Không cắm que đỏ ở đây khi đo điện áp</td></tr>
+            <tr><td>Que đỏ</td><td>Đầu đo thứ nhất khi đọc V<sub>đỏ</sub> − V<sub>đen</sub></td><td>Cắm vào khe có ký hiệu V khi đo áp</td></tr>
+            <tr><td>Que đen</td><td>Đầu COM, làm mốc so sánh</td><td>Có thể chạm điểm điện áp cao hơn que đỏ; máy sẽ hiện dấu âm</td></tr>
           </tbody>
         </table>
       </div>
@@ -446,7 +422,7 @@
         <ol class="step-list">
           <li class="step-item">
             <div class="step-content">
-              <p><strong>Cắm que đo:</strong> Que đen → khe COM; Que đỏ → khe VΩmA. Đây là cấu hình chuẩn cho mọi phép đo điện áp và điện trở.</p>
+              <p><strong>Cắm que đo:</strong> Que đen vào COM; que đỏ vào khe có ký hiệu <strong>V</strong> trên đồng hồ đang dùng. Nhãn khe thay đổi theo model. Kiểm que đỏ đã rút khỏi khe đo dòng A/10A trước khi chọn đo điện áp; xem hướng dẫn của chính máy.</p>
             </div>
           </li>
           <li class="step-item">
@@ -461,7 +437,7 @@
           </li>
           <li class="step-item">
             <div class="step-content">
-              <p><strong>Đọc kết quả:</strong> Màn hình hiển thị khoảng <strong>1,45 V đến 1,65 V</strong> tùy pin mới hay cũ. Giá trị dương = que đỏ ở điện áp cao hơn que đen (đúng). Nếu hiển thị giá trị âm (–1,5 V), bạn đang đặt ngược que đo — không hỏng máy, nhưng hãy đổi lại.</p>
+              <p><strong>Đọc kết quả:</strong> Pin AA mới thường gần điện áp danh định 1,5 V khi không tải; số đo còn tùy loại pin và tình trạng. Dấu dương nghĩa là điểm chạm que đỏ cao thế hơn điểm chạm que đen. Dấu âm cho biết quan hệ ngược lại; với pin trong ví dụ này, hãy kiểm lại cực pin và vị trí hai que.</p>
             </div>
           </li>
           <li class="step-item">

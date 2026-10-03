@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 565" role="img" aria-labelledby="title desc">
+  <title id="title">Ba khái niệm GND: điểm chung mạch, khung máy và tiếp địa bảo vệ</title>
+  <desc id="desc">Ba thẻ riêng: ký hiệu tam giác trỏ xuống cho điểm tham chiếu chung của mạch; ký hiệu ba vạch xiên cho khung máy; ký hiệu ba vạch ngang ngắn dần cho tiếp địa bảo vệ PE. Các điểm chỉ nối nhau khi thiết kế cụ thể quy định.</desc>
+  <rect width="390" height="565" rx="18" fill="#10233b"/>
+  <text x="20" y="38" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20" font-weight="700">GND mang nhiều ý nghĩa</text>
+  <g fill="#1e3a55" stroke="#54718a"><rect x="16" y="60" width="358" height="136" rx="12"/><rect x="16" y="211" width="358" height="136" rx="12"/><rect x="16" y="362" width="358" height="136" rx="12"/></g>
+  <g stroke="#67e8f9" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M75 88V120M55 120H95L75 151Z"/>
+    <path d="M75 237V274M54 274H96M59 274l-17 21M76 274l-17 21M93 274l-17 21"/>
+    <path d="M75 390V426M44 426H106M53 439H97M63 452H87"/>
+  </g>
+  <g font-family="Arial,sans-serif" fill="#f8fafc">
+    <text x="128" y="105" font-size="17" font-weight="700">GND mạch / 0 V</text>
+    <text x="128" y="129" font-size="14">Mốc tham chiếu điện áp.</text>
+    <text x="128" y="155" font-size="14">Không ngụ ý nối đất.</text>
+    <text x="128" y="257" font-size="17" font-weight="700">Chassis / khung máy</text>
+    <text x="128" y="281" font-size="14">Phần vỏ hoặc khung dẫn điện.</text>
+    <text x="128" y="307" font-size="14">Cách nối tùy thiết kế.</text>
+    <text x="128" y="409" font-size="17" font-weight="700">PE / tiếp địa bảo vệ</text>
+    <text x="128" y="433" font-size="14">Đường bảo vệ của hệ thống</text>
+    <text x="128" y="456" font-size="14">điện có tiếp địa.</text>
+  </g>
+  <g font-family="Arial,sans-serif" fill="#cbd5e1" font-size="14"><text x="20" y="527">Tên PGND / AGND là nhãn mạng trong thiết kế;</text><text x="20" y="549">không mặc định phải tách hai mốc này.</text></g>
+</svg>

@@ -107,28 +107,25 @@
 
       <h3>1.1 Cấu tạo bên trong breadboard 830 lỗ</h3>
 
-      <p>Breadboard 830 lỗ (loại phổ biến nhất, kích thước ~16,5 cm × 5,5 cm) có hai vùng chức năng khác nhau:</p>
+      <p>Ví dụ dưới đây dùng bố cục breadboard loại 830 lỗ thường gặp; kích thước và cách chia rail có thể khác giữa các mẫu. Hãy đối chiếu hàng, cột và đo thông mạch trên chiếc board bạn đang dùng:</p>
 
-      <div class="circuit-ascii">  Sơ đồ cấu trúc breadboard 830 lỗ (nhìn từ trên xuống):
-
-  Vùng lỗ cắm: 63 cột đánh số 1–63; ví dụ cột 10:
-
-      a10 ●─┐
-      b10 ●─┤
-      c10 ●─┼── một thanh kim loại: a10–e10 nối nhau
-      d10 ●─┤
-      e10 ●─┘
-           ═════ rãnh giữa: KHÔNG nối e10 với f10 ═════
-      f10 ●─┐
-      g10 ●─┤
-      h10 ●─┼── thanh thứ hai: f10–j10 nối nhau
-      i10 ●─┤
-      j10 ●─┘
-
-  Hai cột liền nhau (10 và 11) KHÔNG tự nối.
-  Bốn rail nguồn (+/– ở hai mép) tách khỏi vùng lỗ cắm.
-  Rail chạy dọc theo chiều dài board; nhiều mẫu ngắt ở giữa.
-  Kiểm tra thông mạch từng đoạn rail rồi mới đặt dây nối.</div>
+      <figure class="figure">
+        <img src="../assets/images/lessons/d02-breadboard-connectivity.svg" width="360" height="704" style="max-width:360px;margin-inline:auto" loading="lazy" decoding="async" alt="Sơ đồ kết nối breadboard: a10 đến e10 nối chung; f10 đến j10 nối chung nhưng tách khỏi nhóm trên bởi rãnh giữa. Các lỗ cột 11 thuộc các nhóm riêng; rail nguồn cũng tách khỏi vùng cắm.">
+        <figcaption class="figure-caption">
+          <div class="figure-number">Sơ đồ 2.A · Kết nối bên trong breadboard</div>
+          <div class="figure-text">Mỗi nhóm năm lỗ cùng số và cùng nửa nối điện với nhau. Đường liền trong hình biểu thị phần nối; không có đường nối qua rãnh giữa hoặc giữa cột 10 và 11. <a href="../assets/images/lessons/d02-breadboard-connectivity.svg" target="_blank" rel="noopener">Mở sơ đồ kích thước đầy đủ</a>.</div>
+          <div class="figure-source">Sơ đồ tự vẽ; rail được minh họa với điểm ngắt để nhắc người học kiểm tra loại đang dùng.</div>
+        </figcaption>
+      </figure>
+      <details class="summary-transcript">
+        <summary>Đọc sơ đồ bằng văn bản</summary>
+        <ol>
+          <li>Ở cột số 10, năm lỗ a10, b10, c10, d10 và e10 nối chung qua một thanh tiếp xúc.</li>
+          <li>Năm lỗ f10, g10, h10, i10 và j10 nối chung qua thanh tiếp xúc thứ hai; e10 và f10 không nối vì có rãnh giữa.</li>
+          <li>Các nhóm ở cột 11 có cấu tạo tương tự nhưng không tự nối với nhóm ở cột 10.</li>
+          <li>Rail nguồn nằm riêng với vùng cắm và có thể bị chia đoạn tùy mẫu. Tắt nguồn rồi đo thông mạch từng đoạn trên breadboard thực tế trước khi nối dây.</li>
+        </ol>
+      </details>
 
       <div class="figure">
         <img src="../assets/images/lessons/breadboard-400-cc0.webp" width="1200" height="884" loading="lazy" decoding="async" alt="Ảnh hai mặt breadboard 400 lỗ: bên trái là các lỗ cắm, bên phải lộ các thanh kim loại nối từng nhóm năm lỗ và các đoạn rail nguồn ở hai bên.">
@@ -151,8 +148,8 @@
       <h3>1.3 Lỗi phổ biến nhất khi dùng breadboard</h3>
 
       <div class="callout callout-danger">
-        <div class="callout-header"><span class="callout-icon">🚫</span> Lỗi rãnh giữa — Nguyên nhân số 1 gây mạch không hoạt động</div>
-        <p>Người mới thường cắm IC qua rãnh giữa (đúng) nhưng sau đó lại nối dây đến hàng e thay vì hàng d (hoặc ngược lại). Kết quả là dây nối vào nửa không có chân IC — mạch sẽ không hoạt động dù nhìn bề ngoài có vẻ đúng. Luôn kiểm tra: dây nối có cùng nửa (a–e hoặc f–j) với chân linh kiện muốn nối không?</p>
+        <div class="callout-header"><span class="callout-icon">🚫</span> Lỗi dễ gặp ở rãnh giữa</div>
+        <p>Người mới có thể cắm IC qua rãnh giữa rồi nối dây vào hàng e trong khi chân cần nối nằm ở hàng f cùng cột số, hoặc ngược lại. Hai nửa này không thông điện nên mạch không hoạt động. Hàng d và e <em>trong cùng cột</em> lại nối chung; hãy kiểm tra đúng hàng, cột và nửa board của chân linh kiện.</p>
       </div>
 
       <!-- VIDEO breadboard -->
@@ -306,8 +303,8 @@
         <table>
           <thead><tr><th>Màu dây</th><th>Công dụng quy ước</th><th>Lý do</th></tr></thead>
           <tbody>
-            <tr><td style="color:#ef4444;font-weight:700;">Đỏ</td><td>VCC, nguồn dương (+)</td><td>Quy ước điện toàn cầu: đỏ = dương</td></tr>
-            <tr><td style="color:#94a3b8;font-weight:700;">Đen</td><td>GND, nguồn âm (–)</td><td>Quy ước điện toàn cầu: đen = âm/GND</td></tr>
+            <tr><td style="color:#ef4444;font-weight:700;">Đỏ</td><td>VCC, nguồn dương (+) trong bài này</td><td>Giúp nhận biết nhanh; luôn kiểm nhãn cực thật</td></tr>
+            <tr><td style="color:#94a3b8;font-weight:700;">Đen</td><td>GND, đường về trong bài này</td><td>Màu dây không chứng minh điểm đó là GND</td></tr>
             <tr><td style="color:#60a5fa;font-weight:700;">Xanh dương</td><td>Tín hiệu số (digital)</td><td>Phân biệt với tín hiệu analog</td></tr>
             <tr><td style="color:#fbbf24;font-weight:700;">Vàng</td><td>Tín hiệu analog</td><td>Dễ nhận ra trên breadboard</td></tr>
             <tr><td style="color:#10b981;font-weight:700;">Xanh lá</td><td>Output/Load</td><td>Chỉ đường đến linh kiện tải</td></tr>

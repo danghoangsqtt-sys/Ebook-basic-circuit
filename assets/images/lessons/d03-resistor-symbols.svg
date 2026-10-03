@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="300" viewBox="0 0 360 300" role="img" aria-labelledby="title desc">
+  <title id="title">Hai cách vẽ ký hiệu điện trở</title>
+  <desc id="desc">Cùng một điện trở R giữa hai đầu nối A và B. Hàng trên dùng nét gấp khúc zigzag, hàng dưới dùng hình chữ nhật. Hai đoạn thẳng hai bên mỗi hình là dây nối.</desc>
+  <rect x="1" y="1" width="358" height="298" rx="16" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <g fill="#0f172a" font-family="Arial, sans-serif" font-size="22" font-weight="700">
+    <text x="24" y="43">Nét gấp khúc</text>
+    <text x="24" y="177">Hình chữ nhật</text>
+  </g>
+  <g fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M34 108 H78 L94 88 L114 128 L134 88 L154 128 L174 88 L194 128 L214 88 L234 128 L250 108 H326"/>
+    <path d="M34 240 H105 M255 240 H326"/>
+    <rect x="105" y="218" width="150" height="44" rx="2"/>
+  </g>
+  <g fill="#0f172a" font-family="Arial, sans-serif" font-size="21" font-weight="600">
+    <text x="24" y="141">A</text><text x="311" y="141">B</text>
+    <text x="24" y="277">A</text><text x="311" y="277">B</text>
+    <text x="275" y="87">R</text><text x="267" y="224">R</text>
+  </g>
+</svg>
