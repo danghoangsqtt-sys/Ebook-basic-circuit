@@ -13,6 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTER = ROOT / "docs/curriculum/diagram-register.csv"
+CLAIMS = ROOT / "docs/curriculum/technical-claims.csv"
 SPECIAL_SVG = {
     "D01-1": "d01-aa-series.svg",
     "D01-2": "d01-current-loop.svg",
@@ -23,6 +24,11 @@ SPECIAL_SVG = {
 }
 HTML_IDS = {"D03-2", "D03-3", "D10-1", "D33-1", "D43-1", "D44-1",
             "D45-1", "D46-1", "D53-1", "D55-1"}
+TEXT_CLAIM_MARKERS = {
+    "C006": "Các bài thực hành cơ bản dùng nguồn DC điện áp thấp",
+    "C007": "Không thực hành trực tiếp với điện lưới",
+    "C010": "Nét gấp khúc và hình chữ nhật",
+}
 
 
 def main() -> int:
@@ -81,6 +87,38 @@ def main() -> int:
                 row["visual_review_status"] = "pending_mobile_and_content_review"
         elif row["line"] != str(line) or row["current_content"] != content or row["planned_action"] != action:
             errors.append(f"{diagram_id}: stale register row, current location {row['path']}:{line}")
+    diagrams = {row["id"]: row for row in rows}
+    with CLAIMS.open(encoding="utf-8", newline="") as handle:
+        claim_reader = csv.DictReader(handle)
+        claim_fields = claim_reader.fieldnames
+        claims = list(claim_reader)
+    if claim_fields is None or len(claims) != 17 or len({claim["claim_id"] for claim in claims}) != 17:
+        errors.append("Technical claims must contain 17 unique IDs")
+    for claim in claims:
+        diagram = diagrams.get(claim["diagram_id"])
+        if diagram is None:
+            errors.append(f"{claim['claim_id']}: unknown diagram {claim['diagram_id']}")
+            continue
+        if claim["path"] != diagram["path"]:
+            errors.append(f"{claim['claim_id']}: path differs from diagram")
+            continue
+        source_url = claim["source_url"]
+        if source_url and not source_url.startswith("https://"):
+            errors.append(f"{claim['claim_id']}: source must use HTTPS")
+        lines = (ROOT / claim["path"]).read_text(encoding="utf-8").splitlines()
+        if claim["claim_id"] in TEXT_CLAIM_MARKERS:
+            marker = TEXT_CLAIM_MARKERS[claim["claim_id"]]
+            positions = [i for i, line in enumerate(lines, 1) if marker in line]
+            if len(positions) != 1:
+                errors.append(f"{claim['claim_id']}: text marker missing or duplicated")
+                continue
+            expected_line = positions[0]
+        else:
+            expected_line = int(diagram["line"])
+        if args.refresh:
+            claim["line"] = str(expected_line)
+        elif claim["line"] != str(expected_line):
+            errors.append(f"{claim['claim_id']}: stale claim location, current {claim['path']}:{expected_line}")
     if errors:
         print("\n".join(errors))
         return 1
@@ -89,9 +127,13 @@ def main() -> int:
             writer = csv.DictWriter(handle, fieldnames=fields)
             writer.writeheader()
             writer.writerows(rows)
-        print("Refreshed 80 diagram decisions and current source locations")
+        with CLAIMS.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=claim_fields)
+            writer.writeheader()
+            writer.writerows(claims)
+        print("Refreshed 80 diagram decisions and 17 claim locations")
     else:
-        print("Diagram register current: 80 unique IDs, 70 SVGs, 10 HTML references")
+        print("Diagram register current: 80 unique IDs, 70 SVGs, 10 HTML references; 17 claim locations")
     return 0
 
 
