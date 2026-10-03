@@ -62,23 +62,16 @@
 
       <div class="circuit-ascii">  Mạch khuếch đại CE cơ bản:
 
-                   VCC (+12V)
-                       │
-                     [R_C = 4,7kΩ]  ← Tải Collector
-                       │
-   Vin ──[C_in=10µF]──├── Collector (C)
-                       │  [BC547]
-  [R1=100kΩ] ────────── Base (B)
-  [R2= 22kΩ] ──────────┘
-                          Emitter (E)
-                              │
-                         [R_E=1kΩ]  ← Ổn định Q-point
-                              │
-                    [C_E=47µF] (bypass R_E cho AC)
-                              │
-                             GND
-                              │
-   Vout ──[C_out=10µF]── Collector (C)</div>
+  Nhánh collector: +12V → R_C=4,7kΩ → nút C → Collector BC547
+  Tín hiệu ra:     nút C → C_out=10µF → Vout (đo với GND)
+
+  Phân cực base:  +12V → R1=150kΩ → nút B → R2=22kΩ → GND
+  Tín hiệu vào:   Vin → C_in=10µF → nút B → Base BC547
+
+  Nhánh emitter:  Emitter BC547 → nút E → R_E=560Ω → GND
+                                      └→ C_E=47µF → GND
+  C_E mắc SONG SONG R_E để bypass tín hiệu AC; không nối tiếp R_E.
+  Kiểm tra cực tính tụ hóa theo điện áp DC tại mỗi nút.</div>
 
       <!-- PHẦN 2 — Q-POINT -->
       <h2>2. Điểm làm việc Q-Point</h2>
@@ -109,7 +102,7 @@
       <h4>Ví dụ: VCC=12V, BC547 (hFE=150), IC_Q=1mA</h4>
 
       <p><strong>Bước 1: Chọn điểm Q</strong><br>
-      I_C_Q = 1mA. V_CE_Q = VCC/2 = 6V. V_E = V_CE_Q/10 = 0,6V (quy tắc thực hành: V_E ≈ VCC/10)</p>
+      I_C_Q = 1mA. V_CE_Q ≈ VCC/2 = 6V. Chọn V_E ≈ 0,6V làm điểm khởi đầu để ổn định dòng bằng R_E; sau khi chọn điện trở chuẩn, phải đo lại Q-point.</p>
 
       <p><strong>Bước 2: Tính R_E</strong><br>
       R_E = V_E / I_C_Q = 0,6V / 0,001A = <strong>600Ω → chọn 560Ω hoặc 620Ω</strong></p>
@@ -127,8 +120,8 @@
       <h3>3.2 Độ lợi điện áp (Voltage Gain)</h3>
 
       <div class="formula-block">
-        <div class="formula-main">A_V = –R_C / r_e &nbsp;(không có C_E bypass)</div>
-        <div class="formula-main" style="margin-top:8px;">A_V = –R_C / (r_e + R_E) &nbsp;(có R_E, không bypass)</div>
+        <div class="formula-main">A_V ≈ –R_C / r_e &nbsp;(C_E bypass R_E đủ tốt ở tần số xét)</div>
+        <div class="formula-main" style="margin-top:8px;">A_V ≈ –R_C / (r_e + R_E) &nbsp;(không có C_E bypass)</div>
         <div class="formula-vars">
           <span class="formula-var"><span class="var-name">r_e</span> = 26mV / I_C_Q (điện trở emitter động — ở 25°C)</span>
           <span class="formula-var">Dấu âm (–) = tín hiệu ra đảo pha 180° so với tín hiệu vào</span>

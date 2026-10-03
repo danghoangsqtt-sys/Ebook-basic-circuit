@@ -98,7 +98,7 @@
       <div class="formula-block">
         <div class="formula-main">A_V = –R_f / R_in</div>
         <div class="formula-vars">
-          <span class="formula-var">V_out = –(R_f/R_in) × V_in</span>
+          <span class="formula-var">V_out = –(R_f/R_in) × V_in khi IN(+) = 0V và có nguồn hai cực</span>
           <span class="formula-var">Dấu âm = đảo pha 180° (V_in tăng → V_out giảm)</span>
           <span class="formula-var">Ví dụ: R_f=100kΩ, R_in=10kΩ → A_V = –10 (10 lần, đảo pha)</span>
         </div>
@@ -106,13 +106,16 @@
 
       <div class="circuit-ascii">  Inverting Amplifier:
 
-               R_f = 100kΩ
-         ┌──────────────────┐
-         │                  │
-  V_in──[R_in=10kΩ]──(–)──[LM358]── V_out
-                      (+)──────── GND (hoặc V_ref)
+  Vin → R_in=10kΩ → nút IN(–) LM358
+  Vout LM358 → R_f=100kΩ → chính nút IN(–) (phản hồi âm)
+  IN(+) → GND (điểm giữa hai nguồn);
+  LM358 pin 8 → +9V, pin 4 → –9V so với điểm GND này.
+  Ví dụ Vin=+0,5V → Vout≈–5V, trong giới hạn nguồn ±9V.
 
-  V_out = –(100k/10k) × V_in = –10 × V_in</div>
+  Với nguồn đơn 0–5V, phải phân cực IN(+) ở V_ref giữa nguồn
+  và đặt Vin quanh V_ref: Vout = V_ref – (R_f/R_in)×(Vin–V_ref).
+  Vout và cả hai điện áp đầu vào phải nằm trong miền hợp lệ
+  của LM358; không thể tạo điện áp ra âm từ nguồn 0–5V.</div>
 
       <h3>2.2 Non-Inverting Amplifier — Khuếch đại thuận pha</h3>
 
@@ -143,7 +146,7 @@
   V_in──(+)──[LM358]── V_out (HIGH hoặc LOW)
   V_ref──(–)
 
-  Khi V_in > V_ref: V_out = HIGH (~V_CC-ish)
+  Khi V_in > V_ref: V_out = HIGH (thấp hơn V_CC, tùy tải)
   Khi V_in < V_ref: V_out = LOW (~0V)
   Không có vòng phản hồi → open-loop → output "kẹp" ở cực trị
 
@@ -196,9 +199,9 @@
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
-            <p><strong>1:</strong> A_V = –22kΩ/2,2kΩ = <strong>–10</strong>. V_out = –10 × 0,5V = <strong>–5V</strong>. Chú ý: nếu dùng single supply 5V và GND, V_out âm không thực hiện được — LM358 chỉ ra 0V ở mức thấp nhất. Cần dual supply hoặc dùng virtual ground.</p>
+            <p><strong>1:</strong> A_V = –22kΩ/2,2kΩ = <strong>–10</strong>. Với IN(+) ở 0V và nguồn hai cực phù hợp (ví dụ ±9V), V_out lý tưởng = –10 × 0,5V = <strong>–5V</strong>. Nguồn đơn 0–5V không thể tạo –5V; cần đặt điểm phân cực giữa nguồn và tính theo sai lệch Vin–V_ref hoặc dùng nguồn hai cực.</p>
             <p><strong>2:</strong> 15 = 1 + R_f/10kΩ → R_f = 14 × 10kΩ = <strong>140kΩ</strong>. Chọn 2×68kΩ nối tiếp = 136kΩ hoặc 150kΩ.</p>
-            <p><strong>3:</strong> Ánh sáng mạnh → V_sensor cao (&gt;1V) → V_in(+) &gt; V_ref(–) → V_out HIGH (~VCC). Ánh sáng yếu → V_sensor thấp (&lt;1V) → V_out LOW (~0V). Ứng dụng: bật đèn tự động khi tối (sensor &lt; threshold).</p>
+            <p><strong>3:</strong> Nếu cảm biến cho điện áp tăng theo ánh sáng: ánh sáng mạnh → V_sensor &gt;1V → V_in(+) &gt; V_ref(–) → V_out HIGH (thấp hơn VCC tùy tải). Ánh sáng yếu → V_sensor &lt;1V → V_out LOW. Muốn bật đèn khi tối phải dùng logic đảo hoặc đổi hai đầu vào comparator và thêm driver tải.</p>
             <p><strong>4:</strong> LM358 chuyển mạch nội bộ tạo dòng spike ngắn trên VCC. Không có tụ decoupling → spike đi qua dây nguồn ảnh hưởng IC khác (VCC sụt cục bộ, nhiễu analog). Với tụ 100nF sát chân: spike được hấp thụ tại chỗ → mạch ổn định hơn, ADC chính xác hơn.</p>
           </div>
         </div>

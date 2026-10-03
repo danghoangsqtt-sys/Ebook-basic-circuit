@@ -64,12 +64,13 @@
 
       <div class="circuit-ascii">  Diode Zener — hướng cắm:
 
-   Cách cắm trong mạch ổn áp:
-                    Cathode ─────┬──── V_out = V_Z
+    V_in ──[R_s]──●──────── V_out (xấp xỉ V_Z khi đủ dòng)
+                 │
+                 ├──[tải R_L]──┐
+                 │              │
+                 └── K[Zener]A ┘
                                 │
-   V_in → [R_s] → [Zener] ─────┤
-                    Anode       │
-                               GND ──── GND
+    0 V ────────────────────────┴── GND
 
    CHÚ Ý: Zener cắm ngược so với diode thường:
    - Cathode (vạch) ở phía điện áp CAO
@@ -114,29 +115,33 @@
       I_Z thực tế = (9–5,1)/220 – I_load = 17,7mA – 10mA = 7,7 mA &lt;&lt; 98mA ✓</p>
       <p><strong>Bước 3:</strong> Kiểm tra công suất R_s: P = I² × R = (0,0177)² × 220 = 0,069W &lt; 250mW ✓</p>
 
-      <h4>Ví dụ tính toán 2 — Tạo tham chiếu 3,3V từ 5V cho ESP32</h4>
-      <p><strong>Yêu cầu:</strong> V_in=5V, V_Z=3,3V, I_load≈0 (ADC reference, không tải nặng), I_Z=5mA</p>
+       <h4>Ví dụ tính toán 2 — Tạo điện áp tham chiếu xấp xỉ 3,3 V từ 5 V</h4>
+       <p><strong>Yêu cầu:</strong> V_in=5V, V_Z=3,3V, I_load≈0 (mạch đo ngoài có trở kháng cao), I_Z=5mA theo datasheet Zener đã chọn. Đây không phải chân tham chiếu ADC ngoài của ESP32.</p>
       <p>R_s = (5 – 3,3) / 0,005 = 1,7 / 0,005 = <strong>340 Ω → chọn 330Ω</strong></p>
 
       <div class="callout callout-warning">
         <div class="callout-header"><span class="callout-icon">⚠️</span> Hạn chế của mạch ổn áp Zener</div>
-        <p>Mạch Zener đơn giản nhưng kém hiệu quả: dòng thừa tiêu tán qua Zener thành nhiệt. Nếu tải thay đổi nhiều (không tải ↔ tải nặng), điện áp ra có thể dao động. Mạch Zener phù hợp cho: tải nhỏ và ổn định (&lt;50mA), điện áp tham chiếu, bảo vệ quá áp. Với tải lớn và cần ổn định cao, dùng <strong>IC LDO (Low Dropout Regulator)</strong> như LM7805, LM3940, AMS1117.</p>
+        <p>Mạch Zener đơn giản nhưng kém hiệu quả: dòng thừa tiêu tán qua Zener thành nhiệt. Nếu tải thay đổi nhiều, điện áp ra có thể dao động. Chỉ chọn tải nhỏ và ổn định sau khi kiểm tra dòng Zener tối thiểu, công suất Zener/điện trở ở cả trạng thái có tải và không tải theo datasheet. Với nguồn cần ổn định hơn, dùng IC ổn áp phù hợp như LM7805 hoặc AMS1117.</p>
       </div>
 
       <!-- PHẦN 3 — BẢO VỆ -->
       <h2>3. Ứng dụng bảo vệ quá áp</h2>
 
-      <div class="circuit-ascii">  Bảo vệ GPIO ESP32 khỏi quá áp:
+      <div class="circuit-ascii">  Chuyển tín hiệu số 5 V sang mức GPIO ESP32 (tín hiệu chậm):
 
-   Tín hiệu cảm biến 5V ──[R=1kΩ]──┬── GPIO ESP32 (max 3,6V)
-                                    │
-                              [Zener 3,3V]  (cathode lên, anode xuống GND)
-                                    │
-                                   GND
+    5 V logic ──[R1=10 kΩ]──●── GPIO ESP32
+                            │
+                         [R2=15 kΩ]
+                            │
+    GND cảm biến ────────────┴── GND ESP32
 
-   Khi V_in &lt; 3,3V: Zener không dẫn → V_GPIO = V_in (bình thường)
-   Khi V_in > 3,3V: Zener clamp tại 3,3V → V_GPIO ≤ 3,3V (bảo vệ GPIO)
-   Dòng thừa: qua R=1kΩ và Zener xuống GND</div>
+    V_GPIO ≈ V_in × 15/(10+15): 5,0 V → 3,0 V;
+    với nguồn 5 V ±5%: khoảng 2,85–3,15 V (trị số danh định).
+    Đọc giới hạn điện áp của đúng dòng ESP32, và dùng IC chuyển mức
+    nếu tín hiệu nhanh, nguồn không ổn định hoặc cần hai chiều.
+
+    Zener 3,3 V không bảo đảm kẹp chính xác tại 3,3 V:
+    điện áp phụ thuộc dung sai và dòng làm việc của từng mã.</div>
 
       <!-- VIDEO -->
       <div class="video-card">
@@ -185,18 +190,18 @@
         <div class="exercise-title">📝 Bài tập Bài 12</div>
         <div class="exercise-part">
           <div class="exercise-part-title">Zener và mạch ổn áp (4 câu)</div>
-          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Zener 5,1V/500mW. V_in=12V. Tải 100mA. Tính R_s (I_Z=10mA). Kiểm tra công suất Zener và R_s.</div></div>
-          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Bạn có Zener 5,1V. Muốn bảo vệ GPIO ESP32 (max 3,6V) khỏi tín hiệu 5V. Zener này có dùng được không? Cần Zener bao nhiêu V?</div></div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Zener 5,1V/500mW, V_in=12V, tải thay đổi từ 0 đến 100mA. Cần I_Z≥10mA ở tải lớn nhất. Tính miền R_s cho phép khi có và không có tải; mạch này có khả thi với một điện trở không?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Bạn có Zener 5,1V. Muốn đưa tín hiệu số 5V vào GPIO ESP32 3,3V. Vì sao Zener này không phù hợp? Nêu một cách chuyển mức có kiểm tra điện áp ra.</div></div>
           <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Tại sao mạch Zener kém hiệu quả hơn IC LDO khi tải thay đổi nhiều? Giải thích bằng công thức hoặc ví dụ số.</div></div>
-          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Zener 3,3V trong mạch bảo vệ GPIO (R=1kΩ nối tiếp). Tín hiệu đầu vào 5V. Tính dòng qua Zener và công suất tiêu tán. Zener 500mW có an toàn không?</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Zener 3,3V trong mạch thử (R=1kΩ nối tiếp), đầu vào 5V. Tính dòng và công suất Zener theo giả định V_Z=3,3V. Kết quả này có tự chứng minh GPIO luôn an toàn không?</div></div>
         </div>
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
-            <p><strong>1:</strong> R_s = (12–5,1)/(0,010+0,100) = 6,9/0,110 = <strong>62,7Ω → chọn 68Ω</strong>. I_total = 6,9/68 = 101,5mA. I_Z = 101,5–100 = 1,5mA. P_Z = 5,1×0,0015 = 7,6mW &lt; 500mW ✓. P_Rs = (0,1015)²×68 = 0,7W → cần điện trở ≥ 1W!</p>
-            <p><strong>2:</strong> Zener 5,1V KHÔNG phù hợp — V_Z=5,1V > 3,6V max của GPIO. Cần Zener <strong>3,3V hoặc 3,6V</strong> để clamp điện áp dưới ngưỡng an toàn GPIO.</p>
+            <p><strong>1:</strong> Ở tải 100mA, cần I_R≥110mA nên R_s≤(12−5,1)/0,110≈<strong>62,7Ω</strong>. Khi không tải, Zener 500mW chỉ chịu I_Z≤0,5/5,1≈98mA nên R_s≥6,9/0,098≈<strong>70,4Ω</strong>. Hai điều kiện mâu thuẫn: <strong>không có R_s nào thỏa cả dải tải</strong>. Cần đổi thiết kế/linh kiện; không chọn 68Ω rồi kết luận mạch đạt vì I_Z lúc tải 100mA chỉ khoảng 1,5mA.</p>
+            <p><strong>2:</strong> Zener 5,1V không bảo đảm điện áp tại GPIO nằm trong giới hạn của ESP32 3,3V. Ngay cả Zener ghi 3,3V cũng có dung sai và điện áp phụ thuộc dòng. Với tín hiệu số chậm và rail 5V ổn áp, có thể dùng R1=10kΩ trên, R2=15kΩ dưới: 5V×15/(10+15)=3,0V danh định; kiểm tra khoảng điện áp đầu vào, dung sai và ngưỡng HIGH của board thực. Tín hiệu nhanh/hai chiều nên dùng IC chuyển mức phù hợp.</p>
             <p><strong>3:</strong> Với Zener: R_s cố định → khi tải thay đổi (I_load tăng), dòng qua R_s tăng → V_Rs tăng → V_out = V_in – V_Rs thay đổi. Zener cố gắng bù nhưng V_Z có hệ số nhiệt độ, trở kháng nhỏ không hoàn hảo. IC LDO dùng vòng phản hồi (feedback loop) để điều chỉnh liên tục → V_out ổn định hơn nhiều dù tải thay đổi.</p>
-            <p><strong>4:</strong> V_Zener = 3,3V. V_R = 5–3,3 = 1,7V. I_Z = 1,7/1000 = 1,7mA. P_Z = 3,3×0,0017 = <strong>5,6mW</strong> &lt;&lt; 500mW → <strong>An toàn tuyệt đối</strong>.</p>
+            <p><strong>4:</strong> Nếu giả định V_Z đúng 3,3V và không có tải khác, I_Z=(5−3,3)/1000=<strong>1,7mA</strong>, P_Z≈<strong>5,6mW</strong>. Kết quả chỉ kiểm tra công suất trong giả định này; phải tra đường đặc tính Zener tại 1,7mA, dung sai, xung quá áp và điện áp GPIO thực tế. Không suy ra GPIO “an toàn tuyệt đối”.</p>
           </div>
         </div>
       </div>

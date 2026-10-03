@@ -33,7 +33,7 @@
           <li>Phân biệt NMOS và PMOS — cách cắm và chiều dòng</li>
           <li>Hiểu điện áp ngưỡng V_GS(th) và vùng tuyến tính vs bão hòa</li>
           <li>So sánh MOSFET với BJT — ưu nhược điểm thực tế</li>
-          <li>Chọn MOSFET logic-level cho GPIO 3,3V (IRLZ44N, 2N7002)</li>
+          <li>Chọn MOSFET cho GPIO 3,3V theo R_DS(on) được bảo đảm tại điện áp Gate thực và dòng tải</li>
           <li>Thiết kế mạch switch NMOS điều khiển motor DC PWM</li>
           <li>Hiểu R_DS(on) và tại sao MOSFET ít nóng hơn BJT khi switch</li>
           <li>Cảnh báo: Gate ESD — không chạm Gate khi không có điện trở bảo vệ</li>
@@ -45,8 +45,8 @@
         <table>
           <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
           <tbody>
-            <tr><td>MOSFET NMOS IRLZ44N</td><td>55V, 47A, V_GS(th)=2V — logic-level, TO-220</td><td>2</td></tr>
-            <tr><td>MOSFET NMOS 2N7002</td><td>60V, 300mA, V_GS(th)=2V — SMD SOT-23, tín hiệu nhỏ</td><td>2</td></tr>
+            <tr><td>MOSFET NMOS IRLZ44N</td><td>TO-220; kiểm tra R_DS(on) ở V_GS thực tế, điện áp và tản nhiệt theo datasheet đúng hãng</td><td>2</td></tr>
+            <tr><td>MOSFET NMOS 2N7002</td><td>SOT-23 cho tải tín hiệu nhỏ; không dùng thay transistor công suất lái motor</td><td>2</td></tr>
             <tr><td>Motor DC 5V nhỏ</td><td>Hoặc LED dây 12V làm tải thay thế</td><td>1</td></tr>
             <tr><td>Diode 1N4007</td><td>Freewheeling cho motor</td><td>2</td></tr>
             <tr><td>Điện trở 10kΩ, 100Ω (gate resistor), 10kΩ (pull-down)</td><td>¼W</td><td>3 mỗi loại</td></tr>
@@ -97,7 +97,7 @@
 
       <div class="callout callout-tip">
         <div class="callout-header"><span class="callout-icon">💡</span> Logic-Level MOSFET — chọn đúng cho GPIO 3,3V</div>
-        <p>MOSFET thông thường (IRF540N) cần V_GS = 10V để dẫn đủ dòng. GPIO chỉ 3,3V → không đủ. Phải dùng <strong>Logic-Level MOSFET</strong> (IRLZ44N, Si2302, 2N7002) — V_GS(th) = 1–2V, R_DS(on) thấp ngay cả ở V_GS = 3–4V. Đây là lỗi phổ biến nhất khi chọn MOSFET cho Arduino/ESP32.</p>
+        <p>MOSFET thông thường như IRF540N cần mức Gate cao hơn 3,3V để bảo đảm R_DS(on) thấp. Chọn MOSFET có <strong>R_DS(on) được bảo đảm tại V_GS=2,5V hoặc 3,3V</strong> cho ESP32, hoặc dùng driver Gate phù hợp. V_GS(th) chỉ đo ở dòng rất nhỏ, không chứng minh MOSFET đã mở đủ cho motor. Datasheet IRLZ44N chỉ bảo đảm R_DS(on) tại 4V, 5V và 10V; nếu thử trực tiếp ở 3,3V phải đo V_DS và nhiệt độ ở dòng tải thực tế.</p>
       </div>
 
       <!-- PHẦN 3 — SO SÁNH BJT vs MOSFET -->
@@ -123,17 +123,12 @@
 
       <div class="circuit-ascii">  NMOS Switch chuẩn điều khiển motor DC:
 
-            VCC (12V)
-               │
-           [D_fw: 1N4007] (freewheeling, cathode lên VCC)
-               │
-           [Motor DC]
-               │
-   GPIO ─[R_G=100Ω]─── Gate (G)   ← Gate resistor — bảo vệ dao động
-          [R_GS=10kΩ]─── Source (S) ← Pull-down: tắt MOSFET khi GPIO floating
-                         [IRLZ44N] (Drain lên motor, Source xuống GND)
-                             │
-                            GND
+  Nhánh tải: +V_motor → Motor DC → nút D → Drain IRLZ44N
+  Diode: cathode 1N4007 → +V_motor; anode → nút D
+         (mắc ngược SONG SONG motor, không nối tiếp motor)
+  Source IRLZ44N → GND chung với nguồn motor và ESP32
+  GPIO 3,3V → R_G=100Ω → Gate IRLZ44N
+  Gate → R_GS=10kΩ → Source (pull-down)
 
   R_G (100Ω): giới hạn dòng đỉnh khi sạc Gate capacitance → chống dao động
   R_GS (10kΩ): đảm bảo V_GS=0 khi GPIO=Z hoặc không nối → MOSFET OFF chắc chắn</div>
@@ -165,10 +160,10 @@
         <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: IRLZ44N switch motor DC</div>
         <ol class="step-list">
           <li class="step-item"><div class="step-content"><p>Xác định chân IRLZ44N từ datasheet: G=1, D=2, S=3 (TO-220 nhìn mặt phẳng chữ). Đánh dấu trước.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Lắp mạch: R_G(100Ω) từ jumper wire vào Gate. R_GS(10kΩ) từ Gate xuống Source. Motor/LED từ VCC→Drain. Source nối GND. Freewheeling diode nếu dùng motor.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Lắp mạch: R_G(100Ω) từ GPIO vào Gate; R_GS(10kΩ) từ Gate xuống Source. Motor từ +V_motor đến Drain, Source xuống GND chung. Bắt buộc mắc diode ngược song song motor: cathode ở +V_motor, anode ở Drain. Nếu thay bằng LED strip, kiểm tra giới hạn dòng và cực tính của strip.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Chạm đầu R_G vào 3,3V: motor quay hoặc LED sáng. Chạm vào GND: tắt.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Đo V_DS khi ON: kỳ vọng &lt; 0,5V (IRLZ44N R_DS(on) ≈ 22mΩ × I, rất nhỏ).</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Thử PWM (nếu có Arduino/ESP32): digitalWrite PWM 50% → motor chạy chậm, 100% → full speed.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đo V_DS khi ON và ước lượng P≈V_DS×I_motor; ngắt nguồn nếu MOSFET nóng. Giá trị R_DS(on)=22mΩ trong datasheet IRLZ44N được chỉ định tại V_GS=10V, không bảo đảm tại GPIO 3,3V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thử PWM bằng <code>analogWrite</code> (Arduino Uno) hoặc LEDC/analogWrite của Arduino-ESP32 sau khi cấu hình pin. Duty 50% có thể cho tốc độ thấp hơn nhưng không cố định bằng nửa tốc độ.</p></div></li>
         </ol>
       </div>
 
@@ -177,7 +172,7 @@
       <div class="exercise-section">
         <div class="exercise-title">📝 Bài tập Bài 18</div>
         <div class="exercise-part">
-          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">IRLZ44N: R_DS(on)=22mΩ, I_D=5A. P_heat khi MOSFET ON = ? So sánh với BC337 (V_CE_sat=0,3V, I=5A).</div></div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">IRLZ44N: giả sử Gate được lái 10V, R_DS(on)=22mΩ tại I_D=5A. P_heat khi MOSFET ON = ? So sánh với một BJT công suất phù hợp có V_CE_sat=0,3V ở 5A; BC337 chỉ định mức 800mA nên không được dùng ở 5A.</div></div>
           <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">GPIO ESP32=3,3V, MOSFET thường IRF540N (V_GS(th)=4V). Có bật được không? Giải pháp nếu không?</div></div>
           <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Tại sao cần R_G (100Ω Gate resistor) khi switch ở tần số cao (PWM 50kHz)?</div></div>
           <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">R_GS pull-down 10kΩ tiêu thụ bao nhiêu dòng khi V_GS=3,3V? Ảnh hưởng đến hệ thống như thế nào?</div></div>
@@ -185,8 +180,8 @@
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
-            <p><strong>1:</strong> P_MOSFET = I² × R_DS(on) = 25 × 0,022 = <strong>0,55W</strong>. P_BJT = V_CE_sat × I = 0,3 × 5 = <strong>1,5W</strong>. MOSFET tiêu tán ít hơn 3× — ít cần tản nhiệt hơn.</p>
-            <p><strong>2:</strong> V_GS_max = 3,3V &lt; V_GS(th) = 4V → MOSFET không bật được. <strong>Giải pháp:</strong> (a) Dùng Logic-Level MOSFET như IRLZ44N, Si2302; (b) Dùng bootstrap/level shifter nâng V_GS lên 5V hoặc 10V; (c) Dùng BJT làm driver trước MOSFET.</p>
+            <p><strong>1:</strong> Tại điều kiện Gate 10V đã nêu, P_MOSFET = I² × R_DS(on) = 25 × 0,022 = <strong>0,55W</strong>. Với BJT công suất <em>được định mức 5A</em> và V_CE_sat giả định 0,3V, P_BJT = 1,5W. BC337 không chịu được 5A. Cả hai kết quả cần kiểm tra tản nhiệt và điều kiện datasheet trước khi sử dụng.</p>
+            <p><strong>2:</strong> GPIO 3,3V không bảo đảm IRF540N dẫn đủ dòng; V_GS(th) chỉ là ngưỡng ở dòng thử rất nhỏ, không dùng để tính tổn hao motor. Chọn MOSFET có R_DS(on) được bảo đảm tại V_GS=2,5V hoặc 3,3V và đủ dòng/tản nhiệt, hoặc dùng mạch lái Gate có nguồn phù hợp. IRLZ44N cũng phải kiểm tra vì thông số R_DS(on) trong datasheet thường được chỉ định từ V_GS=4V trở lên.</p>
             <p><strong>3:</strong> Gate có tụ ký sinh C_GS, C_GD (~nF). Không có R_G: khi switch, dòng sạc/xả tụ Gate rất lớn tức thời → có thể kích thích dao động ký sinh (ringing) → over-voltage spike → hỏng Gate. R_G=100Ω giới hạn tốc độ sạc Gate → giảm ringing. Trade-off: làm chậm tốc độ switch một chút.</p>
             <p><strong>4:</strong> I_pulldown = 3,3V/10kΩ = <strong>0,33mA</strong>. Khi MOSFET ON liên tục (duty cycle 100%), P_R_GS = 3,3×0,00033 = 1,1mW → không đáng kể. Nhưng với PWM 50%, tổn thất chỉ 0,55mW — bỏ qua được.</p>
           </div>

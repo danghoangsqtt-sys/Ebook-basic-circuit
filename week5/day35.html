@@ -54,9 +54,9 @@
         <ul>
           <li><strong>IC:</strong> LM2596S-5.0 (TO-263, fixed 5V output) — hoặc LM2596S-ADJ (điều chỉnh)</li>
           <li><strong>V_in:</strong> 8–40V (terminal screw 5.08mm)</li>
-          <li><strong>V_out:</strong> 5V ±2%, I_max = 1A</li>
-          <li><strong>Cuộn cảm:</strong> L = 68µH (SMD 8×8mm hoặc THT có chân)</li>
-          <li><strong>Diode freewheeling:</strong> SS14 Schottky SMA, 1A/40V</li>
+          <li><strong>V_out:</strong> 5V danh định, tải thiết kế 1A; sai số đầu ra theo datasheet TI có thể tới ±5% trên toàn dải điều kiện.</li>
+          <li><strong>Cuộn cảm:</strong> L dự kiến 68µH, xác nhận lại bằng quy trình chọn L trong datasheet TI cho 12V→5V/1A; dòng bão hòa phải vượt dòng đỉnh.</li>
+          <li><strong>Diode freewheeling:</strong> Schottky 40V có dòng danh định và nhiệt phù hợp 1A tải (ví dụ SS34 3A/40V); kiểm tra thông số thực của linh kiện.</li>
           <li><strong>Tụ đầu vào:</strong> 100µF/50V electrolytic + 100nF ceramic</li>
           <li><strong>Tụ đầu ra:</strong> 220µF/16V ESR thấp + 100nF ceramic</li>
           <li><strong>Output indicator LED:</strong> LED xanh + R=1kΩ/0805</li>
@@ -66,18 +66,21 @@
 
       <h3>2.1 Schematic LM2596S-5.0</h3>
 
-      <div class="circuit-ascii">  Mạch LM2596S-5V chuẩn từ datasheet:
+      <div class="circuit-ascii">  Topology LM2596S-5.0 theo datasheet TI (giá trị L/C cần kiểm tra):
 
-   VIN(+) ─────┬──────── [L=68µH] ─────┬── VOUT(+)
-               │                        │
-          [C_in 100µF]            [C_out 220µF]
-          [100nF parallel]        [100nF parallel]
-               │         [SS14 Schottky] │
-   VIN(−) ─────┴──── Cathode ←── Anode ─┴── VOUT(−) = GND
+   VIN(+) ──┬──[pin 1 VIN | LM2596S-5.0 | pin 2 OUTPUT]──● SW──[L]──● VOUT(+)
+            │                                              │           │
+          [C_in]                                      D1 cathode    [C_out]
+            │                                         D1 anode         │
+   GND ─────┴──────────────────────────────────────────────┴───────────┴── VOUT(−)
 
-  LM2596S chân: [1=OUT 2=VIN 3=GND 4=FB 5=ON/OFF] (TO-263)
-  Fixed 5V: FB (pin 4) nối thẳng VOUT — không cần R_fb
-  ON/OFF (pin 5): nối GND để luôn ON</div>
+  Net riêng: pin 3 GND và pin 5 ON/OFF → GND; pin 4 FB → VOUT(+).
+  C_in: 100µF + 100nF song song từ VIN xuống GND; C_out: 220µF + 100nF
+  song song từ VOUT xuống GND. D1 là Schottky, cathode ở SW, anode GND.
+  TO-263: pin 1=VIN, pin 2=OUTPUT, pin 3=GND, pin 4=FB,
+  pin 5=ON/OFF; tab kim loại nối GND. ON/OFF nối GND để bật.</div>
+
+      <p>Đối chiếu <a href="https://www.ti.com/lit/ds/symlink/lm2596.pdf" target="_blank" rel="noopener">datasheet LM2596 của TI</a> trước khi vẽ symbol và chọn linh kiện; “OUTPUT” ở pin 2 là nút chuyển mạch SW, không phải đầu ra 5V sau cuộn cảm.</p>
 
       <h3>2.2 Quy trình thiết kế PCB trong KiCad</h3>
 
@@ -85,10 +88,10 @@
         <div class="callout-header"><span class="callout-icon">💻</span> Thiết kế PCB Buck Converter từng bước</div>
         <ol class="step-list">
           <li class="step-item"><div class="step-content"><p>Vẽ schematic đầy đủ theo sơ đồ trên. Chú ý symbol LM2596S trong KiCad library (Regulator_Switching).</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Assign footprint: LM2596 → TO-263-5, SS14 → D_SMA, L → IND SMD 7×7, C_out 220µF → CP_Radial_D8mm.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>PCB Layout: VIN connector → C_in → LM2596 → L → C_out → VOUT connector. <strong>Layout phải compact, loop VIN→IC→L→C_out→GND phải ngắn nhất có thể.</strong></p></div></li>
+          <li class="step-item"><div class="step-content"><p>Assign footprint theo đúng mã/package mua: LM2596S TO-263-5 (tab = GND theo TI), diode Schottky theo package thực, cuộn cảm có dòng bão hòa lớn hơn dòng đỉnh, tụ đúng điện áp/ESR.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>PCB Layout: VIN connector → C_in sát chân 1 → LM2596 pin 2 → L → C_out → VOUT connector. <strong>Thu nhỏ vòng chuyển mạch C_in→IC→D1→GND và nút SW; FB lấy ở VOUT, tránh xa SW.</strong></p></div></li>
           <li class="step-item"><div class="step-content"><p>Track width: VIN, VOUT, GND power = 2mm (1A). Tín hiệu ON/OFF = 0,3mm.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Ground plane B.Cu. Thermal relief cho IC TO-263 trên GND pad.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Ground plane B.Cu; vùng đồng tản nhiệt của tab TO-263 thuộc GND. Kiểm tra net tab trong symbol/footprint trước khi đặt copper pour.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Thêm silk screen: "IN+", "IN−", "OUT+", "OUT−". Version, date.</p></div></li>
           <li class="step-item"><div class="step-content"><p>DRC → 0 errors → Xuất Gerber + Drill files → Tải lên JLCPCB/PCBWay để báo giá (5 PCB ~$2–5).</p></div></li>
         </ol>
@@ -99,8 +102,8 @@
       <div class="callout callout-warning">
         <div class="callout-header"><span class="callout-icon">⚡</span> Layout Buck Converter — 3 lỗi phổ biến nhất</div>
         <ol>
-          <li><strong>Loop nhiễu lớn:</strong> Vòng lặp VIN → IC switch → D_freewheeling → GND phải cực nhỏ. Loop lớn = ăng-ten EMI → nhiễu xuyên sang mạch khác.</li>
-          <li><strong>Cạnh switching node (SW) dài:</strong> Nút SW (nối IC output, diode anode, cuộn cảm) là nguồn EMI chính. Track phải cực ngắn và không gần tín hiệu analog nhạy cảm.</li>
+          <li><strong>Loop nhiễu lớn:</strong> Vòng lặp C_in(+) → IC switch → D1 (anode về GND) → C_in(−) phải cực nhỏ. Loop lớn làm tăng EMI.</li>
+          <li><strong>Cạnh switching node (SW) dài:</strong> Nút SW nối IC OUTPUT, cathode D1 và cuộn cảm là nguồn EMI chính. Track phải cực ngắn và không gần tín hiệu analog nhạy cảm.</li>
           <li><strong>Tụ đầu vào xa IC:</strong> C_in phải sát chân VIN của IC — loại bỏ spike dòng khi MOSFET bật.</li>
         </ol>
       </div>

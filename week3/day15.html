@@ -77,14 +77,10 @@
               │►
               E (Emitter)
 
-       Sơ đồ chân BC547 (nhìn mặt phẳng):
-         ┌───┐
-         │BCE│  ← thứ tự từ trái sang phải
-         └───┘
-       B = Base (giữa-trái)
-       C = Collector (phải)
-       E = Emitter (trái)
-       (LUÔN kiểm tra datasheet — thứ tự chân khác nhau tùy loại transistor)</div>
+       BC547 TO-92 của onsemi (mặt phẳng có chữ hướng về bạn,
+       chân hướng xuống): trái → phải = C (1), B (2), E (3).
+       Kiểm tra datasheet đúng nhà sản xuất/mã linh kiện trước khi cắm;
+       transistor TO-92 khác có thể dùng thứ tự chân khác.</div>
 
       <h3>1.1 NPN vs PNP — Khác nhau ở chiều dòng</h3>
 
@@ -140,19 +136,12 @@
 
       <div class="circuit-ascii">  Mạch switch NPN cơ bản:
 
-              VCC (5V)
-                │
-              [R_C = 470Ω]     ← Hạn dòng LED
-                │
-              [LED]
-                │
-   GPIO ──[R_B]──── Base (B)
-                │       │
-               GND   [BC547]
-                         │
-                        Emitter
-                         │
-                        GND</div>
+  Nhánh tải:  +5V → R_C → LED (anode → cathode) → C của BC547
+  Nhánh điều khiển: GPIO 3,3V → R_B → B của BC547
+  Nhánh hồi:   E của BC547 → GND chung (nguồn 5V và GPIO)
+
+  Hai nhánh chỉ gặp nhau trong transistor; GPIO không nối thẳng
+  vào nhánh LED. Ví dụ 10mA bên dưới dùng R_C=270Ω, R_B=2,7kΩ.</div>
 
       <h4>Ví dụ tính toán: Điều khiển LED 10mA từ GPIO 3,3V qua BC547 (hFE_min = 110)</h4>
 
@@ -200,9 +189,9 @@
       <div class="callout callout-practice">
         <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành B: Mạch switch LED — ON/OFF bằng dây jumper</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Lắp BC547: Collector → R_C(470Ω) → LED → VCC(5V). Emitter → GND.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Nối R_B(10kΩ) từ Base. Đầu kia của R_B để hở (tương đương GPIO=0V). LED phải tắt.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Chạm đầu R_B vào VCC(3,3V hoặc 5V): LED sáng (transistor ON).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Lắp nhánh tải: +5V → R_C(470Ω) → anode LED → cathode LED → Collector BC547. Emitter → GND chung. Xác nhận chân BC547 theo datasheet của linh kiện đang có.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nối R_B(2,7kΩ) từ Base, đầu còn lại nối GND để mô phỏng GPIO LOW; không để Base trôi nổi. LED phải tắt.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Chuyển đầu R_B sang nguồn 3,3V có GND chung: LED sáng (transistor ON). Không nối Base trực tiếp vào nguồn.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Đo V_CE khi LED sáng: kỳ vọng V_CE_sat &lt; 0,3V → transistor bão hòa.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Đo V_CE khi LED tắt: kỳ vọng ≈ VCC (5V) → transistor ngắt hoàn toàn.</p></div></li>
         </ol>

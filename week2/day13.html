@@ -92,14 +92,17 @@
          └────┬──────┘
              GND
 
-  Mạch ứng dụng chuẩn (theo datasheet):
+   Hai tụ bypass là các NHÁNH xuống GND, không nối tiếp đường nguồn:
 
-   V_in (7–35V) ──[C1: 0,33µF]──[LM7805]──[C2: 0,1µF]── 5V out
-                    (đầu vào)                (đầu ra)
-   GND ───────────────────────────────────────────────── GND
+    V_in ──●──────── IN [LM7805] OUT ────────●── +5 V
+           │                GND               │
+         [C_in]              │             [C_out]
+           │                 │                │
+    GND ───┴─────────────────┴────────────────┴── GND
 
-  Thực tế thêm tụ lọc lớn ở đầu vào và đầu ra:
-   V_in ──[C_in: 100µF || 100nF]──[LM7805]──[C_out: 100µF || 100nF]── 5V</div>
+   Chọn C_in/C_out theo datasheet đúng mã và khoảng cách nguồn;
+   ví dụ TI LM7805 dùng tụ bypass đầu vào nếu xa tụ lọc nguồn,
+   tụ 0,1 µF đầu ra giúp đáp ứng quá độ. Tụ bulk cũng mắc xuống GND.</div>
 
       <div class="callout callout-note">
         <div class="callout-header"><span class="callout-icon">📌</span> Thông số quan trọng của LM7805</div>
@@ -128,21 +131,26 @@
 
       <h4>Ví dụ: LM7805, V_in=12V, I_out=500mA</h4>
       <p>P_heat = (12–5) × 0,5 = 7 × 0,5 = <strong>3,5W</strong> — IC sẽ rất nóng, cần tản nhiệt (heatsink)!</p>
-      <p>Nhiệt độ IC = T_ambient + P_heat × R_θJA = 25°C + 3,5W × 5°C/W = 42,5°C (với tản nhiệt tốt)</p>
+       <p>Ước tính nhiệt độ mối nối: T_j ≈ T_ambient + P_heat × R_θJA <em>của cả IC và tản nhiệt đã lắp</em>. Chỉ thay số sau khi tra datasheet và thông số tản nhiệt thực tế; không mặc định R_θJA = 5°C/W. Ở 3,5 W, phải kiểm tra nhiệt độ mối nối cho phép và dùng tản nhiệt phù hợp.</p>
 
       <!-- PHẦN 4 — AMS1117 -->
       <h2>4. IC AMS1117-3.3 — LDO 3,3V cho ESP32/Arduino</h2>
 
       <div class="circuit-ascii">  Sơ đồ chân AMS1117 (SOT-223):
 
-         ┌──────────────┐
-   GND ──┤ 1          4 ├─── IN (4,5V–15V)
-         │  AMS1117-3.3 │
-   OUT ──┤ 2          3 ├─── OUT (3,3V) (chân 2 và 3 nối nhau)
-         └──────────────┘
+   Nhìn mặt có chữ, ba chân hướng xuống:
 
-  Mạch chuẩn:
-   V_in (4,5–15V) ──[C1: 10µF+100nF]──[AMS1117-3.3]──[C2: 10µF+100nF]── 3,3V</div>
+         ┌──────────────┐  TAB kim loại = OUT
+         │  AMS1117-3.3 │
+         └─┬────┬────┬──┘
+           1    2    3
+          GND  OUT   IN
+
+   Mạch ổn áp: V_in → chân 3; chân 1 → GND; chân 2/tab → 3,3 V.
+   C_in nối V_in–GND; bản AMS1117 của Advanced Monolithic Systems
+   dùng C_out 22 µF tantalum từ OUT–GND để ổn định mọi điều kiện;
+   đặt sát IC, có thể thêm 100 nF song song.
+   Kiểm tra lại sơ đồ chân của đúng nhà sản xuất/mã in trên IC.</div>
 
       <div class="callout callout-tip">
         <div class="callout-header"><span class="callout-icon">💡</span> Tại sao AMS1117 phổ biến hơn LM3940?</div>
@@ -170,11 +178,11 @@
       <div class="callout callout-practice">
         <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Mạch nguồn đôi 5V + 3,3V</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p><strong>Mạch 5V (LM7805):</strong> V_in(9V) → C_in(100µF||100nF) → LM7805 (chân 1=IN, chân 2=GND, chân 3=OUT) → C_out(100µF||100nF) → 5V. Đo V_out.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Mạch 3,3V (AMS1117):</strong> Lấy 5V từ LM7805 → C_in(10µF||100nF) → AMS1117-3.3 → C_out(10µF||100nF) → 3,3V. Đo V_out.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Test tải:</strong> Nối LED+R vào đầu ra 5V và 3,3V. Đo điện áp có thay đổi không khi có tải? (Kỳ vọng: thay đổi &lt;50mV với LDO tốt)</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Đo ripple (nếu có oscilloscope):</strong> Đo AC component của V_out. Kỳ vọng &lt;10mV ripple với tụ lọc đủ lớn.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Cảm nhận nhiệt:</strong> Chạy mạch 5V với tải ~200mA trong 2 phút. Chạm (nhẹ, cẩn thận) vào thân LM7805. Nóng không? Tính P_heat lý thuyết.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Mạch 5V (LM7805):</strong> Khi chưa cấp điện, nối 9 V vào chân 1=IN, chân 2=GND, lấy 5 V ở chân 3=OUT. C_in (100µF và 100nF song song) nối giữa IN–GND; C_out nối giữa OUT–GND, đúng cực tụ hóa. Đo OUT so với GND.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Mạch 3,3V (AMS1117):</strong> Nối rail 5 V vào chân 3=IN; chân 1=GND; lấy 3,3 V ở chân 2/tab=OUT. C_in nối IN–GND; với IC AMS1117 của Advanced Monolithic Systems, dùng C_out 22 µF tantalum OUT–GND sát IC theo datasheet. Nếu dùng mã khác, tra lại loại tụ và giá trị của chính mã đó. Không đặt tụ nối tiếp rail.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Test tải nhẹ:</strong> Nối LED và điện trở riêng vào từng đầu ra. Đo điện áp không tải và có tải, ghi lại độ lệch; đối chiếu giới hạn datasheet thay vì mặc định một ngưỡng chung.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Đo ripple (nếu có oscilloscope):</strong> Dùng đầu dò và dây GND ngắn, ghi biên độ gợn thực tế ở tải đang thử; phụ thuộc nguồn, tụ, tải và cách đo.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Kiểm tra nhiệt:</strong> Chỉ tăng tải sau khi tính công suất và chọn tản nhiệt. Dùng nhiệt kế để đo thân/tản nhiệt, ngắt nguồn trước khi thay tải; không chạm tay vào IC đang hoạt động vì có thể bỏng.</p></div></li>
         </ol>
       </div>
 
@@ -193,7 +201,7 @@
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
             <p><strong>1:</strong> P_heat = (9–5)×0,3 = <strong>1,2W</strong>. T_IC = 25 + 1,2×50 = 25+60 = <strong>85°C</strong>. Gần giới hạn an toàn (125°C max) — <strong>nên thêm tản nhiệt nhỏ</strong> để dự phòng.</p>
-            <p><strong>2:</strong> P_heat = (5–3,3)×0,5 = 1,7×0,5 = <strong>0,85W</strong>. Dropout chỉ 1,7V thay vì 4V (LM7805 từ 9V). P_heat nhỏ hơn → ít nóng hơn. AMS1117 thường đủ an toàn trong vỏ SOT-223 trên PCB mà không cần tản nhiệt ngoài.</p>
+            <p><strong>2:</strong> P_heat ≈ (5–3,3)×0,5 = <strong>0,85 W</strong>. Đây là sụt áp trên IC, không phải “dropout”; dropout tối thiểu là thông số khác. SOT-223 vẫn có thể rất nóng ở 0,85 W: kiểm tra R_θJA theo diện tích đồng PCB, nhiệt độ môi trường và giới hạn T_j trước khi quyết định có cần tản nhiệt hoặc giảm tải.</p>
             <p><strong>3:</strong> 3,3V/2A = 6,6W tải. Nếu V_in=5V: P_heat = (5–3,3)×2 = 3,4W → IC nóng, cần tản nhiệt lớn. <strong>Dùng buck converter</strong> (MP2307, AP62150...) — hiệu suất 90%+, ít nhiệt, phù hợp 2A.</p>
             <p><strong>4:</strong> Tụ 100µF phản ứng chậm với dòng đột ngột (tần số cao). Tụ 100nF gốm phản ứng rất nhanh với transient tần số cao (MHz). Cả hai cùng nhau: 100µF xử lý ripple thấp tần, 100nF lọc nhiễu cao tần → điện áp ra sạch ở mọi tần số.</p>
           </div>

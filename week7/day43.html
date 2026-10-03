@@ -43,10 +43,12 @@
 
       <div class="circuit-ascii">  Vòng đời thiết kế hệ thống nhúng (V-Model):
 
-  Yêu cầu hệ thống → Kiến trúc → Thiết kế chi tiết → Hiện thực
-  (SRS)               (Block dia)  (Schematic+Code)   (Build)
-       ↓                   ↓             ↓                ↓
-  Test hệ thống ← Integration test ← Unit test ← Đơn vị test
+  Yêu cầu hệ thống ─→ Kiến trúc ─→ Thiết kế chi tiết ─→ Hiện thực
+       ↕                 ↕                 ↕                ↓
+  Kiểm thử hệ thống ← Kiểm thử tích hợp ← Kiểm thử đơn vị ← Module đã xây
+
+  Mỗi mức kiểm thử đối chiếu với mức thiết kế ở cùng cột;
+  nhánh trái đi xuống tới hiện thực, nhánh phải đi lên qua kiểm thử.
 
   Với đồ án 2 tuần:
   Ngày 43–44: Lên ý tưởng, SRS, Block Diagram, BOM

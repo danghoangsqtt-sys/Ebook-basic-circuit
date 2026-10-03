@@ -46,18 +46,24 @@
 
       <div class="circuit-ascii">  Kết nối A4988 driver với NEMA 17:
 
-  Arduino      A4988 Driver        NEMA 17
-  GPIO13 ─── STEP  (VMOT)──── 12V Motor Power
-  GPIO12 ─── DIR   (GND )──── Motor GND
-  3.3V   ─── VDD   (1A,1B)──── Coil A (đen, xanh lá)
-  GND    ─── GND   (2A,2B)──── Coil B (đỏ, xanh dương)
-             RST──EN (nối nhau)
-             MS1,MS2,MS3 ──── GND (full step)
-                              hoặc cấu hình microstepping
+  Arduino Uno      A4988 carrier                Stepper lưỡng cực
+  GPIO13 ──────── STEP      1A,1B ─────────── một cuộn motor
+  GPIO12 ──────── DIR       2A,2B ─────────── cuộn motor còn lại
+  5V logic ────── VDD       VMOT  ─────────── nguồn motor 8–35V
+  GND chung ───── GND       GND   ─────────── GND nguồn motor
+  VDD ─────────── SLP và RST    (giữ cả hai HIGH)
+  GND ─────────── EN            (EN active-low: LOW để chạy)
+  Với ESP32 dùng VDD=3,3V để khớp mức GPIO; không đưa 5V vào GPIO ESP32.
+  MS1,MS2,MS3: để hở trên carrier Pololu = full-step; xem board khác.
+  Tụ điện phân ≥47µF mắc giữa VMOT và GND sát carrier.
+  Xác định cặp cuộn bằng ohmmeter, không dựa duy nhất vào màu dây.
 
-  Điều chỉnh V_ref (biến trở trên A4988):
-  I_max = V_ref / (8 × R_sense) → NEMA 17 thường 0,8–1,2A
-  V_ref = I_max × 8 × R_sense = 1A × 8 × 0,1Ω = 0,8V</div>
+  Giới hạn dòng: I_limit = V_ref / (8 × R_sense).
+  Ví dụ carrier Pololu mới R_sense=0,068Ω, I_limit=1A → V_ref≈0,54V;
+  bản cũ R_sense=0,050Ω → V_ref=0,40V. Board khác phải đọc R_sense
+  và hướng dẫn nhà sản xuất; đặt theo định mức motor và khả năng tản nhiệt.</div>
+
+      <p>Đối chiếu <a href="https://www.pololu.com/product/1182" target="_blank" rel="noopener">hướng dẫn carrier A4988 của Pololu</a> cho biến thể board đang dùng. Ngắt nguồn trước khi cắm/rút dây motor; không đo dòng cuộn bằng dòng tại nguồn VMOT.</p>
 
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
 <pre style="margin:0;white-space:pre-wrap;">// Stepper với A4988 — quay 1 vòng

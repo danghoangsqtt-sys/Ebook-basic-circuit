@@ -44,15 +44,13 @@
 
       <div class="circuit-ascii">  H-Bridge — 4 switch tạo thành chữ "H":
 
-         VCC
-          │
-    ┌─[Q1]─┴─[Q3]─┐
-    │              │
-   M(+)          M(−)  ← Motor ở giữa
-    │              │
-    └─[Q2]─┬─[Q4]─┘
-            │
-           GND
+  VCC ─────┬──────────────┬─────
+          [Q1]           [Q3]
+           │              │
+           ● A──[ MOTOR ]──● B
+           │              │
+          [Q2]           [Q4]
+  GND ─────┴──────────────┴─────
 
   Tiến:  Q1,Q4=ON (Q2,Q3=OFF) → dòng qua M từ trái→phải
   Lùi:   Q2,Q3=ON (Q1,Q4=OFF) → dòng qua M từ phải→trái
@@ -69,15 +67,17 @@
           <tbody>
             <tr><td>HIGH</td><td>LOW</td><td>HIGH (hoặc PWM)</td><td>Quay thuận (tốc độ theo PWM)</td></tr>
             <tr><td>LOW</td><td>HIGH</td><td>HIGH</td><td>Quay ngược</td></tr>
-            <tr><td>LOW</td><td>LOW</td><td>—</td><td>Dừng (coast)</td></tr>
-            <tr><td>HIGH</td><td>HIGH</td><td>—</td><td>Hãm (brake)</td></tr>
-            <tr><td>X</td><td>X</td><td>LOW</td><td>Dừng (bất kể IN1/IN2)</td></tr>
+            <tr><td>LOW</td><td>LOW</td><td>HIGH</td><td>Hãm nhanh (hai đầu motor cùng mức LOW)</td></tr>
+            <tr><td>HIGH</td><td>HIGH</td><td>HIGH</td><td>Hãm nhanh (hai đầu motor cùng mức HIGH)</td></tr>
+            <tr><td>X</td><td>X</td><td>LOW</td><td>Thả trôi (coast/free running); ngõ ra vô hiệu</td></tr>
           </tbody>
         </table>
       </div>
 
+      <p>Theo <a href="https://www.st.com/resource/en/datasheet/l298.pdf" target="_blank" rel="noopener">bảng điều khiển L298 của ST</a>, khi ENA=HIGH và IN1=IN2 thì hãm nhanh; khi ENA=LOW thì ngõ ra thả trôi. Kiểm tra module thực tế có diode hồi dòng cho tải cảm và nguồn logic/motor phù hợp.</p>
+
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
-<pre style="margin:0;white-space:pre-wrap;">// Robot 2 bánh — L298N + ESP32/Arduino
+<pre style="margin:0;white-space:pre-wrap;">// Robot 2 bánh — ví dụ chân và analogWrite cho Arduino Uno
 // Kết nối: Motor A: IN1=5, IN2=4, ENA=3(PWM)
 //          Motor B: IN3=9, IN4=8, ENB=6(PWM)
 
@@ -102,7 +102,7 @@ void forward(int spd) { motorLeft(spd);   motorRight(spd); }
 void backward(int spd){ motorLeft(-spd);  motorRight(-spd); }
 void turnLeft(int spd){ motorLeft(-spd);  motorRight(spd); }
 void turnRight(int spd){ motorLeft(spd);  motorRight(-spd); }
-void stop()           { motorLeft(0);     motorRight(0); }
+void stop()           { motorLeft(0);     motorRight(0); } // EN=0: coast
 
 void setup() {
   for (int p : {IN1,IN2,IN3,IN4}) pinMode(p, OUTPUT);

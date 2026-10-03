@@ -44,12 +44,13 @@
 
       <div class="circuit-ascii">  Vòng điều khiển PID:
 
-  Setpoint(SP) ─[+]─→ [PID Controller] ─→ [Plant/Process] ─→ Output
-               [-]                                                │
-                └──────────── [Sensor / Feedback] ←──────────────┘
+  r: Setpoint ─→ (+)Σ ─e─→ [PID] ─u: PWM─→ [Driver + heater + lò] ─y: °C─→
+                  ↑ (−)                                               │
+                  └────────────── [Cảm biến nhiệt] ←──────────────────┘
 
   Error = Setpoint - Measurement (từ cảm biến)
-  Output = Kp×e + Ki×∫e dt + Kd×(de/dt)
+  u (tín hiệu điều khiển) = Kp×e + Ki×∫e dt + Kd×(de/dt)
+  y (nhiệt độ lò) là đầu ra của quá trình, không phải u.
 
   Ví dụ: Điều khiển nhiệt độ lò
   SP = 100°C, Measurement = 85°C → Error = +15°C
@@ -100,16 +101,18 @@ struct PID {
 
 // Sử dụng
 PID tempPID = {2.0, 0.5, 0.1, 100.0};  // Kp, Ki, Kd, SP=100°C
-const int HEATER_PIN = 9;
+const int HEATER_PIN = 25;  // GPIO25 trên ESP32-WROOM; kiểm tra pinout board thực tế
 const float DT = 0.1;  // 100ms chu kỳ
 
 void loop() {
-  float temp = readTemperature();  // Từ BME280 hoặc PT100
+  float temp = readTemperature();  // PT100 qua mạch giao tiếp phù hợp; không dùng BME280 cho lò 100°C
   float pwm = tempPID.compute(temp, DT);
   analogWrite(HEATER_PIN, (int)pwm);
   delay(100);
 }</pre>
       </div>
+
+      <p><strong>Phần cứng:</strong> GPIO25 chỉ xuất PWM tới tầng driver MOSFET/SSR phù hợp với điện áp, dòng và loại tải; không nối heater trực tiếp vào GPIO. Ví dụ lò 100°C dùng PT100 cùng mạch đo phù hợp hoặc cảm biến có dải đo trên 100°C. BME280 có dải nhiệt độ giới hạn ở 85°C, không phù hợp để đo điểm đặt này. Khi dùng heater điện lưới, cần thiết kế bảo vệ và cách ly theo yêu cầu thiết bị.</p>
 
       <h2>3. Tuning PID — Phương pháp thực hành</h2>
 

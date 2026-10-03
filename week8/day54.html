@@ -33,7 +33,7 @@
           <li>Ba cơ chế gây nhiễu: Conducted, Radiated, Common-impedance coupling</li>
           <li>Decoupling capacitor — tại sao, giá trị nào, đặt ở đâu trên PCB</li>
           <li>Ground plane — tại sao làm giảm EMI đáng kể</li>
-          <li>Tách vùng analog và digital — star ground topology</li>
+      <li>Tách vùng analog và digital, kiểm soát đường hồi dòng trên ground plane</li>
           <li>Ferrite bead — lọc nhiễu cao tần trên đường nguồn</li>
           <li>TVS diode — bảo vệ ESD tại connector đầu vào</li>
           <li>Review PCB đồ án của bạn theo checklist EMC</li>
@@ -52,13 +52,19 @@
   → Điện áp VCC tụt xuống (voltage droop) tức thì
   → Các IC khác trên cùng bus bị nhiễu nguồn
 
-  Giải pháp: Decoupling capacitor ở sát chân VCC mỗi IC
-  Cung cấp "bình chứa điện" cục bộ → VCC giữ ổn định
+  Giải pháp: tụ decoupling mắc giữa VCC và GND sát chân nguồn IC.
+  Dòng chuyển mạch tức thời khép vòng qua tụ và IC; VCC ít sụt hơn.
+
+       VCC ─────┬──────── IC VCC
+                │           │
+              100 nF        IC
+                │           │
+       GND ─────┴──────── IC GND
 
   Rule:
   - 100nF ceramic X7R: mỗi IC, ngay sát chân VCC/GND
   - 10µF tantalum/ceramic: mỗi module nguồn (buck converter)
-  - Vị trí: VÀO giữa IC và power plane, track ngắn nhất có thể
+  - Vị trí: gần chân nguồn IC, vòng VCC–tụ–GND ngắn nhất có thể
   - Via GND ngay dưới pad GND của capacitor</div>
 
       <h2>3. EMC Checklist cho PCB</h2>
@@ -79,22 +85,21 @@
         </table>
       </div>
 
-      <h2>4. Common-Impedance Coupling — Lỗi ground loop</h2>
+      <h2>4. Common-Impedance Coupling — Đường hồi dòng chung</h2>
 
-      <div class="circuit-ascii">  Ground loop gây nhiễu:
+  <div class="circuit-ascii">  Ví dụ đường hồi dòng chung có trở kháng Z_shared:
 
-  [Motor Driver] ────PGND (dòng lớn)──── GND Point A
-                                              │ (track trở kháng)
-  [ADC Sensor] ──────AGND────────────── GND Point A
+  Motor return ───┐
+                  ●──── Z_shared ──── PSU GND
+  ADC reference ──┘
+                  ↑ dòng motor I_motor đi qua Z_shared
 
-  Dòng motor lớn qua track GND → tạo điện áp R×I trên track
-  → ADC thấy GND dao động → đọc sai giá trị!
+  Khi motor đổi dòng, điện áp tại nút ● đổi theo I_motor × Z_shared.
+  ADC dùng nút này làm mốc sẽ thấy tín hiệu sai lệch.
 
-  Giải pháp — Star Ground:
-  [Motor Driver] PGND ──┐
-  [MCU]         DGND ──→ Star Point (GND bulk cap) ←── PSU GND
-  [ADC Sensor]  AGND ──┘
-  Mỗi nguồn nhiễu có đường GND riêng về star point.</div>
+  Bố trí: cho dòng motor trở về nguồn theo đường ngắn, rộng;
+  giữ dòng tải lớn khỏi đường mốc của ADC. Giữ ground plane liên tục,
+  kiểm tra đường hồi dòng thực tế và trở kháng chung trên PCB.</div>
 
       <!-- BÀI TẬP -->
       <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>
@@ -107,7 +112,7 @@
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án câu 2</button>
           <div class="answer-content">
-            <p><strong>2:</strong> Nhiễu theo <strong>Common-Impedance Coupling</strong> qua đường GND. Motor kéo dòng lớn đột ngột (nhất là lúc start/reverse) → voltage drop trên track GND chung → ADC AGND bị dao động → đọc sai. Fix: (a) <strong>Ngắn mạch phần cứng:</strong> thêm tụ 10µF + 100nF sát nguồn motor; (b) <strong>Layout:</strong> tách PGND (motor) và AGND (sensor), chỉ nối tại một điểm star gần nguồn; (c) <strong>Firmware:</strong> đọc ADC chỉ khi motor đang idle, hoặc lấy trung bình nhiều mẫu và loại bỏ outlier.</p>
+            <p><strong>2:</strong> Một khả năng là <strong>common-impedance coupling</strong> trên đoạn GND dùng chung: dòng motor thay đổi gây sụt áp trên đoạn này, làm mốc ADC dao động. Đo điện áp tại mốc ADC và đầu GND nguồn khi motor chạy để xác nhận; cũng kiểm tra nhiễu nguồn và bức xạ. Giảm trở kháng và chiều dài đường hồi dòng tải, giữ dòng motor khỏi vùng ADC, đặt tụ bypass theo yêu cầu driver và dùng ground plane liên tục. Lọc số chỉ giúp sau khi đường nguồn/mốc đo đã đúng.</p>
           </div>
         </div>
       </div>
@@ -117,7 +122,7 @@
         <div class="checklist-item"><input type="checkbox" id="c1b54"><label for="c1b54">Tôi hiểu 3 cơ chế gây nhiễu EMI</label></div>
         <div class="checklist-item"><input type="checkbox" id="c2b54"><label for="c2b54">PCB đồ án có decoupling cap sát mỗi IC</label></div>
         <div class="checklist-item"><input type="checkbox" id="c3b54"><label for="c3b54">Ground plane liên tục, via stitching</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c4b54"><label for="c4b54">Tôi nhận biết và fix ground loop trong thiết kế</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b54"><label for="c4b54">Tôi nhận biết và giảm trở kháng chung trên đường hồi dòng</label></div>
       </div>
 
       <div class="lesson-nav">

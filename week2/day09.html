@@ -63,12 +63,13 @@
 
       <div class="circuit-ascii">  Mạch RC nạp tụ:
 
-   S đóng        R = 100kΩ
-   ┌────────────[R]────┬────┐
-   │                   │    │
-  [V=5V]               │   [C=100µF]
-   │                   │    │
-   └───────────────────┴────┘ GND
+   +5 V ──[S]──[R = 100 kΩ]──●── V_C (đo so với GND)
+                            │
+                        [C = 100 µF]
+                            │
+    0 V ────────────────────┴── GND
+
+   Chỉ có một nhánh từ V_C xuống GND qua tụ; không nối tắt tụ.
 
   Khi S đóng (t=0): V_C = 0V, dòng = V/R = 5/100k = 50 µA (lớn nhất)
   Sau đó: V_C tăng dần → dòng giảm → V_C tiếp tục tăng nhưng chậm lại...

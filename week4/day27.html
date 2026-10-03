@@ -58,13 +58,12 @@
       <!-- PHẦN 1 — DHT22 -->
       <h2>1. DHT22 — Cảm biến nhiệt độ & độ ẩm</h2>
 
-      <div class="circuit-ascii">  Kết nối DHT22 — 4 chân (nhìn mặt phẳng có lưới):
+      <div class="circuit-ascii">  DHT22 cảm biến rời 4 chân (mặt có lưới hướng về bạn,
+  chân hướng xuống; module gắn PCB có thể khác):
        [1]  [2]  [3]  [4]
        VCC  DATA  NC  GND
-        │    │         │
-      3.3V  GPIO      GND
-             │
-           [10kΩ] pull-up lên 3.3V
+  3,3V → chân 1; chân 2 → GPIO; chân 4 → GND chung
+  3,3V → R_pullup=10kΩ → chân 2 (DATA); chân 3 bỏ trống
 
   DHT22 tốt hơn DHT11:
   - Nhiệt độ: –40 → 80°C (±0,5°C vs ±2°C của DHT11)
@@ -133,8 +132,15 @@ void loop() {
       <!-- PHẦN 3 — PIR -->
       <h2>3. PIR HC-SR501 — Phát hiện chuyển động</h2>
 
-      <div class="circuit-ascii">  HC-SR501 — 3 chân:
-       VCC(5V) ─ GND ─ OUT(3.3V hoặc 5V tùy board)
+      <div class="circuit-ascii">  HC-SR501 — xác định chân trên PCB thật:
+  Module có VCC, OUT, GND; thứ tự trên đầu 3 chân có thể
+  khác theo nhà sản xuất/góc nhìn. Đọc chữ in trên chính
+  board hoặc datasheet module trước khi cắm, không suy ra
+  thứ tự từ hình minh họa này.
+
+  VCC module → nguồn theo nhãn/datasheet module; GND → GND chung
+  OUT → GPIO chỉ sau khi đo mức HIGH/LOW bằng multimeter.
+  Nếu OUT có thể vượt 3,3V, dùng mạch chuyển mức trước ESP32.
 
   Hai biến trở điều chỉnh trên module:
   - Sensitivity (Sx): xoay phải = nhạy hơn, phát hiện xa hơn (7m max)

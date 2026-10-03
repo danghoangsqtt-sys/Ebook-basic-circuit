@@ -47,14 +47,16 @@
 
       <div class="circuit-ascii">  Buck Converter — nguyên lý:
 
-  V_in ──[Q_sw]──────── V_out
-          │     [L]     │
-    [D_fw]│      │     [C_out]
-   (Schottky)   GND     │
-               GND      GND
+  V_in ──[Q_sw]──● SW──[L]──● V_out ──→ tải
+                 │            │
+             cathode       [C_out]
+              [D_fw]          │
+              anode           │
+                 │            │
+                GND──────────GND
 
-  MOSFET ON (D%):   L tích trữ năng lượng, i_L tăng, C cấp dòng cho tải
-  MOSFET OFF (1-D%): D_fw dẫn, L giải phóng năng lượng qua D_fw → tải
+  MOSFET ON (D%):   Q_sw cấp dòng qua L đến tải; i_L tăng và C lọc đầu ra
+  MOSFET OFF (1-D%): dòng L tiếp tục qua tải rồi GND→D_fw→SW
 
   V_out = D × V_in  (CCM - Continuous Conduction Mode)
   D = duty cycle (0 → 1)</div>

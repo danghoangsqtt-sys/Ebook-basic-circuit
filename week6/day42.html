@@ -40,7 +40,7 @@
             <tr><td>NEMA 17: 1/8 microstepping, quay 45°. Số microstep?</td><td>200×8 × (45/360) = 200 microsteps</td></tr>
             <tr><td>L298N vs TB6612FNG — cái nào hiệu suất cao hơn?</td><td>TB6612FNG (MOSFET, V_drop &lt;0,5V vs L298N 2V)</td></tr>
             <tr><td>HC-SR04: ECHO=870µs → khoảng cách = ?</td><td>870/58 = 15cm</td></tr>
-            <tr><td>Pin LiPo 3,7V được coi là "đầy" ở điện áp nào?</td><td>4,20V ± 0,05V (BMS cắt sạc tại đây)</td></tr>
+            <tr><td>Pin LiPo một cell được sạc đầy ở điện áp nào?</td><td>4,20V danh định với cell loại 4,2V; IC sạc CC/CV kết thúc chu kỳ theo dòng sạc, còn ngưỡng bảo vệ tùy IC/board.</td></tr>
           </tbody>
         </table>
       </div>
@@ -52,10 +52,10 @@
         <div class="callout-header"><span class="callout-icon">🤖</span> Thông số kỹ thuật Capstone</div>
         <ul>
           <li><strong>Vi điều khiển:</strong> ESP32 (WiFi + ADC + nhiều GPIO)</li>
-          <li><strong>Motor:</strong> 2× DC geared motor + L298N hoặc TB6612FNG</li>
+          <li><strong>Motor:</strong> 2× DC geared motor loại 3–6V, điều khiển bằng TB6612FNG; kiểm tra dòng kẹt trục (stall) trước khi chọn nguồn.</li>
           <li><strong>Cảm biến:</strong> HC-SR04 siêu âm + PIR phát hiện người (tùy chọn)</li>
           <li><strong>Servo:</strong> SG90 quét HC-SR04 trái/phải</li>
-          <li><strong>Nguồn:</strong> LiPo 3,7V 2000mAh + TP4056 BMS + Boost 5V</li>
+          <li><strong>Nguồn:</strong> một cell LiPo 3,7V 2000mAh + module TP4056 có IC bảo vệ riêng + boost 5V; chọn cell, mạch bảo vệ, boost theo tổng dòng đỉnh của motor, servo và ESP32.</li>
           <li><strong>Điều khiển:</strong> Web server WiFi → điều khiển từ điện thoại (tiến/lùi/rẽ/stop)</li>
           <li><strong>Tính năng tự động:</strong> khi nhận lệnh "AUTO" → tự tránh vật cản</li>
           <li><strong>Monitor:</strong> OLED 128×64 hiển thị trạng thái, khoảng cách, % pin</li>
@@ -68,16 +68,23 @@
 
   ┌─────────────────────────────────────────┐
   │              ESP32                      │
-  │  GPIO: IN1,IN2,IN3,IN4 → L298N         │
-  │  GPIO: ENA,ENB (PWM) → L298N           │
-  │  GPIO: TRIG,ECHO → HC-SR04             │
+  │  GPIO: AIN1/2, BIN1/2 → TB6612FNG     │
+  │  GPIO: PWMA/B PWM, STBY HIGH           │
+  │  GPIO: TRIG → HC-SR04                 │
+  │  GPIO: ECHO ← chia áp 10k/15k ← ECHO │
   │  GPIO: SERVO_PIN → SG90 servo          │
   │  I2C: SDA,SCL → SSD1306 OLED           │
-  │  ADC34: V_bat monitor                  │
+  │  ADC34 ← chia áp 100k/100k ← pin 1S    │
   │  WiFi: Web Server port 80              │
   └─────────────────────────────────────────┘
-       │ 5V (từ Boost)          │ 12V (Motor Power)
-  LiPo→TP4056→Boost5V        LiPo→2S hoặc 7,4V pack</div>
+       │ 5V cho ESP32, HC-SR04, servo và VM motor
+  LiPo 1S → mạch bảo vệ 1S → boost 5V ──┬─ ESP32 chân 5V
+                                       ├─ TB6612FNG VM, motor
+                                       └─ HC-SR04 VCC, servo
+  ESP32 3,3V → TB6612FNG VCC; tất cả GND nối chung.
+  USB 5V → TP4056 → cell 1S khi sạc; kiểm tra power-path nếu vừa sạc vừa chạy.</div>
+
+      <p>Chân ECHO của HC-SR04 cấp 5V không nối trực tiếp tới GPIO ESP32 3,3V: với rail 5V ổn áp 4,75–5,25V, dùng 10kΩ từ ECHO tới GPIO và 15kΩ từ GPIO xuống GND, cho khoảng 3,0V ở 5V; kiểm tra rail và ngưỡng đầu vào của board thực. Xem <a href="https://learn.adafruit.com/ultrasonic-sonar-distance-sensors/pinouts" target="_blank" rel="noopener">hướng dẫn HC-SR04 của Adafruit</a> và <a href="https://documentation.espressif.com/esp32-wroom-32_datasheet_en.html" target="_blank" rel="noopener">datasheet ESP32-WROOM-32</a>. Theo <a href="https://toshiba.semicon-storage.com/info/datasheet_en_20141001.pdf?did=10660" target="_blank" rel="noopener">datasheet TB6612FNG của Toshiba</a>, rail logic 3,3V và rail motor 5V phù hợp; chân STBY phải ở mức HIGH, dòng liên tục tối đa 1A/kênh ở VM≥4,5V. Chọn motor có dòng kẹt trục và nhu cầu tản nhiệt phù hợp; kiểm tra dòng đỉnh của servo/ESP32 để chọn boost, pin và mạch bảo vệ có dự phòng. Module TP4056 chỉ sạc một cell và khả năng bảo vệ phụ thuộc linh kiện gắn thêm trên board.</p>
 
       <h3>2.2 Chức năng Web Interface</h3>
 
@@ -133,8 +140,8 @@ void handleCtrl() {
         <div class="checklist-item"><input type="checkbox" id="wk6c1"><label for="wk6c1">Tôi kết nối và đọc thành công DS3231 I2C</label></div>
         <div class="checklist-item"><input type="checkbox" id="wk6c2"><label for="wk6c2">ESP32 tạo Web Server và điều khiển GPIO từ điện thoại</label></div>
         <div class="checklist-item"><input type="checkbox" id="wk6c3"><label for="wk6c3">Tôi điều khiển stepper và servo chính xác</label></div>
-        <div class="checklist-item"><input type="checkbox" id="wk6c4"><label for="wk6c4">Robot 2 bánh L298N + HC-SR04 hoạt động tránh vật cản</label></div>
-        <div class="checklist-item"><input type="checkbox" id="wk6c5"><label for="wk6c5">Nguồn LiPo+BMS+TP4056 hoạt động an toàn</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk6c4"><label for="wk6c4">Robot 2 bánh TB6612FNG + HC-SR04 hoạt động tránh vật cản; ECHO đã hạ mức cho ESP32</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk6c5"><label for="wk6c5">Nguồn một cell LiPo + TP4056 + IC bảo vệ riêng + boost 5V đã kiểm tra dòng đỉnh</label></div>
         <div class="checklist-item"><input type="checkbox" id="wk6c6"><label for="wk6c6">Tôi đã xác định ý tưởng cho Đồ Án Tốt Nghiệp</label></div>
       </div>
 

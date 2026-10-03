@@ -63,19 +63,19 @@
         <li><strong>SCL</strong> (Serial Clock): clock do Master tạo ra</li>
       </ul>
 
-      <p>Mỗi thiết bị Slave có <strong>địa chỉ 7-bit</strong> duy nhất (0x00–0x7F). Master gửi địa chỉ trước mỗi giao dịch — chỉ thiết bị có đúng địa chỉ mới phản hồi. Lên đến 127 thiết bị cùng bus.</p>
+      <p>Mỗi thiết bị trên cùng bus cần <strong>địa chỉ 7-bit không trùng</strong> (trong miền 0x00–0x7F, có một số địa chỉ dành riêng). Master gửi địa chỉ trước mỗi giao dịch — chỉ thiết bị có đúng địa chỉ mới phản hồi. Số thiết bị thực tế còn bị giới hạn bởi điện dung bus, điện trở pull-up, nguồn và địa chỉ mà module cho phép.</p>
 
       <div class="circuit-ascii">  Kết nối I2C — nhiều thiết bị chung bus:
 
-   VCC ──[4,7kΩ]──┬── SDA ──┬─── SDA ──┬─── SDA
-                  │         │           │
-   VCC ──[4,7kΩ]──┼── SCL ──┼─── SCL ──┼─── SCL
-                  │         │           │
-                 [Master] [OLED 0x3C] [BME280 0x76]
-                (Arduino)
+  Net SDA: Master SDA ↔ OLED SDA ↔ BME280 SDA
+           VCC_logic → R_pullup_SDA=4,7kΩ → net SDA
+  Net SCL: Master SCL → OLED SCL và BME280 SCL
+           VCC_logic → R_pullup_SCL=4,7kΩ → net SCL
+  Net GND: Master GND ↔ OLED GND ↔ BME280 GND
 
-  Pull-up điện trở BẮT BUỘC — SDA/SCL cần kéo lên VCC
-  Nếu thiếu pull-up: SDA/SCL không về HIGH → bus bị kéo xuống liên tục</div>
+  SDA và SCL là HAI net riêng, tuyệt đối không nối tắt.
+  Với ESP32, kéo lên 3,3V và dùng module tương thích 3,3V;
+  kiểm tra pull-up tích hợp trước khi thêm điện trở ngoài.</div>
 
       <h3>1.1 Tại sao cần pull-up resistor?</h3>
 

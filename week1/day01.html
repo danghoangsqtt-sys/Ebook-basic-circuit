@@ -172,15 +172,13 @@
 
       <div class="circuit-ascii">  Hai pin AA nối tiếp:
 
-   (+1.5V)──[PIN 1]──(Junction)──[PIN 2]──(–) = GND = 0V
-     │                   │                           │
-   +3.0V              +1.5V                        0V (GND)
+    +3,0 V ── (+)[PIN 2](–) ── +1,5 V ── (+)[PIN 1](–) ── 0 V (GND)
+                       nút giữa hai pin                         cực âm pin 1
 
-   Điện áp tại cực dương của PIN 2, so với GND = 3.0 V
-   Điện áp tại junction giữa hai pin, so với GND   = 1.5 V
-   Điện áp tại GND, so với GND                     = 0.0 V</div>
+    Cực âm PIN 2 nối với cực dương PIN 1.
+    Mỗi pin tạo chênh lệch 1,5 V; đo từ GND: 0 V → 1,5 V → 3,0 V.</div>
 
-      <p>Chú ý rằng "junction" ở giữa không phải GND — nó chỉ là 1,5 V nếu ta chọn cực âm của pin thứ hai làm GND. Nếu ta chọn junction làm GND, thì cực dương pin 2 sẽ là +1,5 V và cực âm pin 1 sẽ là –1,5 V. Con số phụ thuộc hoàn toàn vào điểm tham chiếu.</p>
+       <p>Chú ý rằng nút giữa không phải GND — nó chỉ là +1,5 V nếu ta chọn cực âm pin 1 làm GND. Nếu chọn nút giữa làm GND, cực dương pin 2 là +1,5 V và cực âm pin 1 là –1,5 V. Con số phụ thuộc vào điểm tham chiếu.</p>
 
       <!-- VIDEO 1 -->
       <div class="video-card">
@@ -257,16 +255,15 @@
 
       <div class="circuit-ascii">  Chiều dòng điện trong mạch đơn giản:
 
-   (+) ──────────────────────────────── (–)
-    │         Conventional Current →          │
-    │                                         │
-   [Battery]                               [Resistor]
-    │                                         │
-    │         ← Electron Flow               │
-   (–) ──────────────────────────────── (+)
+       ┌────── dòng quy ước → ──────[R]──────┐
+       │                                     │
+    (+)│                                     │
+    [PIN]                                    │
+    (–)│                                     │
+       └────── electron qua dây → ──────────┘
 
-   Mũi tên trên sơ đồ mạch = chiều dòng điện QUY ƯỚC (+ → –)
-   Electron thực sự chạy ngược chiều đó</div>
+    Vòng kín: dòng quy ước từ cực + qua R về cực –;
+    electron trong dây kim loại đi từ cực – qua R về cực +.</div>
 
       <!-- VIDEO 2 -->
       <div class="video-card">

@@ -72,26 +72,20 @@
 
       <div class="circuit-ascii">  Mạch relay driver BC337 — sơ đồ chuẩn:
 
-              VCC_5V
-                │
-              [D_fw: 1N4007]  ← Freewheeling diode (Cathode lên)
-                │
-              [Cuộn relay]
-                │
-   GPIO ─[R_B=1kΩ]─── Base(B)
-                          │
-                       [BC337] (NPN)
-                          │
-                        Emitter
-                          │
-                         GND
+  +5V ──[cuộn relay]──●── C (BC337)
+        │             │
+        └──[1N4007]────┘  D_fw: cathode ở +5V,
+                         anode ở nút Collector
+  GPIO 3,3V ──[R_B=330Ω]── B (BC337)
+  E (BC337) ── GND chung giữa nguồn 5V và ESP32
 
-  Tiếp điểm relay (Contact):
-  COM ─────────────── NO (Normally Open)
-       └─────────────── NC (Normally Closed)
+  D_fw mắc NGƯỢC SONG SONG cuộn relay, bình thường không dẫn.
+  Không đặt diode nối tiếp cuộn relay.
 
-  Khi GPIO=HIGH: Transistor ON → Relay đóng → NO nối với COM
-  Khi GPIO=LOW:  Transistor OFF → Relay mở → NC nối với COM</div>
+  Tiếp điểm relay (Contact) tách biệt với cuộn dây:
+  Khi GPIO=HIGH: cuộn có điện, COM nối NO; NC hở.
+  Khi GPIO=LOW:  cuộn mất điện, COM nối NC; NO hở.
+  COM không bao giờ nối đồng thời NO và NC.</div>
 
       <h3>2.1 Tính toán mạch relay</h3>
 
@@ -107,7 +101,7 @@
       R_B = (V_GPIO – V_BE) / I_B = (3,3 – 0,7) / 0,00714 = 2,6 / 0,00714 = <strong>364Ω → chọn 330Ω</strong></p>
 
       <p><strong>Bước 4: Freewheeling diode</strong><br>
-      Dùng 1N4007. Cathode → VCC_5V. Anode → Collector transistor (điểm nối cuộn relay). Diode này hấp thụ spike khi GPIO→LOW ngắt dòng cuộn relay.</p>
+      Dùng 1N4007 mắc ngược song song cuộn relay: Cathode → VCC_5V; Anode → Collector transistor (điểm nối cuộn relay). Diode tạo đường hồi dòng khi GPIO→LOW ngắt cuộn dây.</p>
 
       <div class="callout callout-danger">
         <div class="callout-header"><span class="callout-icon">🚫</span> Không bao giờ bỏ qua diode freewheeling</div>
@@ -119,17 +113,9 @@
 
       <div class="circuit-ascii">  Mạch buzzer với NPN switch:
 
-              VCC_5V
-                │
-              [Buzzer Active 5V]
-                │
-   GPIO ─[R_B=2.2kΩ]─── Base(B)
-                             │
-                          [BC547 hoặc BC337]
-                             │
-                           Emitter
-                             │
-                            GND
+  +5V → cực (+) buzzer active → cực (–) buzzer → C transistor
+  GPIO 3,3V → R_B=2,2kΩ → B của BC547/BC337
+  E transistor → GND chung
 
   I_buzzer thường = 30–50mA → BC547 đủ nếu I &lt; 100mA
   Nếu buzzer vẫn kêu khi GPIO=LOW: kiểm tra R_B không bị nối tắt
@@ -168,8 +154,8 @@
           <li class="step-item"><div class="step-content"><p>Lắp mạch theo sơ đồ: BC337, R_B=330Ω, diode 1N4007 (đúng chiều!), cuộn relay từ 5V.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Chạm Base (qua R_B) vào 3,3V: nghe tiếng "click" relay đóng. Đo V_CE → kỳ vọng &lt; 0,3V.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Ngắt Base (về GND): nghe tiếng "click" relay mở. Đo V_CE → kỳ vọng ≈ 5V.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Test diode: rút diode ra, bật tắt nhanh vài lần → transistor có thể nóng hơn đột ngột (spike ngắn). Lắp lại diode.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Lắp LED vào tiếp điểm NO-COM của relay (nguồn 5V). Điều khiển relay bật tắt LED qua tiếp điểm cơ học.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Ngắt nguồn, kiểm tra diode bằng chế độ diode test và xác nhận vạch cathode nối +5V, anode nối Collector; lắp lại chắc chắn trước khi cấp nguồn. Giữ diode bảo vệ trong mọi lần bật/tắt relay.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Lắp mạch kiểm tra tiếp điểm với nguồn DC thấp: +5V → COM, NO → điện trở 470Ω → LED → GND. Điều khiển relay bật/tắt LED qua tiếp điểm, không nối tải điện lưới trong bài thực hành.</p></div></li>
         </ol>
       </div>
 

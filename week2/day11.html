@@ -69,11 +69,10 @@
               zone (rào thế)
 
    Ký hiệu sơ đồ mạch:
-   A ──|▶|── K
-        (mũi tên chỉ chiều dòng điện quy ước)
+    A ──▷|── K    (vạch đứng chỉ cathode K)
 
-   Nhớ: dòng điện chạy theo chiều mũi tên (A→K)
-        Electron chạy ngược chiều mũi tên (K→A)</div>
+    Dòng quy ước khi phân cực thuận: A → K.
+    Electron trong dây dẫn đi ngược chiều dòng quy ước.</div>
 
       <h3>1.1 Phân cực thuận — Forward Bias</h3>
       <p>Khi đặt điện áp dương vào anode (A) và âm vào cathode (K), rào thế bị thu hẹp. Khi V_AK đủ lớn (~0,6–0,7V với diode silicon; ~0,2–0,3V với diode Schottky), rào thế bị thắng, dòng điện chạy từ A → K. Diode <strong>dẫn điện</strong>.</p>
@@ -121,33 +120,31 @@
 
       <div class="circuit-ascii">  Mạch chỉnh lưu bán sóng:
 
-   AC ──[D1]──┬── DC+ (chỉ có nửa sóng dương)
+    AC1 ──▷|───┬── DC+ (anode trái, cathode phải)
               [R_load]
               │
-   AC ─────────┴── DC– (GND)
+    AC2 ─────────┴── DC– (điểm tham chiếu)
 
-  Đầu vào:   ┌─┐   ┌─┐        (sóng sin đầy đủ)
-          ───┘ └───┘ └──
-  Đầu ra:    ┌─┐   ┌─┐        (chỉ nửa dương)
-          ─────┘ ─────┘ ──
-
-  V_out_avg = V_peak / π ≈ 0,318 × V_peak
-  Hiệu suất thấp — chỉ dùng một nửa chu kỳ AC</div>
+   AC1 dương so với AC2: diode dẫn, tải nhận nửa sóng dương.
+   AC1 âm so với AC2: diode khóa, tải gần 0 V.
+   Lý tưởng: V_out_avg = V_peak / π ≈ 0,318 × V_peak;
+   diode thật làm điện áp ra thấp hơn.</div>
 
       <h3>3.2 Chỉnh lưu toàn sóng cầu (Full-Wave Bridge Rectifier)</h3>
 
       <div class="circuit-ascii">  Cầu diode 4 linh kiện:
 
-           D1            D3
-   AC+ ──|▶|──┬── DC+ ──|◀|── AC-
-              [R_L]
-   AC- ──|▶|──┴── DC– ──|◀|── AC+
-           D2            D4
+   Bốn diode nối tại bốn nút riêng; | là cathode:
 
-  Đầu ra:    ┌─┐ ┌─┐ ┌─┐      (toàn sóng)
-          ────┘ └┘ └┘ └───
-  V_out_avg = 2 × V_peak / π ≈ 0,636 × V_peak
-  Hiệu suất gấp đôi so với bán sóng</div>
+   D1: AC1 ──▷|── DC+       D2: AC2 ──▷|── DC+
+   D3: DC– ──▷|── AC1       D4: DC– ──▷|── AC2
+
+   Tải R_L nối DUY NHẤT từ DC+ xuống DC–.
+   AC1 dương: AC1 → D1 → DC+ → R_L → DC– → D4 → AC2.
+   AC2 dương: AC2 → D2 → DC+ → R_L → DC– → D3 → AC1.
+   Mỗi bán kỳ có 2 diode dẫn; V_peak,out ≈ V_peak,in – 2V_f.
+   Lý tưởng: V_out_avg = 2V_peak/π ≈ 0,637V_peak.
+   Chỉ dùng nguồn AC thấp áp cách ly khi lắp thực hành.</div>
 
       <div class="callout callout-note">
         <div class="callout-header"><span class="callout-icon">📌</span> Tụ lọc sau chỉnh lưu</div>
@@ -175,7 +172,7 @@
       <div class="callout callout-practice">
         <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành A: Đo V_f diode 1N4007 và 1N4148</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Chế độ <code>|▶|</code> (Diode) trên multimeter. Que đỏ vào anode, que đen vào cathode (nhìn vạch trắng trên thân = cathode).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Chọn chế độ diode trên multimeter. Que đỏ vào anode, que đen vào cathode (vạch trên thân = cathode).</p></div></li>
           <li class="step-item"><div class="step-content"><p>Đo V_f của 1N4007: kỳ vọng 0,6–0,7V. Ghi lại.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Đo V_f của 1N4148: kỳ vọng 0,6–0,7V (tương tự nhưng thường hơi thấp hơn). Ghi lại.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Đổi que đo (que đỏ vào cathode, que đen vào anode): màn hình hiển thị "OL" = diode tốt, không dẫn nghịch.</p></div></li>
@@ -222,7 +219,7 @@
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
-            <p><strong>1:</strong> V_peak = 12V. Cầu diode sụt 2×0,7=1,4V. V_DC_avg = 0,636 × (12–1,4) = 0,636 × 10,6 = <strong>6,74V</strong>. Sau tụ lọc lớn: V_DC ≈ V_peak – 1,4V = <strong>10,6V</strong> (ripple nhỏ).</p>
+            <p><strong>1:</strong> Với diode lý tưởng, điện áp trung bình toàn sóng = 2 × 12/π ≈ <strong>7,64 V</strong>. Hai diode thật dẫn mỗi bán kỳ nên trung bình thực tế thấp hơn (khoảng 6,3 V nếu lấy V_f≈0,7 V); không được nhân 0,636 với (V_peak–1,4) vì diode ngừng dẫn gần điểm qua 0. Sau tụ đủ lớn và tải nhẹ, đỉnh xấp xỉ 12–1,4 = <strong>10,6 V</strong>, còn điện áp trung bình phụ thuộc tải, tần số và độ gợn.</p>
             <p><strong>2:</strong> 1N4007 sụt 0,7V; Schottky sụt 0,3V. Với nguồn 5V: 1N4007 còn 4,3V (14% tổn thất); Schottky còn 4,7V (6% tổn thất). Cải thiện ~8% — quan trọng khi chạy bằng pin.</p>
             <p><strong>3:</strong> Khi tín hiệu bình thường (dương): diode phân cực nghịch → không ảnh hưởng. Khi tín hiệu âm: diode phân cực thuận → kẹp điện áp tại khoảng –0,7V → bảo vệ input ADC/GPIO khỏi điện áp âm phá hủy.</p>
             <p><strong>4:</strong> Diode silicon (V_f=0,68V ≈ 0,7V silicon). Kiểm tra tốt: thuận dẫn (0,68V), nghịch chặn (OL) → <strong>Diode tốt</strong>.</p>

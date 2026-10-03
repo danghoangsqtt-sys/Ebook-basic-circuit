@@ -59,10 +59,10 @@
           <li>Cảm biến: <strong>NTC Thermistor 10kΩ</strong> — điện trở giảm khi nhiệt độ tăng</li>
           <li>Mạch phân áp: NTC + R_ref = 10kΩ → tạo V_sensor thay đổi theo nhiệt độ</li>
           <li>So sánh ngưỡng: <strong>Op-Amp LM358 Comparator</strong> — V_ref từ biến trở</li>
-          <li>Khi nhiệt > ngưỡng: comparator output HIGH → BJT BC337 ON → Relay đóng → Quạt bật</li>
+          <li>Khi nhiệt > ngưỡng: comparator output HIGH → BJT BC337 ON → relay đóng → quạt bật; chọn relay cuộn 5V dòng thấp ≤25mA cho mạch thử này</li>
           <li>LED đỏ: báo trạng thái HOT (relay ON)</li>
           <li>LED xanh: báo trạng thái NORMAL (relay OFF)</li>
-          <li>Nguồn: 5V cho cảm biến và logic; 12V cho quạt (hoặc dùng relay để điều khiển tải tùy ý)</li>
+          <li>Nguồn: 3,3V cho phân áp NTC/biến trở; 5V cho LM358 và cuộn relay; 12V riêng cho quạt qua tiếp điểm relay; GND chung ở phía điều khiển</li>
         </ul>
       </div>
 
@@ -72,7 +72,7 @@
 
       <div class="circuit-ascii">  Mạch phân áp NTC + R_ref:
 
-   VCC(3.3V) ──[R_ref=10kΩ]──┬── V_sensor → IN(+) Op-Amp
+   VCC(3.3V) ──[R_ref=10kΩ]──┬── V_sensor → IN(–) LM358
                               │
                           [NTC 10kΩ]  ← nhiệt độ cao → R_NTC nhỏ → V_sensor nhỏ
                               │
@@ -81,26 +81,26 @@
   Khi nhiệt độ THẤP: R_NTC lớn → V_sensor lớn (gần VCC)
   Khi nhiệt độ CAO:  R_NTC nhỏ → V_sensor nhỏ (gần GND)
 
-  → Comparator: IN(–) = V_ref (biến trở). Khi V_sensor < V_ref: output HIGH = HOT!</div>
+  Comparator: IN(+) = V_ref (biến trở). Khi V_sensor &lt; V_ref:
+  IN(+) &gt; IN(–) → output HIGH = HOT.
+  LM358 cấp 5V: giữ cả hai đầu vào trong miền common-mode
+  theo datasheet (xấp xỉ 0 đến VCC–2V với LM358-N).</div>
 
       <h3>2.2 Sơ đồ khối hệ thống</h3>
 
       <div class="circuit-ascii">  Hệ thống Báo Nhiệt Tự Động:
 
-  [NTC Thermistor] ─┐
-  [R_ref = 10kΩ]   ─┤→ V_sensor → [Op-Amp Comparator] → HIGH/LOW
-  [Pot = V_ref]  ───┘    (LM358)       │
-                                        │ HIGH khi HOT
-                                        ↓
-                               [LED đỏ + R470Ω] → "CẢNH BÁO NHIỆT"
-                                        │
-                               [BC337 NPN switch]
-                               [R_B = 1kΩ]
-                                        │
-                           [Relay 5V + Freewheeling diode]
-                                        │
-                               [LED xanh chỉ thị relay ON]
-                               hoặc [Quạt DC / Tải]</div>
+  NTC + R_ref → V_sensor → IN(–) LM358
+  Biến trở → V_ref → IN(+) LM358; OUT HIGH khi nóng
+  OUT → R_B=1kΩ → B BC337; E → GND chung
+  +5V → cuộn relay ≤25mA → C BC337
+  Diode 1N4007 ngược song song cuộn: cathode +5V, anode C
+  OUT → R_đỏ=2,2kΩ → LED đỏ → GND (sáng khi HOT/HIGH)
+  +5V → R_xanh=2,2kΩ → LED xanh → OUT (sáng khi NORMAL/LOW)
+
+  Hai LED là các nhánh chỉ thị riêng, không nối tiếp với Base.
+  Tiếp điểm NO/COM của relay đóng cắt nguồn 12V riêng cho quạt;
+  không đưa dòng quạt qua LM358 hay BC337.</div>
 
       <h3>2.3 Tính toán</h3>
 
@@ -111,8 +111,9 @@
             <tr><td>R_ref (phân áp NTC)</td><td>10kΩ</td><td>Bằng R_NTC tại 25°C → V_sensor = VCC/2 = 1,65V ở nhiệt phòng</td></tr>
             <tr><td>R_pot (V_ref)</td><td>Biến trở 10kΩ</td><td>Điều chỉnh ngưỡng nhiệt độ kích hoạt</td></tr>
             <tr><td>Op-Amp</td><td>LM358 op-amp 1</td><td>Single supply 5V, comparator mode</td></tr>
-            <tr><td>R_B (BJT driver)</td><td>1kΩ</td><td>I_B = (5–0,7)/1kΩ = 4,3mA → overdrive relay 70mA/100 × 10 ✓</td></tr>
-            <tr><td>Transistor</td><td>BC337</td><td>800mA I_C_max — đủ cho relay 70mA</td></tr>
+            <tr><td>R_B (BJT driver)</td><td>1kΩ</td><td>V_OUT thực tế khoảng 3–3,5V: I_B≈2,3–2,8mA; dùng relay cuộn ≤25mA và xác nhận V_CE thấp khi ON</td></tr>
+            <tr><td>Transistor</td><td>BC337</td><td>800mA I_C_max; kiểm tra đúng chân và dòng cuộn của relay đang dùng</td></tr>
+            <tr><td>Relay thử nghiệm</td><td>5V, cuộn ≥200Ω (≤25mA), SPDT</td><td>Relay cuộn 70Ω/71mA cần thiết kế driver mạnh hơn và kiểm tra khả năng cấp dòng của LM358</td></tr>
             <tr><td>Freewheeling diode</td><td>1N4007</td><td>Bảo vệ BC337 khi relay ngắt</td></tr>
           </tbody>
         </table>
@@ -125,11 +126,11 @@
         <ol class="step-list">
           <li class="step-item"><div class="step-content"><p><strong>Cấp nguồn:</strong> Lắp AMS1117-3.3 hoặc dùng nguồn 5V, GND.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>Mạch phân áp:</strong> 3,3V → R_ref(10kΩ) → NTC → GND. Đo V_sensor ở điểm giữa (kỳ vọng ~1,65V ở nhiệt phòng).</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>V_ref:</strong> 3,3V → Biến trở 10kΩ → GND. Giữa biến trở nối vào IN(–) LM358. Chỉnh biến trở sao cho V_ref ≈ 1,3V (ngưỡng ~35°C).</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>LM358 Comparator:</strong> V_sensor → IN(+), V_ref → IN(–). 100nF từ VCC(pin 8) → GND(pin 4) sát IC. Đo V_out (pin 1).</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>LED đỏ:</strong> V_out (pin 1) → R(470Ω) → LED đỏ → GND. LED sáng = nhiệt cao.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>BJT + Relay:</strong> V_out → R_B(1kΩ) → Base BC337. Collector → Relay cuộn (+). Emitter → GND. Diode freewheeling. Relay (+) từ 5V.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Test:</strong> Dùng ngón tay hoặc hà hơi ấm vào NTC. V_sensor giảm → V_sensor &lt; V_ref → Comparator output LOW → LED tắt, relay nhả. Tiếp tục hà hơi đến khi ngược lại.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>V_ref:</strong> 3,3V → biến trở 10kΩ → GND. Chân giữa nối IN(+) LM358. Chỉnh biến trở sao cho V_ref thấp hơn V_sensor lúc nguội; điều chỉnh ngưỡng bằng phép đo thực tế.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>LM358 Comparator:</strong> V_sensor → IN(–, pin 2), V_ref → IN(+, pin 3). Nguồn +5V pin 8, GND pin 4; 100nF từ +5V xuống GND sát IC. Đo V_out pin 1. Với LM358-N, tránh đưa điện áp đầu vào lên sát rail +5V.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>LED trạng thái:</strong> V_out → R(2,2kΩ) → LED đỏ → GND; +5V → R(2,2kΩ) → LED xanh → V_out. Đỏ sáng khi nóng, xanh sáng khi nguội; kiểm tra cực LED.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>BJT + relay:</strong> Chọn relay cuộn 5V ≥200Ω (≤25mA). V_out → R_B(1kΩ) → Base BC337. +5V → cuộn relay → Collector; Emitter → GND chung. Diode ngược song song cuộn: cathode +5V, anode Collector. Dùng tiếp điểm COM/NO riêng để đóng nguồn 12V cho quạt; không nối 12V vào GPIO hoặc LM358.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Test:</strong> Dùng ngón tay làm ấm NTC. V_sensor giảm; khi V_sensor &lt; V_ref, comparator OUT HIGH, LED đỏ sáng và relay đóng. Khi nguội lại, OUT LOW, LED xanh sáng, relay nhả. Đo V_OUT và V_CE để xác nhận đủ dòng điều khiển.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>Điều chỉnh ngưỡng:</strong> Chỉnh biến trở V_ref để hệ thống kích hoạt ở nhiệt độ mong muốn.</p></div></li>
         </ol>
       </div>
@@ -141,8 +142,8 @@
           <thead><tr><th>Điểm đo</th><th>Kỳ vọng</th><th>Đo được</th><th>P/F</th></tr></thead>
           <tbody>
             <tr><td>V_sensor (nhiệt phòng)</td><td>~1,5–1,8V</td><td>_____</td><td>—</td></tr>
-            <tr><td>V_sensor (ngón tay ấm)</td><td>&lt; 1,2V (R_NTC giảm)</td><td>_____</td><td>—</td></tr>
-            <tr><td>V_ref (biến trở)</td><td>1,2–1,5V (điều chỉnh)</td><td>_____</td><td>—</td></tr>
+            <tr><td>V_sensor (ngón tay ấm)</td><td>Thấp hơn lúc nguội; so với V_ref đã đặt</td><td>_____</td><td>—</td></tr>
+            <tr><td>V_ref (biến trở)</td><td>Điều chỉnh trong vùng V_sensor đo được</td><td>_____</td><td>—</td></tr>
             <tr><td>V_out LM358 (nhiệt thấp)</td><td>~0V (LOW)</td><td>_____</td><td>—</td></tr>
             <tr><td>V_out LM358 (nhiệt cao)</td><td>~3–4V (HIGH)</td><td>_____</td><td>—</td></tr>
             <tr><td>LED đỏ sáng khi nhiệt cao</td><td>Có</td><td>_____</td><td>_____</td></tr>

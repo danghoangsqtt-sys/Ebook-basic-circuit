@@ -68,13 +68,17 @@
    CS   ──────────── CS   (Chip Select — active LOW)
    GND  ──────────── GND  (GND chung — bắt buộc)
 
-  Nhiều thiết bị SPI — chia MOSI/MISO/SCK, CS riêng:
-   Master:
-     MOSI ─────────────────┬──── MOSI_SD
-     MISO ─────────────────┼──── MISO_SD
-     SCK  ─────────────────┼──── SCK_SD
-     CS_SD ────────────────┘
-     CS_TFT ──────────────── CS_TFT (màn hình)</div>
+  Nhiều thiết bị SPI — từng net độc lập:
+  Master MOSI → SD MOSI, TFT MOSI
+  Master MISO ← SD MISO, TFT MISO (nếu TFT có MISO)
+  Master SCK  → SD SCK,  TFT SCK
+  Master CS_SD  → chỉ SD CS
+  Master CS_TFT → chỉ TFT CS
+  Master GND ↔ SD GND ↔ TFT GND
+
+  MOSI/MISO/SCK dùng chung nhưng không nối với nhau.
+  CS_SD và CS_TFT là hai dây riêng, chọn mức LOW từng thiết bị.
+  Kiểm tra mức logic của cả hai module trước khi cấp nguồn.</div>
 
       <h3>1.1 Chức năng từng dây</h3>
 

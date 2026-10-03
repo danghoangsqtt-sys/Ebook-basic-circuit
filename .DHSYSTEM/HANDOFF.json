@@ -3,9 +3,9 @@
   "crystallize_version": "0.8.0",
   "crystallized_at": "2026-10-02",
   "project": "Giao trinh Ky thuat Dien tu Co ban",
-  "status": "debugging",
-  "current_phase": "Phase 4",
-  "next_task": "P4-04",
+  "status": "in_progress",
+  "current_phase": "Phase 5",
+  "next_task": "P5-01",
   "phase_inventory": [
     {
       "id": "Phase 1",

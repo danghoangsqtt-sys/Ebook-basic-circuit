@@ -56,9 +56,11 @@
   Tốc độ âm thanh ≈ 340m/s = 29µs/cm (đi + về = 58µs/cm)
   Dải đo: 2cm–400cm   Góc cone: ~15°   Tần số: 40kHz</div>
 
+      <p>Khi dùng HC-SR04 loại cấp 5V với ESP32, chân ECHO có thể xuất mức 5V. Với rail 5V ổn áp trong khoảng 4,75–5,25V, nối <strong>ECHO → điện trở 10kΩ → GPIO19 → điện trở 15kΩ → GND</strong> để hạ còn khoảng 3,0V ở 5V; TRIG từ GPIO18 đi thẳng tới TRIG, và nối GND của cảm biến với GND ESP32. Kiểm tra mức logic của đúng module và rail thực tế trước khi lắp. <a href="https://learn.adafruit.com/ultrasonic-sonar-distance-sensors/pinouts" target="_blank" rel="noopener">Sơ đồ chân HC-SR04 của Adafruit</a>; <a href="https://documentation.espressif.com/esp32-wroom-32_datasheet_en.html" target="_blank" rel="noopener">datasheet ESP32-WROOM-32</a> ghi V<sub>IH</sub> tối thiểu 0,75×VDD.</p>
+
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
-<pre style="margin:0;white-space:pre-wrap;">// HC-SR04 — đọc khoảng cách với timeout
-const int TRIG = 7, ECHO = 6;
+<pre style="margin:0;white-space:pre-wrap;">// HC-SR04 với ESP32 — ECHO qua cầu chia áp 10kΩ/15kΩ
+const int TRIG = 18, ECHO = 19;
 const unsigned long TIMEOUT_US = 30000;  // 30ms = ~5m max
 
 float readDistance_cm() {
@@ -74,7 +76,13 @@ float readDistance_cm() {
 // Lọc nhiễu — trung bình 5 mẫu, bỏ min/max
 float readDistanceFiltered() {
   float vals[5];
-  for (int i=0; i&lt;5; i++) { vals[i] = readDistance_cm(); delay(5); }
+  int count = 0;
+  for (int attempt=0; attempt&lt;10 &amp;&amp; count&lt;5; attempt++) {
+    float d = readDistance_cm();
+    if (d &gt;= 2.0 &amp;&amp; d &lt;= 400.0) vals[count++] = d;
+    delay(5);
+  }
+  if (count &lt; 5) return -1;  // không đủ mẫu hợp lệ
   // Sắp xếp đơn giản (bubble sort 5 phần tử)
   for (int i=0; i&lt;4; i++)
     for (int j=0; j&lt;4-i; j++)

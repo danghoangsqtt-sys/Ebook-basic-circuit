@@ -32,7 +32,7 @@
           <li>Vẽ schematic đồ án hoàn chỉnh trong KiCad — đúng chuẩn</li>
           <li>Thiết lập cấu trúc firmware chuyên nghiệp: tách module</li>
           <li>State Machine — quản lý trạng thái hệ thống rõ ràng</li>
-          <li>Task Scheduler đơn giản bằng millis() — không blocking</li>
+      <li>Task Scheduler đơn giản bằng millis() — tránh delay trong vòng lặp; nhận biết lời gọi I/O có thể chặn</li>
           <li>Config file — tập trung tham số cấu hình một nơi</li>
           <li>Serial Debug protocol — in trạng thái có prefix rõ ràng</li>
           <li>Unit test từng module trước khi tích hợp</li>
@@ -82,7 +82,7 @@ void loop() {
       break;
       
     case STATE_CONNECTING:
-      if (connectWiFi(5000)) currentState = STATE_IDLE;
+      if (connectWiFi(5000)) currentState = STATE_IDLE;  // Ví dụ này có thể chặn tối đa 5 s
       else                   currentState = STATE_ERROR;
       break;
       
@@ -114,7 +114,7 @@ void loop() {
       
     case STATE_ERROR:
       Serial.println("[ERROR] System error. Retrying...");
-      delay(5000);
+      delay(5000);  // Minh họa xử lý lỗi có chặn; thay bằng hẹn giờ khi triển khai thật
       ESP.restart();  // Hard reset sau lỗi
       break;
   }
@@ -124,7 +124,8 @@ void loop() {
       <h2>3. Task Scheduler đơn giản — millis() pattern</h2>
 
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
-<pre style="margin:0;white-space:pre-wrap;">// Non-blocking task scheduler — không dùng delay()
+<pre style="margin:0;white-space:pre-wrap;">// Scheduler theo millis(): bản thân bộ lập lịch không gọi delay()
+// Mỗi handler phải trả về nhanh; WiFi/SD/cảm biến có thể vẫn chặn.
 struct Task {
   unsigned long interval;
   unsigned long lastRun;
@@ -149,6 +150,8 @@ void loop() {
   }
 }</pre>
       </div>
+
+      <p><strong>Giới hạn của ví dụ:</strong> Bộ lập lịch chỉ tránh chờ chủ động bằng <code>delay()</code>. Hàm kết nối WiFi, gửi cloud, ghi SD hoặc đọc cảm biến có thể chặn vòng lặp; cần timeout ngắn, hàng đợi hoặc state machine bất đồng bộ nếu yêu cầu thời gian đáp ứng chặt.</p>
 
       <h2>4. config.h — Tập trung tham số cấu hình</h2>
 

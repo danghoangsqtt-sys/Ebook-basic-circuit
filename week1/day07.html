@@ -82,7 +82,7 @@
       <div class="callout callout-note">
         <div class="callout-header"><span class="callout-icon">📋</span> Yêu cầu dự án</div>
         <ul>
-          <li>Nguồn: 3,3V từ chân 3V3 của ESP32</li>
+          <li>Mức HIGH của GPIO là 3,3 V; mỗi GPIO cấp dòng cho một LED qua điện trở riêng</li>
           <li>4 LED: đỏ, vàng, xanh lá, xanh dương — mỗi cái trên một nhánh riêng</li>
           <li>Mỗi LED có điện trở hạn dòng riêng, tính cho I_f = 10 mA</li>
           <li>4 LED được nối với GPIO2, GPIO4, GPIO5, GPIO18 của ESP32</li>
@@ -125,9 +125,9 @@
             <tr>
               <td style="color:#3b82f6;">Xanh dương</td>
               <td>3,2 V</td>
-              <td>(3,3 – 3,2) / 0,01 = <strong>10 Ω</strong></td>
-              <td><strong>10 Ω</strong></td>
-              <td>⚠ Chỉ 10mA nếu V_f đúng 3,2V — sẽ sáng rất yếu</td>
+              <td>Không thiết kế theo V_f danh định 3,2 V vì sai số rất nhạy</td>
+              <td><strong>150 Ω</strong></td>
+              <td>Nếu V_f=2,8 V: ~3,3 mA; nếu V_f≥3,3 V: không sáng</td>
             </tr>
           </tbody>
         </table>
@@ -135,21 +135,17 @@
 
       <div class="callout callout-warning">
         <div class="callout-header"><span class="callout-icon">⚠️</span> LED xanh dương với nguồn 3,3V — vấn đề thực tế</div>
-        <p>LED xanh dương có V_f ≈ 3,0–3,5V. Với nguồn 3,3V, hiệu số V_supply – V_f có thể rất nhỏ (thậm chí âm với một số LED). Trong trường hợp này: (1) Thử LED thực tế — đo V_f bằng chế độ diode trước. (2) Nếu V_f < 3,3V thì dùng R = 10–22 Ω. (3) Nếu LED không sáng, thay bằng nguồn 5V cho riêng nhánh LED xanh dương, hoặc bỏ LED này và dùng LED đỏ thứ hai. Project vẫn đạt yêu cầu nếu 3/4 LED hoạt động tốt.</p>
+        <p>LED xanh dương có V_f thay đổi theo mẫu và dòng đo. Dùng R 150 Ω để giới hạn dòng ngay cả khi V_f thấp hơn dự kiến; LED có thể sáng yếu hoặc không sáng ở mức GPIO HIGH 3,3 V. Nếu cần cả bốn nhánh sáng rõ, thay LED xanh dương bằng LED đỏ thứ hai, hoặc thiết kế một driver riêng cho LED chạy nguồn 5 V. <strong>Không nối nguồn 5 V trực tiếp vào GPIO ESP32 và không giảm R xuống 10–22 Ω.</strong></p>
       </div>
 
       <h3>2.3 Bước 2 — Sơ đồ mạch</h3>
 
       <div class="circuit-ascii">  Sơ đồ mạch Mini Project:
 
-   ESP32 3V3 ──────────────────────────────┐
-                                           │
-   GPIO2  ──[R=150Ω]──[LED ĐỎ   ]─┐       │
-   GPIO4  ──[R=120Ω]──[LED VÀNG ]─┤       │
-   GPIO5  ──[R=120Ω]──[LED LÁ   ]─┤──── GND
-   GPIO18 ──[R= 10Ω]──[LED XANH ]─┘       │
-                                           │
-   ESP32 GND ──────────────────────────────┘
+   GPIO2  ──[R=150Ω]── A[LED ĐỎ]K ────┐
+   GPIO4  ──[R=120Ω]── A[LED VÀNG]K ───┤
+   GPIO5  ──[R=120Ω]── A[LED LÁ]K ─────┼── GND ESP32
+   GPIO18 ──[R=150Ω]── A[LED XANH]K ───┘
 
   Quan trọng: GND của ESP32 phải nối chung với GND của mạch LED.
 
@@ -168,11 +164,11 @@
           <li class="step-item"><div class="step-content"><p><strong>Cắm điện trở:</strong> Một đầu nối vào anode LED (cùng nhóm 5 lỗ), đầu kia để trống — sẽ nối dây GPIO sau.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>Nối cathode vào GND:</strong> Dây đen từ cathode (cùng nhóm) → rail GND phía dưới.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>Continuity test (chưa cấp điện):</strong><br>
-          – Test: đầu tự do của R ←→ anode LED qua R: beep?<br>
+          – Test: lỗ ở đầu điện trở sát LED ↔ lỗ anode LED cùng một nhóm: beep. Không trông chờ beep qua chính điện trở 120–150 Ω vì ngưỡng báo tùy đồng hồ.<br>
           – Test: cathode LED ←→ rail GND: beep?<br>
-          – Test: rail GND ←→ GND nguồn (chưa nối): để sau</p></div></li>
+          – Test: rail GND ↔ chân GND ESP32 sau khi cắm dây: beep. Ngắt USB khi đo thông mạch.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>Nối ESP32:</strong> Cắm ESP32 vào breadboard (bắc qua rãnh giữa). Nối chân GND của ESP32 → rail GND. Nối chân GPIO2, 4, 5, 18 → đầu tự do của R tương ứng bằng dây jumper màu sắc khác nhau.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Test thủ công trước khi nạp code:</strong> Nối chân 3V3 của ESP32 trực tiếp vào đầu tự do của R_LED_đỏ (bằng tay, tạm thời) — LED đỏ phải sáng. Đây là bước xác nhận phần cứng trước khi nạp code.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Test thủ công trước khi nạp code:</strong> Rút dây nối GPIO2 khỏi đầu điện trở LED đỏ, cấp nguồn ESP32 qua USB rồi tạm nối 3V3 vào chính đầu điện trở đó; LED đỏ phải sáng qua R150Ω. Ngắt USB, bỏ dây thử 3V3, sau đó mới nối lại GPIO2. Không nối 3V3 trực tiếp vào một GPIO đang nối mạch.</p></div></li>
         </ol>
       </div>
 

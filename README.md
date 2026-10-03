@@ -20,6 +20,8 @@ Chưa có tài khoản hoặc đồng bộ tự động. Nếu chuyển thiết 
 
 Chạy `python tools/check_links.py` để kiểm tra link/fragment nội bộ và `python tools/build_search_index.py --check` để xác nhận chỉ mục tìm kiếm. Nếu đã cài Playwright Python và trình duyệt của nó, chạy `python tools/qa_browser.py`; thêm `--quick --browser webkit` để kiểm tra mẫu với WebKit. [Kết quả nghiệm thu Phase 1](docs/qa/phase1-results.md).
 
+Hình minh họa đang được nâng cấp theo từng đợt. Chạy `python tools/check_visuals.py` để kiểm tra ảnh hiện có, mô tả thay thế, tệp nguồn và ghi nguồn; báo cáo hiện trạng nằm tại [kiểm kê hình](docs/brainstorm/visual-inventory-2026-10-02.md). Hai bài đầu đã có hình mẫu; kế hoạch 56 bài và kết quả rà soát kỹ thuật sơ đồ nằm trong roadmap và [báo cáo audit](docs/qa/visual-technical-audit.md). Ảnh ngoài chỉ dùng nguồn CC0/miền công cộng đã xác minh hoặc hình tự tạo.
+
 ## Kế hoạch nâng cấp
 
 - [Roadmap theo phase](.DHSYSTEM/ROADMAP.md)

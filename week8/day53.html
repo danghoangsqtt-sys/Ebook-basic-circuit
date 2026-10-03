@@ -48,9 +48,10 @@
       ├── Characteristic UUID: beb5483e-...  (Temperature)
       │   ├── Properties: READ + NOTIFY
       │   └── Value: "25.3" (float as string)
-      └── Characteristic UUID: cba1d466-...  (LED Control)
-          ├── Properties: WRITE
-          └── Value: "1" (ON) / "0" (OFF)
+
+  Ví dụ bên dưới chỉ tạo Temperature Characteristic.
+  LED WRITE là bài tập mở rộng ở mục 2, cần thêm characteristic
+  và callback trước khi có thể điều khiển LED.
 
   Điện thoại (BLE Client)
   └── nRF Connect app → Scan → Connect → Read/Write Characteristic</div>
@@ -111,7 +112,7 @@ void loop() {
           <li>Mở app → Scan → tìm "ESP32-WeatherStation"</li>
           <li>Connect → mở Services → tìm Characteristic UUID của bạn</li>
           <li>Nhấn subscribe/notify icon → xem giá trị temperature cập nhật real-time</li>
-          <li>Characteristic Write: gửi "1" hoặc "0" từ điện thoại để bật/tắt LED</li>
+          <li>Muốn Write điều khiển LED: hoàn thành bài tập 2 và nạp firmware mở rộng trước khi thử</li>
         </ol>
       </div>
 

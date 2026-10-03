@@ -100,33 +100,24 @@
 
       <div class="circuit-ascii">  Sơ đồ cấu trúc breadboard 830 lỗ (nhìn từ trên xuống):
 
-  ┌────────────────────────────────────────────────────────────────┐
-  │  + ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ●  +  │
-  │  – ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ●  –  │ ← Rail nguồn TRÊN
-  │    1  2  3  4  5  6  7  8  9  10 11 12 13 14...          30   │
-  │  a ● ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ● a  │
-  │  b ● ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ● b  │ ← Vùng linh kiện TRÊN
-  │  c ● ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ● c  │   (hàng a–e)
-  │  d ● ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ● d  │
-  │  e ● ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ╦ ● ● ● ● ● e  │
-  │                                                               │
-  │  ═════════════════ RÃNH GIỮA (DIP Gap) ═══════════════════  │ ← KHÔNG NỐI
-  │                                                               │
-  │  f ● ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ● f  │
-  │  g ● ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ● g  │ ← Vùng linh kiện DƯỚI
-  │  h ● ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ● h  │   (hàng f–j)
-  │  i ● ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ● i  │
-  │  j ● ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ╩ ● ● ● ● ● j  │
-  │  + ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ●  +  │
-  │  – ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ● ●  –  │ ← Rail nguồn DƯỚI
-  └────────────────────────────────────────────────────────────────┘
+  Vùng lỗ cắm: 63 cột đánh số 1–63; ví dụ cột 10:
 
-  Quy tắc kết nối bên trong:
-  • Cùng cột số + cùng nửa (a–e hoặc f–j) → NỐI với nhau (màu vàng)
-  • Khác nửa (a–e vs f–j) → KHÔNG NỐI (rãnh giữa cách ly)
-  • Rail + (đỏ) chạy ngang toàn bộ hàng → NỐI với nhau
-  • Rail – (đen/xanh) chạy ngang toàn bộ hàng → NỐI với nhau
-  • Rail + và Rail – → KHÔNG NỐI với nhau</div>
+      a10 ●─┐
+      b10 ●─┤
+      c10 ●─┼── một thanh kim loại: a10–e10 nối nhau
+      d10 ●─┤
+      e10 ●─┘
+           ═════ rãnh giữa: KHÔNG nối e10 với f10 ═════
+      f10 ●─┐
+      g10 ●─┤
+      h10 ●─┼── thanh thứ hai: f10–j10 nối nhau
+      i10 ●─┤
+      j10 ●─┘
+
+  Hai cột liền nhau (10 và 11) KHÔNG tự nối.
+  Bốn rail nguồn (+/– ở hai mép) tách khỏi vùng lỗ cắm.
+  Rail chạy dọc theo chiều dài board; nhiều mẫu ngắt ở giữa.
+  Kiểm tra thông mạch từng đoạn rail rồi mới đặt dây nối.</div>
 
       <div class="figure">
         <img src="../assets/images/lessons/breadboard-400-cc0.webp" width="1200" height="884" loading="lazy" decoding="async" alt="Ảnh hai mặt breadboard 400 lỗ: bên trái là các lỗ cắm, bên phải lộ các thanh kim loại nối từng nhóm năm lỗ và các đoạn rail nguồn ở hai bên.">
@@ -143,7 +134,7 @@
         <div class="callout-header"><span class="callout-icon">📌</span> Quy tắc vàng breadboard</div>
         <p><strong>1.</strong> Các lỗ trong cùng một cột số, cùng nửa (a–e <em>hoặc</em> f–j) <strong>được nối với nhau</strong>. Cắm hai chân linh kiện vào cùng một cột nghĩa là nối chúng lại.<br><br>
         <strong>2.</strong> Lỗ bên trên rãnh giữa (hàng e) và lỗ bên dưới (hàng f) của cùng cột số <strong>KHÔNG được nối với nhau</strong>. Rãnh giữa cách ly hai nửa. Đây là thiết kế để cắm IC DIP (dual in-line package) qua rãnh.<br><br>
-        <strong>3.</strong> Rail nguồn (+) và (–) chạy ngang — toàn bộ lỗ trên một hàng rail được nối với nhau. Nhưng trên một số breadboard dài, rail bị ngắt ở giữa — phải dùng dây jumper nối lại nếu cần dùng toàn bộ rail.</p>
+        <strong>3.</strong> Rail nguồn (+) và (–) chạy theo chiều dài board nhưng có thể bị ngắt ở giữa hoặc chia đoạn khác nhau tùy mẫu. Dùng continuity test để xác nhận từng đoạn rồi nối jumper nếu cần.</p>
       </div>
 
       <h3>1.3 Lỗi phổ biến nhất khi dùng breadboard</h3>
@@ -372,7 +363,7 @@
           </li>
           <li class="step-item">
             <div class="step-content">
-              <p><strong>Cắm LED:</strong> LED có 2 chân dài ngắn khác nhau. Chân dài hơn (anode, +) vào b15; chân ngắn hơn (cathode, –) vào b18. LED nằm ngang qua rãnh giữa... <em>Ủa khoan — b15 và b18 cùng phía không?</em> Có, cả hai ở phía a–e, vì vậy LED nằm trong vùng a–e, không bắc qua rãnh giữa. Đây là cách cắm đúng.</p>
+              <p><strong>Cắm LED đỏ:</strong> Anode (chân dài) vào b15; cathode (chân ngắn) vào b18. Hai chân thuộc hai cột số khác nhau nên không bị nối tắt. Nguồn 3 V có thể không đủ để LED xanh dương sáng.</p>
             </div>
           </li>
           <li class="step-item">
@@ -382,12 +373,12 @@
           </li>
           <li class="step-item">
             <div class="step-content">
-              <p><strong>Continuity test trước khi cấp điện:</strong> (1) Test a10 và chân điện trở bên trái — beep? (2) Test chân điện trở bên phải và anode LED (b15 và a15 cùng nhóm?) — beep? (3) Test cathode LED và rail (–) — beep?</p>
+              <p><strong>Continuity test khi đã ngắt nguồn:</strong> (1) a15 ↔ b15 phải beep (cùng nhóm 5 lỗ); (2) b18 ↔ đoạn rail (–) có dây nối phải beep; (3) kiểm tra rail (+) và rail (–) không bị chập. Không dùng tiếng beep để kiểm tra qua điện trở 1 kΩ hoặc LED vì ngưỡng báo của đồng hồ khác nhau.</p>
             </div>
           </li>
           <li class="step-item">
             <div class="step-content">
-              <p><strong>Cấp nguồn:</strong> Khi tất cả continuity test đều OK, nối dây đỏ từ rail (+) → cực dương nguồn 3V. Cấp điện — LED phải sáng.</p>
+              <p><strong>Cấp nguồn:</strong> Nối một jumper từ đoạn rail (+) đến a10. Khi đã kiểm tra xong và bỏ que ở chế độ continuity, nối cực dương nguồn 3 V vào rail (+), cực âm vào rail (–); LED đỏ phải sáng.</p>
             </div>
           </li>
           <li class="step-item">
@@ -400,15 +391,13 @@
 
       <div class="circuit-ascii">  Sơ đồ mạch trên breadboard:
 
-   VCC(3V) ─── Rail(+) ───┐
-                           │
-                          a10
-                       [R=1kΩ]
-                          a15 = b15 (cùng nhóm)
-                          [LED]
-                          b18
-                           │
-   GND ──── Rail(–) ───────┘
+    +3 V ── rail (+) ── jumper ── a10 ──[R=1 kΩ]── a15/b15
+                                                   │
+                                             LED đỏ: anode
+                                                   │
+                                             cathode ở b18
+                                                   │
+     0 V ── rail (–) ─────────────────── jumper ────┘
 
    Dòng điện đi theo chiều quy ước:
    VCC → R(1kΩ) → LED(+) → LED(–) → GND</div>
@@ -420,7 +409,7 @@
           <div class="measurement-row">
             <span class="meas-label">V hai đầu điện trở</span>
             <span class="meas-value">_____ V</span>
-            <span class="meas-note">Kỳ vọng: ~1,2–1,7 V (phụ thuộc V_f LED)</span>
+            <span class="meas-note">LED đỏ, nguồn 3 V: khoảng 0,8–1,2 V (phụ thuộc V_f)</span>
           </div>
           <div class="measurement-row">
             <span class="meas-label">V hai đầu LED (V_f)</span>
@@ -541,7 +530,7 @@
             <p><strong>A1: c)</strong> — a5 và c5 cùng số cột 5, cùng nửa a–e → nối với nhau. Đáp án a) thiếu điều kiện "cùng nửa".</p>
             <p><strong>A2: b)</strong> — Nguồn điện trong mạch có thể cộng vào điện áp multimeter cấp khi đo, gây sai số hoặc hỏng mạch đo bên trong.</p>
             <p><strong>A3: b)</strong> — Điện trở cơ thể (~10kΩ) mắc song song với R (1kΩ) → R_tổng = 10000×1000/(10000+1000) ≈ 909 Ω, thấp hơn 1000 Ω.</p>
-            <p><strong>A4: c)</strong> — Rail nguồn chạy ngang toàn bộ breadboard theo chiều dài.</p>
+            <p><strong>A4: c)</strong> — Rail chạy theo chiều dài breadboard; nhiều mẫu có điểm ngắt, không được mặc định toàn rail thông suốt.</p>
             <p><strong>A5: b)</strong> — Đây là mục đích chính của rãnh giữa: để cắm IC DIP sao cho hai dãy chân nằm ở hai vùng riêng biệt.</p>
           </div>
         </div>

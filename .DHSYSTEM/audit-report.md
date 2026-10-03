@@ -82,3 +82,29 @@ Kiểm tra ứng dụng: `check_visuals.py` 0 lỗi hình/nguồn; `check_links.
 ## Quyết định cổng
 
 Chưa đánh dấu Phase 4 complete vì Tier 3 có lỗi HIGH. Mở tác vụ P4-04 debug nội dung/sơ đồ đã xác nhận; sau khi sửa và chạy lại audit mới chuyển Phase 5.
+
+---
+
+# DH-AUDIT — Phase 4 rà lại sau P4-04 — 2026-10-03
+
+## Tier 1 — Trạng thái DHSYSTEM: PASS
+
+P4-01 đến P4-04 có task contract, PHASE-STATE/TRACKER/HANDOFF nhất quán ở cổng chuyển Phase 5. Các bản sửa thuộc P4-04; sau commit và push sẽ kiểm tra checkout sạch, upstream và tag hoàn tất Phase 4.
+
+## Tier 2 — Tài liệu: PASS
+
+README đã nêu đợt hình 56 bài, hiện trạng chỉ 2 bài mẫu và giới hạn nguồn CC0/miền công cộng. `docs/qa/visual-technical-fixes.md` đối chiếu 31/31 nhóm lỗi với bản sửa và nguồn kỹ thuật. Changelog, tracker, debug session ghi lại quyết định; dự án vẫn giữ bản quyền riêng, chưa tạo LICENSE.
+
+## Tier 3 — Nội dung và website: PASS trong phạm vi kiểm tra
+
+Audit đọc lại 34 bài đã sửa theo 31 nhóm, phát hiện thêm đáp án Zener Bài 12 còn mâu thuẫn với sơ đồ mới; `dh-debug` đã sửa miền tải 0–100mA, tính công suất và bỏ kết luận GPIO an toàn tuyệt đối. Mục tiêu/đáp án MOSFET Bài 18 cũng được chỉnh theo R_DS(on) tại điện áp Gate thực. Không còn P0 đã xác nhận mở trong danh mục. Sơ đồ mới ở Phase 5 vẫn phải được kiểm riêng từng hình.
+
+`check_links.py`: 59 trang/490 tham chiếu, 0 hỏng. `check_visuals.py`: 56 bài/80 sơ đồ ASCII/4 tài sản, 0 lỗi. `build_search_index.py --check`: 56 bài hiện hành. `qa_browser.py --quick`: Chromium PASS với trang đầu, bài mẫu và các luồng đọc/thư viện/sao lưu. Chưa thử điện thoại và mạch thật; kiểm tra này không phải chứng nhận điện tử cho mọi biến thể linh kiện.
+
+## Tier 4 — Không áp dụng
+
+Đây là kho giáo trình, không phải kho framework DHSYSTEM.
+
+## Quyết định cổng
+
+Phase 4 đạt nghiệm thu sau P4-04. Chuyển P5-01; tiếp tục audit/debug sau từng Phase 5 và 6 như đã định tuyến.

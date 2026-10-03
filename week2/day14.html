@@ -57,12 +57,12 @@
       <div class="callout callout-note">
         <div class="callout-header"><span class="callout-icon">📋</span> Yêu cầu kỹ thuật</div>
         <ul>
-          <li>Nguồn vào: 9–12V DC từ adapter (hoặc pin 9V)</li>
-          <li>Đầu ra 1: <strong>5V/500mA</strong> (LM7805)</li>
-          <li>Đầu ra 2: <strong>3,3V/300mA</strong> (AMS1117-3.3, từ đầu ra 5V)</li>
+          <li>Nguồn vào: adapter DC cách ly 9 V có giới hạn dòng; 12 V chỉ dùng khi đã kiểm tra nhiệt</li>
+          <li>Đầu ra 1: <strong>5 V, tải thử tối đa 100 mA</strong> (LM7805)</li>
+          <li>Đầu ra 2: <strong>3,3 V, tải thử tối đa 50 mA</strong> (AMS1117-3.3, lấy từ rail 5 V)</li>
           <li>Bảo vệ cực tính: diode 1N4007 ở dây (+) đầu vào</li>
           <li>Lọc nhiễu đầu vào: 100µF + 100nF song song</li>
-          <li>Lọc đầu ra mỗi rail: 100µF + 100nF</li>
+          <li>Lọc đầu ra 5 V: 100 µF + 100 nF; đầu ra AMS1117: 22 µF tantalum + 100 nF theo datasheet đúng mã</li>
           <li>LED chỉ thị nguồn: LED đỏ (5V) + LED xanh (3,3V) với R hạn dòng phù hợp</li>
           <li>Đo kiểm: điện áp, ripple (nếu có oscilloscope), nhiệt độ IC</li>
         </ul>
@@ -70,21 +70,29 @@
 
       <h3>2.1 Sơ đồ mạch tổng thể</h3>
 
+      <p>Đây là bài thử tải nhỏ trên breadboard; giới hạn tải ngoài ở 5 V là 100 mA và 3,3 V là 50 mA. Dòng đi qua LM7805 gồm <em>cả</em> tải rail 5 V lẫn dòng cấp cho AMS1117. Ở nguồn 12 V, dù tổng tải chỉ khoảng 150 mA, LM7805 vẫn có thể tiêu tán gần 1 W; tính nhiệt theo datasheet và gắn tản nhiệt khi cần. Không lấy công suất danh định của IC làm công suất cho phép của cách lắp trên breadboard.</p>
+
       <div class="circuit-ascii">  Mạch nguồn DC hoàn chỉnh:
 
-   V_in(9-12V) ─[D_prot: 1N4007]─┬─[C1: 100µF || C2: 100nF]─┬─ IN(LM7805) ─┬─ 5V rail
-                                   │                           │              │
-                                  GND                         GND          [C3:100µF||C4:100nF]
-                                                                              │
-                                                                   5V ──[D_LED1: Đỏ+R330Ω]── GND
-                                                                   │
-                                                              IN(AMS1117-3.3) ─┬─ 3.3V rail
-                                                                                │
-                                                                             [C5:10µF||C6:100nF]
-                                                                                │
-                                                                    3.3V ─[D_LED2: Xanh+R150Ω]─ GND
+    V_in+ ── A[D_prot 1N4007]K ── VIN_REG ── IN [LM7805] OUT ── +5 V
+    (9 V)                           │          GND │               │
+                              C1 || C2        GND │          C3 || C4
+                                    │              │               │
+    GND chung ──────────────────────┴──────────────┴───────────────┘
 
-  GND chung cho toàn bộ mạch.</div>
+    Từ nút +5 V:  +5 V ── IN [AMS1117-3.3] OUT ── +3,3 V
+                              GND (chân 1)         │
+                                   │             C5 || C6
+    GND chung ──────────────────────┴────────────────┘
+
+    LED chỉ thị là hai NHÁNH TẢI riêng:
+      +5 V   ──[R 330 Ω]── A[LED đỏ]K ── GND
+      +3,3 V ──[R 150 Ω]── A[LED xanh lá]K ── GND
+
+    C1/C2 nối VIN_REG–GND; C3/C4 nối +5 V–GND;
+    C5=22 µF tantalum, C6=100 nF nối +3,3 V–GND.
+    Không tụ nào nằm nối tiếp rail.
+    AMS1117: chân 3=IN, chân 2/tab=OUT, chân 1=GND.</div>
 
       <h3>2.2 Tính toán linh kiện</h3>
 
@@ -92,12 +100,12 @@
         <table>
           <thead><tr><th>Linh kiện</th><th>Giá trị</th><th>Lý do chọn</th></tr></thead>
           <tbody>
-            <tr><td>D_prot (bảo vệ cực tính)</td><td>1N4007</td><td>1A, sụt 0,7V — sau đó V_in_eff = V_in – 0,7V ≥ 8,3V (OK cho LM7805)</td></tr>
+            <tr><td>D_prot (bảo vệ cực tính)</td><td>1N4007</td><td>Sụt áp thuận thay đổi theo dòng; ước lượng 0,7 V để tính ban đầu, đo VIN_REG thực tế trước khi lắp tải.</td></tr>
             <tr><td>C1 (bulk filter đầu vào)</td><td>100µF/25V</td><td>Lọc ripple, ổn định điện áp đầu vào</td></tr>
             <tr><td>C2 (decoupling đầu vào)</td><td>100nF gốm</td><td>Lọc nhiễu tần số cao</td></tr>
-            <tr><td>C3, C4 (lọc đầu ra 5V)</td><td>100µF + 100nF</td><td>Theo datasheet LM7805</td></tr>
+            <tr><td>C3, C4 (lọc đầu ra 5V)</td><td>100µF + 100nF</td><td>Mắc song song OUT–GND để dự trữ năng lượng và cải thiện đáp ứng; đối chiếu datasheet đúng mã.</td></tr>
             <tr><td>R_LED_đỏ (5V rail)</td><td>R = (5–2)/0,01 = 300Ω → chọn 330Ω</td><td>LED đỏ V_f=2V, I_f=10mA</td></tr>
-            <tr><td>C5, C6 (lọc đầu ra 3,3V)</td><td>10µF + 100nF</td><td>Theo datasheet AMS1117</td></tr>
+            <tr><td>C5, C6 (lọc đầu ra 3,3V)</td><td>22µF tantalum + 100nF</td><td>OUT–GND sát AMS1117 của Advanced Monolithic Systems; loại tụ khác phải kiểm tra theo datasheet đúng mã.</td></tr>
             <tr><td>R_LED_xanh (3,3V rail)</td><td>R = (3,3–2,1)/0,01 = 120Ω → chọn 150Ω</td><td>LED xanh lá V_f=2,1V, I_f=8mA</td></tr>
           </tbody>
         </table>
@@ -113,10 +121,10 @@
           <li class="step-item"><div class="step-content"><p>Cắm LM7805: chân 1 vào điểm sau D_prot+C1, chân 2 vào GND, chân 3 là 5V out.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Cắm C3 (100µF, đúng chiều) và C4 (100nF) từ 5V out xuống GND.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Nối LED đỏ + R330Ω từ 5V out xuống GND.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Cắm AMS1117-3.3: IN từ 5V out, GND, OUT là 3,3V.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Cắm C5 (10µF), C6 (100nF) từ 3,3V xuống GND. Nối LED xanh + R150Ω.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Cắm AMS1117-3.3 theo đúng mã: chân 3=IN từ rail 5 V, chân 1=GND, chân 2/tab=OUT 3,3 V. Kiểm tra chân trên datasheet trước khi nối nguồn.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Cắm C5 (22µF tantalum đúng cực), C6 (100nF) từ 3,3 V xuống GND. Nối LED xanh lá và R150Ω nối tiếp thành một nhánh từ 3,3 V xuống GND.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>Continuity test:</strong> Kiểm tra VCC không short với GND trước khi cấp điện.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Cấp nguồn 9V. Quan sát: cả 2 LED sáng → thành công!</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Giới hạn dòng nguồn thử, cấp 9 V; đo VIN_REG, 5 V và 3,3 V rồi mới xem hai LED sáng. Không dùng đầu ra này cấp ESP32 Wi-Fi: bài thử hiện chỉ kiểm chứng tải nhỏ, ESP32 cần thiết kế nguồn theo dòng đỉnh của module.</p></div></li>
         </ol>
       </div>
 
@@ -132,7 +140,7 @@
             <tr><td>V_out 3,3V rail</td><td>3,2–3,4V</td><td>_____</td><td>_____</td></tr>
             <tr><td>LED đỏ sáng?</td><td>Có</td><td>_____</td><td>_____</td></tr>
             <tr><td>LED xanh sáng?</td><td>Có</td><td>_____</td><td>_____</td></tr>
-            <tr><td>Test bảo vệ cực tính: đổi chiều nguồn</td><td>Cả 2 LED tắt, không có gì hỏng</td><td>_____</td><td>_____</td></tr>
+            <tr><td>Test bảo vệ cực tính: dùng nguồn giới hạn dòng, ngắt điện rồi đổi chiều</td><td>Cả hai LED tắt; kiểm tra không có dòng/tăng nhiệt bất thường</td><td>_____</td><td>_____</td></tr>
           </tbody>
         </table>
       </div>

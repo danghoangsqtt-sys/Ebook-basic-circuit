@@ -59,8 +59,10 @@
       <h2>2. Test Point — Debug Professional</h2>
 
       <div class="circuit-ascii">  Thêm Test Point (TP) trong KiCad:
-  Add → Add Footprint → tìm "TestPoint"
-  Đặt tại các node quan trọng:
+  Schematic: Place Symbol → Connector:TestPoint
+  Nối symbol vào net cần đo và đặt tên TP tương ứng.
+  Gán footprint TestPoint phù hợp → Update PCB from Schematic.
+  PCB: đặt pad test tại các net quan trọng:
 
   Board:
   [TP_VCC3V3]  [TP_GND]  [TP_SDA]  [TP_SCL]

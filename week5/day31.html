@@ -62,7 +62,7 @@
             │                               │
            GND                             GND
 
-  LPF: f thấp → X_C lớn → ít sụt áp trên C → Vout ≈ Vin
+  LPF: f thấp → X_C lớn → gần toàn bộ Vin nằm trên C → Vout ≈ Vin
   HPF: f cao  → X_C nhỏ → ít sụt áp trên C → Vout ≈ Vin</div>
 
       <!-- PHẦN 2 — BẢNG THIẾT KẾ -->
@@ -74,7 +74,7 @@
           <tbody>
             <tr><td>10Hz</td><td>10µF</td><td>R = 1/(2π×10×0,00001) = 1592Ω → 1,5kΩ</td><td>Lọc nhiễu nguồn 50Hz</td></tr>
             <tr><td>159Hz</td><td>100nF</td><td>R = 1/(2π×159×0,0000001) = 10kΩ</td><td>PWM → Analog, audio treble cut</td></tr>
-            <tr><td>1kHz</td><td>100nF</td><td>R = 1/(2π×1000×0,0000001) = 1591Ω → 1,5kΩ</td><td>Anti-aliasing trước ADC 2kHz</td></tr>
+            <tr><td>1kHz</td><td>100nF</td><td>R = 1/(2π×1000×0,0000001) = 1591Ω → 1,5kΩ</td><td>Lọc băng thông analog; chọn chống aliasing theo tần số lấy mẫu và phổ nhiễu</td></tr>
             <tr><td>20kHz</td><td>10nF</td><td>R = 1/(2π×20000×0,00000001) = 796Ω → 820Ω</td><td>Audio low-pass, chặn siêu âm</td></tr>
             <tr><td>100kHz</td><td>10nF</td><td>R = 1/(2π×100000×0,00000001) = 159Ω</td><td>EMI filtering, RF decoupling</td></tr>
           </tbody>
@@ -86,18 +86,21 @@
 
       <div class="circuit-ascii">  Band Pass Filter = HPF + LPF nối tiếp:
 
-  Vin──[C1]──[R1]──┬──[R2]──┬── Vout
-   HPF: (R1,C1)    │        │
-   f_c_H = 1/(2πR1C1)     [C2]   LPF: (R2,C2)
-                           │    f_c_L = 1/(2πR2C2)
-                          GND
+  Vin ──[C1]──┬──[R2]──┬── Vout
+              │        │
+             [R1]     [C2]
+              │        │
+             GND      GND
+   HPF: C1 nối tiếp, R1 xuống GND; f_c_H ≈ 1/(2πR1C1)
+   LPF: R2 nối tiếp, C2 xuống GND; f_c_L ≈ 1/(2πR2C2)
 
   Yêu cầu: f_c_H &lt; f_c_L (HPF mở thấp hơn, LPF mở cao hơn)
   Bandwidth = f_c_L - f_c_H
 
   Ví dụ lọc giọng nói (300Hz–3kHz):
   HPF: f_c_H = 300Hz: C1=100nF, R1=5,3kΩ → chọn 4,7kΩ
-  LPF: f_c_L = 3kHz:  C2=100nF, R2=530Ω → chọn 560Ω</div>
+  LPF: f_c_L = 3kHz:  C2=100nF, R2=530Ω → chọn 560Ω
+  Hai tầng RC có tương tác tải: công thức trên là gần đúng; mô phỏng hoặc thêm bộ đệm để đạt tần số cắt chính xác.</div>
 
       <!-- PHẦN 4 — ỨNG DỤNG -->
       <h2>4. Ứng dụng bộ lọc trong thực tế</h2>
@@ -107,7 +110,7 @@
           <thead><tr><th>Tình huống</th><th>Loại lọc</th><th>f_c</th></tr></thead>
           <tbody>
             <tr><td>Lọc nhiễu 50Hz của lưới điện khỏi cảm biến</td><td>LPF bậc 2</td><td>10Hz</td></tr>
-            <tr><td>Anti-aliasing trước ADC 8kHz</td><td>LPF</td><td>4kHz (Nyquist)</td></tr>
+            <tr><td>Anti-aliasing trước ADC 8kHz</td><td>LPF đủ bậc</td><td>Cần suy giảm tín hiệu không mong muốn trước Nyquist 4kHz; chọn f_c thấp hơn theo bậc lọc và dải tín hiệu</td></tr>
             <tr><td>PWM 490Hz → Analog (DAC giả)</td><td>LPF</td><td>~50Hz (1/10 f_PWM)</td></tr>
             <tr><td>Tách DC offset khỏi tín hiệu AC (coupling)</td><td>HPF</td><td>1–10Hz (tùy ứng dụng)</td></tr>
             <tr><td>Lọc giọng nói trước microphone</td><td>BPF</td><td>300Hz–3kHz</td></tr>

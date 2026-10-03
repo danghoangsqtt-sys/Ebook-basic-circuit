@@ -92,11 +92,13 @@ void loop() {
 
       <div class="circuit-ascii">  Hardware debounce (RC filter):
 
-  VCC ──[10kΩ]──┬── GPIO INPUT_PULLUP
-                │
-              [Nút] ── GND
-                │
-             [100nF] ── GND   ← τ = 10k×100n = 1ms
+  VCC_logic → R_pullup=10kΩ → nút GPIO
+  Nút GPIO → công tắc nhấn → GND
+  Nút GPIO → C=100nF → GND
+  GPIO ở chế độ INPUT (đã có pull-up ngoài 10kΩ).
+  C đặt ngay tại nút GPIO, SONG SONG công tắc xuống GND.
+  τ xấp xỉ R×C = 1ms khi thả nút; đo thực tế và xử lý
+  debounce bằng phần mềm nếu cần lọc bounce dài hơn.
 
   Software debounce trong ISR:
   if (millis() - lastPress &gt; 50) {

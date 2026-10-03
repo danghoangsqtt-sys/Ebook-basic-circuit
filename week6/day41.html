@@ -29,10 +29,10 @@
       <div class="objectives-box">
         <div class="objectives-title">🎯 Mục tiêu bài học</div>
         <ul class="objectives-list">
-          <li>Hiểu đặc tính pin Li-ion/LiPo — điện áp 3,7V nominal, 4,2V đầy, 3,0V cắt</li>
-          <li>Quy ước dung lượng: mAh, C-rate — sạc 1C, xả tối đa</li>
+          <li>Hiểu đặc tính cell Li-ion/LiPo loại 4,2V: 3,7V danh định, 4,2V đầy; ngưỡng cắt xả theo cell/mạch bảo vệ</li>
+          <li>Quy ước dung lượng: mAh, C-rate — chọn dòng sạc/xả theo datasheet cell</li>
           <li>BMS (Battery Management System) — bảo vệ quá sạc, quá xả, ngắn mạch</li>
-          <li>Mạch sạc TP4056 — sạc 1A qua micro-USB, tích hợp BMS</li>
+          <li>Mạch sạc TP4056 cho một cell; phân biệt module có và không có mạch bảo vệ xả</li>
           <li>Đo điện áp pin bằng ADC — tính phần trăm còn lại</li>
           <li>Mạch nguồn tích hợp: pin LiPo + TP4056 + Boost 5V → ESP32</li>
           <li>Ước tính thời gian pin từ dung lượng và dòng tiêu thụ</li>
@@ -65,22 +65,21 @@
 
       <h2>2. BMS và TP4056 — Sạc và bảo vệ pin</h2>
 
-      <div class="circuit-ascii">  Module TP4056 + BMS tích hợp (module xanh/đỏ):
+      <div class="circuit-ascii">  Ví dụ module 1S có TP4056 + IC bảo vệ riêng:
 
-  micro-USB 5V ──→ [TP4056 CC/CV Charger] ──→ BAT+ / BAT−
-                         │ tích hợp BMS
-                        ↓
-  B+ ──[BMS]─── OUT+ ──→ Mạch tải (Boost, Vi điều khiển)
-  B− ──[BMS]─── OUT− ──→ GND
+  USB 5V ──→ [TP4056: sạc CC/CV] ── BAT+ / BAT− ── [pin 1S]
+                                        │
+                         [IC bảo vệ + MOSFET, nếu có]
+                                        │
+                         OUT+ / OUT− ──→ Boost 5V / tải
 
-  BMS bảo vệ:
-  - Over-charge: V_bat > 4.25V → cắt sạc
-  - Over-discharge: V_bat < 2.9V → cắt tải
-  - Over-current: I > 3A → cắt (tùy module)
-  - Short circuit: cắt tức thì
+  TP4056 điều khiển sạc một cell đến 4,2V; dòng sạc do R_PROG của
+  module đặt, không mặc định phù hợp mọi pin. IC bảo vệ riêng mới
+  có thể cắt quá xả, quá dòng/ngắn mạch; ngưỡng tùy mã IC/board.
+  Module chỉ có BAT+/BAT− có thể không có bảo vệ xả. Kiểm tra sơ đồ
+  và mã linh kiện, không phân loại theo màu PCB.</div>
 
-  Chú ý: module TP4056 đơn (không BMS) CHỈ sạc,
-  không bảo vệ quá xả → cần module có BMS riêng!</div>
+      <p><a href="https://www.toppwr.com/uploadfile/file/20230304/640301eae1260.pdf" target="_blank" rel="noopener">Datasheet TP4056 của nhà sản xuất</a> mô tả chức năng sạc; mạch bảo vệ cell là linh kiện khác (ví dụ <a href="https://www.ti.com/product/BQ2970" target="_blank" rel="noopener">TI BQ2970</a>). Khi vừa sạc vừa cấp tải, cần thiết kế đường cấp nguồn phù hợp; module TP4056 cơ bản không tự động thực hiện power-path/load sharing.</p>
 
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
 <pre style="margin:0;white-space:pre-wrap;">// Đọc điện áp pin LiPo bằng ADC — ESP32
@@ -98,6 +97,7 @@ float readBatteryVoltage() {
 }
 
 int getBatteryPercent(float v) {
+  // Ước lượng thô: điện áp thay đổi theo tải, nhiệt độ và độ lão hóa.
   if (v >= V_FULL)  return 100;
   if (v <= V_EMPTY) return 0;
   return (int)((v - V_EMPTY) / (V_FULL - V_EMPTY) * 100);
@@ -143,14 +143,14 @@ void loop() {
       <div class="exercise-section">
         <div class="exercise-title">📝 Bài tập Bài 41</div>
         <div class="exercise-part">
-          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Robot ESP32 + L298N: dòng ESP32=240mA, 2 motor trung bình 300mA/motor. Pin LiPo 3000mAh. Thời gian hoạt động ước tính?</div></div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Robot giả định mọi tải nhận 5V từ boost: ESP32=240mA, 2 motor trung bình 300mA/motor. Pin LiPo 3,7V/3000mAh; hiệu suất boost 85%. Thời gian hoạt động ước tính?</div></div>
           <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Thiết kế voltage divider để đo pin 4,2V max bằng ADC ESP32 (V_max_ADC=3,3V). Tỷ lệ và giá trị R cụ thể?</div></div>
         </div>
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
-            <p><strong>1:</strong> I_tổng = 240 + 300×2 = 840mA. T = 3000mAh / 840mA × 0,85 (hiệu quả Boost 5V) = 3,57 giờ × 0,85 = <strong>~3 giờ thực tế</strong>. Để kéo dài: dùng Deep Sleep khi robot dừng, giảm PWM motor.</p>
-            <p><strong>2:</strong> V_out/V_in = R2/(R1+R2) = 3,3/4,2 = 0,786. R2/(R1+R2) = 0,786 → R1/R2 = (1-0,786)/0,786 = 0,272. Chọn R2=100kΩ → R1=27,2kΩ → <strong>chọn 27kΩ</strong>. Kiểm tra: V_out = 4,2 × 100/(100+27) = 4,2 × 0,787 = 3,305V ≈ 3,3V ✓. Điện áp chia này &lt;3,3V VCC → an toàn cho ADC ESP32.</p>
+            <p><strong>1:</strong> P_tải = 5V × (240+2×300)mA = 4,2W. Năng lượng pin danh định = 3,7V × 3Ah = 11,1Wh; sau boost 85% còn khoảng 9,44Wh. T ≈ 9,44/4,2 = <strong>2,25 giờ lý tưởng hóa</strong>; thực tế ngắn hơn khi xét dòng khởi động, tổn hao driver, pin xả và dung lượng hữu dụng.</p>
+            <p><strong>2:</strong> Với R1 từ pin+ đến ADC và R2 từ ADC xuống GND, V_ADC/V_pin = R2/(R1+R2). Chọn R1=100kΩ, R2=100kΩ → tỷ lệ 1/2; pin 4,2V cho ADC khoảng 2,1V, có dư biên dưới mức 3,3V. Hiệu chỉnh hệ số ADC theo board thực tế; không chọn tỷ lệ sát mức tối đa vì dung sai điện trở và điện áp nguồn.</p>
           </div>
         </div>
       </div>

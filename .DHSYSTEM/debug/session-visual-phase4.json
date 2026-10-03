@@ -1,8 +1,8 @@
 {
   "id": "visual-phase4",
-  "status": "active",
+  "status": "resolved",
   "created_at": "2026-10-02T22:00:00+07:00",
-  "updated_at": "2026-10-02T22:00:00+07:00",
+  "updated_at": "2026-10-03T12:55:00+07:00",
   "problem": {
     "description": "Audit Phase 4 xác nhận 31 nhóm sai lệch kỹ thuật trong sơ đồ và lời giảng điện tử; hình mới có nguy cơ lặp lại lỗi.",
     "symptoms": ["Nối sai nút mạch và cực linh kiện", "Ví dụ GPIO/nguồn có thể vượt giới hạn", "Một số mô tả không khớp sơ đồ hoặc mã"],
@@ -15,8 +15,19 @@
       {"id": 2, "description": "Giá trị và pinout được khái quát từ một biến thể module sang mọi biến thể", "status": "confirmed"},
       {"id": 3, "description": "Ví dụ thực hành chưa được soát với datasheet và phần giải thích", "status": "confirmed"}
     ],
-    "tests_run": [{"command": "dh-audit: đối chiếu 80 circuit-ascii, bài thực hành và datasheet", "output": "31 nhóm lỗi P0/P1/P2 xác nhận trong docs/qa/visual-technical-audit.md", "timestamp": "2026-10-02T22:00:00+07:00"}],
-    "findings": ["P0 phải sửa trước rollout hình mới", "Kết quả kiểm tra HTML/link không đủ xác nhận tính đúng điện tử"]
+    "tests_run": [
+      {"command": "dh-audit: đối chiếu 80 circuit-ascii, bài thực hành và datasheet", "output": "31 nhóm lỗi P0/P1/P2 xác nhận trong docs/qa/visual-technical-audit.md", "timestamp": "2026-10-02T22:00:00+07:00"},
+      {"command": "python tools/check_links.py", "output": "59 trang/490 tham chiếu, 0 lỗi", "timestamp": "2026-10-03T12:55:00+07:00"},
+      {"command": "python tools/check_visuals.py", "output": "56 bài/80 ASCII/4 tài sản, 0 lỗi", "timestamp": "2026-10-03T12:55:00+07:00"},
+      {"command": "python tools/build_search_index.py --check", "output": "56 bài, chỉ mục còn mới", "timestamp": "2026-10-03T12:55:00+07:00"},
+      {"command": "python tools/qa_browser.py --quick", "output": "QA PASS Chromium", "timestamp": "2026-10-03T12:55:00+07:00"}
+    ],
+    "findings": ["31 nhóm audit đã được sửa trong 34 bài", "Audit lại phát hiện và sửa đáp án Zener Bài 12 còn mâu thuẫn, mục tiêu MOSFET Bài 18 quá chắc", "Kiểm tra HTML/link không thay thế kiểm định điện tử trên phần cứng thật"]
   },
-  "resolution": null
+  "resolution": {
+    "root_cause": "Sơ đồ ký tự và bài thực hành trước đây thiếu đối chiếu nút điện, giới hạn linh kiện, biến thể module và phép tính với datasheet.",
+    "fix_applied": "Sửa 31 nhóm trong docs/qa/visual-technical-fixes.md, kể cả sơ đồ, giá trị, các bước thực hành và đáp án; cập nhật README và chỉ mục tìm kiếm.",
+    "files_changed": ["week1/day01.html", "week1/day02.html", "week1/day04.html", "week1/day07.html", "week2/day09.html", "week2/day11.html", "week2/day12.html", "week2/day13.html", "week2/day14.html", "week3/day15.html", "week3/day16.html", "week3/day17.html", "week3/day18.html", "week3/day19.html", "week3/day20.html", "week3/day21.html", "week4/day23.html", "week4/day24.html", "week4/day26.html", "week4/day27.html", "week5/day31.html", "week5/day32.html", "week5/day35.html", "week6/day38.html", "week6/day39.html", "week6/day40.html", "week6/day41.html", "week6/day42.html", "week7/day43.html", "week7/day44.html", "week7/day46.html", "week8/day51.html", "week8/day53.html", "week8/day54.html"],
+    "verification": "31/31 đối chiếu theo audit; check_links, check_visuals, search-index --check, qa_browser --quick đều PASS."
+  }
 }
