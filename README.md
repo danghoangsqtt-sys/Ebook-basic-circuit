@@ -38,6 +38,8 @@ Phase 7 đã qua cổng rà soát nội dung số: 80 khối ký tự đã đư�
 
 Phase 10 đã thêm [A29](advanced/a29.html)–[A32](advanced/a32.html) về yêu cầu, nguồn thấp áp, sensor/MCU và PCB khái niệm, theo [hồ sơ đồ án](docs/projects/pico-tmp36-design.md). Menu và tìm kiếm bao phủ đủ 56+32 bài; [bản đồ tiên quyết](advanced/path.html) nối các tuyến học. [Ma trận nghiệm thu cuối](docs/qa/curriculum-final.md) và [QA Phase 10](docs/qa/curriculum-phase10.md) ghi kết quả audit/debug nội dung số. Mô hình nguồn/ADC và hình tự vẽ chỉ đạt phạm vi số; schematic CAD/ERC/DRC, PCB, board, chuẩn nhiệt, phép đo và người duyệt phần cứng chưa có. Các trang bài có liên kết bỏ qua menu bằng bàn phím.
 
+[Phiếu chuẩn bị đo Pico/TMP36](docs/qa/pico-tmp36-bringup.md) và CSV trống giúp thu thập kết quả thật về sau; `tools/analyze_phase10_measurements.py` chỉ tính sai khác và báo cờ cần xem xét, không chứng nhận phần cứng.
+
 ## Bản quyền
 
 © 2026 Lê Bá Đăng Hoàng. Giữ bản quyền riêng; hiện chưa cấp giấy phép tái sử dụng mã hoặc nội dung. Chủ dự án sẽ chọn giấy phép nếu muốn công bố quyền sử dụng sau này.

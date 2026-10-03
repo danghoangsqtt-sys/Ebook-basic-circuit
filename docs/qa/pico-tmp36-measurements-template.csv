@@ -1,0 +1,1 @@
+run_id,sample_index,timestamp_utc,board_marking,sensor_marking,firmware_sha256,reference_c,reference_u_c,adc_vref_v,tmp36_vout_v,adc_raw_u16,firmware_reference_v,led_observed

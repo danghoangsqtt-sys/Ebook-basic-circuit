@@ -1,0 +1,30 @@
+{
+  "id": "phase10-measurement-record-audit",
+  "status": "resolved",
+  "created_at": "2026-10-04",
+  "updated_at": "2026-10-04",
+  "problem": {
+    "description": "Rà P10-04 phát hiện bản ghi đo dự kiến chưa buộc timestamp và chỉ số mẫu liên tục, nên có thể ghép VREF/VOUT/raw/LED khác thời điểm hoặc bỏ mất trạng thái hysteresis trung gian.",
+    "affected_files": [
+      "docs/qa/pico-tmp36-measurements-template.csv",
+      "docs/qa/pico-tmp36-bringup.md",
+      "tools/analyze_phase10_measurements.py",
+      "tools/verify_phase10_measurement_analysis.py"
+    ]
+  },
+  "investigation": {
+    "hypotheses": [
+      {"id": 1, "description": "Thiếu timestamp làm các giá trị không truy được về cùng cửa sổ nhiệt ổn định", "status": "confirmed"},
+      {"id": 2, "description": "Chỉ kiểm sample_index tăng cho phép bỏ mẫu đã đổi trạng thái LED", "status": "confirmed"}
+    ],
+    "tests_run": [
+      {"command": "python tools/verify_phase10_measurement_analysis.py", "output": "PASS: no_data, on/hold/off, mismatch, index gap, UTC không tăng, header trùng và số không hợp lệ", "timestamp": "2026-10-04"},
+      {"command": "python tools/analyze_phase10_measurements.py docs/qa/pico-tmp36-measurements-template.csv", "output": "no_data; sample_count 0; hardware_accepted false", "timestamp": "2026-10-04"}
+    ]
+  },
+  "resolution": {
+    "root_cause": "Thiết kế schema ban đầu tập trung vào trị số, chưa khóa thứ tự/thời gian cần để truy vết hysteresis và sai khác nhiệt.",
+    "fix_applied": "Thêm timestamp_utc ISO 8601, kiểm UTC tăng và sample_index liên tục trong mỗi run; phiếu yêu cầu ghi cửa sổ đồng bộ DMM/chuẩn/raw khi ổn định. Không dùng log này để tự chứng nhận board.",
+    "verification": "Bản ghi trống không có phép đo thật; analyzer luôn giữ hardware_accepted false. CAD/ERC/DRC, board, chuẩn và reviewer vẫn pending."
+  }
+}

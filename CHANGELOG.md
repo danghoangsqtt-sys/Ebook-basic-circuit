@@ -6,6 +6,7 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 
 ### Tài liệu
 
+- Chuẩn bị cổng phần cứng P10-04: phiếu bring-up Pico/TMP36, CSV đo trống và công cụ phân tích log có kiểm timestamp/index/hysteresis; audit/debug schema phát hiện và sửa nguy cơ ghép sai thời điểm hoặc bỏ mẫu. Chưa có bản ghi đo thật, CAD/ERC/DRC hay chữ ký reviewer.
 - Phase 10 xuất bản A29–A32 và hồ sơ đồ án Pico/TMP36, hoàn tất menu/search 56+32 và bản đồ tiên quyết. Audit/debug cuối thêm skip link cho 89 trang, sửa cuộn mượt để chuyển focus bằng bàn phím, kiểm lại số liệu Phase 8–10 và mobile Chromium/WebKit. `docs/qa/curriculum-final.md` ghi phạm vi PASS nội dung số; CAD/board/đo/reviewer tiếp tục pending.
 - Phase 7 qua audit/debug trong phạm vi nội dung số: kiểm kê 56 bài, 80 ID sơ đồ và 17 claim; thay 80 khối ASCII bằng 70 SVG và 10 tham chiếu HTML có thể đọc được. Đối chiếu mạch tham chiếu/datasheet hãng, sửa sai lệch nguồn, linh kiện, giới hạn, phép tính và đồng bộ 56 nhãn menu. Phần cứng thật còn cổng xác minh riêng.
 - Phase 8 P8-01 khóa đặc tả A01–A16; P8-02 thêm A01–A04, sơ đồ SVG tự vẽ, ví dụ có nguồn hãng và kiểm thử điều hướng, tìm kiếm, dấu, sao lưu.

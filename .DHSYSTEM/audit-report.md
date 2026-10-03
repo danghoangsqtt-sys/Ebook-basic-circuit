@@ -273,3 +273,23 @@ Sau commit `428056a` và push lên `origin/main`, kiểm `git status --porcelain
 ## Tier 4
 
 Không áp dụng: đây là kho giáo trình, không phải framework DHSYSTEM.
+
+---
+
+# DH-AUDIT — P10-04 chuẩn bị nghiệm thu vật lý — 2026-10-04
+
+## Tier 1 — trạng thái cổng
+
+Phase 10 vẫn mở phần cứng/reviewer. Môi trường không tìm thấy `kicad-cli` hoặc `ngspice` trên PATH; chưa có xác nhận board, TMP36GT9Z, dụng cụ, mã/revision carrier hoặc người ký. Phần bổ sung chỉ chuẩn bị biểu mẫu và phân tích dữ liệu, không đổi P10-04 thành PASS vật lý.
+
+## Tier 2 — hồ sơ và nguồn
+
+`docs/qa/pico-tmp36-bringup.md` nối sổ pending tới pinout Pico non-W và ADI TMP36 Rev. H bottom view, yêu cầu chốt marking, net, firmware hash, dụng cụ, uncertainty và chữ ký reviewer trước khi kết luận. CSV template có header và **0 mẫu**. Lược đồ ban đầu thiếu mốc thời gian/chỉ số liên tục cho chuỗi hysteresis; `dh-debug` bổ sung UTC ISO 8601 và kiểm mẫu liên tục, ghi ở `.DHSYSTEM/debug/session-phase10-measurement-record-audit.json`.
+
+## Tier 3 — công cụ và kiểm tra
+
+`tools/analyze_phase10_measurements.py` kiểm bản ghi, tính sai khác từ VOUT/raw/VREF/chuẩn và LED dự kiến theo firmware; luôn trả `hardware_accepted: false`. `verify_phase10_measurement_analysis.py` PASS với dữ liệu tổng hợp tạm: file rỗng, on/hold/off, LED sai, index gap, thời gian không tăng, header trùng và giá trị không hợp lệ. Template thật trả `no_data`, `sample_count: 0`. `verify_phase9_sensor_lab.py`, `verify_phase10_design.py`, `check_links.py` (92 trang/1189 tham chiếu, 0 hỏng), search 88 bài, `py_compile` và `git diff --check` vẫn PASS. Không có phép đo thật để đánh giá độ chính xác hay cổng điện.
+
+## Kết luận
+
+PASS phần **chuẩn bị ghi và phân tích dữ liệu**; tiếp tục chờ CAD/ERC/DRC, board, chuẩn đo và reviewer. Không thể đóng nghiệm thu toàn Phase trên bằng chứng hiện tại.

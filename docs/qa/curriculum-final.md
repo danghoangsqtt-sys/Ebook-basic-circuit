@@ -28,3 +28,5 @@ Phép kiểm độc lập của Phase 8/9/10 chạy lại công thức và trạ
 ## Việc cần khi có thiết bị và reviewer
 
 Chốt mã board/part/package/revision và dụng cụ; dựng schematic CAD, ERC/DRC, kiểm net/nguồn/return, nạp firmware trên board, đo rail/VREF/raw ADC/nhiệt/LED và sai khác theo phiếu đồ án. Reviewer kỹ thuật ký riêng các mạch có rủi ro. Sau bằng chứng đó mới đổi trạng thái nghiệm thu phần cứng của Phase 7–10.
+
+Phiếu [bring-up Pico/TMP36](pico-tmp36-bringup.md), CSV trống và công cụ phân tích log đã được chuẩn bị để ghi bằng chứng sau này. Chúng hiện trả `no_data` và không làm thay đổi trạng thái nghiệm thu vật lý.
