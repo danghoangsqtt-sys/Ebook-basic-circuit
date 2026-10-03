@@ -98,7 +98,7 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 | P4-02 | PASS | 80/80 sơ đồ phân loại; 31 nhóm phát hiện; `docs/qa/visual-technical-audit.md` |
 | P4-03 | PASS | `docs/qa/visual-prototype.md`; 8 mobile cases, caption 24px, QA Chromium |
 | P4-04 | PASS | 31/31 nhóm lỗi đã sửa; `docs/qa/visual-technical-fixes.md`; QA Chromium và cổng link/asset/index đạt |
-| P5-01 | PLANNED | — |
+| P5-01 | IN_PROGRESS | 14 hình tổng quan và ảnh nguồn 4 loại linh kiện; chỉ dùng CC0/miền công cộng đã xác minh |
 | P5-02 | PLANNED | — |
 | P5-03 | PLANNED | — |
 | P5-04 | PLANNED | — |
