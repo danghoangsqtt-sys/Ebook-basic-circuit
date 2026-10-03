@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 440" role="img" aria-labelledby="title desc">
+  <title id="title">Net tham chiếu Pico non-W và TMP36 TO-92</title>
+  <desc id="desc">Pico pin 36 cấp 3V3 cho TMP36 chân 1; tụ 0,1 microfarad giữa nguồn và AGND; TMP36 chân 2 nối Pico pin 31 GP26 ADC0; chân 3 nối pin 33 AGND. LED GP25 ở trong board. Số chân TMP36 theo góc nhìn đáy package.</desc>
+  <rect width="940" height="440" fill="#f7fafc"/>
+  <g font-family="Arial, sans-serif" fill="#17324d">
+    <text x="32" y="45" font-size="25" font-weight="bold">Pico non-W + TMP36GT9Z — sơ đồ net tham chiếu</text>
+    <rect x="35" y="90" width="315" height="280" rx="14" fill="#e8f2fa" stroke="#27608b" stroke-width="2"/>
+    <text x="57" y="124" font-size="22" font-weight="bold">Raspberry Pi Pico</text>
+    <text x="57" y="155" font-size="15">Board reference Rev3; mẫu thật chưa rõ</text>
+    <text x="57" y="208" font-size="19">pin 36 · 3V3(OUT)</text>
+    <text x="57" y="258" font-size="19">pin 31 · GP26 / ADC0</text>
+    <text x="57" y="308" font-size="19">pin 33 · AGND</text>
+    <text x="57" y="348" font-size="16">GP25 → LED onboard (nội bộ)</text>
+    <rect x="630" y="115" width="275" height="230" rx="14" fill="#fff4df" stroke="#a86b16" stroke-width="2"/>
+    <text x="650" y="151" font-size="22" font-weight="bold">TMP36GT9Z TO-92</text>
+    <text x="650" y="179" font-size="15">Số chân theo bottom view!</text>
+    <text x="650" y="208" font-size="19">pin 1 · +VS</text>
+    <text x="650" y="258" font-size="19">pin 2 · VOUT</text>
+    <text x="650" y="308" font-size="19">pin 3 · GND</text>
+  </g>
+  <g stroke="#246e83" stroke-width="4" fill="none">
+    <path d="M350 201H630M350 251H630M350 301H630"/>
+  </g>
+  <g fill="#17324d" font-family="Arial, sans-serif" font-size="15">
+    <text x="365" y="192">+3V3</text><text x="365" y="243">TEMP_V</text><text x="365" y="293">AGND</text>
+    <text x="385" y="352">C1 0,1 µF: +3V3 ↔ AGND</text>
+    <text x="385" y="375">đặt sát +VS/GND của sensor</text>
+    <text x="38" y="407">Kiểm góc nhìn chân, marking và rail thực trước khi lắp. Hình chưa qua ERC/đo.</text>
+  </g>
+  <rect x="370" y="320" width="250" height="62" rx="8" fill="none" stroke="#246e83" stroke-width="2"/>
+</svg>

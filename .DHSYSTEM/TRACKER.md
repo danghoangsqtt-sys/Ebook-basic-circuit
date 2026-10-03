@@ -1,9 +1,9 @@
 # Theo dõi tiến độ
 
-- Cập nhật: 2026-10-03
-- Trạng thái: Phase 1–6 hoàn tất; Phase 7–8 PASS trong phạm vi nội dung số/phân tích và hoạt động giấy/bảng tính có điều kiện, phần cứng thật còn pending; Phase 9 kế tiếp, Phase 10 chưa mở
-- Phase hiện tại: Phase 9 P9-01…P9-03 PASS nội dung số; P9-04 kế tiếp; Phase 8 đã PASS nội dung số; cổng phần cứng theo `docs/qa/curriculum-hardware-pending.md`
-- Việc kế tiếp: Lab tích hợp số–MCU–cảm biến P9-04 với BOM/sơ đồ/mô phỏng tái lập và giới hạn phần cứng
+- Cập nhật: 2026-10-04
+- Trạng thái: Phase 1–6 hoàn tất; Phase 7–10 PASS trong phạm vi nội dung số/phân tích/mô hình có điều kiện; nghiệm thu phần cứng và reviewer còn pending
+- Phase hiện tại: Phase 10 cổng nội dung số đã rà cuối; cổng phần cứng theo `docs/qa/curriculum-hardware-pending.md`
+- Việc kế tiếp khi có thiết bị: chốt part/board/revision, dựng CAD và ERC/DRC, đo, reviewer ký từng mạch rủi ro; xem `docs/qa/curriculum-final.md`
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -18,8 +18,8 @@
 | Phase 6 | 2 | 2 | Hoàn tất; audit/debug PASS |
 | Phase 7 | 6 | 6 số / 4 đầy đủ | P7-04/P7-06 PASS nội dung số; phần cứng thật còn chờ |
 | Phase 8 | 6 | 6 số / 0 phần cứng | P8-01…P8-06 PASS nội dung số; phần cứng thật còn chờ |
-| Phase 9 | 5 | 3 số / 0 phần cứng | P9-01…P9-03 PASS nội dung số; P9-04/P9-05 còn lại |
-| Phase 10 | 4 | 0 | Kế hoạch; phụ thuộc Phase 9 |
+| Phase 9 | 5 | 5 số / 0 phần cứng | P9-01…P9-05 PASS nội dung số/mô phỏng; phần cứng pending |
+| Phase 10 | 4 | 4 số / 0 phần cứng | P10-01…P10-04 qua cổng số; reviewer/CAD/đo còn chờ |
 
 ## Phase 1
 
@@ -134,16 +134,16 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 
 2026-10-03 Audit Phase 6: Tier 1 PASS; Tier 2 sửa số nhánh 49/49 trên 12 sơ đồ; Tier 3 thêm đối chiếu bài dùng ảnh trong manifest và fixture phát hiện sai bài. Các cổng asset/link/index/Chromium/WebKit PASS; xem `.DHSYSTEM/audit-report.md`. Phase 6 và milestone hình Phase 4–6 hoàn tất.
 
-## Phase 7–10 — Tái biên soạn giáo trình (Phase 9 đang triển khai)
+## Phase 7–10 — Tái biên soạn giáo trình (cổng số đã rà cuối)
 
-Nguồn task và tiêu chí: `.DHSYSTEM/CURRICULUM-PLAN.md`. Phase 7–8 đã có bằng chứng nội dung số; Phase 9 đang bổ sung logic/MCU/cảm biến. Báo cáo Phase 4–6 chỉ là kết quả QA hình cũ.
+Nguồn task và tiêu chí: `.DHSYSTEM/CURRICULUM-PLAN.md`. Phase 7–10 có bằng chứng nội dung số tại `docs/qa/curriculum-final.md`; phần cứng thật chưa nghiệm thu. Báo cáo Phase 4–6 chỉ là kết quả QA hình cũ.
 
 | Phase | Task | Trạng thái |
 | --- | --- | --- |
 | 7 | P7-01–P7-03/P7-05 PASS; P7-04/P7-06 PASS nội dung số, phần cứng pending | Qua cổng số, chưa nghiệm thu thiết bị thật |
 | 8 | P8-01…P8-06 PASS nội dung số; phần cứng pending | `docs/qa/curriculum-phase8.md`; 16/16 bài, 75 trang/890 link, Chromium/WebKit, audit/debug |
-| 9 | P9-01…P9-03 PASS nội dung số; P9-04, P9-05 | Đang triển khai; `docs/qa/curriculum-phase9.md` |
-| 10 | P10-01, P10-02, P10-03, P10-04 | TODO |
+| 9 | P9-01…P9-05 PASS nội dung số/mô phỏng; phần cứng pending | Qua cổng số; `docs/qa/curriculum-phase9.md` và audit/debug |
+| 10 | P10-01…P10-04 PASS phạm vi số; reviewer/đo/CAD pending | `docs/qa/curriculum-phase10.md`, `docs/qa/curriculum-final.md`; audit/debug cuối |
 
 Mỗi P7-06/P8-06/P9-05/P10-04 là cổng `dh-audit` và `dh-debug`; chỉ chuyển Phase sau khi lỗi chặn đã được sửa và bằng chứng được điền. Các câu hỏi còn mở về phạm vi, độc giả, toán, board và người duyệt nằm ở `CURRICULUM-PLAN.md`.
 
@@ -176,3 +176,9 @@ Mỗi P7-06/P8-06/P9-05/P10-04 là cổng `dh-audit` và `dh-debug`; chỉ chuy�
 2026-10-04 P9-02: xuất bản A22–A24 và ba SVG tự vẽ, đối chiếu Pico board Rev3 reference/RP2040 với Espressif DevKitC-1 v1.2 và batch schematic; lab GP25 Pico non-W có host fake Pin PASS nhưng chưa nạp/đo board. Audit `dh-audit` sửa A22 ranh giới chip/flash và nhánh bus qua `dh-debug`; WebKit một lần hỏi đáp trả quá sớm, test chờ trạng thái rồi cả hai engine 24 bài × 3 viewport 24 px PASS. 24/24 bài nâng cao, menu 56+24, search 80, 83 trang/972 link 0 hỏng, Chromium full 269 ca bài/viewport và reader/library/backup PASS. Sổ QA và hardware pending ghi rõ phạm vi.
 
 2026-10-04 P9-03: xuất bản A25–A28 và bốn SVG; ma trận bảy sensor IC trần theo ADI/TI/Bosch/ST, so công nghệ và ví dụ fit TMP36 trên dữ liệu tổng hợp. Audit `dh-audit` phát hiện lệch resolution/accuracy/mode của BMP280 và hình fit A28; `dh-debug` sửa theo datasheet Rev. 1.26, sửa thêm race ReaderData trong QA; `.DHSYSTEM/debug/session-phase9-p9-03-audit.json`. 28/28 bài nâng cao, menu 56+28, search 84, 87 trang/1012 link 0 hỏng, verify số học PASS, Chromium/WebKit riêng Phase 9 mỗi engine 36 ca ở 320/390/430 px/24px PASS, Chromium toàn site 301 ca bài/viewport và reader/library/backup PASS. Cổng sensor/board/chuẩn đo thật còn pending.
+
+2026-10-04 P9-04/P9-05: lab Pico non-W/TMP36GT9Z có BOM, netlist, SVG, mã MicroPython, mô phỏng ADC lý tưởng và fake ADC/LED; trace `0,0,0,1,1,0,0,1` PASS. Audit phát hiện tụ C1 cắt TEMP_V, `dh-debug` sửa sơ đồ và kịch bản lượng tử; `.DHSYSTEM/debug/session-phase9-p9-04-audit.json`. Cổng số Phase 9: bốn verify P9 PASS, 28/28 bài, menu 56+28, search 84, 87 trang/1012 link 0 hỏng, 80 ID sơ đồ và 56/56 hình bài nền; Chromium/WebKit mỗi engine 36 ca Phase 9 mobile/24 px PASS. Phần cứng, chuẩn nhiệt, ADC thật và reviewer pending; tag checkpoint Phase 7–9 không đầy đủ nên audit Tier 1 ghi rõ thay vì tạo hồi tố. Xem `docs/qa/curriculum-phase9.md` và `.DHSYSTEM/audit-report.md`. Mở P10-01 nhánh số.
+
+2026-10-04 P10-01/P10-02: A29–A32 và bốn chặng đồ án Pico/TMP36 xuất bản với hồ sơ yêu cầu/net/BOM/ngân sách/sai khác; `verify_phase10_design.py` PASS 10 ca ADC/VREF mô hình. Menu 56+32, search 88, bản đồ tiên quyết, 92 trang link nội bộ 0 hỏng; Chromium/WebKit mỗi engine 20 ca Phase 10 mobile/24 px PASS. Xem `docs/qa/curriculum-phase10.md`.
+
+2026-10-04 P10-03/P10-04: ma trận yêu cầu → bài → bằng chứng tại `docs/qa/curriculum-final.md`; audit/debug cuối sửa stale state và skip link/focus 89 trang. Phase 8/9/10 verify PASS, 32/32 bài A, 56+32 menu, search 88, 92 trang/1189 tham chiếu 0 hỏng, 80 ID hình, 56/56 bài nền có hình, Chromium quick full và Chromium/WebKit Phase 10/a11y PASS. Không có P0/P1 đã xác nhận trong phạm vi số. `.DHSYSTEM/audit-report.md` kết luận cổng số PASS; nghiệm thu Phase 7–10 về phần cứng, CAD/ERC/DRC, đo và reviewer chưa đóng. Git tag checkpoint lịch sử không đầy đủ, không tạo hồi tố.

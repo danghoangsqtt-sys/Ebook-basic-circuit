@@ -1,0 +1,44 @@
+{
+  "id": "phase9-p9-04-audit",
+  "status": "resolved",
+  "created_at": "2026-10-04",
+  "updated_at": "2026-10-04",
+  "problem": {
+    "description": "dh-audit kiểm sơ đồ và ranh giới mô phỏng lab Pico/TMP36; dh-debug sửa đường C1 và ca ngưỡng lượng tử.",
+    "symptoms": [
+      "SVG bản đầu vẽ nhánh tụ bypass cắt ngang TEMP_V như một nối điện không mong muốn",
+      "Kích thích đúng 30 C cho mã ADC giải ra 29.9986 C nên trace ban đầu không minh họa được trạng thái giữ hysteresis"
+    ],
+    "affected_files": [
+      "assets/images/labs/pico-tmp36-monitor.svg",
+      "tools/simulate_phase9_sensor_lab.py",
+      "tools/verify_phase9_sensor_lab.py",
+      "docs/labs/pico-tmp36-monitor.md"
+    ]
+  },
+  "investigation": {
+    "hypotheses": [
+      {"id": 1, "description": "Đường C1 cắt tín hiệu do bố trí ba net song song và nhánh tụ dọc", "status": "confirmed"},
+      {"id": 2, "description": "Ngưỡng 30 C không bật do làm tròn mã ADC", "status": "confirmed"}
+    ],
+    "tests_run": [
+      {"command": "python tools/verify_phase9_sensor_lab.py", "output": "PASS; trace 0,0,0,1,1,0,0,1", "timestamp": "2026-10-04"},
+      {"command": "python tools/check_links.py", "output": "87 pages; 1012 local references; zero broken", "timestamp": "2026-10-04"}
+    ],
+    "findings": [
+      "ADI TMP36 Rev. H Fig. 4 is bottom view and Fig. 24 calls for local 0.1 uF supply bypass",
+      "Pico reference pinout uses GP26/ADC0 pin 31, AGND pin 33, 3V3(OUT) pin 36 and onboard LED GP25"
+    ]
+  },
+  "resolution": {
+    "root_cause": "Sơ đồ net bằng đường hình học chưa rà giao điểm; kịch bản nhiệt lấy đúng ngưỡng trước khi xét lượng tử ADC.",
+    "fix_applied": "Chuyển C1 thành khối nối bằng net-label +3V3/AGND không cắt TEMP_V; thêm mẫu 31 C rồi 29 C để kiểm nhánh giữ; đối chiếu trace theo raw đã giải mã.",
+    "files_changed": [
+      "assets/images/labs/pico-tmp36-monitor.svg",
+      "tools/simulate_phase9_sensor_lab.py",
+      "tools/verify_phase9_sensor_lab.py",
+      "docs/labs/pico-tmp36-monitor.md"
+    ],
+    "verification": "Mô phỏng và fake ADC/LED PASS; schematic CAD/ERC, board và phép đo vẫn pending."
+  }
+}

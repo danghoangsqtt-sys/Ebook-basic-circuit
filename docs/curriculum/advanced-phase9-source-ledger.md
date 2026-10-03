@@ -39,3 +39,13 @@ Tham chiếu vendor đang được dùng để so kiến trúc và so điều ki
 | [ST VL53L1X Rev. 8](https://www.st.com/resource/en/datasheet/vl53l1x.pdf) | ToF, AVDD 2,6–3,5 V; I²C I/O mặc định 1,8 V, mode 2,8 V cần cấu hình; cận gần bảo đảm 4 cm, tầm xa phụ thuộc reflectance/ambient/FoV/timing budget/cover glass. | Mặc định chịu I²C 3,3 V, mọi mục tiêu đạt 4 m/±20 mm/100 ms; breakout không rõ schematic tự có level shifter. |
 
 Số liệu A28 ở 0/25/50 °C và 0,510/0,762/1,005 V là **dữ liệu tổng hợp của bài học**. Datasheet ADI chỉ hỗ trợ mô hình danh định TMP36, không phải chứng thư phép đo hay chuẩn hiệu chuẩn. Họ LDR/reed/PIR/IR/siêu âm được so về cơ chế, chưa chọn mã part và không nhận thông số số học.
+
+## P9-04 — lab tích hợp Pico/TMP36
+
+| Nguồn chính | Claim được dùng | Giới hạn |
+| --- | --- | --- |
+| [Pico datasheet §2, pinout và ADC_VREF](https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf) | Pico non-W reference Rev3: pin 36 3V3(OUT), pin 33 AGND, pin 31 GP26/ADC0, LED onboard GP25; ADC_VREF lọc từ rail 3,3 V. | Board thật chưa xác định revision; 3,300 V tuyệt đối trong mô hình là giả định, không là số đo. |
+| [ADI TMP36 Rev. H Fig. 4, Fig. 24, ordering table](https://www.analog.com/media/en/technical-documentation/data-sheets/tmp35_36_37.pdf) | TMP36GT9Z TO-92 bottom view: 1 +VS, 2 VOUT, 3 GND; 0,1 µF gốm sát nguồn; 2,7–5,5 V và VOUT danh định 0,750 V tại 25 °C, 10 mV/°C. | Grade G max ±3 °C trong bảng ordering; không nhận ±2 °C typical là worst-case. Bypass/board không thay hiệu chuẩn. |
+| [MicroPython RP2 quick reference v1.26](https://docs.micropython.org/en/v1.26.0/rp2/quickref.html) | `ADC(Pin(26)).read_u16()` trả 0…65535 theo API; ADC silicon 12 bit. | `read_u16` không là 16 bit chính xác; fake ADC/LED chỉ kiểm thuật toán. |
+
+Sơ đồ và kết quả mô phỏng ở `docs/labs/pico-tmp36-monitor.md` là tài sản tự tạo với nguồn tách riêng tại `assets/images/labs/SOURCES.md`; không trích hình từ datasheet.

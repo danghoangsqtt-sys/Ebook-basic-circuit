@@ -1,6 +1,6 @@
 # Giáo trình Kỹ thuật Điện tử Cơ bản
 
-Website tĩnh tiếng Việt gồm 56 bài nền tảng trong 8 tuần và các bài chuyên sâu đang được biên soạn. Bắt đầu tại [trang mở đầu](index.html) hoặc [Bài 1](week1/day01.html).
+Website tĩnh tiếng Việt gồm 56 bài nền tảng trong 8 tuần và 32 bài chuyên sâu, tổng 88 bài. Bắt đầu tại [trang mở đầu](index.html), [Bài 1](week1/day01.html) hoặc [bản đồ tiên quyết](advanced/path.html).
 
 ## Xem tại máy
 
@@ -34,7 +34,9 @@ Phase 1 đã triển khai trang đầu, giao diện đọc mobile, cỡ chữ, t
 
 Phase 4 đã kiểm và sửa 31 nhóm lỗi sơ đồ/nội dung kỹ thuật. Phase 5 đã minh họa đủ 56 bài; Phase 6 bổ sung 12 sơ đồ tổng hợp và hoàn tất kiểm tra hình toàn giáo trình.
 
-Phase 7 đã qua cổng rà soát nội dung số: 80 khối ký tự đã được thay bằng 70 SVG và 10 bảng/đoạn HTML có thể đọc, menu 56 bài đã khớp tiêu đề. [Sổ kiểm Phase 7](docs/qa/curriculum-phase7.md) ghi các lỗi điện học đã sửa và phần cứng chưa được nghiệm thu. Phase 8 đã xuất bản đủ A01–A16, bắt đầu từ [A01](advanced/a01.html), theo [đặc tả](docs/curriculum/advanced-phase8-syllabus.md), kèm SVG tự vẽ, bài tập/đáp án và [sổ QA/giới hạn kiểm](docs/qa/curriculum-phase8.md). Phase 9 hiện có A17–A28 về logic số, kiến trúc MCU và cảm biến, bắt đầu từ [A17](advanced/a17.html), với [sổ nguồn hãng](docs/curriculum/advanced-phase9-source-ledger.md) và [QA P9-01…P9-03](docs/qa/curriculum-phase9.md); A29–A32 thuộc Phase 10. Lab GPIO Pico đã có mã và kiểm lịch host, chưa nạp hoặc đo trên board thật; A28 dùng dữ liệu hiệu chuẩn tổng hợp, chưa có chuẩn đo thực. [Sổ phần cứng pending](docs/qa/curriculum-hardware-pending.md) giữ điều kiện cần kiểm.
+Phase 7 đã qua cổng rà soát nội dung số: 80 khối ký tự đã được thay bằng 70 SVG và 10 bảng/đoạn HTML có thể đọc, menu 56 bài đã khớp tiêu đề. [Sổ kiểm Phase 7](docs/qa/curriculum-phase7.md) ghi các lỗi điện học đã sửa và phần cứng chưa được nghiệm thu. Phase 8 đã xuất bản đủ A01–A16, bắt đầu từ [A01](advanced/a01.html), theo [đặc tả](docs/curriculum/advanced-phase8-syllabus.md), kèm SVG tự vẽ, bài tập/đáp án và [sổ QA/giới hạn kiểm](docs/qa/curriculum-phase8.md). Phase 9 có A17–A28 về logic số, kiến trúc MCU và cảm biến, bắt đầu từ [A17](advanced/a17.html), với [sổ nguồn hãng](docs/curriculum/advanced-phase9-source-ledger.md), [QA Phase 9](docs/qa/curriculum-phase9.md) và [lab mô phỏng Pico/TMP36](docs/labs/pico-tmp36-monitor.md); A29–A32 thuộc Phase 10. Lab GP25 và TMP36 có kiểm lệnh/ADC trên host, chưa nạp hoặc đo trên board thật; A28 dùng dữ liệu hiệu chuẩn tổng hợp, chưa có chuẩn đo thực. [Sổ phần cứng pending](docs/qa/curriculum-hardware-pending.md) giữ điều kiện cần kiểm.
+
+Phase 10 đã thêm [A29](advanced/a29.html)–[A32](advanced/a32.html) về yêu cầu, nguồn thấp áp, sensor/MCU và PCB khái niệm, theo [hồ sơ đồ án](docs/projects/pico-tmp36-design.md). Menu và tìm kiếm bao phủ đủ 56+32 bài; [bản đồ tiên quyết](advanced/path.html) nối các tuyến học. [Ma trận nghiệm thu cuối](docs/qa/curriculum-final.md) và [QA Phase 10](docs/qa/curriculum-phase10.md) ghi kết quả audit/debug nội dung số. Mô hình nguồn/ADC và hình tự vẽ chỉ đạt phạm vi số; schematic CAD/ERC/DRC, PCB, board, chuẩn nhiệt, phép đo và người duyệt phần cứng chưa có. Các trang bài có liên kết bỏ qua menu bằng bàn phím.
 
 ## Bản quyền
 

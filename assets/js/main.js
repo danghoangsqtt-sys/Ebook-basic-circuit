@@ -289,6 +289,8 @@ function initAnswerToggles() {
 
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(a => {
+    // Let the browser move keyboard focus to the main landmark for skip links.
+    if (a.classList.contains('skip-link')) return;
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
       if (target) {

@@ -160,6 +160,10 @@ const CURRICULUM = {
         { id: 'a26', number: 'A26', title: 'Cảm Biến Nhiệt, Ánh Sáng & Từ', file: '../advanced/a26.html' },
         { id: 'a27', number: 'A27', title: 'Áp Suất, Chuyển Động & Khoảng Cách', file: '../advanced/a27.html' },
         { id: 'a28', number: 'A28', title: 'Sai Số, Hiệu Chuẩn & Lọc Cảm Biến', file: '../advanced/a28.html' },
+        { id: 'a29', number: 'A29', title: 'Từ Yêu Cầu Đến Sơ Đồ Khối', file: '../advanced/a29.html' },
+        { id: 'a30', number: 'A30', title: 'Thiết Kế Nguồn Thấp Áp Cho Hệ', file: '../advanced/a30.html' },
+        { id: 'a31', number: 'A31', title: 'Khối Cảm Biến, ADC & MCU', file: '../advanced/a31.html' },
+        { id: 'a32', number: 'A32', title: 'Tích Hợp PCB & Báo Cáo Sai Khác', file: '../advanced/a32.html' },
       ]
     }
   ]

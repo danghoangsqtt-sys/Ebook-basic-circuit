@@ -1,0 +1,25 @@
+{
+  "id": "phase10-a11y-skip-link",
+  "status": "resolved",
+  "created_at": "2026-10-04",
+  "updated_at": "2026-10-04",
+  "problem": {
+    "description": "Audit P10-03 phát hiện các trang bài học thiếu đường bỏ qua menu; liên kết bổ sung ban đầu không chuyển focus vì JS cuộn mượt chặn hành vi native.",
+    "affected_files": ["assets/js/main.js", "assets/css/style.css", "week*/day*.html", "advanced/*.html"]
+  },
+  "investigation": {
+    "hypotheses": [
+      {"id": 1, "description": "Đã có skip link trên trang chủ nhưng shell của 88 bài không tạo link/landmark", "status": "confirmed"},
+      {"id": 2, "description": "initSmoothScroll preventDefault cho mọi anchor # nên Enter không đổi hash/focus", "status": "confirmed"}
+    ],
+    "tests_run": [
+      {"command": "python tools/qa_accessibility_basics.py", "output": "Trước sửa: Chromium không đổi hash; sau sửa: Chromium/WebKit mỗi engine 3 ca PASS", "timestamp": "2026-10-04"},
+      {"command": "python tools/ensure_lesson_skip_links.py --check", "output": "89 trang PASS", "timestamp": "2026-10-04"}
+    ]
+  },
+  "resolution": {
+    "root_cause": "HTML bài học chưa có skip link; handler smooth-scroll chặn chuyển focus native.",
+    "fix_applied": "Thêm skip link và main landmark có tabindex; cho skip link dùng anchor native; cập nhật generator Phase 9/10 và script kiểm đồng bộ.",
+    "verification": "Chromium Tab đầu tiên và Enter; WebKit focus link rồi Enter; cả hai engine đổi #lesson-main và focus main. Đây là kiểm cơ bản, không phải chứng nhận WCAG."
+  }
+}

@@ -105,10 +105,10 @@ def render(lesson: dict[str, object], index: int) -> str:
     title = str(lesson["title"])
     prev_id = f"a{21 + index:02}"
     prev_title = "FSM, Clock & Kiểm Timing" if index == 0 else str(LESSONS[index - 1]["title"])
-    next_nav = (f'<a href="a{23 + index:02}.html" class="lesson-nav-btn"><div><div class="nav-label">Bài tiếp →</div><div class="nav-title">A{23 + index:02}: {escape(str(LESSONS[index + 1]["title"]))}</div></div></a>' if index < len(LESSONS) - 1 else "")
+    next_nav = (f'<a href="a{23 + index:02}.html" class="lesson-nav-btn"><div><div class="nav-label">Bài tiếp →</div><div class="nav-title">A{23 + index:02}: {escape(str(LESSONS[index + 1]["title"]))}</div></div></a>' if index < len(LESSONS) - 1 else (('<a href="a29.html" class="lesson-nav-btn"><div><div class="nav-label">Bài tiếp →</div><div class="nav-title">A29: Từ Yêu Cầu Đến Sơ Đồ Khối</div></div></a>') if lesson_id == "a28" else ""))
     objectives = "".join(f"<li>{item}</li>" for item in lesson["objectives"])
     checks = "".join(f'<div class="checklist-item"><input type="checkbox" id="{lesson_id}c{i}"><label for="{lesson_id}c{i}">{escape(item)}</label></div>' for i, item in enumerate(lesson["checks"], 1))
-    return f'''<!DOCTYPE html>
+    html = f'''<!DOCTYPE html>
 <html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>{lesson_id.upper()}: {escape(title)} — Giáo Trình Điện Tử Thực Hành</title><meta name="description" content="{escape(str(lesson['subtitle']))}"><link rel="stylesheet" href="../assets/css/style.css"></head>
 <body><header class="site-header"><a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Giáo trình nâng cao</div></div></a><button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../week4/day25.html">Bài nền D25</a></nav><div class="header-progress"><span class="progress-label">Lộ trình nâng cao · {lesson_id.upper()}</span></div></header>
 <div class="app-layout"><aside class="sidebar" id="sidebar"></aside><main class="main-content"><article class="content-area"><div class="lesson-header"><div class="lesson-meta"><span class="tag tag-week">Phase 9</span><span class="tag tag-day">{lesson_id.upper()}</span><span class="tag tag-difficulty-beginner">M1 · {lesson['units']} ĐV</span></div><h1 class="lesson-title">{escape(title)}</h1><p class="lesson-subtitle">{escape(str(lesson['subtitle']))}</p><div class="lesson-stats"><span class="lesson-stat">⏱ {lesson['units']} ĐV đọc/bảng/bài tập</span><span class="lesson-stat">📚 Tiên quyết: {escape(str(lesson['base']))}</span></div></div>
@@ -116,6 +116,8 @@ def render(lesson: dict[str, object], index: int) -> str:
 {lesson['body']}
 <div class="section-divider"><span class="section-divider-label">Bài tập độc lập</span></div><div class="exercise-section"><div class="exercise-title">📝 Tự giải trước khi xem đáp án</div><p>{lesson['exercise']}</p><div class="answer-section"><button class="answer-toggle">👁 Xem lời giải và rubric</button><div class="answer-content">{lesson['answer']}</div></div></div><div class="checklist"><div class="checklist-title">✅ Tự kiểm {lesson_id.upper()}</div>{checks}</div><div class="lesson-nav"><a href="{prev_id}.html" class="lesson-nav-btn"><div><div class="nav-label">← Bài trước</div><div class="nav-title">{prev_id.upper()}: {escape(prev_title)}</div></div></a>{next_nav}</div></article></main></div><script src="../assets/js/sidebar-data.js"></script><script src="../assets/js/main.js"></script><script>renderSidebar('{lesson_id}.html');</script></body></html>
 '''
+    return (html.replace('<body>', '<body><a class="skip-link" href="#lesson-main">\u0110i t\u1edbi n\u1ed9i dung ch\u00ednh</a>', 1)
+                .replace('<main class="main-content">', '<main class="main-content" id="lesson-main" tabindex="-1">', 1))
 
 
 def main() -> None:

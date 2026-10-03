@@ -2,7 +2,7 @@
 
 - Ngày lập: 2026-10-03
 - Nguồn: `docs/brainstorm/session-2026-10-03-curriculum-rebuild.md` và sáu ảnh người dùng gửi
-- Trạng thái: **Phase 7 đang triển khai**; Phase 1–6 trong `ROADMAP.md` giữ trạng thái hoàn tất của đợt trước
+- Trạng thái 2026-10-04: **Phase 7–10 đạt cổng nội dung số/mô hình**; cổng phần cứng và reviewer còn mở theo `docs/qa/curriculum-hardware-pending.md`. Phase 1–6 trong `ROADMAP.md` giữ trạng thái hoàn tất của đợt trước.
 - Giả định để lập kế hoạch: giữ 56 bài hiện có làm tuyến nhập môn; dự kiến thêm **32 bài chuyên sâu** cho người mới hướng tới thực hành kỹ sư. Số bài, độ khó toán và board chưa được người dùng xác nhận; P7-01 chốt lại trước khi viết A01–A32.
 - Không tạo giấy phép mới: giáo trình giữ bản quyền riêng; ảnh ngoài chỉ CC0/miền công cộng kiểm theo từng tệp hoặc hình tự tạo.
 

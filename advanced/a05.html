@@ -7,14 +7,14 @@
   <meta name="description" content="Phân biệt diode chỉnh lưu, switching, Schottky, Zener, TVS, LED và photodiode bằng điều kiện datasheet; tính mạch LED và kiểm biên.">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
-<body>
+<body><a class="skip-link" href="#lesson-main">Đi tới nội dung chính</a>
 <header class="site-header">
   <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Tuyến chuyên sâu</div></div></a>
   <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
   <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../week2/day11.html">Diode nhập môn</a></nav>
   <div class="header-progress"><span class="progress-label">Chuyên sâu · A05</span></div>
 </header>
-<div class="app-layout"><aside class="sidebar" id="sidebar"></aside><main class="main-content"><article class="content-area">
+<div class="app-layout"><aside class="sidebar" id="sidebar"></aside><main class="main-content" id="lesson-main" tabindex="-1"><article class="content-area">
   <div class="lesson-header"><div class="lesson-meta"><span class="tag tag-week">Phase 8</span><span class="tag tag-day">A05</span><span class="tag tag-difficulty-beginner">M0–M1</span></div><h1 class="lesson-title">Các Họ Diode</h1><p class="lesson-subtitle">Đọc đúng đại lượng và điều kiện đo trước khi dùng một diode cho chỉnh lưu, kẹp xung, phát hay thu ánh sáng.</p><div class="lesson-stats"><span class="lesson-stat">⏱ 3 đơn vị × 45 phút</span><span class="lesson-stat">📐 Tiên quyết: <a href="../week1/day04.html">D04</a>, <a href="../week2/day11.html">D11</a>, <a href="../week2/day12.html">D12</a></span><span class="lesson-stat">🔬 Bảng tính/mô phỏng trước; phần cứng có điều kiện</span></div></div>
   <div class="objectives-box"><div class="objectives-title">🎯 Sau bài này, bạn làm được gì?</div><ul class="objectives-list"><li>Chọn đúng họ diode cho bảy nhiệm vụ và giải thích vì sao một họ khác không thay thế trực tiếp.</li><li>Đọc <code>VRRM</code>, <code>IF(AV)</code>, <code>VF</code>, phục hồi, rò và thông số xung với đúng điều kiện nhiệt/dòng/thời gian.</li><li>Tính dòng/công suất mạch LED có điện trở hạn dòng và phân biệt kết quả giả định với giới hạn datasheet.</li><li>Lập bảng kiểm điện áp ngược, dòng, nhiệt, cực tính và thông số còn thiếu trước khi chọn part.</li></ul></div>
   <p><strong>Tiếp sau D11–D12:</strong> các bài D đã giới thiệu ký hiệu và một vài ứng dụng. Ở đây, cùng hình diode trên sơ đồ có thể là công nghệ rất khác: giá trị điện áp ngược, dòng trung bình, đỉnh xung, rò, phổ ánh sáng và điều kiện đo phải đọc ở <em>mã part</em>, không suy từ tên gọi “diode”.</p>

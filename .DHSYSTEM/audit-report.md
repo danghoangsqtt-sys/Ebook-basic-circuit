@@ -219,3 +219,53 @@ SVG A22 đầu tiên đặt SRAM/ngoại vi ngoài ranh giới chip và trông m
 Đây là kho giáo trình, không phải mã nguồn framework DHSYSTEM.
 
 ---
+
+# DH-AUDIT — Phase 9 hoàn tất cổng số — 2026-10-04
+
+## Tier 1 — Trạng thái DHSYSTEM: PASS phạm vi số; checkpoint Git lịch sử chưa đầy đủ
+
+PHASE-STATE, TRACKER, ROADMAP và HANDOFF được đồng bộ khi chuyển P9-05 → P10-01. P9-01…P9-04 có bằng chứng riêng ở `docs/qa/curriculum-phase9.md`; P9-04 giữ board/chuẩn đo pending. Kiểm `git tag -l '*p7*'` chỉ thấy bốn tag task đầu Phase 7, không thấy tag hoàn tất Phase 7/8 hoặc task Phase 8/9. Không tạo tag hồi tố vì chúng không thể là checkpoint trước triển khai; thiếu tag là sai lệch quy trình phục hồi, không là lỗi nội dung bài. Cổng phase số không dựa vào tag không có thật.
+
+## Tier 2 — Tài liệu: LOW → RESOLVED
+
+README/ARCHITECTURE/CHANGELOG ban đầu mới ghi P9-01/P9-02 trong khi P9-03 đã xuất bản và P9-04 đang làm. Đã cập nhật mô tả 28 bài, lab, sổ nguồn, QA và trạng thái; không tìm thấy URL placeholder/TODO trong `docs/`, README, CHANGELOG. A29–A32 còn kế hoạch Phase 10 tại thời điểm audit.
+
+## Tier 3 — Nội dung và website: P2 → RESOLVED trong phạm vi số
+
+Rà lại ADI TMP36 Rev. H Fig. 4/Fig. 24 và Pico datasheet §2. `dh-debug` sửa đường C1 cắt TEMP_V trong SVG P9-04, tách net bằng tên rõ; sửa kịch bản ADC để có bật/giữ/tắt sau lượng tử. Mã host trả trace `0,0,0,1,1,0,0,1`; không gán 16 bit API thành accuracy ADC. `verify_phase9_logic.py`, `verify_phase9_pico_lab.py`, `verify_phase9_sensors.py`, `verify_phase9_sensor_lab.py`, `check_advanced.py` (28/28), navigation (56+28), `check_links.py` (87 trang/1012 refs, 0 hỏng), search (84 bài), `check_visuals.py --require-all` (56/56) và diagram register (80 ID) đều PASS. Chromium/WebKit mỗi engine 36 ca A17–A28 ở 320/390/430 px và 24 px PASS. Chromium toàn site 301 ca bài/viewport đã PASS ở P9-03; P9-04 không đổi HTML website.
+
+Không có P0/P1 được xác nhận trong phạm vi nội dung số Phase 9. Board, sensor, nguồn, ADC/reference, chuẩn nhiệt, firmware và reviewer phần cứng chưa có; sổ `docs/qa/curriculum-hardware-pending.md` giữ cổng riêng. Không gọi mô hình host là SPICE/ERC hay phép đo.
+
+## Tier 4
+
+Không áp dụng: đây là kho giáo trình, không phải framework DHSYSTEM.
+
+## Cổng tiếp theo
+
+Cho phép mở P10-01 nhánh số. Cổng nghiệm thu vật lý vẫn pending, và không được đánh dấu hoàn tất phần cứng khi chưa có thiết bị/người duyệt.
+
+---
+
+# DH-AUDIT — Phase 10 và toàn đợt Phase 7–10 — 2026-10-04
+
+## Tier 1 — trạng thái và checkpoint
+
+P7-01…P7-06, P8-01…P8-06, P9-01…P9-05 và P10-01…P10-04 có bằng chứng cổng nội dung số trong `TRACKER.md`, QA từng Phase và `docs/qa/curriculum-final.md`. Phase 10 đạt **cổng nội dung số/mô hình host**, không đạt nghiệm thu phần cứng toàn Phase theo tiêu chí P10-04: chưa có reviewer ký phần cần ký, board và phép đo. `HANDOFF.json` và `PHASE-STATE.md` giữ cổng này pending. Lịch sử chỉ có bốn tag task đầu Phase 7; không tạo tag hồi tố cho các checkpoint không tồn tại. Đây là sai lệch quy trình lưu mốc, không được coi là bằng chứng kỹ thuật. Cổng Git persistence của đợt phải kiểm riêng sau khi lưu thay đổi.
+
+## Tier 2 — tài liệu và nguồn
+
+Audit thấy `CURRICULUM-PLAN.md`, `AI-GUIDE.md`, `TRACKER.md`, `ROADMAP.md` và `HANDOFF.json` còn mô tả Phase 7/P10-01 là việc kế tiếp dù A29–A32 đã xuất bản. `dh-debug` đồng bộ trạng thái với cổng số 56+32; README/CHANGELOG/ARCHITECTURE dẫn tới ma trận cuối và giới hạn thiết bị. Nguồn part chính đối chiếu trực tiếp Raspberry Pi Pico datasheet, ADI TMP36 Rev. H (TO-92 Fig. 4 bottom view) và MicroPython RP2 quick reference; sổ nguồn Phase 8/9/10 ghi các claim có điều kiện. Đường dẫn datasheet và hình có trong bài, sổ nguồn và `assets/images/advanced/SOURCES.md`.
+
+## Tier 3 — website, số học và a11y
+
+`verify_phase8_numeric.py`, `verify_phase8_fields.py`, bốn verify Phase 9, `verify_phase10_design.py`: PASS. `check_advanced.py` 32/32; `check_navigation.py` 56+32; `check_links.py` 92 trang/1189 tham chiếu, 0 hỏng; `check_visuals.py --require-all` 56/56; `check_diagram_register.py` 80 ID (70 SVG/10 HTML) và 17 claim; search index 88 bài, `--check` PASS. Chromium full quick: 4 viewport trang chủ, 280 ca bài/viewport cùng reader/library/backup PASS. Chromium và WebKit mỗi engine 20 ca A29–A32/bản đồ tại 320/360/390/430 px và chữ 24 px PASS. `node --check` cho JS, `py_compile` cho generator/QA và `git diff --check` PASS (Git chỉ cảnh báo chuyển LF/CRLF).
+
+Audit P10-03 phát hiện thiếu skip link ở trang bài, và JS cuộn mượt chặn hash/focus của link mới. `dh-debug` sửa 89 trang và generator, để skip link dùng điều hướng native; `ensure_lesson_skip_links.py --check` 89/89 PASS, Chromium/WebKit mỗi engine 3 ca bàn phím PASS. Phiên debug: `.DHSYSTEM/debug/session-phase10-a11y-skip-link.json`. Kiểm này là a11y cơ bản, không phải chứng nhận WCAG toàn diện. Không còn P0/P1 **đã xác nhận trong phạm vi nội dung số**.
+
+## Kết luận cổng
+
+P10-04 đạt audit/debug cuối **cho nội dung số và mô hình**. Không đóng nghiệm thu phần cứng của Phase 7–10: cần mã/revision thiết bị thật, CAD/ERC/DRC, nạp target, đo và reviewer ký theo `docs/qa/curriculum-hardware-pending.md`. Mô hình ADC/nguồn và net bằng chữ không được trình bày là SPICE, schematic CAD hoặc PCB sản xuất.
+
+## Tier 4
+
+Không áp dụng: đây là kho giáo trình, không phải framework DHSYSTEM.

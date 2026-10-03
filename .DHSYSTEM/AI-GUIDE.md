@@ -37,4 +37,4 @@ Chỉ đánh dấu nhiệm vụ hoàn tất trong `TRACKER.md` sau khi có bằn
 
 ## Đợt tái biên soạn Phase 7–10
 
-Đọc `../docs/brainstorm/session-2026-10-03-curriculum-rebuild.md`, `CURRICULUM-PLAN.md` và trạng thái `TRACKER.md`/`HANDOFF.json`. Phase 1–6 đã đóng; các task P7–P10 là kế hoạch mới, chưa được đánh dấu hoàn tất. Giả định 32 bài chuyên sâu và board thực hành phải được xác nhận ở P7-01. Sau mỗi Phase chạy `dh-audit`, dùng `dh-debug` khi có lỗi rồi mới tiến.
+Đọc `../docs/brainstorm/session-2026-10-03-curriculum-rebuild.md`, `CURRICULUM-PLAN.md` và trạng thái `TRACKER.md`/`HANDOFF.json`. Phase 1–6 đã đóng; P7–P10 có bằng chứng qua cổng nội dung số/mô hình tại `docs/qa/curriculum-final.md`, còn nghiệm thu phần cứng và reviewer trong sổ pending. Bộ 32 bài đã được xuất bản theo giả định phạm vi của P7-01; board thực hành cụ thể chưa được cung cấp. Sau mỗi Phase chạy `dh-audit`, dùng `dh-debug` khi có lỗi rồi mới tiến.
