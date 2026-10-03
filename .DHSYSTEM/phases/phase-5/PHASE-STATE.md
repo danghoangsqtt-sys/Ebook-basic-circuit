@@ -6,6 +6,6 @@
 | Task | Trạng thái | Bằng chứng |
 | --- | --- | --- |
 | P5-01 | PASS | 14 SVG, 4 ảnh CC0/miền công cộng; `docs/qa/visual-week1-2.md`; 42 ca viewport PASS |
-| P5-02 | PLANNED | — |
+| P5-02 | IN_PROGRESS | Đang biên tập sơ đồ Bài 15–28 |
 | P5-03 | PLANNED | — |
 | P5-04 | PLANNED | — |

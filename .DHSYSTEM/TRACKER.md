@@ -99,7 +99,7 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 | P4-03 | PASS | `docs/qa/visual-prototype.md`; 8 mobile cases, caption 24px, QA Chromium |
 | P4-04 | PASS | 31/31 nhóm lỗi đã sửa; `docs/qa/visual-technical-fixes.md`; QA Chromium và cổng link/asset/index đạt |
 | P5-01 | PASS | 14 SVG và 4 ảnh thật đã kiểm giấy phép; `docs/qa/visual-week1-2.md`; 42 ca mobile/desktop, link/asset/index PASS |
-| P5-02 | PLANNED | — |
+| P5-02 | IN_PROGRESS | Đang biên tập sơ đồ Bài 15–28 |
 | P5-03 | PLANNED | — |
 | P5-04 | PLANNED | — |
 | P6-01 | PLANNED | — |
