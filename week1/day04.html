@@ -88,26 +88,11 @@
 
       <h3>1.1 Cấu tạo vật lý LED 5mm</h3>
 
-      <div class="circuit-ascii">  LED 5mm thông dụng — nhìn từ bên cạnh:
-
-            Vỏ nhựa trong suốt
-           ╱────────────────────╲
-          │    .     ●     .    │  ← Chip LED (die) bên trong
-          │   ╱               ╲ │
-          │  │    Anode (+)    │ │  ← Anode nối với cực dương
-          └──┼─────────────────┼─┘
-             │                 │
-           Chân dài          Chân ngắn
-          ANODE (+)         CATHODE (–)
-          (dài hơn)         (ngắn hơn)
-
-  Ghi nhớ: A = Anode = dài hơn = dương (+)
-           K = Kathode = ngắn hơn = âm (–)
-
-   Ký hiệu sơ đồ mạch (vạch đứng là cathode):
-      A ──▷|── K       ↗ ↗  ánh sáng phát ra
-   Chiều dòng quy ước khi dẫn thuận: A → K.
-   Hai mũi tên ánh sáng ở ngoài ký hiệu, không phải mũi tên dòng.</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d04-1.svg" width="390" height="425" loading="lazy" decoding="async" alt="Chân dài thường là anode A, chân ngắn và cạnh vỏ phẳng thường là cathode K; xác nhận lại bằng đồng hồ diode.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D04-1 — Cực LED 5 mm</div><div class="figure-text">Chân dài thường là anode A, chân ngắn và cạnh vỏ phẳng thường là cathode K; xác nhận lại bằng đồng hồ diode.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://learn.adafruit.com/all-about-leds/the-led-datasheet" target="_blank" rel="noopener">Adafruit về LED</a>. <a href="../assets/images/lessons/d04-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D04-1</summary><p>Với LED 5 mm thông thường, chân dài là anode, chân ngắn và cạnh phẳng là cathode. Trong ký hiệu, vạch là cathode; hai mũi tên hướng ra ngoài chỉ ánh sáng. Chân bị cắt hoặc vỏ khác dạng cần xác định bằng đồng hồ trước khi lắp.</p></details>
 
       <div class="callout callout-tip">
         <div class="callout-header"><span class="callout-icon">💡</span> Mẹo nhận biết anode và cathode</div>

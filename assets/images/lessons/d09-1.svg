@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 320" width="360" height="320" role="img" aria-labelledby="title desc"><title id="title">Mạch RC nạp tụ</title><desc id="desc">Nguồn 5 V, công tắc S và R = 100 kΩ nối tiếp tới nút V_C. Duy nhất một tụ C = 100 µF nối từ nút V_C xuống GND; V_C đo so với GND.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="360" height="320" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M50 80 H75 M135 80 H170 M230 80 H335 M50 240 H285 M285 240 V240 M50 80 V154 M50 240 V166 M285 80 V155 M285 240 V165"/>
+<text x="180" y="28" class="h" text-anchor="middle">Mạch RC nạp tụ</text>
+<path class="w" d="M33 154 H67"/><path class="k" style="stroke-width:6" d="M41 166 H59"/>
+<text x="72" y="157" class="b">+</text>
+<text x="72" y="177" class="b">−</text>
+<text x="30" y="166" class="b" text-anchor="end">5 V</text>
+<circle cx="75" cy="80" r="4" class="c"/><circle cx="135" cy="80" r="4" class="c"/>
+<path class="w" d="M75 80 L125 60"/>
+<text x="105" y="50" class="b" text-anchor="middle">S</text>
+<rect class="c" x="170" y="67" width="60" height="26" rx="4"/>
+<text x="200" y="54" class="b" text-anchor="middle">R = 100 kΩ</text>
+<circle cx="285" cy="80" r="4.5" class="n"/>
+<path class="k" d="M268 155 H302 M268 165 H302"/>
+<text x="260" y="151" class="b" text-anchor="end">+ C = 100 µF</text><text x="260" y="183" class="b" text-anchor="end">− 25 V</text>
+<circle cx="335" cy="80" r="4.5" class="c"/>
+<text x="335" y="64" class="b" text-anchor="end">V_C</text>
+<path class="w" d="M180 240 V250 M165 250 H195 M170 256 H190 M175 262 H185"/>
+<text x="202" y="266" class="m">GND = 0 V</text>
+<text x="180" y="304" class="m" text-anchor="middle">S đang mở; đóng S để nạp tụ đúng cực</text>
+</svg>

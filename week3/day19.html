@@ -56,16 +56,11 @@
 
       <p>PWM là kỹ thuật thay đổi độ rộng (thời gian) của xung điện trong một chu kỳ cố định để điều khiển giá trị điện áp trung bình đến tải. Thay vì thay đổi điện áp một cách liên tục (như DAC analog), PWM chuyển đổi nhanh giữa 0V và V_max — tải "cảm nhận" điện áp trung bình tương ứng.</p>
 
-      <div class="circuit-ascii">  PWM — 3 ví dụ duty cycle khác nhau:
-
-  Cùng chu kỳ T = 8 ô thời gian, █ là HIGH và · là LOW:
-  Duty 25%:  ██······ | ██······   V_avg = 1,25V (mức 5V)
-  Duty 50%:  ████···· | ████····   V_avg = 2,50V
-  Duty 75%:  ██████·· | ██████··   V_avg = 3,75V
-
-  D = T_on / T × 100%. Độ sáng LED thường tăng theo duty;
-  tốc độ motor phụ thuộc tải, đặc tính motor và mạch điều khiển,
-  nên duty 50% không mặc định bằng nửa tốc độ.</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d19-1.svg" width="360" height="390" loading="lazy" decoding="async" alt="Ba dạng sóng vuông cùng chu kỳ T = 8 ô thời gian. Duty 25% có điện áp trung bình 1,25 V, duty 50% có 2,50 V, duty 75% có 3,75 V ở mức 5 V.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D19-1 — PWM với ba độ rộng xung</div><div class="figure-text">Ba dạng sóng vuông cùng chu kỳ T = 8 ô thời gian. Duty 25% có điện áp trung bình 1,25 V, duty 50% có 2,50 V, duty 75% có 3,75 V ở mức 5 V.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d19-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D19-1</summary><p>Ba dạng sóng vuông cùng chu kỳ T = 8 ô thời gian. Duty 25% có điện áp trung bình 1,25 V, duty 50% có 2,50 V, duty 75% có 3,75 V ở mức 5 V.</p></details>
 
       <div class="formula-block">
         <div class="formula-main">V_avg = D × V_high</div>
@@ -106,17 +101,11 @@
 
       <p>Nếu bạn cần điện áp analog thực sự (ví dụ: DAC cho âm thanh, điện áp tham chiếu biến đổi), có thể dùng <strong>RC Low-Pass Filter sau ngõ ra PWM</strong> để lọc bỏ thành phần tần số cao, chỉ giữ lại giá trị trung bình DC:</p>
 
-      <div class="circuit-ascii">  PWM → Analog qua RC filter:
-
-  GPIO_PWM ──[R=10kΩ]──┬── V_analog_out
-                        │
-                      [C=100nF]
-                        │
-                       GND
-
-  f_PWM = 10kHz → f_c_filter = 1/(2π×10k×100n) = 159Hz
-  → f_PWM (10kHz) >> f_c (159Hz) → filter lọc gần hết ripple
-  → V_out ≈ D × 3,3V (rất trơn)</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d19-2.svg" width="360" height="290" loading="lazy" decoding="async" alt="Chân GPIO_PWM qua R = 10 kΩ tới nút V_analog_out; tụ C = 100 nF nối từ nút đó xuống GND. Tần số PWM 10 kHz lớn hơn nhiều tần số cắt khoảng 159 Hz nên gợn sóng bị lọc.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D19-2 — PWM qua bộ lọc RC thành điện áp tương tự</div><div class="figure-text">Chân GPIO_PWM qua R = 10 kΩ tới nút V_analog_out; tụ C = 100 nF nối từ nút đó xuống GND. Tần số PWM 10 kHz lớn hơn nhiều tần số cắt khoảng 159 Hz nên gợn sóng bị lọc.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d19-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D19-2</summary><p>Chân GPIO_PWM qua R = 10 kΩ tới nút V_analog_out; tụ C = 100 nF nối từ nút đó xuống GND. Tần số PWM 10 kHz lớn hơn nhiều tần số cắt khoảng 159 Hz nên gợn sóng bị lọc.</p></details>
 
       <!-- VIDEO -->
       <div class="video-card">

@@ -65,16 +65,11 @@
         </div>
       </div>
 
-      <div class="circuit-ascii">  RC Low Pass Filter:               RC High Pass Filter:
-
-  Vin──[R]──┬── Vout (LPF)         Vin──[C]──┬── Vout (HPF)
-            │                               │
-           [C]                             [R]
-            │                               │
-           GND                             GND
-
-  LPF: f thấp → X_C lớn → gần toàn bộ Vin nằm trên C → Vout ≈ Vin
-  HPF: f cao  → X_C nhỏ → ít sụt áp trên C → Vout ≈ Vin</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d31-1.svg" width="400" height="300" loading="lazy" decoding="async" alt="Thông thấp: Vin qua R nối tiếp tới Vout, tụ C từ Vout xuống GND. Thông cao: Vin qua tụ C nối tiếp tới Vout, điện trở R từ Vout xuống GND.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D31-1 — Bộ lọc RC thông thấp và thông cao</div><div class="figure-text">Thông thấp: Vin qua R nối tiếp tới Vout, tụ C từ Vout xuống GND. Thông cao: Vin qua tụ C nối tiếp tới Vout, điện trở R từ Vout xuống GND.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d31-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D31-1</summary><p>Thông thấp: Vin qua R nối tiếp tới Vout, tụ C từ Vout xuống GND. Thông cao: Vin qua tụ C nối tiếp tới Vout, điện trở R từ Vout xuống GND.</p></details>
 
       <!-- PHẦN 2 — BẢNG THIẾT KẾ -->
       <h2>2. Bảng tham chiếu nhanh thiết kế LPF/HPF</h2>
@@ -95,23 +90,11 @@
       <!-- PHẦN 3 — BAND PASS -->
       <h2>3. Band Pass Filter — Chỉ cho qua dải tần cụ thể</h2>
 
-      <div class="circuit-ascii">  Band Pass Filter = HPF + LPF nối tiếp:
-
-  Vin ──[C1]──┬──[R2]──┬── Vout
-              │        │
-             [R1]     [C2]
-              │        │
-             GND      GND
-   HPF: C1 nối tiếp, R1 xuống GND; f_c_H ≈ 1/(2πR1C1)
-   LPF: R2 nối tiếp, C2 xuống GND; f_c_L ≈ 1/(2πR2C2)
-
-  Yêu cầu: f_c_H &lt; f_c_L (HPF mở thấp hơn, LPF mở cao hơn)
-  Bandwidth = f_c_L - f_c_H
-
-  Ví dụ lọc giọng nói (300Hz–3kHz):
-  HPF: f_c_H = 300Hz: C1=100nF, R1=5,3kΩ → chọn 4,7kΩ
-  LPF: f_c_L = 3kHz:  C2=100nF, R2=530Ω → chọn 560Ω
-  Hai tầng RC có tương tác tải: công thức trên là gần đúng; mô phỏng hoặc thêm bộ đệm để đạt tần số cắt chính xác.</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d31-2.svg" width="400" height="345" loading="lazy" decoding="async" alt="Vin qua C1 nối tiếp tới nút 1; R1 từ nút 1 xuống GND tạo HPF. Từ nút 1 qua R2 nối tiếp tới nút 2 là Vout; C2 từ nút 2 xuống GND tạo LPF.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D31-2 — Bộ lọc thông dải: HPF rồi LPF</div><div class="figure-text">Vin qua C1 nối tiếp tới nút 1; R1 từ nút 1 xuống GND tạo HPF. Từ nút 1 qua R2 nối tiếp tới nút 2 là Vout; C2 từ nút 2 xuống GND tạo LPF.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d31-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D31-2</summary><p>Vin qua C1 nối tiếp tới nút 1; R1 từ nút 1 xuống GND tạo HPF. Từ nút 1 qua R2 nối tiếp tới nút 2 là Vout; C2 từ nút 2 xuống GND tạo LPF.</p></details>
 
       <!-- PHẦN 4 — ỨNG DỤNG -->
       <h2>4. Ứng dụng bộ lọc trong thực tế</h2>

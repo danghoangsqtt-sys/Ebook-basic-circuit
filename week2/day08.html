@@ -85,21 +85,11 @@
 
       <h3>1.1 Cấu tạo vật lý</h3>
 
-      <div class="circuit-ascii">  Cấu tạo tụ điện cơ bản:
-
-         Bản cực 1 (dẫn điện)
-        ┌───────────────────┐
-        │  + + + + + + + +  │  ← Điện tích dương tích lũy
-        ├───────────────────┤
-        │  ░ ░ Điện môi ░ ░ │  ← Lớp cách điện: air, ceramic, oxide...
-        ├───────────────────┤
-        │  – – – – – – – –  │  ← Điện tích âm (electron) tích lũy
-        └───────────────────┘
-         Bản cực 2 (dẫn điện)
-
-  Khi đặt điện áp: điện tích dồn vào, điện trường tạo ra.
-  Khi ngắt nguồn: điện tích giữ nguyên = tụ "nhớ" điện áp.
-  Khi nối tải: tụ phóng điện, trả năng lượng lại cho mạch.</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d08-1.svg" width="360" height="280" loading="lazy" decoding="async" alt="Hai bản cực dẫn điện ngăn cách bởi lớp điện môi cách điện. Bản trên tích điện dương, bản dưới tích điện âm; điện trường E hướng từ bản dương sang bản âm trong điện môi.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D08-1 — Cấu tạo cơ bản của tụ điện</div><div class="figure-text">Hai bản cực dẫn điện ngăn cách bởi lớp điện môi cách điện. Bản trên tích điện dương, bản dưới tích điện âm; điện trường E hướng từ bản dương sang bản âm trong điện môi.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d08-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D08-1</summary><p>Hai bản cực dẫn điện ngăn cách bởi lớp điện môi cách điện. Bản trên tích điện dương, bản dưới tích điện âm; điện trường E hướng từ bản dương sang bản âm trong điện môi.</p></details>
 
       <h3>1.2 Điện dung — Capacitance (C)</h3>
 
@@ -148,18 +138,11 @@
         <p>Tụ điện phân cực <strong>phải</strong> được cắm đúng chiều: cực dương (+) vào điểm có điện áp cao hơn, cực âm (–) vào điểm có điện áp thấp hơn. Nếu cắm ngược, lớp oxide điện môi bị phá hủy, tụ sẽ nóng lên, phình phồng và có thể <strong>nổ</strong> (nội áp hơi tăng đột ngột). Đây là nguyên nhân phổ biến gây cháy mạch khi sửa chữa. Luôn kiểm tra chiều trước khi cấp điện.</p>
       </div>
 
-      <div class="circuit-ascii">  Tụ hóa 100µF/25V — nhận dạng:
-
-       Dải trắng = cực ÂM
-       ┌──────┐
-       │      │ ← Thân tụ (thường xanh hoặc đen)
-       │100µF │ ← Giá trị điện dung
-       │ 25V  │ ← Điện áp định mức tối đa
-       └──┬─┬─┘
-          │ │
-        Dài Ngắn
-         (+)  (–)
-       Anode Cathode</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d08-2.svg" width="400" height="370" loading="lazy" decoding="async" alt="Thân tụ trụ có dải trắng với dấu trừ ở phía cực âm. Chân ngắn là cực âm, chân dài là cực dương khi chân chưa bị cắt. Thân ghi 100 µF và 25 V là điện áp định mức tối đa.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D08-2 — Nhận dạng tụ hóa 100 µF 25 V</div><div class="figure-text">Thân tụ trụ có dải trắng với dấu trừ ở phía cực âm. Chân ngắn là cực âm, chân dài là cực dương khi chân chưa bị cắt. Thân ghi 100 µF và 25 V là điện áp định mức tối đa.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d08-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D08-2</summary><p>Thân tụ trụ có dải trắng với dấu trừ ở phía cực âm. Chân ngắn là cực âm, chân dài là cực dương khi chân chưa bị cắt. Thân ghi 100 µF và 25 V là điện áp định mức tối đa.</p></details>
 
       <h3>2.2 Tụ gốm — Ceramic Capacitor</h3>
 
@@ -216,16 +199,11 @@
 
       <p>Tụ 100nF đặt cạnh chân VCC của IC là "kho dự trữ điện tích tại chỗ": khi IC cần dòng đột ngột, tụ phóng điện tức thì thay vì chờ dòng từ nguồn đi qua dây dẫn dài (có điện trở và điện cảm ký sinh). Quy tắc: <strong>mỗi IC cần ít nhất một tụ 100nF đặt cạnh chân VCC, càng gần càng tốt</strong>.</p>
 
-      <div class="circuit-ascii">  Decoupling capacitor — vị trí đặt:
-
-   VCC ──┬──────────────── VCC của IC
-         │
-        [C = 100nF]   ← Đặt sát chân VCC nhất có thể
-         │
-        GND ──────────── GND của IC
-
-  Trên breadboard: cắm tụ 100nF vào cùng hàng với chân VCC của IC,
-  đầu kia nối thẳng vào rail GND.</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d08-3.svg" width="360" height="330" loading="lazy" decoding="async" alt="Tụ 100 nF nối giữa ray VCC và ray GND, đặt sát chân VCC và GND của IC. Chân VCC và GND của IC lấy từ hai ray này.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D08-3 — Vị trí tụ tách nguồn 100 nF</div><div class="figure-text">Tụ 100 nF nối giữa ray VCC và ray GND, đặt sát chân VCC và GND của IC. Chân VCC và GND của IC lấy từ hai ray này.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d08-3.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D08-3</summary><p>Tụ 100 nF nối giữa ray VCC và ray GND, đặt sát chân VCC và GND của IC. Chân VCC và GND của IC lấy từ hai ray này.</p></details>
 
       <h3>4.2 Bulk Capacitor — Tụ ổn áp nguồn chính</h3>
 

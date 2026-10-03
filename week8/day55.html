@@ -39,36 +39,21 @@
 
       <h2>1. Bản đồ các hướng chuyên sâu</h2>
 
-      <div class="circuit-ascii">  Lộ trình sau khóa học cơ bản:
+      <div class="table-wrap">
+        <table>
+          <caption>Năm hướng học tiếp sau phần nhập môn; mỗi dòng là một lộ trình gợi ý, không phải thứ tự bắt buộc</caption>
+          <thead><tr><th scope="col">Hướng</th><th scope="col">Các chủ đề có thể học tiếp</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">A. Firmware</th><td>STM32 và lập trình bare-metal/HAL/LL → RTOS như FreeRTOS hoặc Zephyr → quy trình phát triển hệ thống yêu cầu an toàn chức năng.</td></tr>
+            <tr><th scope="row">B. Embedded Linux</th><td>Raspberry Pi hoặc board Linux → Buildroot/Yocto → driver và nhân Linux → kiến trúc khác như RISC-V.</td></tr>
+            <tr><th scope="row">C. PCB và phần cứng</th><td>KiCad chuyên sâu → công cụ CAD khác → mạch mixed-signal/RF → thiết kế tín hiệu tốc độ cao.</td></tr>
+            <tr><th scope="row">D. IoT và cloud</th><td>Nền tảng IoT → MQTT/CoAP/Matter khi phù hợp → xử lý ở biên và TinyML.</td></tr>
+            <tr><th scope="row">E. Robotics</th><td>ROS 2 → thị giác máy tính → lập kế hoạch đường đi và định vị/lập bản đồ.</td></tr>
+          </tbody>
+        </table>
+      </div>
 
-  [Bạn hiện tại]
-       │
-       ├── Hướng A: Firmware Professional
-       │   └── STM32 (HAL/LL/Bare-metal)
-       │       └── FreeRTOS nâng cao → Zephyr RTOS
-       │           └── Safety-critical (IEC 61508)
-       │
-       ├── Hướng B: Embedded Linux
-       │   └── Raspberry Pi → Buildroot/Yocto
-       │       └── Device drivers (C kernel)
-       │           └── RISC-V Linux
-       │
-       ├── Hướng C: PCB & Hardware Design
-       │   └── KiCad chuyên sâu → Altium Designer
-       │       └── RF/Antenna design → Mixed-signal PCB
-       │           └── High-speed design (>100MHz)
-       │
-       ├── Hướng D: IoT & Cloud
-       │   └── AWS IoT / Azure IoT Hub
-       │       └── MQTT5, CoAP, Matter protocol
-       │           └── Edge AI (TensorFlow Lite Micro)
-       │
-       └── Hướng E: Robotics
-           └── ROS2 (Robot Operating System)
-               └── Computer Vision (OpenCV)
-                   └── Path planning, SLAM</div>
-
-      <h2>2. Lộ trình học cụ thể theo hướng</h2>
+      <h2 id="diagram-d55-1">2. Lộ trình học cụ thể theo hướng</h2>
 
       <div class="table-wrap">
         <table>

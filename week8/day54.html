@@ -57,26 +57,11 @@
 
       <h2>2. Decoupling Capacitor — Nguyên tắc vàng</h2>
 
-      <div class="circuit-ascii">  Tại sao cần decoupling:
-
-  IC khi switch nội bộ → kéo đột ngột dòng từ VCC
-  → Điện áp VCC tụt xuống (voltage droop) tức thì
-  → Các IC khác trên cùng bus bị nhiễu nguồn
-
-  Giải pháp: tụ decoupling mắc giữa VCC và GND sát chân nguồn IC.
-  Dòng chuyển mạch tức thời khép vòng qua tụ và IC; VCC ít sụt hơn.
-
-       VCC ─────┬──────── IC VCC
-                │           │
-              100 nF        IC
-                │           │
-       GND ─────┴──────── IC GND
-
-  Rule:
-  - 100nF ceramic X7R: mỗi IC, ngay sát chân VCC/GND
-  - 10µF tantalum/ceramic: mỗi module nguồn (buck converter)
-  - Vị trí: gần chân nguồn IC, vòng VCC–tụ–GND ngắn nhất có thể
-  - Via GND ngay dưới pad GND của capacitor</div>
+      <figure class="figure" id="diagram-D54-1">
+        <img src="../assets/images/lessons/d54-1.svg" width="400" height="485" style="max-width:400px;margin-inline:auto" loading="lazy" decoding="async" alt="Tụ 100 nanofarad nối giữa VCC và GND sát chân nguồn IC; dòng chuyển mạch đi từ tụ qua VCC vào IC rồi về GND, vòng nhỏ và mặt phẳng GND liền.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D54-1 — Vòng dòng của tụ tách nguồn</div><div class="figure-text">Tụ đặt sát chân nguồn IC, đường hồi về GND ngắn; giá trị theo datasheet linh kiện. <a href="../assets/images/lessons/d54-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.ti.com/lit/swra640" target="_blank" rel="noopener">TI SWRA640H §4.5–4.7</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả sơ đồ D54-1 bằng chữ</summary><p>VCC từ nguồn cấp cho chân VCC IC. Một tụ gốm được nối song song giữa VCC và GND ngay sát chân nguồn; dòng xung chạy trong vòng cục bộ từ tụ đến chân VCC, qua IC, về chân GND và trở lại tụ. Rút ngắn đường đi và giữ mặt phẳng GND liên tục. Tụ 100 nF là ví dụ thường dùng; số lượng, loại và vị trí cuối cùng theo datasheet IC và layout PCB.</p></details>
 
       <h2>3. EMC Checklist cho PCB</h2>
 
@@ -84,33 +69,25 @@
         <table>
           <thead><tr><th>Hạng mục</th><th>Cách thực hiện trong KiCad</th><th>Mức độ quan trọng</th></tr></thead>
           <tbody>
-            <tr><td>Decoupling cap sát IC</td><td>100nF đặt &lt;2mm từ chân VCC, via GND bên dưới</td><td>⭐⭐⭐⭐⭐ Bắt buộc</td></tr>
+            <tr><td>Decoupling cap sát IC</td><td>Tụ theo datasheet IC, đặt sát cặp chân nguồn và có đường GND ngắn</td><td>⭐⭐⭐⭐⭐ Bắt buộc</td></tr>
             <tr><td>Ground plane liên tục</td><td>B.Cu → Fill Zone → GND. Tránh khe hở lớn (slot/hole)</td><td>⭐⭐⭐⭐⭐ Bắt buộc</td></tr>
             <tr><td>Via stitching</td><td>Via GND đều khắp board, nối F.Cu GND ↔ B.Cu GND</td><td>⭐⭐⭐⭐</td></tr>
             <tr><td>Tách analog/digital</td><td>ADC, cảm biến analog → khu vực riêng, không route digital qua</td><td>⭐⭐⭐⭐</td></tr>
             <tr><td>Loop kích thước nhỏ</td><td>VCC→IC→GND tạo loop nhỏ nhất có thể</td><td>⭐⭐⭐⭐</td></tr>
-            <tr><td>Ferrite bead nguồn</td><td>Ferrite bead nối tiếp trên VCC trước khi vào module RF (WiFi)</td><td>⭐⭐⭐</td></tr>
-            <tr><td>TVS tại connector</td><td>TVS diode từ mỗi signal pin → GND tại connector đầu vào</td><td>⭐⭐⭐</td></tr>
-            <tr><td>Right-angle track tránh</td><td>Dùng 45° thay 90° — track 90° tạo điểm anten nhỏ</td><td>⭐⭐</td></tr>
+            <tr><td>Ferrite bead nguồn</td><td>Nếu datasheet/reference design yêu cầu, chọn ferrite bead theo trở kháng và dòng của rail</td><td>⭐⭐⭐</td></tr>
+            <tr><td>TVS tại connector</td><td>Chọn TVS đúng mức điện áp, điện dung và sơ đồ bảo vệ tại đầu nối</td><td>⭐⭐⭐</td></tr>
+            <tr><td>Định tuyến PCB</td><td>Ưu tiên bố trí đường hồi liên tục, kiểm soát vòng dòng và trở kháng; góc bo là thứ yếu</td><td>⭐⭐</td></tr>
           </tbody>
         </table>
       </div>
 
       <h2>4. Common-Impedance Coupling — Đường hồi dòng chung</h2>
 
-  <div class="circuit-ascii">  Ví dụ đường hồi dòng chung có trở kháng Z_shared:
-
-  Motor return ───┐
-                  ●──── Z_shared ──── PSU GND
-  ADC reference ──┘
-                  ↑ dòng motor I_motor đi qua Z_shared
-
-  Khi motor đổi dòng, điện áp tại nút ● đổi theo I_motor × Z_shared.
-  ADC dùng nút này làm mốc sẽ thấy tín hiệu sai lệch.
-
-  Bố trí: cho dòng motor trở về nguồn theo đường ngắn, rộng;
-  giữ dòng tải lớn khỏi đường mốc của ADC. Giữ ground plane liên tục,
-  kiểm tra đường hồi dòng thực tế và trở kháng chung trên PCB.</div>
+  <figure class="figure" id="diagram-D54-2">
+        <img src="../assets/images/lessons/d54-2.svg" width="400" height="505" style="max-width:400px;margin-inline:auto" loading="lazy" decoding="async" alt="Dòng motor và mốc GND của ADC nhập chung vào nút trước đoạn trở kháng Zshared về GND nguồn; dòng motor đổi gây điện áp nút chung thay đổi theo I_motor nhân Zshared.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D54-2 — Trở kháng hồi dòng chung</div><div class="figure-text">Tách dòng tải lớn khỏi đường tham chiếu ADC bằng bố trí đường hồi, giữ plane GND liền. <a href="../assets/images/lessons/d54-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.ti.com/lit/swra640" target="_blank" rel="noopener">TI SWRA640H §4.7</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả sơ đồ D54-2 bằng chữ</summary><p>Dòng hồi của motor và mốc GND ADC gặp nhau tại một nút rồi cùng đi qua trở kháng ký sinh Zshared về GND nguồn. Khi dòng motor thay đổi, điện áp tại nút chung thay đổi xấp xỉ I_motor nhân Zshared, làm sai mốc đo ADC. Bố trí dòng motor trở về nguồn qua đường ngắn, rộng; giữ đường tham chiếu ADC tránh đoạn có dòng lớn, đồng thời giữ plane GND liên tục và kiểm tra dòng hồi thực tế.</p></details>
 
       <!-- BÀI TẬP -->
       <div class="section-divider"><span class="section-divider-label">Bài tập</span></div>

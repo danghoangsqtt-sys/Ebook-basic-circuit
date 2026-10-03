@@ -57,7 +57,7 @@
           <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
           <tbody>
             <tr><td>Arduino Uno/ESP32/STM32</td><td>SPI hardware pins</td><td>1</td></tr>
-            <tr><td>Module SD Card SPI</td><td>3,3V hoặc có level shifter tích hợp</td><td>1</td></tr>
+            <tr><td>Module SD Card SPI</td><td>Với Arduino Uno 5V: phải xác nhận breakout có ổn áp và chuyển mức cho mọi đầu vào SPI 5V; nếu không, dùng host 3,3V/chuyển mức được định mức.</td><td>1</td></tr>
             <tr><td>Màn hình TFT SPI 2,4" ILI9341 hoặc ST7789</td><td>240×320, SPI, 3,3V</td><td>1 (tùy chọn)</td></tr>
             <tr><td>Thẻ microSD &lt;32GB, format FAT32</td><td>—</td><td>1</td></tr>
             <tr><td>Breadboard + dây jumper + multimeter</td><td>—</td><td>1 bộ</td></tr>
@@ -70,26 +70,11 @@
 
       <p>SPI (<em>Serial Peripheral Interface</em>) là giao thức truyền thông đồng bộ do Motorola phát triển. Tốc độ từ vài kHz đến hàng chục MHz — nhanh hơn I2C 10–100 lần. Không có địa chỉ, thay vào đó mỗi thiết bị có dây CS riêng.</p>
 
-      <div class="circuit-ascii">  SPI — 4 dây cơ bản:
-
-   Master          Slave (SD Card)
-   MOSI ──────────── MOSI (dữ liệu Master→Slave)
-   MISO ──────────── MISO (dữ liệu Slave→Master)
-   SCK  ──────────── SCK  (clock từ Master)
-   CS   ──────────── CS   (Chip Select — active LOW)
-   GND  ──────────── GND  (GND chung — bắt buộc)
-
-  Nhiều thiết bị SPI — từng net độc lập:
-  Master MOSI → SD MOSI, TFT MOSI
-  Master MISO ← SD MISO, TFT MISO (nếu TFT có MISO)
-  Master SCK  → SD SCK,  TFT SCK
-  Master CS_SD  → chỉ SD CS
-  Master CS_TFT → chỉ TFT CS
-  Master GND ↔ SD GND ↔ TFT GND
-
-  MOSI/MISO/SCK dùng chung nhưng không nối với nhau.
-  CS_SD và CS_TFT là hai dây riêng, chọn mức LOW từng thiết bị.
-  Kiểm tra mức logic của cả hai module trước khi cấp nguồn.</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d24-1.svg" width="400" height="392" loading="lazy" decoding="async" alt="Master nối MOSI, MISO, SCK dùng chung tới thẻ SD và màn TFT; các đường này không nối với nhau. Master có hai dây CS riêng: CS_SD chỉ tới thẻ SD, CS_TFT chỉ tới màn TFT, active LOW. Ba thiết bị nối GND chung.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D24-1 — SPI: bus dùng chung và CS riêng cho từng slave</div><div class="figure-text">Sơ đồ logic không vẽ nguồn và chuyển mức. Trước khi đấu dây phải đối chiếu VCC và điện áp từng chân; Uno 5V cần breakout SD xác nhận chịu mức 5V ở đầu vào hoặc bộ chuyển mức phù hợp. MOSI, MISO, SCK dùng chung, mỗi slave có CS riêng và GND chung.</div><div class="figure-source">Sơ đồ tự vẽ; xem <a href="https://docs.arduino.cc/resources/datasheets/A000066-datasheet.pdf" target="_blank" rel="noopener">Arduino Uno R3</a> và <a href="https://www.sdcard.org/developers/sd-standard-overview/" target="_blank" rel="noopener">SD Association</a>. <a href="../assets/images/lessons/d24-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D24-1</summary><p>Master nối MOSI, MISO, SCK dùng chung tới thẻ SD và màn TFT; các đường này không nối với nhau. Master có hai dây CS riêng: CS_SD chỉ tới thẻ SD, CS_TFT chỉ tới màn TFT, active LOW. Ba thiết bị nối GND chung.</p></details>
 
       <h3>1.1 Chức năng từng dây</h3>
 
@@ -198,7 +183,7 @@ void setup() {
 void loop() {}</pre>
         </div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Format thẻ SD FAT32. Kết nối module SD: MOSI=D11, MISO=D12, SCK=D13, CS=D10.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Format thẻ SD FAT32. Chỉ với breakout đã xác minh chịu logic Uno 5V và có ổn áp/chuyển mức phù hợp: cấp VCC theo nhãn module, nối GND chung, rồi MOSI=D11, MISO=D12, SCK=D13, CS=D10. Không nối đầu vào thẻ/module 3,3V trần trực tiếp với ngõ ra 5V Uno; nếu module chưa rõ mã/revision thì dừng bước đấu dây và dùng mô phỏng SPI.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Upload code → Serial Monitor xem "SD OK" và "Ghi file xong".</p></div></li>
           <li class="step-item"><div class="step-content"><p>Rút thẻ SD, đọc trên máy tính: kiểm tra file "data.txt" có đúng nội dung không.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Thêm timestamp (millis()) vào mỗi dòng ghi. Thêm vòng lặp ghi mỗi 1 giây.</p></div></li>

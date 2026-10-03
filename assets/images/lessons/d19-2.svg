@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 290" width="360" height="290" role="img" aria-labelledby="title desc"><title id="title">PWM qua bộ lọc RC thành điện áp tương tự</title><desc id="desc">Chân GPIO_PWM qua R = 10 kΩ tới nút V_analog_out; tụ C = 100 nF nối từ nút đó xuống GND. Tần số PWM 10 kHz lớn hơn nhiều tần số cắt khoảng 159 Hz nên gợn sóng bị lọc.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="360" height="290" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M30 100 H70 M140 100 H330 M250 100 V145 M250 200 V155"/>
+<text x="180" y="28" class="h" text-anchor="middle">PWM → RC → điện áp tương tự</text>
+<circle cx="30" cy="100" r="4.5" class="c"/>
+<text x="30" y="80" class="b">GPIO_PWM</text>
+<rect class="c" x="70" y="87" width="70" height="26" rx="4"/>
+<text x="105" y="105" class="b" text-anchor="middle">10 kΩ</text>
+<circle cx="250" cy="100" r="4.5" class="n"/>
+<path class="k" d="M233 145 H267 M233 155 H267"/>
+<text x="272" y="155" class="b">C = 100 nF</text>
+<circle cx="330" cy="100" r="4.5" class="c"/>
+<text x="330" y="80" class="b" text-anchor="end">V_analog_out</text>
+<path class="w" d="M250 200 V210 M235 210 H265 M240 216 H260 M245 222 H255"/>
+<text x="180" y="258" class="b" text-anchor="middle">f_c = 1/(2πRC) ≈ 159 Hz</text>
+<text x="180" y="278" class="m" text-anchor="middle">f_PWM = 10 kHz ≫ f_c → gợn sóng nhỏ</text>
+</svg>

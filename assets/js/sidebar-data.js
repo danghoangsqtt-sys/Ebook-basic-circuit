@@ -11,13 +11,13 @@ const CURRICULUM = {
       title: 'Điện học cơ bản',
       color: '#f59e0b',
       lessons: [
-        { day: 1, title: 'Điện áp, dòng điện & GND', file: '../week1/day01.html' },
-        { day: 2, title: 'Breadboard & Multimeter', file: '../week1/day02.html' },
-        { day: 3, title: 'Điện trở & mã màu', file: '../week1/day03.html' },
-        { day: 4, title: 'LED & điện trở hạn dòng', file: '../week1/day04.html' },
-        { day: 5, title: 'Mạch nối tiếp & song song', file: '../week1/day05.html' },
-        { day: 6, title: 'Cầu chia áp, KVL & KCL', file: '../week1/day06.html' },
-        { day: 7, title: 'Ôn tập & Mini Project LED', file: '../week1/day07.html' },
+        { day: 1, title: 'Điện Áp, Dòng Điện, GND & Mạch Điện', file: '../week1/day01.html' },
+        { day: 2, title: 'Breadboard & Multimeter — Hai Công Cụ Không Thể Thiếu', file: '../week1/day02.html' },
+        { day: 3, title: 'Điện Trở & Mã Màu', file: '../week1/day03.html' },
+        { day: 4, title: 'LED & Điện Trở Hạn Dòng', file: '../week1/day04.html' },
+        { day: 5, title: 'Mạch Nối Tiếp & Song Song', file: '../week1/day05.html' },
+        { day: 6, title: 'Cầu Chia Áp, KVL & KCL', file: '../week1/day06.html' },
+        { day: 7, title: 'Ôn Tập Tuần 1 & Mini Project: Mạch LED Đa Màu', file: '../week1/day07.html' },
       ]
     },
     {
@@ -26,13 +26,13 @@ const CURRICULUM = {
       title: 'Tụ điện, Diode & Nguồn',
       color: '#f97316',
       lessons: [
-        { day: 8,  title: 'Tụ điện & điện dung', file: '../week2/day08.html' },
-        { day: 9,  title: 'Mạch RC nạp/xả', file: '../week2/day09.html' },
-        { day: 10, title: 'Diode & PN junction', file: '../week2/day10.html' },
-        { day: 11, title: 'Diode bảo vệ & flyback', file: '../week2/day11.html' },
-        { day: 12, title: 'Chỉnh lưu & cầu diode', file: '../week2/day12.html' },
-        { day: 13, title: 'Linear regulator 7805', file: '../week2/day13.html' },
-        { day: 14, title: 'Project nguồn DC', file: '../week2/day14.html' },
+        { day: 8,  title: 'Tụ Điện & Điện Dung', file: '../week2/day08.html' },
+        { day: 9,  title: 'Mạch RC — Nạp & Xả Tụ Điện', file: '../week2/day09.html' },
+        { day: 10, title: 'Cuộn Cảm & Mạch RL', file: '../week2/day10.html' },
+        { day: 11, title: 'Diode — Nguyên Lý & Ứng Dụng', file: '../week2/day11.html' },
+        { day: 12, title: 'Diode Zener & Mạch Ổn Áp', file: '../week2/day12.html' },
+        { day: 13, title: 'Nguồn DC & IC Ổn Áp LDO', file: '../week2/day13.html' },
+        { day: 14, title: 'Ôn Tập Tuần 2 & Mini Project: Mạch Nguồn DC Hoàn Chỉnh', file: '../week2/day14.html' },
       ]
     },
     {
@@ -41,13 +41,13 @@ const CURRICULUM = {
       title: 'Transistor BJT & MOSFET',
       color: '#a855f7',
       lessons: [
-        { day: 15, title: 'Transistor NPN/PNP', file: '../week3/day15.html' },
-        { day: 16, title: 'Base, Collector, Emitter', file: '../week3/day16.html' },
-        { day: 17, title: 'BJT làm switch', file: '../week3/day17.html' },
-        { day: 18, title: 'Tính base resistor & saturation', file: '../week3/day18.html' },
-        { day: 19, title: 'Relay driver + flyback diode', file: '../week3/day19.html' },
-        { day: 20, title: 'LDR + BJT mạch tự động', file: '../week3/day20.html' },
-        { day: 21, title: 'Project đèn tự động khi tối', file: '../week3/day21.html' },
+        { day: 15, title: 'Transistor BJT — NPN & PNP', file: '../week3/day15.html' },
+        { day: 16, title: 'Mạch Switch BJT — Điều Khiển Relay & Motor DC', file: '../week3/day16.html' },
+        { day: 17, title: 'Mạch Khuếch Đại BJT — Common Emitter', file: '../week3/day17.html' },
+        { day: 18, title: 'MOSFET — NMOS & PMOS', file: '../week3/day18.html' },
+        { day: 19, title: 'PWM — Điều Rộng Xung & Điều Khiển Tốc Độ', file: '../week3/day19.html' },
+        { day: 20, title: 'Op-Amp — Khuếch Đại Thuật Toán Cơ Bản', file: '../week3/day20.html' },
+        { day: 21, title: 'Ôn Tập Tuần 3 & Mini Project: Mạch Báo Nhiệt Tự Động', file: '../week3/day21.html' },
       ]
     },
     {
@@ -56,13 +56,13 @@ const CURRICULUM = {
       title: 'MCU & Giao tiếp số',
       color: '#3b82f6',
       lessons: [
-        { day: 22, title: 'MOSFET & MOSFET switch', file: '../week4/day22.html' },
-        { day: 23, title: 'VGS(th), RDS(on) & datasheet', file: '../week4/day23.html' },
-        { day: 24, title: 'UART — Giao tiếp nối tiếp', file: '../week4/day24.html' },
-        { day: 25, title: 'I2C — Bus 2 dây đa thiết bị', file: '../week4/day25.html' },
-        { day: 26, title: 'SPI — Giao tiếp tốc độ cao', file: '../week4/day26.html' },
-        { day: 27, title: 'ADC/DAC — Tín hiệu tương tự', file: '../week4/day27.html' },
-        { day: 28, title: 'Ôn tập Tuần 4', file: '../week4/day28.html' },
+        { day: 22, title: 'Giao Tiếp Số — UART Cơ Bản', file: '../week4/day22.html' },
+        { day: 23, title: 'I2C — Giao Tiếp Đa Thiết Bị Trên 2 Dây', file: '../week4/day23.html' },
+        { day: 24, title: 'SPI — Giao Tiếp Nối Tiếp Tốc Độ Cao', file: '../week4/day24.html' },
+        { day: 25, title: 'ADC & DAC — Chuyển Đổi Tín Hiệu Analog ↔ Số', file: '../week4/day25.html' },
+        { day: 26, title: 'Interrupt — Ngắt Phần Cứng & Timer', file: '../week4/day26.html' },
+        { day: 27, title: 'Cảm Biến Số — DHT22, DS18B20 & PIR', file: '../week4/day27.html' },
+        { day: 28, title: 'Ôn Tập Tuần 4 & Mini Project: Trạm Đo Môi Trường', file: '../week4/day28.html' },
       ]
     },
     {
@@ -71,13 +71,13 @@ const CURRICULUM = {
       title: 'Mô phỏng, Nguồn & PCB',
       color: '#10b981',
       lessons: [
-        { day: 29, title: 'Mô phỏng Falstad & LTSpice', file: '../week5/day29.html' },
-        { day: 30, title: 'Oscilloscope thực hành', file: '../week5/day30.html' },
-        { day: 31, title: 'Bộ lọc RC — LPF, HPF, BPF', file: '../week5/day31.html' },
-        { day: 32, title: 'Buck/Boost converter', file: '../week5/day32.html' },
-        { day: 33, title: 'Nhập môn KiCad PCB', file: '../week5/day33.html' },
+        { day: 29, title: 'Mô Phỏng Mạch — Falstad & LTSpice', file: '../week5/day29.html' },
+        { day: 30, title: 'Oscilloscope — Đọc & Đo Dạng Sóng', file: '../week5/day30.html' },
+        { day: 31, title: 'Bộ Lọc Tín Hiệu — Low Pass, High Pass, Band Pass', file: '../week5/day31.html' },
+        { day: 32, title: 'Nguồn Switching — Buck, Boost, Buck-Boost', file: '../week5/day32.html' },
+        { day: 33, title: 'Thiết Kế PCB — Nhập Môn KiCad', file: '../week5/day33.html' },
         { day: 34, title: 'Hàn SMD & Kiểm Tra PCB', file: '../week5/day34.html' },
-        { day: 35, title: 'Ôn tập Tuần 5 & Mini Project PCB', file: '../week5/day35.html' },
+        { day: 35, title: 'Ôn Tập Tuần 5 & Mini Project: PCB Buck Converter', file: '../week5/day35.html' },
       ]
     },
     {
@@ -86,13 +86,13 @@ const CURRICULUM = {
       title: 'Dự án thực tế',
       color: '#06b6d4',
       lessons: [
-        { day: 36, title: 'RTC DS3231 — Đồng hồ thực', file: '../week6/day36.html' },
+        { day: 36, title: 'RTC DS3231 — Đồng Hồ Thời Gian Thực', file: '../week6/day36.html' },
         { day: 37, title: 'WiFi & IoT — ESP32 Web Server', file: '../week6/day37.html' },
-        { day: 38, title: 'Stepper Motor & Servo', file: '../week6/day38.html' },
-        { day: 39, title: 'H-Bridge & Motor DC 2 chiều', file: '../week6/day39.html' },
-        { day: 40, title: 'HC-SR04 & Cảm Biến Khoảng Cách', file: '../week6/day40.html' },
-        { day: 41, title: 'Pin LiPo & BMS', file: '../week6/day41.html' },
-        { day: 42, title: 'Ôn tập Tuần 6 & Capstone Robot', file: '../week6/day42.html' },
+        { day: 38, title: 'Stepper Motor & Servo — Điều Khiển Góc Chính Xác', file: '../week6/day38.html' },
+        { day: 39, title: 'H-Bridge & Điều Khiển Motor DC 2 Chiều', file: '../week6/day39.html' },
+        { day: 40, title: 'Cảm Biến Khoảng Cách — HC-SR04 & IR', file: '../week6/day40.html' },
+        { day: 41, title: 'Pin LiPo & BMS — Quản Lý Nguồn Di Động', file: '../week6/day41.html' },
+        { day: 42, title: 'Ôn Tập Tuần 6 & Capstone: Robot WiFi Tránh Vật Cản', file: '../week6/day42.html' },
       ]
     },
     {
@@ -101,11 +101,11 @@ const CURRICULUM = {
       title: 'Đồ án kỹ thuật',
       color: '#6366f1',
       lessons: [
-        { day: 43, title: 'Đồ Án — Lên Ý Tưởng & SRS', file: '../week7/day43.html' },
+        { day: 43, title: 'Đồ Án — Lên Ý Tưởng & Thiết Kế Hệ Thống', file: '../week7/day43.html' },
         { day: 44, title: 'Đồ Án — Schematic & Firmware Khung', file: '../week7/day44.html' },
         { day: 45, title: 'Đồ Án — Phát Triển Firmware & Debug', file: '../week7/day45.html' },
         { day: 46, title: 'Đồ Án — PCB Layout & Assembly', file: '../week7/day46.html' },
-        { day: 47, title: 'Đồ Án — Integration Test', file: '../week7/day47.html' },
+        { day: 47, title: 'Đồ Án — Integration Test & Calibration', file: '../week7/day47.html' },
         { day: 48, title: 'Viết Tài Liệu Kỹ Thuật', file: '../week7/day48.html' },
         { day: 49, title: 'Ôn Tập Tuần 7 & Chuẩn Bị Demo', file: '../week7/day49.html' },
       ]
@@ -116,13 +116,13 @@ const CURRICULUM = {
       title: 'Nâng cao & Tổng kết',
       color: '#ef4444',
       lessons: [
-        { day: 50, title: 'Demo Đồ Án & Tổng Kết', file: '../week8/day50.html' },
+        { day: 50, title: 'Demo Đồ Án & Tổng Kết Giai Đoạn', file: '../week8/day50.html' },
         { day: 51, title: 'PID Control — Điều Khiển Vòng Kín', file: '../week8/day51.html' },
-        { day: 52, title: 'FreeRTOS — Đa Nhiệm Thực Thời', file: '../week8/day52.html' },
-        { day: 53, title: 'BLE — Bluetooth Low Energy', file: '../week8/day53.html' },
-        { day: 54, title: 'EMC & Thiết Kế Chống Nhiễu', file: '../week8/day54.html' },
-        { day: 55, title: 'Con Đường Tiếp Theo', file: '../week8/day55.html' },
-        { day: 56, title: '🎓 Tổng Kết 8 Tuần — Chúc Mừng!', file: '../week8/day56.html' },
+        { day: 52, title: 'FreeRTOS — Đa Nhiệm Thực Thời Trên ESP32', file: '../week8/day52.html' },
+        { day: 53, title: 'BLE — Bluetooth Low Energy Với ESP32', file: '../week8/day53.html' },
+        { day: 54, title: 'EMC & Thiết Kế PCB Chống Nhiễu', file: '../week8/day54.html' },
+        { day: 55, title: 'Con Đường Tiếp Theo — Học Gì Sau Khóa Này?', file: '../week8/day55.html' },
+        { day: 56, title: 'Chúc Mừng Hoàn Thành!', file: '../week8/day56.html' },
       ]
     }
   ]

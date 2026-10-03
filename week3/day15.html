@@ -69,7 +69,7 @@
             <tr><td>Transistor NPN BC337</td><td>45V, 800mA — driver cho relay, motor nhỏ</td><td>2</td></tr>
             <tr><td>Transistor PNP BC557</td><td>45V, 100mA — PNP tương đương BC547</td><td>2</td></tr>
             <tr><td>Điện trở 1kΩ, 10kΩ, 100kΩ</td><td>¼W</td><td>5 mỗi loại</td></tr>
-            <tr><td>LED đỏ + R470Ω</td><td>Tải test</td><td>2</td></tr>
+            <tr><td>LED đỏ + điện trở 270Ω, 470Ω và 2,7kΩ</td><td>270Ω dùng trong ví dụ tính 10mA; 470Ω dùng khi thực hành dòng thấp hơn; 2,7kΩ hạn dòng base</td><td>2 mỗi loại</td></tr>
             <tr><td>Nguồn 5V + breadboard + multimeter</td><td>—</td><td>1 bộ</td></tr>
           </tbody>
         </table>
@@ -88,19 +88,11 @@
 
       <p>Nguyên lý cốt lõi: một dòng nhỏ vào Base (I_B, thường µA đến mA) điều khiển một dòng lớn hơn từ Collector sang Emitter (I_C, thường mA đến A). Đây là <strong>khuếch đại dòng</strong> — khác với điện trở chỉ hạn dòng, transistor thực sự "nhân" dòng lên.</p>
 
-      <div class="circuit-ascii">  NPN Transistor BC547 — Ký hiệu và sơ đồ chân:
-
-       Ký hiệu mạch NPN:
-              C (Collector)
-              │
-        B ────┤ (mũi tên E chỉ ra ngoài = NPN)
-              │►
-              E (Emitter)
-
-       BC547 TO-92 của onsemi (mặt phẳng có chữ hướng về bạn,
-       chân hướng xuống): trái → phải = C (1), B (2), E (3).
-       Kiểm tra datasheet đúng nhà sản xuất/mã linh kiện trước khi cắm;
-       transistor TO-92 khác có thể dùng thứ tự chân khác.</div>
+      <figure class="figure figure--circuit" data-diagram-id="D15-1">
+        <img src="../assets/images/lessons/d15-1.svg" width="360" height="500" loading="lazy" decoding="async" alt="Mặt phẳng có chữ hướng về bạn, chân đi xuống: C (1), B (2), E (3). Ký hiệu NPN có mũi tên tại emitter hướng ra ngoài. Thứ tự chân chỉ áp dụng cho đúng onsemi BC547 TO-92.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D15-1</span> <span class="figure-text">BC547 onsemi TO-92: sơ đồ chân và ký hiệu.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.onsemi.com/pdf/datasheet/bc546-d.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d15-1.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>Mặt phẳng có chữ hướng về bạn, chân đi xuống: C (1), B (2), E (3). Ký hiệu NPN có mũi tên tại emitter hướng ra ngoài. Thứ tự chân chỉ áp dụng cho đúng onsemi BC547 TO-92.</p></details>
+      </figure>
 
       <h3>1.1 NPN vs PNP — Khác nhau ở chiều dòng</h3>
 
@@ -154,14 +146,11 @@
       <!-- PHẦN 3 — TÍNH TOÁN MẠCH SWITCH -->
       <h2>3. Thiết kế mạch switch NPN — Điều khiển LED từ GPIO</h2>
 
-      <div class="circuit-ascii">  Mạch switch NPN cơ bản:
-
-  Nhánh tải:  +5V → R_C → LED (anode → cathode) → C của BC547
-  Nhánh điều khiển: GPIO 3,3V → R_B → B của BC547
-  Nhánh hồi:   E của BC547 → GND chung (nguồn 5V và GPIO)
-
-  Hai nhánh chỉ gặp nhau trong transistor; GPIO không nối thẳng
-  vào nhánh LED. Ví dụ 10mA bên dưới dùng R_C=270Ω, R_B=2,7kΩ.</div>
+      <figure class="figure figure--circuit" data-diagram-id="D15-2">
+        <img src="../assets/images/lessons/d15-2.svg" width="360" height="430" loading="lazy" decoding="async" alt="Nhánh tải +5 V qua R_C 270 Ω, LED từ anode tới cathode, collector BC547, emitter về GND. Nhánh điều khiển GPIO 3,3 V qua R_B 2,7 kΩ vào base. Hai nguồn chung GND. Kiểm dòng GPIO và thông số LED trước khi lắp.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D15-2</span> <span class="figure-text">Công tắc NPN điều khiển LED.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.onsemi.com/pdf/datasheet/bc546-d.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d15-2.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>Nhánh tải +5 V qua R_C 270 Ω, LED từ anode tới cathode, collector BC547, emitter về GND. Nhánh điều khiển GPIO 3,3 V qua R_B 2,7 kΩ vào base. Hai nguồn chung GND. Kiểm dòng GPIO và thông số LED trước khi lắp.</p></details>
+      </figure>
 
       <h4>Ví dụ tính toán: Điều khiển LED 10mA từ GPIO 3,3V qua BC547 (hFE_min = 110)</h4>
 

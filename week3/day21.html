@@ -72,7 +72,7 @@
           <li>So sánh ngưỡng: <strong>Op-Amp LM358 Comparator</strong> — V_ref từ biến trở</li>
           <li>Khi nhiệt > ngưỡng: comparator output HIGH → BJT BC337 ON → relay đóng → quạt bật; chọn relay cuộn 5V dòng thấp ≤25mA cho mạch thử này</li>
           <li>LED đỏ: báo trạng thái HOT (relay ON)</li>
-          <li>LED xanh: báo trạng thái NORMAL (relay OFF)</li>
+          <li>Khi LED đỏ tắt và relay nhả, mạch trở về trạng thái bình thường; chỉ kết luận sau khi đo V_OUT và trạng thái tiếp điểm</li>
           <li>Nguồn: 3,3V cho phân áp NTC/biến trở; 5V cho LM358 và cuộn relay; 12V riêng cho quạt qua tiếp điểm relay; GND chung ở phía điều khiển</li>
         </ul>
       </div>
@@ -81,37 +81,19 @@
 
       <p>NTC (<em>Negative Temperature Coefficient</em>) thermistor là điện trở đặc biệt có điện trở giảm khi nhiệt độ tăng. NTC 10kΩ = điện trở 10kΩ ở 25°C. Khi nhiệt độ tăng lên 50°C, điện trở giảm xuống khoảng 3–4kΩ.</p>
 
-      <div class="circuit-ascii">  Mạch phân áp NTC + R_ref:
-
-   VCC(3.3V) ──[R_ref=10kΩ]──┬── V_sensor → IN(–) LM358
-                              │
-                          [NTC 10kΩ]  ← nhiệt độ cao → R_NTC nhỏ → V_sensor nhỏ
-                              │
-                             GND
-
-  Khi nhiệt độ THẤP: R_NTC lớn → V_sensor lớn (gần VCC)
-  Khi nhiệt độ CAO:  R_NTC nhỏ → V_sensor nhỏ (gần GND)
-
-  Comparator: IN(+) = V_ref (biến trở). Khi V_sensor &lt; V_ref:
-  IN(+) &gt; IN(–) → output HIGH = HOT.
-  LM358 cấp 5V: giữ cả hai đầu vào trong miền common-mode
-  theo datasheet (xấp xỉ 0 đến VCC–2V với LM358-N).</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d21-1.svg" width="360" height="420" loading="lazy" decoding="async" alt="3,3 V qua R_ref 10 kΩ tới nút V_sensor, rồi NTC 10 kΩ xuống GND. V_sensor vào đầu vào đảo của LM358. Một biến trở cho V_ref vào đầu vào không đảo. Nóng thì NTC nhỏ, V_sensor nhỏ hơn V_ref và ngõ ra lên HIGH.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D21-1 — Phân áp NTC và bộ so sánh LM358</div><div class="figure-text">3,3 V qua R_ref 10 kΩ tới nút V_sensor, rồi NTC 10 kΩ xuống GND. V_sensor vào đầu vào đảo của LM358. Một biến trở cho V_ref vào đầu vào không đảo. Nóng thì NTC nhỏ, V_sensor nhỏ hơn V_ref và ngõ ra lên HIGH. Đây là sơ đồ để phân tích/mô phỏng; chỉ lắp trên phần cứng sau khi xác minh đúng part/module, nguồn, dòng và duyệt mạch cụ thể.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d21-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D21-1</summary><p>3,3 V qua R_ref 10 kΩ tới nút V_sensor, rồi NTC 10 kΩ xuống GND. V_sensor vào đầu vào đảo của LM358. Một biến trở cho V_ref vào đầu vào không đảo. Nóng thì NTC nhỏ, V_sensor nhỏ hơn V_ref và ngõ ra lên HIGH. Đây là sơ đồ để phân tích/mô phỏng; chỉ lắp trên phần cứng sau khi xác minh đúng part/module, nguồn, dòng và duyệt mạch cụ thể.</p></details>
 
       <h3>2.2 Sơ đồ khối hệ thống</h3>
 
-      <div class="circuit-ascii">  Hệ thống Báo Nhiệt Tự Động:
-
-  NTC + R_ref → V_sensor → IN(–) LM358
-  Biến trở → V_ref → IN(+) LM358; OUT HIGH khi nóng
-  OUT → R_B=1kΩ → B BC337; E → GND chung
-  +5V → cuộn relay ≤25mA → C BC337
-  Diode 1N4007 ngược song song cuộn: cathode +5V, anode C
-  OUT → R_đỏ=2,2kΩ → LED đỏ → GND (sáng khi HOT/HIGH)
-  +5V → R_xanh=2,2kΩ → LED xanh → OUT (sáng khi NORMAL/LOW)
-
-  Hai LED là các nhánh chỉ thị riêng, không nối tiếp với Base.
-  Tiếp điểm NO/COM của relay đóng cắt nguồn 12V riêng cho quạt;
-  không đưa dòng quạt qua LM358 hay BC337.</div>
+                  <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d21-2.svg" width="360" height="610" loading="lazy" decoding="async" alt="Ba khối riêng. A: ngõ ra OUT qua R_B 1 kΩ vào chân B của BC337, emitter nối GND, collector nối cuộn relay lên +5 V, diode 1N4007 ngược song song cuộn (cathode +5 V, anode phía collector). B: LED đỏ từ OUT qua R 2,2 kΩ xuống GND báo nhiệt cao; khi OUT thấp, LED tắt. C: tiếp điểm COM–NO của relay đóng cắt nguồn 12 V riêng của quạt.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D21-2 — Hệ thống báo nhiệt tự động: relay, LED đỏ và tiếp điểm</div><div class="figure-text">Ba khối riêng. A: ngõ ra OUT qua R_B 1 kΩ vào chân B của BC337, emitter nối GND, collector nối cuộn relay lên +5 V, diode 1N4007 ngược song song cuộn (cathode +5 V, anode phía collector). B: LED đỏ từ OUT qua R 2,2 kΩ xuống GND báo nhiệt cao; khi OUT thấp, LED tắt. C: tiếp điểm COM–NO của relay đóng cắt nguồn 12 V riêng của quạt. Đây là sơ đồ để phân tích/mô phỏng; chỉ lắp trên phần cứng sau khi xác minh đúng part/module, nguồn, dòng và duyệt mạch cụ thể.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d21-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D21-2</summary><p>Ba khối riêng. A: ngõ ra OUT qua R_B 1 kΩ vào chân B của BC337, emitter nối GND, collector nối cuộn relay lên +5 V, diode 1N4007 ngược song song cuộn (cathode +5 V, anode phía collector). B: LED đỏ từ OUT qua R 2,2 kΩ xuống GND báo nhiệt cao; khi OUT thấp, LED tắt. C: tiếp điểm COM–NO của relay đóng cắt nguồn 12 V riêng của quạt. Đây là sơ đồ để phân tích/mô phỏng; chỉ lắp trên phần cứng sau khi xác minh đúng part/module, nguồn, dòng và duyệt mạch cụ thể.</p></details>
 
       <h3>2.3 Tính toán</h3>
 
@@ -130,18 +112,20 @@
         </table>
       </div>
 
-      <h3>2.4 Quy trình lắp mạch</h3>
+      <h3>2.4 Thử khối cảm biến/LED và mô phỏng relay</h3>
+
+      <p>Mạch so sánh ngưỡng chậm này chưa có hysteresis: nhiễu quanh ngưỡng có thể làm relay đóng/ngắt liên tục. Chỉ thử phần NTC–LM358–LED ở nguồn thấp áp; phần BC337, relay và quạt trong D21-2 dùng để phân tích/mô phỏng. Chưa lắp relay hoặc tải thật cho đến khi thêm hysteresis với hai ngưỡng nóng/lạnh được tính và đo trên đúng part, kiểm dòng/cuộn/tiếp điểm và được duyệt kỹ thuật. <a href="https://www.ti.com/document-viewer/lit/html/SNOA997A" target="_blank" rel="noopener">TI: hysteresis cho đầu vào chậm/nhiễu</a>.</p>
 
       <div class="callout callout-practice">
-        <div class="callout-header"><span class="callout-icon">🔌</span> Lắp mạch theo thứ tự an toàn</div>
+        <div class="callout-header"><span class="callout-icon">🔌</span> Thử NTC–comparator–LED; mô phỏng relay</div>
         <ol class="step-list">
           <li class="step-item"><div class="step-content"><p><strong>Cấp nguồn:</strong> Lắp AMS1117-3.3 hoặc dùng nguồn 5V, GND.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>Mạch phân áp:</strong> 3,3V → R_ref(10kΩ) → NTC → GND. Đo V_sensor ở điểm giữa (kỳ vọng ~1,65V ở nhiệt phòng).</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>V_ref:</strong> 3,3V → biến trở 10kΩ → GND. Chân giữa nối IN(+) LM358. Chỉnh biến trở sao cho V_ref thấp hơn V_sensor lúc nguội; điều chỉnh ngưỡng bằng phép đo thực tế.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>LM358 Comparator:</strong> V_sensor → IN(–, pin 2), V_ref → IN(+, pin 3). Nguồn +5V pin 8, GND pin 4; 100nF từ +5V xuống GND sát IC. Đo V_out pin 1. Với LM358-N, tránh đưa điện áp đầu vào lên sát rail +5V.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>LED trạng thái:</strong> V_out → R(2,2kΩ) → LED đỏ → GND; +5V → R(2,2kΩ) → LED xanh → V_out. Đỏ sáng khi nóng, xanh sáng khi nguội; kiểm tra cực LED.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>BJT + relay:</strong> Chọn relay cuộn 5V ≥200Ω (≤25mA). V_out → R_B(1kΩ) → Base BC337. +5V → cuộn relay → Collector; Emitter → GND chung. Diode ngược song song cuộn: cathode +5V, anode Collector. Dùng tiếp điểm COM/NO riêng để đóng nguồn 12V cho quạt; không nối 12V vào GPIO hoặc LM358.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Test:</strong> Dùng ngón tay làm ấm NTC. V_sensor giảm; khi V_sensor &lt; V_ref, comparator OUT HIGH, LED đỏ sáng và relay đóng. Khi nguội lại, OUT LOW, LED xanh sáng, relay nhả. Đo V_OUT và V_CE để xác nhận đủ dòng điều khiển.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>LED trạng thái:</strong> V_out → R(2,2kΩ) → LED đỏ → GND. Đỏ sáng khi nóng và tắt khi OUT thấp; kiểm tra cực LED. Không mắc LED thứ hai từ +5 V về OUT để suy trạng thái ngược: <a href="https://www.ti.com/lit/ds/symlink/lm358-n.pdf" target="_blank" rel="noopener">LM358-N không có ngõ ra rail-to-rail</a>, nên hai LED có thể không tắt/sáng tách bạch.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Relay trên mô phỏng:</strong> Phân tích nhánh BC337–diode–cuộn relay và tiếp điểm COM/NO của D21-2; chưa đấu cuộn hoặc quạt thật vì thiếu hysteresis và chưa xác minh relay cụ thể. Đo hai ngưỡng chuyển trạng thái khi tăng/giảm nhiệt; nếu gần trùng nhau, mạch chưa phù hợp cho relay cơ.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Test phần thấp áp:</strong> Dùng ngón tay làm ấm NTC. V_sensor giảm; khi V_sensor &lt; V_ref, OUT tăng và LED đỏ sáng. Khi nguội lại, LED tắt. Đo V_OUT và ghi thời điểm LED chập chờn quanh ngưỡng để thấy lý do cần hysteresis.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>Điều chỉnh ngưỡng:</strong> Chỉnh biến trở V_ref để hệ thống kích hoạt ở nhiệt độ mong muốn.</p></div></li>
         </ol>
       </div>
@@ -158,7 +142,7 @@
             <tr><td>V_out LM358 (nhiệt thấp)</td><td>~0V (LOW)</td><td>_____</td><td>—</td></tr>
             <tr><td>V_out LM358 (nhiệt cao)</td><td>~3–4V (HIGH)</td><td>_____</td><td>—</td></tr>
             <tr><td>LED đỏ sáng khi nhiệt cao</td><td>Có</td><td>_____</td><td>_____</td></tr>
-            <tr><td>Relay click khi nhiệt cao</td><td>Có (tiếng click)</td><td>_____</td><td>_____</td></tr>
+            <tr><td>Relay ở mô phỏng</td><td>Chỉ phân tích trạng thái; chưa lắp cuộn/quạt thật</td><td>_____</td><td>_____</td></tr>
           </tbody>
         </table>
       </div>
@@ -190,7 +174,7 @@
         <div class="checklist-item"><input type="checkbox" id="wk3c1"><label for="wk3c1">Tôi thiết kế được mạch switch BJT và MOSFET cho tải thực tế</label></div>
         <div class="checklist-item"><input type="checkbox" id="wk3c2"><label for="wk3c2">Tôi tính được độ lợi A_V cho mạch CE và Op-Amp</label></div>
         <div class="checklist-item"><input type="checkbox" id="wk3c3"><label for="wk3c3">Tôi hiểu và ứng dụng được PWM cho LED và motor</label></div>
-        <div class="checklist-item"><input type="checkbox" id="wk3c4"><label for="wk3c4">Tôi đã hoàn thành Mini Project mạch báo nhiệt</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk3c4"><label for="wk3c4">Tôi đã thử khối NTC–LM358–LED và mô phỏng nhánh relay của Mini Project</label></div>
         <div class="checklist-item"><input type="checkbox" id="wk3c5"><label for="wk3c5">Tôi có thể giải thích toàn bộ hoạt động của mạch báo nhiệt từ cảm biến đến relay</label></div>
       </div>
 

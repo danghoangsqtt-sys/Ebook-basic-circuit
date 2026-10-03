@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 490" role="img" aria-labelledby="title desc">
+  <title id="title">Ba điện trở mắc song song</title>
+  <desc id="desc">Ba nhánh R1 một kilô ôm, R2 hai kilô ôm, R3 ba kilô ôm cùng nối giữa nút VCC ở trên và nút GND ở dưới. Mỗi nhánh nhận cùng hiệu điện thế.</desc>
+  <rect width="360" height="490" rx="18" fill="#10233b"/>
+  <g fill="#f8fafc" font-family="Arial,sans-serif" font-weight="700"><text x="20" y="40" font-size="21">Mạch song song</text><text x="20" y="92" font-size="18">VCC</text><text x="20" y="450" font-size="18">GND / 0 V</text></g>
+  <g fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linejoin="round"><path d="M60 125H300M60 387H300M90 125V220M90 275V387M180 125V220M180 275V387M270 125V220M270 275V387"/><rect x="70" y="220" width="40" height="55"/><rect x="160" y="220" width="40" height="55"/><rect x="250" y="220" width="40" height="55"/></g>
+  <g fill="#34d399"><circle cx="90" cy="125" r="5"/><circle cx="180" cy="125" r="5"/><circle cx="270" cy="125" r="5"/><circle cx="90" cy="387" r="5"/><circle cx="180" cy="387" r="5"/><circle cx="270" cy="387" r="5"/></g>
+  <g fill="#67e8f9" font-family="Arial,sans-serif" font-size="16" font-weight="700" text-anchor="middle"><text x="90" y="419">R1 1 kΩ</text><text x="180" y="419">R2 2 kΩ</text><text x="270" y="419">R3 3 kΩ</text></g>
+  <text x="20" y="477" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15">Cùng hai nút: điện áp ba nhánh bằng nhau.</text>
+</svg>

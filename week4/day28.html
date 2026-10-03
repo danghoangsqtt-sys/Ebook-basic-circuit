@@ -74,28 +74,15 @@
 
       <h3>2.1 Kiến trúc phần mềm</h3>
 
-      <div class="circuit-ascii">  Sơ đồ task / luồng xử lý:
-
-  setup():
-    ├─ Init Serial (115200)
-    ├─ Init I2C → OLED.begin() → BME280.begin()
-    ├─ Init SPI → SD.begin()
-    ├─ attachInterrupt(btnPin, onBtn, FALLING)
-    └─ Init timer hoặc millis-based scheduler
-
-  loop():
-    ├─ Mỗi 2000ms: đọc DHT22/BME280
-    │   ├─ Validate: NaN check
-    │   ├─ Update OLED display
-    │   └─ Nếu temp > 35: LED ON + buzzer beep
-    ├─ Mỗi 10000ms: ghi SD card
-    │   └─ Format: "millis,temp,humi\n"
-    └─ Nếu btnFlag: in summary qua Serial
-
-  ISR onBtn():
-    └─ btnFlag = true (chỉ set flag, không xử lý)</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d28-1.svg" width="360" height="560" loading="lazy" decoding="async" alt="Biến thể DHT22: setup khởi tạo Serial, DHT22, OLED I2C, SD SPI và nút nhấn; loop đọc DHT22 mỗi 2000 ms, kiểm tra lỗi, hiển thị OLED, cảnh báo trên 35 độ C và ghi SD mỗi 10000 ms. ISR chỉ đặt cờ.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D28-1 — Luồng xử lý: setup, loop và ISR nút nhấn</div><div class="figure-text">Biến thể mã DHT22: setup khởi tạo Serial, DHT22, OLED I2C, SD SPI và nút; loop đọc cảm biến mỗi 2000 ms, kiểm tra lỗi, hiển thị, cảnh báo và ghi SD mỗi 10000 ms. ISR chỉ đặt cờ.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm board và module trước khi lắp. <a href="../assets/images/lessons/d28-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D28-1</summary><p>Biến thể DHT22 của mã bên dưới: setup khởi tạo Serial, DHT22, OLED qua I2C, SD qua SPI và nút nhấn. loop đọc DHT22 mỗi 2000 ms, kiểm tra NaN, cập nhật OLED, cảnh báo nhiệt trên 35 độ C, ghi SD mỗi 10000 ms và in tóm tắt khi có cờ nút. ISR chỉ đặt cờ. BME280 là phương án thay thế cần thư viện và khởi tạo riêng.</p></details>
 
       <h3>2.2 Code khung (ESP32)</h3>
+
+      <p>Mã và sơ đồ D28-1 dùng <strong>DHT22 rời</strong>; BME280 I2C là phương án thay thế cần thư viện, khởi tạo và bus riêng. Chọn chân theo sơ đồ của đúng board trước khi lắp. Ví dụ trên ESP32-WROOM-32 dùng nút nhấn từ GPIO27 xuống GND và <code>INPUT_PULLUP</code>; không dùng GPIO0 làm nút vì mức LOW khi reset có thể vào chế độ nạp. <a href="https://docs.espressif.com/projects/esptool/en/latest/esp32/advanced-topics/boot-mode-selection.html" target="_blank" rel="noopener">Espressif: boot mode</a>.</p>
 
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
 <pre style="margin:0;white-space:pre-wrap;">// Trạm Đo Môi Trường — ESP32 Skeleton
@@ -105,9 +92,11 @@
 #include &lt;SPI.h&gt;
 #include &lt;SD.h&gt;
 
-#define DHT_PIN  4   #define BTN_PIN  0
-#define LED_PIN  2   #define CS_SD    5
-#define BUZZER   15
+#define DHT_PIN  32
+#define BTN_PIN  27
+#define LED_PIN  25
+#define CS_SD    13
+#define BUZZER   26
 
 DHT dht(DHT_PIN, DHT22);
 Adafruit_SSD1306 oled(128, 64, &Wire, -1);
@@ -124,6 +113,7 @@ void setup() {
   oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   oled.clearDisplay();
   SD.begin(CS_SD);
+  pinMode(BTN_PIN, INPUT_PULLUP);
   pinMode(LED_PIN, OUTPUT);
   pinMode(BUZZER, OUTPUT);
   attachInterrupt(BTN_PIN, onBtn, FALLING);

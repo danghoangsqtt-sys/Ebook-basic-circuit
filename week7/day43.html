@@ -52,23 +52,20 @@
 
       <h2>1. Quy trình thiết kế hệ thống nhúng</h2>
 
-      <div class="circuit-ascii">  Vòng đời thiết kế hệ thống nhúng (V-Model):
-
-  Yêu cầu hệ thống ─→ Kiến trúc ─→ Thiết kế chi tiết ─→ Hiện thực
-       ↕                 ↕                 ↕                ↓
-  Kiểm thử hệ thống ← Kiểm thử tích hợp ← Kiểm thử đơn vị ← Module đã xây
-
-  Mỗi mức kiểm thử đối chiếu với mức thiết kế ở cùng cột;
-  nhánh trái đi xuống tới hiện thực, nhánh phải đi lên qua kiểm thử.
-
-  Với đồ án 2 tuần:
-  Ngày 43–44: Lên ý tưởng, SRS, Block Diagram, BOM
-  Ngày 45–46: Schematic + Firmware khung (skeleton)
-  Ngày 47–48: Firmware hoàn thiện + Test từng module
-  Ngày 49:    Integration test + PCB (tùy chọn)
-  Ngày 50–53: PCB layout + Fabrication (nếu có)
-  Ngày 54–55: Final assembly + System test
-  Ngày 56:    Demo + Báo cáo tổng kết</div>
+      <p><strong>Mô hình chữ V:</strong> đi từ yêu cầu xuống thiết kế và hiện thực; khi có module chạy được, kiểm thử đi ngược lên theo từng mức. Mỗi phép kiểm phải đối chiếu một quyết định thiết kế tương ứng:</p>
+      <div class="table-wrap">
+        <table>
+          <caption id="diagram-d43-1">Ghép quyết định thiết kế với mức kiểm thử</caption>
+          <thead><tr><th scope="col">Thiết kế</th><th scope="col">Kiểm chứng tương ứng</th></tr></thead>
+          <tbody>
+            <tr><td>Yêu cầu hệ thống</td><td>Kiểm thử hệ thống theo tiêu chí chấp nhận.</td></tr>
+            <tr><td>Kiến trúc và giao diện giữa các khối</td><td>Kiểm thử tích hợp, giao tiếp và nguồn giữa các module.</td></tr>
+            <tr><td>Thiết kế chi tiết từng module</td><td>Kiểm thử đơn vị và phép đo từng module.</td></tr>
+            <tr><td>Hiện thực</td><td>Build, nạp chương trình và kiểm các module đã lắp.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Lịch gợi ý hai tuần: ngày 43–44 lập ý tưởng/SRS/sơ đồ khối/BOM; ngày 45–46 vẽ schematic và khung firmware; ngày 47–48 hoàn thiện và thử module; ngày 49 kiểm tích hợp; ngày 50–53 hoàn thiện PCB nếu phạm vi/tiến độ cho phép; ngày 54–55 lắp và kiểm toàn hệ thống; ngày 56 demo và báo cáo. Chế tạo PCB phụ thuộc thời gian đặt hàng thực tế, không coi là cam kết hoàn tất trong hai tuần.</p>
 
       <h2>2. SRS — Software Requirements Specification cơ bản</h2>
 

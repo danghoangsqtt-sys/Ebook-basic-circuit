@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 420" width="360" height="420" role="img" aria-labelledby="title desc"><title id="title">Phân áp NTC và bộ so sánh LM358</title><desc id="desc">3,3 V qua R_ref 10 kΩ tới nút V_sensor, rồi NTC 10 kΩ xuống GND. V_sensor vào đầu vào đảo của LM358. Một biến trở cho V_ref vào đầu vào không đảo. Nóng thì NTC nhỏ, V_sensor nhỏ hơn V_ref và ngõ ra lên HIGH.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="360" height="420" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M60 50 V310 M60 170 H225 M170 225 V340 M183 262 H225 M335 215 H350"/>
+<text x="180" y="28" class="h" text-anchor="middle">NTC + R_ref → bộ so sánh</text>
+<circle cx="60" cy="50" r="4.5" class="c"/>
+<text x="76" y="46" class="b">VCC = 3,3 V</text>
+<rect class="c" x="47" y="80" width="26" height="50" rx="4"/>
+<text x="84" y="110" class="m">R_ref 10 kΩ</text>
+<circle cx="60" cy="170" r="4.5" class="n"/>
+<text x="66" y="160" class="b">V_sensor</text>
+<rect class="c" x="47" y="200" width="26" height="50" rx="4"/>
+<text x="84" y="222" class="m">NTC 10 kΩ</text>
+<text x="84" y="238" class="m">t° ↑ → R ↓</text>
+<path class="w" d="M60 310 V320 M45 320 H75 M50 326 H70 M55 332 H65"/>
+<circle cx="170" cy="225" r="4.5" class="c"/>
+<text x="182" y="229" class="m">VCC</text>
+<rect class="c" x="157" y="240" width="26" height="50" rx="4"/>
+<path class="ao" marker-start="url(#ao)" d="M183 262 L215 262"/>
+<text x="188" y="254" class="b">V_ref</text>
+<text x="150" y="270" class="m" text-anchor="end">biến trở</text>
+<path class="w" d="M170 340 V350 M155 350 H185 M160 356 H180 M165 362 H175"/>
+<path d="M225 140 L225 290 L335 215 Z" fill="#dbeafe" stroke="#1e40af" stroke-width="2"/>
+<text x="232" y="176" class="b">−</text>
+<text x="232" y="268" class="b">+</text>
+<text x="284" y="220" class="b" text-anchor="middle">LM358</text>
+<text x="280" y="125" class="m" text-anchor="middle">cấp 5 V</text>
+<text x="345" y="200" class="b" text-anchor="end">OUT</text>
+<circle cx="350" cy="215" r="4.5" class="c"/>
+<text x="345" y="320" class="g b" text-anchor="end">OUT = HIGH khi nóng</text>
+<text x="345" y="338" class="m" text-anchor="end">(V_sensor &lt; V_ref)</text>
+<text x="180" y="402" class="m" text-anchor="middle">Giữ cả hai đầu vào trong miền common-mode của LM358</text>
+</svg>

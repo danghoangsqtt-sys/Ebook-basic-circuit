@@ -61,33 +61,15 @@
       </div>
       <!-- LESSON VISUALS END day33 -->
 
-      <h2>1. Quy trình thiết kế PCB</h2>
+      <h2 id="diagram-d33-1">1. Quy trình thiết kế PCB</h2>
 
-      <div class="circuit-ascii">  Quy trình từ ý tưởng đến PCB hoàn chỉnh:
-
-  1. Schematic (Sơ đồ nguyên lý)
-     └── Vẽ mạch điện với ký hiệu linh kiện chuẩn
-     └── Kiểm tra ERC (Electrical Rules Check)
-
-  2. Assign Footprints (Gán hình dạng vật lý)
-     └── Mỗi linh kiện ký hiệu → footprint tương ứng trên PCB
-     └── THT: DIP-8, TO-92, TO-220...
-     └── SMD: 0402, 0603, SOT-23...
-
-  3. PCB Layout (Vẽ mạch in)
-     └── Đặt linh kiện trên board
-     └── Route tracks (đường đồng kết nối)
-     └── Thêm ground plane (lớp đồng GND)
-
-  4. DRC (Design Rule Check)
-     └── Kiểm tra khoảng cách tối thiểu (clearance)
-     └── Kiểm tra unconnected nets
-
-  5. Gerber Export
-     └── F.Cu (front copper), B.Cu (back copper)
-     └── F.Mask, B.Mask (solder mask)
-     └── F.Silks (silk screen — tên linh kiện)
-     └── Drill files (vị trí lỗ khoan)</div>
+      <ol class="step-list">
+        <li class="step-item"><div class="step-content"><p><strong>Vẽ schematic:</strong> đặt ký hiệu, gán giá trị và tên net; chạy ERC, xem và giải thích từng cảnh báo thay vì chỉ nhìn số lỗi.</p></div></li>
+        <li class="step-item"><div class="step-content"><p><strong>Gán footprint:</strong> đối chiếu datasheet đúng package với footprint của mỗi linh kiện. Ví dụ THT có DIP/TO-92/TO-220; SMD có 0603/SOT-23, nhưng tên package chưa đủ để xác nhận kích thước và thứ tự chân.</p></div></li>
+        <li class="step-item"><div class="step-content"><p><strong>Layout PCB:</strong> đặt linh kiện, đi dây đồng theo netlist, bố trí đường nguồn/đường hồi và mặt phẳng đồng theo yêu cầu của mạch.</p></div></li>
+        <li class="step-item"><div class="step-content"><p><strong>Chạy DRC:</strong> kiểm clearance, độ rộng đường, lỗ khoan và các net chưa nối; xem lại những ngoại lệ được chấp nhận.</p></div></li>
+        <li class="step-item"><div class="step-content"><p><strong>Xuất hồ sơ chế tạo:</strong> Gerber cho lớp đồng (<code>F.Cu</code>, <code>B.Cu</code> nếu dùng), solder mask, silkscreen và tệp khoan. Xem lại các lớp bằng Gerber viewer trước khi gửi chế tạo.</p></div></li>
+      </ol>
 
       <!-- PHẦN 2 — KICAD -->
       <h2>2. KiCad — Công cụ miễn phí tiêu chuẩn công nghiệp</h2>

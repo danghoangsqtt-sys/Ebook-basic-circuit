@@ -94,26 +94,11 @@
       <!-- PHẦN 3 — LM7805 -->
       <h2>3. IC LM7805 — Ổn áp 5V cổ điển</h2>
 
-      <div class="circuit-ascii">  Sơ đồ chân LM7805 (TO-220):
-
-         ┌───────────┐
-   IN ───┤ 1       3 ├─── OUT (5V)
-         │  LM7805  │
-         │ 2       │ (GND — chân giữa = tab của vỏ TO-220)
-         └────┬──────┘
-             GND
-
-   Hai tụ bypass là các NHÁNH xuống GND, không nối tiếp đường nguồn:
-
-    V_in ──●──────── IN [LM7805] OUT ────────●── +5 V
-           │                GND               │
-         [C_in]              │             [C_out]
-           │                 │                │
-    GND ───┴─────────────────┴────────────────┴── GND
-
-   Chọn C_in/C_out theo datasheet đúng mã và khoảng cách nguồn;
-   ví dụ TI LM7805 dùng tụ bypass đầu vào nếu xa tụ lọc nguồn,
-   tụ 0,1 µF đầu ra giúp đáp ứng quá độ. Tụ bulk cũng mắc xuống GND.</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d13-1.svg" width="390" height="505" loading="lazy" decoding="async" alt="Nhìn mặt chữ TO-220 NDE của TI: chân 1 IN, chân 2 GND, chân 3 OUT; tab GND. Tụ mắc song song rail.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D13-1 — Chân TI LM7805CT/NOPB</div><div class="figure-text">Nhìn mặt chữ TO-220 NDE của TI: chân 1 IN, chân 2 GND, chân 3 OUT; tab GND. Tụ mắc song song rail.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.ti.com/lit/ds/symlink/lm7800.pdf" target="_blank" rel="noopener">datasheet TI LM7805</a>. <a href="../assets/images/lessons/d13-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D13-1</summary><p>Chỉ áp dụng TI LM7805CT/NOPB gói TO-220 NDE, nhìn mặt chữ với chân chĩa xuống: trái 1 INPUT, giữa 2 GND, phải 3 OUTPUT; tab kim loại nối GND. Tụ đầu vào mắc VIN–GND và tụ đầu ra mắc 5 V–GND, không nằm nối tiếp đường nguồn. Tra lại mã và package thực tế.</p></details>
 
       <div class="callout callout-note">
         <div class="callout-header"><span class="callout-icon">📌</span> Thông số quan trọng của LM7805</div>
@@ -147,21 +132,11 @@
       <!-- PHẦN 4 — AMS1117 -->
       <h2>4. IC AMS1117-3.3 — LDO 3,3V cho ESP32/Arduino</h2>
 
-      <div class="circuit-ascii">  Sơ đồ chân AMS1117 (SOT-223):
-
-   Nhìn mặt có chữ, ba chân hướng xuống:
-
-         ┌──────────────┐  TAB kim loại = OUT
-         │  AMS1117-3.3 │
-         └─┬────┬────┬──┘
-           1    2    3
-          GND  OUT   IN
-
-   Mạch ổn áp: V_in → chân 3; chân 1 → GND; chân 2/tab → 3,3 V.
-   C_in nối V_in–GND; bản AMS1117 của Advanced Monolithic Systems
-   dùng C_out 22 µF tantalum từ OUT–GND để ổn định mọi điều kiện;
-   đặt sát IC, có thể thêm 100 nF song song.
-   Kiểm tra lại sơ đồ chân của đúng nhà sản xuất/mã in trên IC.</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d13-2.svg" width="390" height="405" loading="lazy" decoding="async" alt="Riêng AMS1117-3.3 của Advanced Monolithic Systems: nhìn mặt chữ, 1 GND, 2 OUT, 3 IN; tab OUT.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D13-2 — Chân AMS1117-3.3 SOT-223</div><div class="figure-text">Riêng AMS1117-3.3 của Advanced Monolithic Systems: nhìn mặt chữ, 1 GND, 2 OUT, 3 IN; tab OUT.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://datasheet.lcsc.com/lcsc/1811142212_Advanced-Monolithic-Systems-AMS1117-3-3_C6186.pdf" target="_blank" rel="noopener">datasheet do AMS lập</a>. <a href="../assets/images/lessons/d13-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D13-2</summary><p>Áp dụng AMS1117-3.3 SOT-223 của Advanced Monolithic Systems, không suy rộng mọi IC chữ 1117. Nhìn mặt chữ với ba chân hướng xuống: trái 1 GND, giữa 2 OUT, phải 3 IN; tab nối OUT. IN nhận 5 V, OUT cấp 3,3 V. Bản AMS tham chiếu dùng 22 µF tantalum từ OUT về GND; kiểm tra đúng mã và package trước khi cấp nguồn.</p></details>
 
       <div class="callout callout-tip">
         <div class="callout-header"><span class="callout-icon">💡</span> Tại sao AMS1117 phổ biến hơn LM3940?</div>

@@ -68,52 +68,50 @@
           <tbody>
             <tr><td>Điện áp tế bào (nominal)</td><td>3,7V</td><td>Giá trị trung bình khi xả</td></tr>
             <tr><td>Điện áp đầy (full charge)</td><td>4,20V</td><td>Không được vượt quá → hỏng pin, nguy hiểm</td></tr>
-            <tr><td>Điện áp cắt nguy hiểm</td><td>3,0V (3,2V an toàn)</td><td>Xả dưới 3V → hỏng pin không phục hồi</td></tr>
-            <tr><td>Xả hoàn toàn an toàn</td><td>3,2–3,4V</td><td>Cắt nguồn tại đây để bảo vệ pin</td></tr>
-            <tr><td>Dòng sạc tiêu chuẩn</td><td>0,5C–1C</td><td>1C = sạc với I bằng dung lượng (mAh)</td></tr>
+            <tr><td>Ngưỡng dừng xả</td><td>Theo datasheet cell</td><td>Chọn ngưỡng hệ thống và mạch bảo vệ theo đúng cell, dòng tải và nhiệt độ; không dùng một mức cố định cho mọi pin</td></tr>
+            <tr><td>Điện áp đo để ước lượng mức pin</td><td>Phụ thuộc trạng thái tải</td><td>Điện áp tức thời không đổi tuyến tính với phần trăm dung lượng còn lại</td></tr>
+            <tr><td>Dòng sạc cho phép</td><td>Theo datasheet cell</td><td>1C là dòng bằng dung lượng định mức tính theo A; không suy ra mọi cell đều cho phép sạc 1C</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="formula-block">
-        <div class="formula-main">Thời gian sống = Dung lượng (mAh) / Dòng tiêu thụ (mA)</div>
+        <div class="formula-main">Thời gian ước tính ≈ Dung lượng sử dụng được (mAh) / Dòng trung bình lấy từ cell (mA)</div>
         <div class="formula-vars">
-          <span class="formula-var">Ví dụ: Pin 2000mAh, dòng trung bình 80mA → T = 2000/80 = 25 giờ</span>
-          <span class="formula-var">Thực tế × 0,8 (hiệu suất converter, nhiệt độ) → ~20 giờ thực</span>
+          <span class="formula-var">Ví dụ lý tưởng: cell 2000 mAh, dòng trung bình ngay tại cell 80 mA → 25 giờ</span>
+          <span class="formula-var">Nếu tải qua converter, đo hoặc tính dòng phía cell từ công suất và hiệu suất; kiểm tra dung lượng hữu dụng ở điều kiện thực</span>
         </div>
       </div>
 
       <h2>2. BMS và TP4056 — Sạc và bảo vệ pin</h2>
 
-      <div class="circuit-ascii">  Ví dụ module 1S có TP4056 + IC bảo vệ riêng:
-
-  USB 5V ──→ [TP4056: sạc CC/CV] ── BAT+ / BAT− ── [pin 1S]
-                                        │
-                         [IC bảo vệ + MOSFET, nếu có]
-                                        │
-                         OUT+ / OUT− ──→ Boost 5V / tải
-
-  TP4056 điều khiển sạc một cell đến 4,2V; dòng sạc do R_PROG của
-  module đặt, không mặc định phù hợp mọi pin. IC bảo vệ riêng mới
-  có thể cắt quá xả, quá dòng/ngắn mạch; ngưỡng tùy mã IC/board.
-  Module chỉ có BAT+/BAT− có thể không có bảo vệ xả. Kiểm tra sơ đồ
-  và mã linh kiện, không phân loại theo màu PCB.</div>
+      <figure class="figure" id="diagram-D41-1">
+        <img src="../assets/images/lessons/d41-1.svg" width="400" height="615" style="max-width:400px;margin-inline:auto" loading="lazy" decoding="async" alt="Nguồn USB 5 V vào TP4056, bộ sạc nối cell lithium một cell 4,2 V; nếu có mạch bảo vệ xả riêng, đầu ra bảo vệ cấp bộ ổn áp và tải; đây không phải pinout module.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D41-1 — Nguồn pin 1S ở mức chức năng</div><div class="figure-text">Sơ đồ chức năng. Module TP4056 có nhiều biến thể nên cần xác minh chân BAT/OUT và mạch bảo vệ trên board thực tế trước khi đấu dây. <a href="../assets/images/lessons/d41-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.toppwr.com/uploadfile/file/20230304/640301eae1260.pdf" target="_blank" rel="noopener">TP4056 của Top Power</a> và <a href="https://www.ti.com/product/BQ2970" target="_blank" rel="noopener">TI BQ2970</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả sơ đồ D41-1 bằng chữ</summary><p>Nguồn USB 5 V cấp IC sạc TP4056 cho một cell lithium loại 4,2 V. Cell nối vào đầu BAT của mạch sạc theo datasheet và sơ đồ board xác định. TP4056 tự nó không thay thế mạch bảo vệ xả hoặc đường cấp tải đồng thời khi sạc. Một module có thể tích hợp IC bảo vệ và MOSFET để tạo cặp đầu ra OUT; module khác không có. Chỉ sau khi nhận diện chính xác phiên bản PCB, chân BAT/OUT, dòng sạc RPROG, mạch bảo vệ và power-path mới nối cell, converter và tải. Không dùng hình này như sơ đồ đấu chân cho module bất kỳ.</p></details>
 
       <p><a href="https://www.toppwr.com/uploadfile/file/20230304/640301eae1260.pdf" target="_blank" rel="noopener">Datasheet TP4056 của nhà sản xuất</a> mô tả chức năng sạc; mạch bảo vệ cell là linh kiện khác (ví dụ <a href="https://www.ti.com/product/BQ2970" target="_blank" rel="noopener">TI BQ2970</a>). Khi vừa sạc vừa cấp tải, cần thiết kế đường cấp nguồn phù hợp; module TP4056 cơ bản không tự động thực hiện power-path/load sharing.</p>
+      <div class="callout callout-warning"><div class="callout-header"><span class="callout-icon">⚠️</span> Điều kiện trước khi đấu cell thật</div><p>Chỉ đấu nối sau khi xác định đúng mã và revision PCB sạc, sơ đồ chân BAT/OUT, IC bảo vệ và MOSFET, dòng sạc đặt bởi R<sub>PROG</sub>, loại cell và giới hạn của nó. Không suy luận chân hoặc khả năng cấp tải từ màu hay hình dáng module. Nếu chưa có tài liệu board, dừng ở mô phỏng và phép đo không gắn pin.</p></div>
 
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
-<pre style="margin:0;white-space:pre-wrap;">// Đọc điện áp pin LiPo bằng ADC — ESP32
-// Pin nối qua voltage divider: 100kΩ / 100kΩ → ADC pin (tỷ lệ 1:2)
-// V_adc = V_bat / 2 → V_bat = V_adc × 2
-
-const int BAT_PIN = 34;  // ESP32 ADC1 pin
+<pre style="margin:0;white-space:pre-wrap;">// Ví dụ Arduino-ESP32 cho ESP32 cổ điển: kiểm GPIO34 trên board thật.
+// R_TOP từ pin+ đến ADC, R_BOTTOM từ ADC xuống GND; đo lại R thực tế.
+// Chỉ giám sát; không dùng phần trăm dưới đây làm ngưỡng bảo vệ cell.
+const int BAT_PIN = 34;  // ADC1 của ESP32 cổ điển; họ ESP32 khác có pin khác
+const float R_TOP = 100000.0;
+const float R_BOTTOM = 100000.0;
 const float V_FULL  = 4.20;
 const float V_EMPTY = 3.20;
 
+void setup() {
+  Serial.begin(115200);
+  analogSetPinAttenuation(BAT_PIN, ADC_11db);  // ADC đo khoảng 2,1 V sau chia áp
+}
+
 float readBatteryVoltage() {
-  int raw = analogRead(BAT_PIN);
-  float v_adc = (float)raw / 4095.0 * 3.3;  // ESP32 12-bit ADC
-  return v_adc * 2.0;  // voltage divider ×2
+  float v_adc = analogReadMilliVolts(BAT_PIN) / 1000.0; // mV đã hiệu chuẩn theo core
+  return v_adc * (R_TOP + R_BOTTOM) / R_BOTTOM;
 }
 
 int getBatteryPercent(float v) {
@@ -126,19 +124,21 @@ int getBatteryPercent(float v) {
 void loop() {
   float voltage = readBatteryVoltage();
   int percent = getBatteryPercent(voltage);
-  Serial.printf("Pin: %.2fV (%d%%)\n", voltage, percent);
-  if (percent &lt; 10) Serial.println("CANH BAO: Pin sap het!");
+  Serial.printf("Pin: %.2fV (uoc luong %d%%)\n", voltage, percent);
+  if (percent &lt; 10) Serial.println("Kiem tra pin va tai; khong thay mach bao ve!");
   delay(5000);
 }</pre>
       </div>
+
+      <p>Hàm <a href="https://docs.espressif.com/projects/arduino-esp32/en/latest/api/adc.html" target="_blank" rel="noopener"><code>analogReadMilliVolts()</code> của Arduino-ESP32</a> trả điện áp đã hiệu chuẩn theo API; dải đo phụ thuộc attenuation và dòng chip. Đo điện trở chia áp thực, so với đồng hồ ở vài mức điện áp và ghi sai số. Ước lượng phần trăm tuyến tính chỉ minh họa vì đường cong xả thay đổi theo cell/tải/nhiệt; mạch bảo vệ xả độc lập vẫn bắt buộc.</p>
 
       <div class="callout callout-danger">
         <div class="callout-header"><span class="callout-icon">🔥</span> An toàn pin LiPo — nghiêm túc tuân thủ</div>
         <ul>
           <li>KHÔNG sạc pin bị <strong>phồng (swollen)</strong> — nguy cơ bốc cháy</li>
           <li>KHÔNG để pin tiếp xúc nước hoặc kim loại sharp</li>
-          <li>KHÔNG xả pin dưới 3,0V — hỏng pin không thể phục hồi</li>
-          <li>Luôn dùng <strong>mạch BMS</strong> khi dùng trong dự án</li>
+          <li>Đặt ngưỡng dừng xả theo datasheet cell và mạch bảo vệ đã chọn; không lấy 3,0 V làm ngưỡng chung</li>
+          <li>Dùng <strong>mạch bảo vệ đúng cấu hình 1S</strong> và kiểm tra ngưỡng, dòng, nhiệt độ theo cell và ứng dụng</li>
           <li>Khi sạc: để trên bề mặt không cháy, không để qua đêm không ai trông</li>
         </ul>
       </div>

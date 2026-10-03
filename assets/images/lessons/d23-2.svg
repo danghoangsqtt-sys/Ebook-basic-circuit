@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 395" width="400" height="395" role="img" aria-labelledby="title desc"><title id="title">Khung I2C ghi một byte vào thiết bị</title><desc id="desc">Điều kiện START: SDA xuống khi SCL cao. Sau đó 7 bit địa chỉ 0x3C là 0111100, bit R/W bằng 0 là ghi, slave kéo SDA xuống ở xung ACK, tiếp theo 8 bit dữ liệu 0xAE là 10101110 và ACK thứ hai. Điều kiện STOP: SDA lên khi SCL cao.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="400" height="395" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<text x="200" y="24" class="h" text-anchor="middle">Khung I2C: ghi 1 byte (0xAE) vào địa chỉ 0x3C</text>
+<rect x="200" y="50" width="17" height="140" fill="#fef3c7"/>
+<rect x="353" y="50" width="17" height="140" fill="#fef3c7"/>
+<path class="gr" d="M64 50 V190"/>
+<path class="gr" d="M81 50 V190"/>
+<path class="gr" d="M98 50 V190"/>
+<path class="gr" d="M115 50 V190"/>
+<path class="gr" d="M132 50 V190"/>
+<path class="gr" d="M149 50 V190"/>
+<path class="gr" d="M166 50 V190"/>
+<path class="gr" d="M183 50 V190"/>
+<path class="gr" d="M200 50 V190"/>
+<path class="gr" d="M217 50 V190"/>
+<path class="gr" d="M234 50 V190"/>
+<path class="gr" d="M251 50 V190"/>
+<path class="gr" d="M268 50 V190"/>
+<path class="gr" d="M285 50 V190"/>
+<path class="gr" d="M302 50 V190"/>
+<path class="gr" d="M319 50 V190"/>
+<path class="gr" d="M336 50 V190"/>
+<path class="gr" d="M353 50 V190"/>
+<path class="gr" d="M370 50 V190"/>
+<path class="w" d="M30 62 H64 V94 H72.5 V62 H81 V94 H89.5 V62 H98 V94 H106.5 V62 H115 V94 H123.5 V62 H132 V94 H140.5 V62 H149 V94 H157.5 V62 H166 V94 H174.5 V62 H183 V94 H191.5 V62 H200 V94 H208.5 V62 H217 V94 H225.5 V62 H234 V94 H242.5 V62 H251 V94 H259.5 V62 H268 V94 H276.5 V62 H285 V94 H293.5 V62 H302 V94 H310.5 V62 H319 V94 H327.5 V62 H336 V94 H344.5 V62 H353 V94 H361.5 V62 H370 H394"/>
+<path class="w" d="M30 142 H54 V174 H81 V142 H98 H115 H132 H149 V174 H166 H183 H200 H217 V142 H234 V174 H251 V142 H268 V174 H285 V142 H302 H319 H336 V174 H353 H370 H374 V142 H394"/>
+<text x="4" y="86" class="b">SCL</text>
+<text x="4" y="166" class="b">SDA</text>
+<text x="72.5" y="204" class="s" text-anchor="middle">0</text>
+<text x="89.5" y="204" class="s" text-anchor="middle">1</text>
+<text x="106.5" y="204" class="s" text-anchor="middle">1</text>
+<text x="123.5" y="204" class="s" text-anchor="middle">1</text>
+<text x="140.5" y="204" class="s" text-anchor="middle">1</text>
+<text x="157.5" y="204" class="s" text-anchor="middle">0</text>
+<text x="174.5" y="204" class="s" text-anchor="middle">0</text>
+<text x="191.5" y="204" class="s" text-anchor="middle">0</text>
+<text x="208.5" y="204" class="s" text-anchor="middle">0</text>
+<text x="225.5" y="204" class="s" text-anchor="middle">1</text>
+<text x="242.5" y="204" class="s" text-anchor="middle">0</text>
+<text x="259.5" y="204" class="s" text-anchor="middle">1</text>
+<text x="276.5" y="204" class="s" text-anchor="middle">0</text>
+<text x="293.5" y="204" class="s" text-anchor="middle">1</text>
+<text x="310.5" y="204" class="s" text-anchor="middle">1</text>
+<text x="327.5" y="204" class="s" text-anchor="middle">1</text>
+<text x="344.5" y="204" class="s" text-anchor="middle">0</text>
+<text x="361.5" y="204" class="s" text-anchor="middle">0</text>
+<path class="d" d="M64 218 V222 H183 V218"/>
+<path class="d" d="M183 218 V222 H200 V218"/>
+<path class="d" d="M200 218 V222 H217 V218"/>
+<path class="d" d="M217 218 V222 H353 V218"/>
+<path class="d" d="M353 218 V222 H370 V218"/>
+<circle cx="54" cy="236" r="8" fill="#0f766e"/>
+<text x="54" y="240" font-size="11" font-weight="700" text-anchor="middle" style="fill:#fff">1</text>
+<circle cx="123.5" cy="236" r="8" fill="#0f766e"/>
+<text x="123.5" y="240" font-size="11" font-weight="700" text-anchor="middle" style="fill:#fff">2</text>
+<circle cx="191.5" cy="236" r="8" fill="#0f766e"/>
+<text x="191.5" y="240" font-size="11" font-weight="700" text-anchor="middle" style="fill:#fff">3</text>
+<circle cx="208.5" cy="236" r="8" fill="#0f766e"/>
+<text x="208.5" y="240" font-size="11" font-weight="700" text-anchor="middle" style="fill:#fff">4</text>
+<circle cx="285" cy="236" r="8" fill="#0f766e"/>
+<text x="285" y="240" font-size="11" font-weight="700" text-anchor="middle" style="fill:#fff">5</text>
+<circle cx="361.5" cy="236" r="8" fill="#0f766e"/>
+<text x="361.5" y="240" font-size="11" font-weight="700" text-anchor="middle" style="fill:#fff">6</text>
+<circle cx="384" cy="236" r="8" fill="#0f766e"/>
+<text x="384" y="240" font-size="11" font-weight="700" text-anchor="middle" style="fill:#fff">7</text>
+<text x="14" y="270" class="m">1 START: SDA xuống khi SCL ở mức cao</text>
+<text x="14" y="287" class="m">2 Địa chỉ 7 bit 0x3C = 0111100 (bit cao trước)</text>
+<text x="14" y="304" class="m">3 R/W = 0: ghi     4 ACK: slave kéo SDA xuống</text>
+<text x="14" y="321" class="m">5 Dữ liệu 0xAE = 10101110     6 ACK lần hai</text>
+<text x="14" y="338" class="m">7 STOP: SDA lên khi SCL ở mức cao</text>
+<text x="14" y="355" class="m">NACK: SDA vẫn cao ở xung ACK → thiết bị không nhận/lỗi</text>
+</svg>

@@ -59,7 +59,7 @@
             <tr><td>Arduino Uno/Nano hoặc ESP32</td><td>Vi điều khiển có UART hardware</td><td>1</td></tr>
             <tr><td>Module USB-UART (CP2102 hoặc CH340)</td><td>Để kết nối máy tính với mạch UART</td><td>1</td></tr>
             <tr><td>Module Bluetooth HC-05 hoặc HC-06</td><td>UART AT commands — tùy chọn</td><td>1</td></tr>
-            <tr><td>Điện trở 10kΩ, 20kΩ (level shifter đơn giản)</td><td>Cho level shifter 5V→3,3V</td><td>3 mỗi loại</td></tr>
+            <tr><td>Điện trở 10kΩ, 15kΩ (sai số 5% hoặc tốt hơn)</td><td>Phân áp UART 5V→ESP32 RX; kiểm điện áp nguồn và ngưỡng GPIO thực tế</td><td>3 mỗi loại</td></tr>
             <tr><td>Breadboard + dây jumper</td><td>—</td><td>1 bộ</td></tr>
           </tbody>
         </table>
@@ -70,15 +70,11 @@
 
       <p>UART (<em>Universal Asynchronous Receiver/Transmitter</em>) truyền dữ liệu bit-by-bit trên một dây duy nhất, không cần clock chung (asynchronous) — hai bên tự đồng bộ nhờ <strong>Baud Rate</strong> giống nhau. Đây là giao thức đơn giản nhất trong các giao thức số.</p>
 
-      <div class="circuit-ascii">  Kết nối UART giữa 2 thiết bị:
-
-   Thiết bị A          Thiết bị B
-   TX ──────────────── RX   (A gửi → B nhận)
-   RX ──────────────── TX   (B gửi → A nhận)
-   GND ─────────────── GND  (GND CHUNG — bắt buộc)
-
-   UART là FULL-DUPLEX: cả 2 chiều gửi/nhận đồng thời
-   Chỉ cần 2 dây dữ liệu + GND chung</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d22-1.svg" width="360" height="310" loading="lazy" decoding="async" alt="TX của thiết bị A nối RX của thiết bị B, RX của A nối TX của B, và hai GND nối chung. UART full-duplex nên hai chiều chạy đồng thời.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D22-1 — Nối UART giữa hai thiết bị</div><div class="figure-text">TX của thiết bị A nối RX của thiết bị B, RX của A nối TX của B, và hai GND nối chung. UART full-duplex nên hai chiều chạy đồng thời.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d22-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D22-1</summary><p>TX của thiết bị A nối RX của thiết bị B, RX của A nối TX của B, và hai GND nối chung. UART full-duplex nên hai chiều chạy đồng thời.</p></details>
 
       <h3>1.1 Baud Rate — Tốc độ truyền bit</h3>
 
@@ -98,40 +94,24 @@
 
       <h3>1.2 Frame UART chuẩn</h3>
 
-      <div class="circuit-ascii">  Frame UART 8N1 (8 data bits, No parity, 1 Stop bit):
-
-   Idle  Start  D0  D1  D2  D3  D4  D5  D6  D7  Stop  Idle
-   ────┐ ┌──┬──┬──┬──┬──┬──┬──┬──┐ ────────────────
-       │ │  │  │  │  │  │  │  │  │ ↑
-       └─┘  └──┴──┴──┴──┴──┴──┴──┘ Stop bit (HIGH)
-       ↑
-       Start bit (LOW, 1 bit time)
-
-  - Idle state = HIGH (1)
-  - Start bit = LOW (0), luôn 1 bit
-  - Data bits = 5, 6, 7, hoặc 8 bit (thường 8)
-  - Parity = None, Odd, Even (thường None)
-  - Stop bits = 1 hoặc 2 bit HIGH (thường 1)
-  - LSB (bit nhỏ nhất) truyền trước</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d22-2.svg" width="380" height="270" loading="lazy" decoding="async" alt="Đường truyền nghỉ ở mức HIGH. Start bit LOW dài một bit. Tám bit dữ liệu, bit thấp nhất D0 truyền trước; ví dụ 0x55 là 1,0,1,0,1,0,1,0. Sau đó một stop bit HIGH rồi lại nghỉ HIGH.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D22-2 — Khung UART 8N1 với dữ liệu 0x55</div><div class="figure-text">Đường truyền nghỉ ở mức HIGH. Start bit LOW dài một bit. Tám bit dữ liệu, bit thấp nhất D0 truyền trước; ví dụ 0x55 là 1,0,1,0,1,0,1,0. Sau đó một stop bit HIGH rồi lại nghỉ HIGH.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d22-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D22-2</summary><p>Đường truyền nghỉ ở mức HIGH. Start bit LOW dài một bit. Tám bit dữ liệu, bit thấp nhất D0 truyền trước; ví dụ 0x55 là 1,0,1,0,1,0,1,0. Sau đó một stop bit HIGH rồi lại nghỉ HIGH.</p></details>
 
       <h3>1.3 Vấn đề điện áp — Level Shifting</h3>
 
       <div class="callout callout-warning">
         <div class="callout-header"><span class="callout-icon">⚠️</span> UART 5V vs 3,3V — Không nối thẳng!</div>
-        <p>Arduino Uno TX = 5V HIGH. ESP32 RX chịu tối đa 3,6V. Nối thẳng 5V UART vào ESP32 RX sẽ hỏng GPIO của ESP32. <strong>Giải pháp level shifter đơn giản:</strong> Phân áp resistor: TX(5V) → R1(10kΩ) → R2(20kΩ) → GND. Điểm giữa R1/R2 = RX(3,3V). Hoặc dùng module bidirectional level shifter BSS138.</p>
+        <p>Arduino Uno TX có thể lên gần 5V HIGH; ESP32 RX không được nhận trực tiếp mức đó. Với nguồn TX 4,75–5,25V và điện trở sai số 5%, có thể dùng phân áp một chiều TX → R1=10kΩ → RX; R2=15kΩ từ RX xuống GND: danh định 3,0V, trường hợp cao nhất khoảng 3,28V và thấp nhất khoảng 2,74V. Đối chiếu ngưỡng V_IH/V_Imax của đúng ESP32 và điều kiện nguồn thực tế trước khi lắp; nếu khác giả thiết, dùng IC chuyển mức được định mức phù hợp. <a href="https://docs.espressif.com/projects/esp-faq/en/latest/hardware-related/hardware-design.html" target="_blank" rel="noopener">Espressif: giới hạn điện áp GPIO</a>.</p>
       </div>
 
-      <div class="circuit-ascii">  Level Shifter đơn giản 5V→3.3V:
-
-  TX(5V) ──[10kΩ]──┬── RX(3.3V device)
-                   │
-                 [20kΩ]
-                   │
-                  GND
-
-  V_out = 5V × 20k/(10k+20k) = 5 × 2/3 = 3,33V ≈ 3,3V ✓
-
-  CHỈ dùng cho tín hiệu 1 chiều (TX→RX), không dùng cho chiều ngược lại</div>
+      <figure class="figure figure--circuit" data-diagram-id="D22-3">
+        <img src="../assets/images/lessons/d22-3.svg" width="360" height="350" loading="lazy" decoding="async" alt="TX 5 V qua R1 10 kΩ tới nút RX khoảng 3,0 V; R2 15 kΩ nối nút RX về GND. Vout không tải danh định = 5×15/(10+15) = 3,0 V. GND hai thiết bị chung. Kiểm nguồn, sai số điện trở, tốc độ và ngưỡng GPIO trước khi lắp.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D22-3</span> <span class="figure-text">Phân áp một chiều cho UART 5 V xuống khoảng 3,0 V.</span> <span class="figure-source">Tự vẽ; đối chiếu <a href="https://docs.espressif.com/projects/esp-faq/en/latest/hardware-related/hardware-design.html" target="_blank" rel="noopener">giới hạn GPIO Espressif</a>.</span> <a href="../assets/images/lessons/d22-3.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>TX 5 V qua R1 10 kΩ tới nút RX khoảng 3,0 V; R2 15 kΩ nối nút RX về GND. Vout không tải danh định = 5×15/(10+15) = 3,0 V. GND hai thiết bị chung. Chỉ dùng trên đường đẩy kéo một chiều từ TX 5 V tới RX 3,3 V; kiểm nguồn, sai số điện trở, input leakage và ngưỡng GPIO của board thực tế.</p></details>
+      </figure>
 
       <!-- PHẦN 2 — THỰC HÀNH -->
       <h2>2. Thực hành Serial UART với Arduino IDE</h2>
@@ -178,7 +158,7 @@ void loop() {
   }
 }</pre>
         </div>
-        <p>Kết nối: Module GPS TX → Arduino pin 4 (qua level shifter nếu 3,3V), GPS RX → Arduino pin 3.</p>
+        <p>Ví dụ <code>SoftwareSerial(4, 3)</code> trên Arduino Uno 5 V: để <strong>chỉ đọc NMEA</strong>, nối TX của GPS 3,3 V tới D4 (RX) và nối GND chung; để chân RX của GPS chưa nối. Nếu cần gửi lệnh từ D3 (TX 5 V) sang RX của NEO-6M, phải qua mạch chuyển mức xuống điện áp được <a href="https://content.u-blox.com/sites/default/files/products/documents/NEO-6_DataSheet_%28GPS.G6-HW-09005%29.pdf" target="_blank" rel="noopener">u-blox cho phép</a>; đầu vào chip không chịu trực tiếp 5 V. Kiểm mã/revision của <em>module</em> để biết bộ ổn áp/chuyển mức sẵn có, và kiểm ngưỡng nhận mức cao ở phía Uno trước khi lắp.</p>
       </div>
 
       <!-- VIDEO -->

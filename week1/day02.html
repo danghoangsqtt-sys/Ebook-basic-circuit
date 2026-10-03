@@ -397,18 +397,11 @@
         </ol>
       </div>
 
-      <div class="circuit-ascii">  Sơ đồ mạch trên breadboard:
-
-    +3 V ── rail (+) ── jumper ── a10 ──[R=1 kΩ]── a15/b15
-                                                   │
-                                             LED đỏ: anode
-                                                   │
-                                             cathode ở b18
-                                                   │
-     0 V ── rail (–) ─────────────────── jumper ────┘
-
-   Dòng điện đi theo chiều quy ước:
-   VCC → R(1kΩ) → LED(+) → LED(–) → GND</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d02-2.svg" width="390" height="560" loading="lazy" decoding="async" alt="Ba nhóm a10–e10, a15–e15, a18–e18 là ba nút riêng. R nối nhóm 10–15, LED nối nhóm 15–18.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D02-2 — LED trên breadboard</div><div class="figure-text">Ba nhóm a10–e10, a15–e15, a18–e18 là ba nút riêng. R nối nhóm 10–15, LED nối nhóm 15–18.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://learn.adafruit.com/breadboards-for-beginners/breadboards" target="_blank" rel="noopener">Adafruit về breadboard</a>. <a href="../assets/images/lessons/d02-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D02-2</summary><p>Từ +3 V qua rail dương và jumper đến a10; điện trở 1 kΩ từ a10 đến a15; b15 cùng nút với a15, nối anode LED; cathode ở b18, nhóm 18 về rail GND và cực âm nguồn. Kiểm tra thông mạch và rail bị tách khi chưa cấp nguồn.</p></details>
 
       <!-- BẢNG ĐO -->
       <div class="measurement-box">

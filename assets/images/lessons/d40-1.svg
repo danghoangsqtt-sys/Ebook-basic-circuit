@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 610" role="img" aria-labelledby="title desc"><title id="title">HC-SR04 · đo khoảng cách</title><desc id="desc">HC-SR04 ElecFreaks dùng VCC 5V GND, nhận xung TRIG mức cao ít nhất 10 micro giây, phát tám chu kỳ 40 kHz, ECHO có độ rộng ứng với thời gian đi về. Với ESP32 hạ mức ECHO 5V qua chia áp trước GPIO.</desc><rect width="400" height="610" rx="16" fill="#10233b"/>
+<text x="20" y="38" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20" font-weight="700">HC-SR04 · đo khoảng cách</text>
+<text x="20" y="65" fill="#fbbf24" font-family="Arial,sans-serif" font-size="13" font-weight="400">Theo module ElecFreaks; kiểm phiên bản khác.</text>
+<rect x="22" y="93" width="134" height="52" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="89.0" y="124.0" fill="#f8fafc" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">MCU · TRIG</text>
+<line x1="156" y1="119" x2="235" y2="119" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<text x="196" y="106" fill="#34d399" font-family="Arial,sans-serif" font-size="13" font-weight="700" text-anchor="middle">≥10 µs</text>
+<rect x="235" y="91" width="143" height="56" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="306.5" y="124.66666666666667" fill="#f8fafc" font-family="Arial,sans-serif" font-size="17" font-weight="700" text-anchor="middle">HC-SR04</text>
+<rect x="22" y="178" width="134" height="49" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="89.0" y="207.5" fill="#f8fafc" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">Nguồn 5 V</text>
+<line x1="156" y1="202" x2="235" y2="202" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<text x="245" y="202" fill="#34d399" font-family="Arial,sans-serif" font-size="14" font-weight="700">VCC</text>
+<rect x="235" y="260" width="143" height="67" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="306.5" y="286" fill="#f8fafc" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">8 × 40 kHz</text>
+<text x="306" y="311" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="13" font-weight="400" text-anchor="middle">phát / nhận</text>
+<line x1="306" y1="147" x2="306" y2="260" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<rect x="235" y="356" width="143" height="57" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="306.5" y="389.5" fill="#f8fafc" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">ECHO 5 V</text>
+<line x1="306" y1="327" x2="306" y2="356" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<line x1="235" y1="384" x2="155" y2="384" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<rect x="22" y="357" width="133" height="55" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="88.5" y="388.8333333333333" fill="#f8fafc" font-family="Arial,sans-serif" font-size="13" font-weight="700" text-anchor="middle">Chia áp 10k/15k</text>
+<text x="22" y="442" fill="#34d399" font-family="Arial,sans-serif" font-size="14" font-weight="700">ECHO đã hạ mức → GPIO ESP32</text>
+<text x="22" y="481" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="14" font-weight="400">t_ECHO ≈ thời gian âm đi + về.</text>
+<text x="22" y="510" fill="#f8fafc" font-family="Arial,sans-serif" font-size="16" font-weight="700">d = t_ECHO × 340 m/s ÷ 2</text>
+<text x="22" y="539" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="14" font-weight="400">d (cm) ≈ t_ECHO (µs) ÷ 58; có timeout.</text>
+<text x="22" y="570" fill="#fbbf24" font-family="Arial,sans-serif" font-size="13" font-weight="400">VCC 5 V, GND cảm biến và MCU nối chung.</text>
+</svg>

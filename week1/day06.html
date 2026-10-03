@@ -82,20 +82,11 @@
 
       <h4>Ví dụ áp dụng KVL — Mạch 3 điện trở</h4>
 
-      <div class="circuit-ascii">  Mạch: 5V → R1(1kΩ) → R2(2kΩ) → R3(2kΩ) → GND
-
-   Áp dụng KVL theo chiều kim đồng hồ:
-   +V_supply – V_R1 – V_R2 – V_R3 = 0
-   5 – V_R1 – V_R2 – V_R3 = 0
-
-   R_total = 1k + 2k + 2k = 5kΩ
-   I = 5V / 5kΩ = 1 mA
-
-   V_R1 = 1mA × 1kΩ = 1V
-   V_R2 = 1mA × 2kΩ = 2V
-   V_R3 = 1mA × 2kΩ = 2V
-
-   Kiểm tra: 5 – 1 – 2 – 2 = 0 ✓</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d06-1.svg" width="360" height="430" loading="lazy" decoding="async" alt="Nguồn 5 V nối tiếp R1 = 1 kΩ, R2 = 2 kΩ, R3 = 2 kΩ rồi về GND. Dòng một nhánh 1 mA; sụt áp 1 V, 2 V, 2 V; 5 − 1 − 2 − 2 = 0.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D06-1 — KVL: nguồn 5 V nối tiếp R1, R2, R3</div><div class="figure-text">Nguồn 5 V nối tiếp R1 = 1 kΩ, R2 = 2 kΩ, R3 = 2 kΩ rồi về GND. Dòng một nhánh 1 mA; sụt áp 1 V, 2 V, 2 V; 5 − 1 − 2 − 2 = 0.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d06-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D06-1</summary><p>Nguồn 5 V nối tiếp R1 = 1 kΩ, R2 = 2 kΩ, R3 = 2 kΩ rồi về GND. Dòng một nhánh 1 mA; sụt áp 1 V, 2 V, 2 V; 5 − 1 − 2 − 2 = 0.</p></details>
 
       <div class="callout callout-tip">
         <div class="callout-header"><span class="callout-icon">💡</span> KVL dùng để debug</div>
@@ -116,31 +107,22 @@
         </div>
       </div>
 
-      <div class="circuit-ascii">  Minh họa KCL tại node A:
-
-          I_1 = 5mA
-          ↓
-  ────────A────────
-          │   ↗ I_3 = ?
-          ↓ I_2 = 3mA
-
-  KCL: I_1 = I_2 + I_3
-       5mA = 3mA + I_3
-       I_3 = 2mA ↗
-
-  Tổng dòng vào (I_1 = 5mA) = Tổng dòng ra (3mA + 2mA = 5mA) ✓</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d06-2.svg" width="360" height="330" loading="lazy" decoding="async" alt="Dòng I1 = 5 mA đi vào nút A. Hai dòng đi ra: I2 = 3 mA xuống dưới và I3 đi sang phải. KCL cho I3 = 5 − 3 = 2 mA.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D06-2 — KCL tại nút A</div><div class="figure-text">Dòng I1 = 5 mA đi vào nút A. Hai dòng đi ra: I2 = 3 mA xuống dưới và I3 đi sang phải. KCL cho I3 = 5 − 3 = 2 mA.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d06-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D06-2</summary><p>Dòng I1 = 5 mA đi vào nút A. Hai dòng đi ra: I2 = 3 mA xuống dưới và I3 đi sang phải. KCL cho I3 = 5 − 3 = 2 mA.</p></details>
 
       <!-- PHẦN 3 — CẦU CHIA ÁP -->
       <h2>3. Cầu chia áp — Voltage Divider</h2>
 
       <p>Cầu chia áp là mạch gồm 2 điện trở mắc nối tiếp giữa nguồn và GND, lấy điện áp đầu ra tại điểm giữa. Đây là một trong những cấu trúc mạch được dùng nhiều nhất trong điện tử analog: đọc cảm biến, thiết lập điểm làm việc transistor, tạo điện áp tham chiếu.</p>
 
-      <div class="circuit-ascii">  Cầu chia áp cơ bản:
-
-   VCC ──[R1]──┬──[R2]── GND
-               │
-             V_out
-              (đo tại đây so với GND)</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d06-3.svg" width="360" height="410" loading="lazy" decoding="async" alt="VCC nối tiếp R1 rồi R2 xuống GND. Điểm giữa R1 và R2 là Vout, đo so với GND.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D06-3 — Cầu chia áp cơ bản</div><div class="figure-text">VCC nối tiếp R1 rồi R2 xuống GND. Điểm giữa R1 và R2 là Vout, đo so với GND.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d06-3.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D06-3</summary><p>VCC nối tiếp R1 rồi R2 xuống GND. Điểm giữa R1 và R2 là Vout, đo so với GND.</p></details>
 
       <div class="formula-block">
         <div class="formula-main">V_out = V_in × R2 / (R1 + R2)</div>
@@ -169,25 +151,15 @@
 
       <p>Khi nối một tải (load) vào V_out của cầu chia áp, tải này mắc song song với R2. Điện trở tương đương R2 || R_load nhỏ hơn R2 → V_out giảm xuống so với tính toán. Đây là <strong>loading effect</strong> (hiệu ứng tải).</p>
 
-      <div class="circuit-ascii">  Cầu chia áp với tải R_load:
-
-   VCC ──[R1=10kΩ]──┬──[R2=10kΩ]── GND
-                     │
-                  V_out
-                     │
-                [R_load]
-                     │
-                    GND
-
-   R2 || R_load = (10k × R_load) / (10k + R_load)
-
-   Nếu R_load = 10kΩ: R_eq = 5kΩ → V_out = 5 × 5/(10+5) = 1,67V (thay vì 2,5V!)
-   Nếu R_load = 100kΩ: R_eq = 9,09kΩ → V_out = 5 × 9,09/(10+9,09) = 2,38V (gần 2,5V hơn)
-   Nếu R_load = ∞ (không tải): V_out = 2,5V (lý thuyết)</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d06-4.svg" width="360" height="420" loading="lazy" decoding="async" alt="VCC qua R1 = 10 kΩ tới Vout. Từ Vout xuống GND có R2 = 10 kΩ song song với R_load.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D06-4 — Cầu chia áp có tải R_load</div><div class="figure-text">VCC qua R1 = 10 kΩ tới Vout. Từ Vout xuống GND có R2 = 10 kΩ song song với R_load.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d06-4.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D06-4</summary><p>VCC qua R1 = 10 kΩ tới Vout. Từ Vout xuống GND có R2 = 10 kΩ song song với R_load.</p></details>
 
       <div class="callout callout-warning">
         <div class="callout-header"><span class="callout-icon">⚠️</span> Quy tắc ngón tay cái cho cầu chia áp</div>
-        <p>Để loading effect không đáng kể (&lt;1%): R_load ≥ 100 × (R1 || R2). Ví dụ: cầu chia áp dùng R1=R2=10kΩ, trở kháng tương đương = 5kΩ. Tải cần ≥ 500 kΩ để không ảnh hưởng. ADC của ESP32 có trở kháng vào ~1 MΩ — khá ổn với cầu chia áp 10kΩ. Nhưng op-amp non-inverting có trở kháng vào hàng GΩ — lý tưởng nhất.</p>
+        <p>Để loading effect của tải thuần trở không đáng kể (&lt;1%): R_load ≥ 100 × (R1 || R2). Ví dụ: cầu chia áp R1=R2=10kΩ có trở kháng Thévenin 5kΩ; tải thuần trở cần ≥500kΩ theo xấp xỉ này. ADC SAR của ESP32 không thể thay bằng một điện trở vào cố định 1MΩ: tụ lấy mẫu, thời gian ổn định, mức attenuation và hiệu chuẩn ảnh hưởng phép đo. Kiểm hướng dẫn ADC của đúng chip/board và đo lại với cầu chia áp thực tế; <a href="https://docs.espressif.com/projects/esp-faq/en/latest/software-framework/peripherals/adc.html" target="_blank" rel="noopener">Espressif ADC FAQ</a>.</p>
       </div>
 
       <!-- PHẦN 4 — CẢM BIẾN LDR -->
@@ -197,17 +169,11 @@
 
       <p>Bằng cách kết hợp LDR vào cầu chia áp với một điện trở cố định R, ta chuyển đổi sự thay đổi điện trở (khó đo) thành sự thay đổi điện áp (dễ đo bằng ADC). Đây là nguyên lý của hầu hết giao diện cảm biến điện trở.</p>
 
-      <div class="circuit-ascii">  Cầu chia áp LDR — Cảm biến ánh sáng:
-
-   VCC(3.3V) ──[R_fixed=10kΩ]──┬──[R_LDR]── GND
-                                │
-                             V_out → ESP32 ADC
-
-   Khi tối: R_LDR lớn (1MΩ) → V_out ≈ 3,3 × 1M/(10k+1M) ≈ 3,27V (gần VCC)
-   Khi sáng: R_LDR nhỏ (1kΩ) → V_out ≈ 3,3 × 1k/(10k+1k) ≈ 0,30V (thấp)
-
-   → Môi trường sáng thì V_out thấp, tối thì V_out cao
-   → Đảo chiều bằng cách hoán đổi vị trí R_fixed và R_LDR</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d06-5.svg" width="360" height="420" loading="lazy" decoding="async" alt="3,3 V qua R_fixed 10 kΩ tới nút Vout, rồi LDR xuống GND. Vout đi tới đầu vào ADC của ESP32. Trời sáng R_LDR nhỏ nên Vout thấp.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D06-5 — Cầu chia áp LDR cho ADC</div><div class="figure-text">3,3 V qua R_fixed 10 kΩ tới nút Vout, rồi LDR xuống GND. Vout đi tới đầu vào ADC của ESP32. Trời sáng R_LDR nhỏ nên Vout thấp.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d06-5.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D06-5</summary><p>3,3 V qua R_fixed 10 kΩ tới nút Vout, rồi LDR xuống GND. Vout đi tới đầu vào ADC của ESP32. Trời sáng R_LDR nhỏ nên Vout thấp.</p></details>
 
       <!-- VIDEO -->
       <div class="video-card">
@@ -239,7 +205,7 @@
       <div class="callout callout-practice">
         <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành B: Cầu chia áp với LDR</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Lắp mạch: 3,3V (hoặc 5V) → R_fixed(10kΩ) → R_LDR → GND. Đo V_out tại điểm giữa (junction R_fixed và LDR).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nếu V_out nối ADC ESP32 như sơ đồ D06-5, chỉ cấp phân áp từ 3,3V: 3,3V → R_fixed(10kΩ) → V_out → R_LDR → GND. Đo V_out tại điểm giữa. Biến thể cấp 5V chỉ để đo bằng multimeter độc lập; tuyệt đối không nối V_out 5V vào GPIO/ADC ESP32.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Che LDR bằng tay (tối): đo V_out. Ghi kết quả.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Chiếu đèn pin vào LDR (sáng): đo V_out. Ghi kết quả.</p></div></li>
           <li class="step-item"><div class="step-content"><p>So sánh hai giá trị. LDR nào ở trên (R_fixed hay R_LDR) quyết định V_out tăng hay giảm khi có ánh sáng?</p></div></li>

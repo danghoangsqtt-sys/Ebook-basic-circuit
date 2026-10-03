@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 485" role="img" aria-labelledby="title desc"><title id="title">Tụ tách nguồn sát IC</title><desc id="desc">Tụ 100 nF mắc trực tiếp giữa VCC và GND sát chân nguồn IC. Dòng xung đi thành vòng ngắn từ tụ qua chân VCC qua IC rồi trở lại tụ qua GND. Giá trị tụ và layout cuối cùng theo datasheet từng IC.</desc><rect width="400" height="485" rx="16" fill="#10233b"/>
+<text x="20" y="38" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20" font-weight="700">Tụ tách nguồn sát IC</text>
+<text x="20" y="68" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="14" font-weight="400">Vòng dòng chuyển mạch càng ngắn càng tốt.</text>
+<line x1="160" y1="128" x2="323" y2="128" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<text x="22" y="132" fill="#34d399" font-family="Arial,sans-serif" font-size="14" font-weight="700">VCC</text>
+<rect x="165" y="172" width="75" height="57" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="202.5" y="205.16666666666666" fill="#f8fafc" font-family="Arial,sans-serif" font-size="14" font-weight="700" text-anchor="middle">100 nF</text>
+<rect x="249" y="172" width="93" height="113" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="295.5" y="234.5" fill="#f8fafc" font-family="Arial,sans-serif" font-size="18" font-weight="700" text-anchor="middle">IC</text>
+<line x1="203" y1="128" x2="203" y2="172" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<line x1="296" y1="128" x2="296" y2="172" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<line x1="203" y1="229" x2="203" y2="325" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<line x1="296" y1="285" x2="296" y2="325" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<line x1="160" y1="325" x2="323" y2="325" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<text x="22" y="330" fill="#34d399" font-family="Arial,sans-serif" font-size="14" font-weight="700">GND</text>
+<text x="20" y="371" fill="#f8fafc" font-family="Arial,sans-serif" font-size="14" font-weight="700">Đặt tụ giữa chân nguồn và GND IC.</text>
+<text x="20" y="398" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="14" font-weight="400">Đường GND về chân IC/plane ngắn, liền.</text>
+<text x="20" y="439" fill="#fbbf24" font-family="Arial,sans-serif" font-size="13" font-weight="400">Giá trị &amp; số tụ: theo datasheet IC/board.</text>
+</svg>

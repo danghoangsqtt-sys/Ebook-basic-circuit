@@ -6,7 +6,7 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 
 ### Tài liệu
 
-- Lập kế hoạch tái biên soạn Phase 7–10: kiểm lại 80 sơ đồ ký tự, sửa sáu ví dụ người đọc báo, mở rộng linh kiện/lý thuyết mạch/điện tử số/MCU/cảm biến và đồ án; 21 task đang ở trạng thái TODO, chưa sửa bài học.
+- Đang triển khai Phase 7 của kế hoạch tái biên soạn Phase 7–10: đã kiểm kê 56 bài, 80 ID sơ đồ và 17 claim; thay 80 khối ASCII bằng 70 SVG và 10 tham chiếu HTML có thể đọc được. Đã đồng bộ 56 nhãn menu và sửa các lỗi kỹ thuật phát hiện trong audit; các bài chuyên sâu Phase 8–10 chưa bắt đầu.
 - Thêm 14 sơ đồ tổng quan theo nội dung Bài 1–14 và bốn ảnh linh kiện CC0/miền công cộng có ghi nguồn; kiểm tra 320/390/1280 px.
 - Thêm 14 sơ đồ Bài 15–28 và ba ảnh CC0 cho BJT, MOSFET, DHT22; chú thích rõ giới hạn suy luận từ ảnh linh kiện.
 - Thêm 14 sơ đồ Bài 29–42 và ba ảnh CC0 cho máy hiện sóng, PCB, cell Li-ion; sửa minh họa robot dùng đúng driver TB6612FNG.

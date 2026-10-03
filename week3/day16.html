@@ -57,11 +57,11 @@
           <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
           <tbody>
             <tr><td>Transistor NPN BC337</td><td>45V, 800mA — đủ mạnh cho relay</td><td>2</td></tr>
-            <tr><td>Relay 5V (cuộn 5V, contact 250VAC/10A)</td><td>5V coil, 1 cuộn ~70–80Ω</td><td>1</td></tr>
+            <tr><td>Relay cuộn 5V</td><td>Ví dụ tính với R_coil=70Ω; đo cuộn và kiểm dòng, chân, định mức theo đúng mã relay. Thực hành chỉ dùng tải DC áp thấp.</td><td>1</td></tr>
             <tr><td>Diode 1N4007</td><td>Freewheeling</td><td>2</td></tr>
             <tr><td>Motor DC 5V nhỏ (FA-130 hoặc tương đương)</td><td>Tùy chọn — nếu có</td><td>1</td></tr>
             <tr><td>Buzzer 5V active</td><td>Có oscillator nội — chỉ cần cấp VCC là kêu</td><td>1</td></tr>
-            <tr><td>Điện trở 1kΩ, 2,2kΩ, 10kΩ</td><td>¼W</td><td>3 mỗi loại</td></tr>
+            <tr><td>Điện trở 330Ω, 470Ω, 1kΩ, 2,2kΩ, 10kΩ</td><td>¼W; 330Ω cho base và 470Ω cho LED tiếp điểm</td><td>3 mỗi loại</td></tr>
             <tr><td>Nguồn 5V + breadboard + multimeter</td><td>—</td><td>1 bộ</td></tr>
           </tbody>
         </table>
@@ -70,33 +70,22 @@
       <!-- PHẦN 1 — TẠI SAO CẦN TRANSISTOR DRIVER -->
       <h2>1. Tại sao GPIO không trực tiếp chạy relay?</h2>
 
-      <p>GPIO của ESP32 hay Arduino chỉ cung cấp tối đa <strong>12–40 mA</strong> mỗi pin (an toàn là &lt; 10mA với ESP32). Trong khi đó, cuộn dây relay 5V thông thường cần <strong>50–100 mA</strong> để đóng tiếp điểm. Nếu kết nối trực tiếp:</p>
+      <p>Khả năng cấp dòng của GPIO phụ thuộc đúng vi điều khiển, chân và cấu hình drive. Cuộn relay trong ví dụ cần khoảng 71 mA ở 5 V, nên không được cấp trực tiếp từ GPIO; hãy kiểm giới hạn chân điều khiển và nguồn theo datasheet của phần cứng đang dùng.</p>
       <ul>
         <li>GPIO cung cấp không đủ dòng → relay không đóng hoặc đóng không chắc</li>
         <li>GPIO bị kéo dòng quá mức → vi điều khiển nóng, giảm tuổi thọ hoặc hỏng ngay</li>
       </ul>
 
-      <p><strong>Giải pháp:</strong> Dùng transistor NPN làm driver. GPIO cung cấp dòng nhỏ vào Base (~1–5mA), transistor khuếch đại thành dòng lớn hơn (50–100mA) chạy cuộn relay từ nguồn 5V riêng.</p>
+      <p><strong>Giải pháp:</strong> Dùng transistor NPN hoặc driver phù hợp. GPIO cấp dòng base theo điện trở đã tính; nguồn 5 V riêng cấp dòng cuộn relay. Cần kiểm dòng GPIO và dòng cuộn trên đúng linh kiện trước khi lắp.</p>
 
       <!-- PHẦN 2 — MẠCH RELAY HOÀN CHỈNH -->
       <h2>2. Mạch driver relay NPN hoàn chỉnh</h2>
 
-      <div class="circuit-ascii">  Mạch relay driver BC337 — sơ đồ chuẩn:
-
-  +5V ──[cuộn relay]──●── C (BC337)
-        │             │
-        └──[1N4007]────┘  D_fw: cathode ở +5V,
-                         anode ở nút Collector
-  GPIO 3,3V ──[R_B=330Ω]── B (BC337)
-  E (BC337) ── GND chung giữa nguồn 5V và ESP32
-
-  D_fw mắc NGƯỢC SONG SONG cuộn relay, bình thường không dẫn.
-  Không đặt diode nối tiếp cuộn relay.
-
-  Tiếp điểm relay (Contact) tách biệt với cuộn dây:
-  Khi GPIO=HIGH: cuộn có điện, COM nối NO; NC hở.
-  Khi GPIO=LOW:  cuộn mất điện, COM nối NC; NO hở.
-  COM không bao giờ nối đồng thời NO và NC.</div>
+      <figure class="figure figure--circuit" data-diagram-id="D16-1">
+        <img src="../assets/images/lessons/d16-1.svg" width="360" height="490" loading="lazy" decoding="async" alt="Nguồn +5 V qua cuộn relay đến collector BC337; emitter về GND. Diode 1N4007 mắc ngược song song cuộn: cathode tại +5 V, anode tại collector. GPIO 3,3 V qua R_B 330 Ω vào base; GND nguồn và GPIO nối chung. Tiếp điểm COM/NO/NC tách điện khỏi cuộn và chỉ dùng tải DC áp thấp trong bài.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D16-1</span> <span class="figure-text">Driver cuộn relay DC bằng BC337.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.onsemi.com/download/data-sheet/pdf/bc337-fsc-d.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d16-1.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>Nguồn +5 V qua cuộn relay đến collector BC337; emitter về GND. Diode 1N4007 mắc ngược song song cuộn: cathode tại +5 V, anode tại collector. GPIO 3,3 V qua R_B 330 Ω vào base; GND nguồn và GPIO nối chung. Tiếp điểm COM/NO/NC tách điện khỏi cuộn và chỉ dùng tải DC áp thấp trong bài.</p></details>
+      </figure>
 
       <h3>2.1 Tính toán mạch relay</h3>
 
@@ -107,30 +96,26 @@
       <p><strong>Bước 2: Chọn transistor</strong><br>
       I_C = 71mA → Chọn BC337 (I_C_max = 800mA). Hệ số an toàn tốt.</p>
 
-      <p><strong>Bước 3: Tính R_B (overdrive 10×, hFE_min BC337 = 100)</strong><br>
+      <p><strong>Bước 3: Tính R_B cho ví dụ BC337 (giả thiết β cưỡng bức ≈ 10)</strong><br>
       I_B_target = I_C / (hFE_min / 10) = 0,0714 / 10 = 7,14mA<br>
-      R_B = (V_GPIO – V_BE) / I_B = (3,3 – 0,7) / 0,00714 = 2,6 / 0,00714 = <strong>364Ω → chọn 330Ω</strong></p>
+      R_B = (V_GPIO – V_BE) / I_B = (3,3 – 0,7) / 0,00714 = 2,6 / 0,00714 = <strong>364Ω → chọn 330Ω</strong>. Dòng base gần 8 mA khi GPIO ở 3,3 V; chỉ dùng giá trị này nếu datasheet/chân điều khiển cho phép, nếu không hãy chọn driver khác.</p>
 
       <p><strong>Bước 4: Freewheeling diode</strong><br>
       Dùng 1N4007 mắc ngược song song cuộn relay: Cathode → VCC_5V; Anode → Collector transistor (điểm nối cuộn relay). Diode tạo đường hồi dòng khi GPIO→LOW ngắt cuộn dây.</p>
 
       <div class="callout callout-danger">
         <div class="callout-header"><span class="callout-icon">🚫</span> Không bao giờ bỏ qua diode freewheeling</div>
-        <p>Khi transistor ngắt, cuộn relay tạo spike điện áp cực cao (có thể 50–200V trong µs). Không có diode → spike này phá hủy transistor ngay lập tức. Đây là lỗi phổ biến nhất khi mới học điều khiển relay.</p>
+        <p>Khi transistor ngắt, năng lượng trong cuộn relay có thể làm điện áp ở collector tăng vượt giới hạn transistor. Diode mắc ngược song song cuộn tạo đường cho dòng cuộn suy giảm; kiểm đúng cực diode, dòng cuộn và thông số diode trước khi cấp nguồn.</p>
       </div>
 
       <!-- PHẦN 3 — BUZZER -->
       <h2>3. Điều khiển Buzzer Active 5V từ GPIO 3,3V</h2>
 
-      <div class="circuit-ascii">  Mạch buzzer với NPN switch:
-
-  +5V → cực (+) buzzer active → cực (–) buzzer → C transistor
-  GPIO 3,3V → R_B=2,2kΩ → B của BC547/BC337
-  E transistor → GND chung
-
-  I_buzzer thường = 30–50mA → BC547 đủ nếu I &lt; 100mA
-  Nếu buzzer vẫn kêu khi GPIO=LOW: kiểm tra R_B không bị nối tắt
-  Nếu buzzer không kêu khi GPIO=HIGH: R_B quá lớn → transistor không bão hòa</div>
+      <figure class="figure figure--circuit" data-diagram-id="D16-2">
+        <img src="../assets/images/lessons/d16-2.svg" width="360" height="653" loading="lazy" decoding="async" alt="Nguồn +5 V vào cực dương buzzer active; cực âm buzzer đến collector transistor; emitter về GND. GPIO 3,3 V qua điện trở base tới B. Chọn BC547/BC337 và điện trở theo dòng thực tế của buzzer, giới hạn GPIO và datasheet transistor; chung GND.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D16-2</span> <span class="figure-text">Công tắc NPN cho buzzer active DC.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.onsemi.com/pdf/datasheet/bc546-d.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d16-2.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>Nguồn +5 V vào cực dương buzzer active; cực âm buzzer đến collector transistor; emitter về GND. GPIO 3,3 V qua điện trở base tới B. Chọn BC547/BC337 và điện trở theo dòng thực tế của buzzer, giới hạn GPIO và datasheet transistor; chung GND.</p></details>
+      </figure>
 
       <div class="callout callout-tip">
         <div class="callout-header"><span class="callout-icon">💡</span> Buzzer Active vs Passive</div>

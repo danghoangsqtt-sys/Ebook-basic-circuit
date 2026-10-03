@@ -72,19 +72,11 @@
 
       <p>Khi đặt điện áp vào tụ điện qua một điện trở, tụ không nạp điện ngay lập tức đến điện áp nguồn. Thay vào đó, điện áp trên tụ tăng dần theo dạng hàm mũ. Lý do: ban đầu tụ chưa có điện tích nên dòng nạp lớn, nhưng khi tụ dần tích điện, điện áp ngược của tụ làm giảm dòng nạp → quá trình chậm lại.</p>
 
-      <div class="circuit-ascii">  Mạch RC nạp tụ:
-
-   +5 V ──[S]──[R = 100 kΩ]──●── V_C (đo so với GND)
-                            │
-                        [C = 100 µF]
-                            │
-    0 V ────────────────────┴── GND
-
-   Chỉ có một nhánh từ V_C xuống GND qua tụ; không nối tắt tụ.
-
-  Khi S đóng (t=0): V_C = 0V, dòng = V/R = 5/100k = 50 µA (lớn nhất)
-  Sau đó: V_C tăng dần → dòng giảm → V_C tiếp tục tăng nhưng chậm lại...
-  Cuối cùng: V_C ≈ V_supply, dòng ≈ 0 (tụ nạp đầy)</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d09-1.svg" width="360" height="320" loading="lazy" decoding="async" alt="Nguồn 5 V, công tắc S đang mở; đóng S để bắt đầu nạp qua R = 100 kΩ tới V_C. Tụ hóa 100 µF có cực dương tại V_C, cực âm tại GND; V_C đo so với GND.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D09-1 — Mạch RC nạp tụ</div><div class="figure-text">S đang mở; đóng S để bắt đầu nạp. Tụ hóa 100 µF/25 V: cực dương tại V_C, cực âm tại GND. Đo V_C so với GND.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; đối chiếu <a href="https://www.nichicon.co.jp/english/wp-content/uploads/CAT.8101.pdf" target="_blank" rel="noopener">hướng dẫn cực tính Nichicon</a>. <a href="../assets/images/lessons/d09-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D09-1</summary><p>Nguồn 5 V qua công tắc S đang mở và R 100 kΩ đến nút V_C; đóng S tại t=0 để bắt đầu nạp. Tụ hóa 100 µF/25 V có cực dương tại V_C, cực âm tại GND; đo V_C so với GND.</p></details>
 
       <h2>2. Hằng số thời gian τ (Tau)</h2>
 
@@ -157,7 +149,7 @@
         <div class="callout-header"><span class="callout-icon">💡</span> Ứng dụng RC filter trong thực tế</div>
         <ul>
           <li><strong>Debounce phím nhấn:</strong> R=10kΩ, C=100nF → f_c=159Hz → lọc nhiễu bounce tần số kHz</li>
-          <li><strong>Lọc nhiễu nguồn ADC:</strong> R=1kΩ, C=100nF → f_c=1,6kHz → lọc nhiễu 50Hz harmonics</li>
+          <li><strong>Lọc nhiễu trước ADC:</strong> R=1kΩ, C=100nF → f_c≈1,6kHz; suy giảm nhiễu có tần số cao hơn nhiều so với 1,6kHz. Mạch này hầu như không lọc thành phần 50/100Hz; chọn f_c thấp hơn nếu cần lọc chúng và vẫn phải giữ đủ băng thông tín hiệu.</li>
           <li><strong>Lọc âm thanh:</strong> R=10kΩ, C=1µF → f_c=15,9Hz → chỉ cho bass qua</li>
           <li><strong>Delay timer:</strong> R=100kΩ, C=100µF → τ=10s → delay bật đèn</li>
         </ul>
@@ -184,7 +176,7 @@
       <div class="callout callout-practice">
         <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Đo điện áp tụ theo thời gian thực</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Lắp mạch: 5V → R(100kΩ) → C(100µF) → GND. Đặt multimeter ở chế độ DCV đo hai đầu tụ.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Ngắt nguồn rồi lắp mạch: 5V → S → R(100kΩ) → V_C; tụ hóa 100µF/25V từ V_C (cực +) xuống GND (cực −). Kiểm vạch cực âm trên tụ trước khi cấp nguồn. Đặt multimeter ở chế độ DCV đo hai đầu tụ.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Dùng dây jumper làm công tắc: cắm để đóng mạch (t=0). Bắt đầu bấm giờ trên điện thoại.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Ghi điện áp tụ (V_C) tại t = 0, 5, 10, 15, 20, 30, 50 giây. Kỳ vọng τ = 10s.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Sau khi tụ nạp đầy (~50s), ngắt nguồn và nối tụ qua R (100kΩ). Quan sát tụ xả dần về 0V.</p></div></li>

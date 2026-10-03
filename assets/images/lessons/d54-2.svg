@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 505" role="img" aria-labelledby="title desc"><title id="title">Trở kháng đường hồi dòng chung</title><desc id="desc">Motor và mốc ADC dùng chung đoạn hồi dòng có trở kháng Zshared. Dòng motor biến thiên làm sụt áp trên Zshared, khiến mốc ADC dịch. Bố trí đường hồi dòng tải lớn tránh đường tham chiếu ADC và giữ ground plane liên tục.</desc><rect width="400" height="505" rx="16" fill="#10233b"/>
+<text x="20" y="38" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20" font-weight="700">Trở kháng đường hồi dòng chung</text>
+<text x="20" y="70" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="14" font-weight="400">Đường hồi dòng motor gây lệch mốc đo.</text>
+<rect x="25" y="110" width="117" height="58" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="83.5" y="143.66666666666666" fill="#f8fafc" font-family="Arial,sans-serif" font-size="14" font-weight="700" text-anchor="middle">Motor GND</text>
+<rect x="25" y="220" width="117" height="58" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="83.5" y="253.66666666666666" fill="#f8fafc" font-family="Arial,sans-serif" font-size="14" font-weight="700" text-anchor="middle">ADC GND</text>
+<line x1="142" y1="139" x2="215" y2="139" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<line x1="142" y1="249" x2="215" y2="249" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<line x1="215" y1="139" x2="215" y2="249" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<circle cx="215" cy="194" r="5" fill="#fbbf24"/>
+<text x="223" y="184" fill="#fbbf24" font-family="Arial,sans-serif" font-size="13" font-weight="400">nút chung</text>
+<line x1="215" y1="194" x2="270" y2="194" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<rect x="270" y="167" width="103" height="54" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="321.5" y="198.33333333333334" fill="#f8fafc" font-family="Arial,sans-serif" font-size="13" font-weight="700" text-anchor="middle">Zshared</text>
+<line x1="322" y1="221" x2="322" y2="290" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<rect x="255" y="290" width="132" height="56" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="321.0" y="322.6666666666667" fill="#f8fafc" font-family="Arial,sans-serif" font-size="14" font-weight="700" text-anchor="middle">Nguồn GND</text>
+<text x="20" y="385" fill="#f8fafc" font-family="Arial,sans-serif" font-size="14" font-weight="700">ΔV tại nút chung ≈ I_motor × Zshared.</text>
+<text x="20" y="418" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="14" font-weight="400">Giữ dòng motor xa mốc ADC; đường về</text>
+<text x="20" y="441" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="14" font-weight="400">ngắn, rộng và plane GND không bị cắt.</text>
+</svg>

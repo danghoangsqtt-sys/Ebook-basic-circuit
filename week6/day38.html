@@ -55,24 +55,11 @@
 
       <p>Stepper motor quay theo từng bước rời rạc khi xung điện được gửi đến cuộn dây. Motor NEMA 17 phổ biến: 200 bước/vòng = 1,8°/step. Không cần encoder — vị trí được kiểm soát bằng đếm số bước.</p>
 
-      <div class="circuit-ascii">  Kết nối A4988 driver với NEMA 17:
-
-  Arduino Uno      A4988 carrier                Stepper lưỡng cực
-  GPIO13 ──────── STEP      1A,1B ─────────── một cuộn motor
-  GPIO12 ──────── DIR       2A,2B ─────────── cuộn motor còn lại
-  5V logic ────── VDD       VMOT  ─────────── nguồn motor 8–35V
-  GND chung ───── GND       GND   ─────────── GND nguồn motor
-  VDD ─────────── SLP và RST    (giữ cả hai HIGH)
-  GND ─────────── EN            (EN active-low: LOW để chạy)
-  Với ESP32 dùng VDD=3,3V để khớp mức GPIO; không đưa 5V vào GPIO ESP32.
-  MS1,MS2,MS3: để hở trên carrier Pololu = full-step; xem board khác.
-  Tụ điện phân ≥47µF mắc giữa VMOT và GND sát carrier.
-  Xác định cặp cuộn bằng ohmmeter, không dựa duy nhất vào màu dây.
-
-  Giới hạn dòng: I_limit = V_ref / (8 × R_sense).
-  Ví dụ carrier Pololu mới R_sense=0,068Ω, I_limit=1A → V_ref≈0,54V;
-  bản cũ R_sense=0,050Ω → V_ref=0,40V. Board khác phải đọc R_sense
-  và hướng dẫn nhà sản xuất; đặt theo định mức motor và khả năng tản nhiệt.</div>
+      <figure class="figure" id="diagram-D38-1">
+        <img src="../assets/images/lessons/d38-1.svg" width="400" height="640" style="max-width:400px;margin-inline:auto" loading="lazy" decoding="async" alt="MCU nối STEP DIR vào carrier A4988 Pololu; logic VDD 3,3 hoặc 5 V, VMOT 8 đến 35 V; hai cặp đầu ra 1A 1B và 2A 2B nối hai cuộn motor, nguồn motor có tụ 47 microfarad gần VMOT GND.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D38-1 — Carrier A4988 Pololu</div><div class="figure-text">Sơ đồ chức năng cho carrier Pololu mã 1182; kiểm tra pinout đúng board trước khi cắm. <a href="../assets/images/lessons/d38-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.pololu.com/product/1182" target="_blank" rel="noopener">Pololu A4988 carrier product 1182</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả sơ đồ D38-1 bằng chữ</summary><p>MCU nối STEP và DIR tới carrier. VDD nhận nguồn logic 3–5,5 V phù hợp MCU; VMOT nhận nguồn motor 8–35 V theo Pololu. GND logic và GND nguồn motor phải nối chung. Tụ điện phân ít nhất 47 µF mắc song song giữa VMOT và GND sát carrier, đúng cực. Đầu 1A/1B nối một cuộn; 2A/2B nối cuộn còn lại, xác định bằng ohmmeter. Nếu không điều khiển, RST và SLP kéo lên VDD, EN kéo xuống GND để bật. Ngắt nguồn trước khi cắm/rút motor. Đặt giới hạn dòng theo đúng điện trở sense và hướng dẫn của carrier đang dùng.</p></details>
 
       <p>Đối chiếu <a href="https://www.pololu.com/product/1182" target="_blank" rel="noopener">hướng dẫn carrier A4988 của Pololu</a> cho biến thể board đang dùng. Ngắt nguồn trước khi cắm/rút dây motor; không đo dòng cuộn bằng dòng tại nguồn VMOT.</p>
 

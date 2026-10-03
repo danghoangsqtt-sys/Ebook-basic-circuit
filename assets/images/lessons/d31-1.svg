@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-labelledby="title desc"><title id="title">Bộ lọc RC thông thấp và thông cao</title><desc id="desc">Thông thấp: Vin qua R nối tiếp tới Vout, tụ C từ Vout xuống GND. Thông cao: Vin qua tụ C nối tiếp tới Vout, điện trở R từ Vout xuống GND.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="400" height="300" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M20 90 H55 M110 90 H175 M220 90 H250 M300 90 H370 M335 90 V200 M150 90 V140 M150 200 V150 M250 90 H270 M300 90 H280"/>
+<text x="95" y="30" class="b" text-anchor="middle">LPF (thông thấp)</text>
+<text x="300" y="30" class="b" text-anchor="middle">HPF (thông cao)</text>
+<circle cx="20" cy="90" r="4.5" class="c"/>
+<text x="20" y="72" class="b">Vin</text>
+<rect class="c" x="55" y="77" width="55" height="26" rx="4"/>
+<text x="82" y="95" class="b" text-anchor="middle">R</text>
+<circle cx="150" cy="90" r="4.5" class="n"/>
+<path class="k" d="M133 140 H167 M133 150 H167"/>
+<text x="172" y="150" class="b">C</text>
+<path class="w" d="M150 200 V210 M135 210 H165 M140 216 H160 M145 222 H155"/>
+<circle cx="175" cy="90" r="4.5" class="c"/>
+<text x="175" y="72" class="b" text-anchor="end">Vout</text>
+<circle cx="220" cy="90" r="4.5" class="c"/>
+<text x="220" y="72" class="b">Vin</text>
+<path class="k" d="M270 73 V107 M280 73 V107"/>
+<text x="275" y="66" class="b" text-anchor="middle">C</text>
+<circle cx="335" cy="90" r="4.5" class="n"/>
+<rect class="c" x="322" y="120" width="26" height="50" rx="4"/>
+<text x="357" y="150" class="b">R</text>
+<path class="w" d="M335 200 V210 M320 210 H350 M325 216 H345 M330 222 H340"/>
+<circle cx="370" cy="90" r="4.5" class="c"/>
+<text x="370" y="72" class="b" text-anchor="end">Vout</text>
+<text x="15" y="252" class="m">f thấp: X_C lớn → Vout ≈ Vin</text>
+<text x="15" y="269" class="m">f cao: X_C nhỏ → Vout giảm</text>
+<text x="215" y="252" class="m">f cao: X_C nhỏ → Vout ≈ Vin</text>
+<text x="215" y="269" class="m">f thấp: X_C lớn → Vout giảm</text>
+<text x="200" y="290" class="b" text-anchor="middle">Cả hai: f_c = 1/(2πRC)</text>
+</svg>

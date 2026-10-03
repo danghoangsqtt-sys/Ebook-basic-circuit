@@ -86,22 +86,11 @@
         <li><strong>Source (S)</strong> — Cực phát dòng (tương đương Emitter của BJT)</li>
       </ul>
 
-      <div class="circuit-ascii">  So sánh MOSFET NMOS và BJT NPN:
-
-       NMOS:              NPN BJT:
-         D                   C
-         │                   │
-   G ────┤                B ──┤
-         │                   │
-         S                   E
-
-  MOSFET điều khiển bằng V_GS (điện áp)
-  BJT điều khiển bằng I_B (dòng điện)
-
-  IRLZ44N chân TO-220 (nhìn mặt phẳng + chữ):
-  [G  D  S]
-  Gate = trái, Drain = giữa, Source = phải
-  (LUÔN kiểm tra datasheet — thứ tự khác nhau)</div>
+      <figure class="figure figure--circuit" data-diagram-id="D18-1">
+        <img src="../assets/images/lessons/d18-1.svg" width="360" height="365" loading="lazy" decoding="async" alt="IRLZ44N Infineon TO-220 nhìn mặt chữ, chân hướng xuống: G (1), D (2), S (3); tab kim loại cũng là D. BJT NPN điều khiển bằng dòng base; NMOS điều khiển bởi điện áp VGS. RDS(on) IRLZ44N chỉ bảo đảm tại VGS được nêu trong datasheet, không có bảo đảm tại 3,3 V.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D18-1</span> <span class="figure-text">IRLZ44N TO-220 và hai loại transistor.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.infineon.com/assets/row/public/documents/24/49/infineon-irlz44n-datasheet-en.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d18-1.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>IRLZ44N Infineon TO-220 nhìn mặt chữ, chân hướng xuống: G (1), D (2), S (3); tab kim loại cũng là D. BJT NPN điều khiển bằng dòng base; NMOS điều khiển bởi điện áp VGS. RDS(on) IRLZ44N chỉ bảo đảm tại VGS được nêu trong datasheet, không có bảo đảm tại 3,3 V.</p></details>
+      </figure>
 
       <!-- PHẦN 2 — HOẠT ĐỘNG -->
       <h2>2. Nguyên lý hoạt động NMOS</h2>
@@ -141,17 +130,11 @@
       <!-- PHẦN 4 — THIẾT KẾ SWITCH NMOS -->
       <h2>4. Thiết kế mạch switch NMOS — Điều khiển motor DC</h2>
 
-      <div class="circuit-ascii">  NMOS Switch chuẩn điều khiển motor DC:
-
-  Nhánh tải: +V_motor → Motor DC → nút D → Drain IRLZ44N
-  Diode: cathode 1N4007 → +V_motor; anode → nút D
-         (mắc ngược SONG SONG motor, không nối tiếp motor)
-  Source IRLZ44N → GND chung với nguồn motor và ESP32
-  GPIO 3,3V → R_G=100Ω → Gate IRLZ44N
-  Gate → R_GS=10kΩ → Source (pull-down)
-
-  R_G (100Ω): giới hạn dòng đỉnh khi sạc Gate capacitance → chống dao động
-  R_GS (10kΩ): đảm bảo V_GS=0 khi GPIO=Z hoặc không nối → MOSFET OFF chắc chắn</div>
+      <figure class="figure figure--circuit" data-diagram-id="D18-2">
+        <img src="../assets/images/lessons/d18-2.svg" width="360" height="520" loading="lazy" decoding="async" alt="Nguồn motor qua motor tới drain MOSFET; source về GND nguồn motor và GPIO. Diode flyback mắc song song motor, cathode về +V_motor, anode về drain. GPIO qua R_G 100 Ω đến gate; R_GS 10 kΩ nối gate–source. IRLZ44N không được bảo đảm RDS(on) tại VGS 3,3 V: chọn FET đúng áp gate hoặc driver; kiểm dòng khởi động motor và diode.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D18-2</span> <span class="figure-text">Công tắc NMOS kéo thấp cho motor DC.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.infineon.com/assets/row/public/documents/24/49/infineon-irlz44n-datasheet-en.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d18-2.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>Nguồn motor qua motor tới drain MOSFET; source về GND nguồn motor và GPIO. Diode flyback mắc song song motor, cathode về +V_motor, anode về drain. GPIO qua R_G 100 Ω đến gate; R_GS 10 kΩ nối gate–source. IRLZ44N không được bảo đảm RDS(on) tại VGS 3,3 V: chọn FET đúng áp gate hoặc driver; kiểm dòng khởi động motor và diode.</p></details>
+      </figure>
 
       <div class="callout callout-danger">
         <div class="callout-header"><span class="callout-icon">🚫</span> ESD Gate — không chạm trực tiếp vào Gate</div>
@@ -177,11 +160,11 @@
       <h2>5. Thực hành: Mạch NMOS switch điều khiển motor/LED strip</h2>
 
       <div class="callout callout-practice">
-        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: IRLZ44N switch motor DC</div>
+        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: chọn MOSFET đúng mức Gate rồi đóng cắt motor DC</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Xác định chân IRLZ44N từ datasheet: G=1, D=2, S=3 (TO-220 nhìn mặt phẳng chữ). Đánh dấu trước.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Trước khi lắp, xác định đúng mã MOSFET, hãng và chân từ datasheet. Với GPIO 3,3V, chỉ dùng MOSFET có R_DS(on) được bảo đảm tại V_GS không cao hơn 3,3V ở dòng tải cần thiết, hoặc dùng driver Gate phù hợp. IRLZ44N ở ví dụ hình chỉ để phân tích; không tự động thay vào mạch GPIO 3,3V.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Lắp mạch: R_G(100Ω) từ GPIO vào Gate; R_GS(10kΩ) từ Gate xuống Source. Motor từ +V_motor đến Drain, Source xuống GND chung. Bắt buộc mắc diode ngược song song motor: cathode ở +V_motor, anode ở Drain. Nếu thay bằng LED strip, kiểm tra giới hạn dòng và cực tính của strip.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Chạm đầu R_G vào 3,3V: motor quay hoặc LED sáng. Chạm vào GND: tắt.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Kiểm dòng khởi động/kẹt trục của motor, định mức diode, nguồn và nhiệt của MOSFET; chỉ cấp nguồn sau khi các giới hạn đều đạt. Đưa đầu R_G lên mức Gate đã xác minh rồi về GND để thử bật/tắt. Không dùng GPIO 3,3V với IRLZ44N chỉ dựa trên V_GS(th).</p></div></li>
           <li class="step-item"><div class="step-content"><p>Đo V_DS khi ON và ước lượng P≈V_DS×I_motor; ngắt nguồn nếu MOSFET nóng. Giá trị R_DS(on)=22mΩ trong datasheet IRLZ44N được chỉ định tại V_GS=10V, không bảo đảm tại GPIO 3,3V.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Thử PWM bằng <code>analogWrite</code> (Arduino Uno) hoặc LEDC/analogWrite của Arduino-ESP32 sau khi cấu hình pin. Duty 50% có thể cho tốc độ thấp hơn nhưng không cố định bằng nửa tốc độ.</p></div></li>
         </ol>

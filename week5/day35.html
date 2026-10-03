@@ -63,11 +63,11 @@
       <div class="callout callout-note">
         <div class="callout-header"><span class="callout-icon">📋</span> Thông số kỹ thuật</div>
         <ul>
-          <li><strong>IC:</strong> LM2596S-5.0 (TO-263, fixed 5V output) — hoặc LM2596S-ADJ (điều chỉnh)</li>
+          <li><strong>IC:</strong> LM2596S-5.0 (TO-263/KTT, đầu ra 5 V cố định). Bản LM2596S-ADJ cần mạng hồi tiếp khác, không dùng nguyên sơ đồ của bản cố định</li>
           <li><strong>V_in:</strong> 8–40V (terminal screw 5.08mm)</li>
           <li><strong>V_out:</strong> 5V danh định, tải thiết kế 1A; sai số đầu ra theo datasheet TI có thể tới ±5% trên toàn dải điều kiện.</li>
           <li><strong>Cuộn cảm:</strong> L dự kiến 68µH, xác nhận lại bằng quy trình chọn L trong datasheet TI cho 12V→5V/1A; dòng bão hòa phải vượt dòng đỉnh.</li>
-          <li><strong>Diode freewheeling:</strong> Schottky 40V có dòng danh định và nhiệt phù hợp 1A tải (ví dụ SS34 3A/40V); kiểm tra thông số thực của linh kiện.</li>
+          <li><strong>Diode freewheeling:</strong> Với V<sub>in,max</sub> = 40 V, chọn Schottky có điện áp ngược định mức ≥50 V (1,25 × 40 V), dòng trung bình định mức ≥1,3 A (1,3 × 1 A) và đủ biên cho dòng đỉnh, nhiệt, điều kiện ngắn mạch theo <a href="https://www.ti.com/lit/ds/symlink/lm2596.pdf" target="_blank" rel="noopener">quy trình TI LM2596</a>. SS34 3 A/40 V không đạt biên điện áp này; chốt mã/footprint thực trước khi layout.</li>
           <li><strong>Tụ đầu vào:</strong> 100µF/50V electrolytic + 100nF ceramic</li>
           <li><strong>Tụ đầu ra:</strong> 220µF/16V ESR thấp + 100nF ceramic</li>
           <li><strong>Output indicator LED:</strong> LED xanh + R=1kΩ/0805</li>
@@ -77,19 +77,11 @@
 
       <h3>2.1 Schematic LM2596S-5.0</h3>
 
-      <div class="circuit-ascii">  Topology LM2596S-5.0 theo datasheet TI (giá trị L/C cần kiểm tra):
-
-   VIN(+) ──┬──[pin 1 VIN | LM2596S-5.0 | pin 2 OUTPUT]──● SW──[L]──● VOUT(+)
-            │                                              │           │
-          [C_in]                                      D1 cathode    [C_out]
-            │                                         D1 anode         │
-   GND ─────┴──────────────────────────────────────────────┴───────────┴── VOUT(−)
-
-  Net riêng: pin 3 GND và pin 5 ON/OFF → GND; pin 4 FB → VOUT(+).
-  C_in: 100µF + 100nF song song từ VIN xuống GND; C_out: 220µF + 100nF
-  song song từ VOUT xuống GND. D1 là Schottky, cathode ở SW, anode GND.
-  TO-263: pin 1=VIN, pin 2=OUTPUT, pin 3=GND, pin 4=FB,
-  pin 5=ON/OFF; tab kim loại nối GND. ON/OFF nối GND để bật.</div>
+      <figure class="figure" id="diagram-D35-1">
+        <img src="../assets/images/lessons/d35-1.svg" width="400" height="650" style="max-width:400px;margin-inline:auto" loading="lazy" decoding="async" alt="LM2596S-5.0: pin 1 VIN, pin 2 nút SW nối cuộn L, pin 3 GND, pin 4 FB nối VOUT sau L, pin 5 ON OFF nối GND để bật; D1 Schottky cathode SW anode GND, Cin Cout trở về GND.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D35-1 — LM2596S-5.0 cố định 5 V</div><div class="figure-text">Pin 2 OUTPUT là nút chuyển mạch SW; điện áp 5 V lấy sau cuộn cảm. <a href="../assets/images/lessons/d35-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.ti.com/lit/ds/symlink/lm2596.pdf" target="_blank" rel="noopener">TI LM2596 Rev.G</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả sơ đồ D35-1 bằng chữ</summary><p>Với LM2596S-5.0 dạng TO-263 theo TI, pin 1 nhận VIN+, pin 2 OUTPUT là SW và đi qua L đến VOUT+, pin 3 và tab nối GND, pin 4 FEEDBACK lấy VOUT+ sau L, pin 5 ON/OFF nối GND để bật. Cin mắc VIN+–GND; Cout mắc VOUT+–GND; D1 Schottky có cathode nối SW và anode nối GND. VIN− và VOUT− cùng GND. Đây là topology; chọn L, diode, tụ và bố trí theo datasheet, điều kiện tải và PCB thực tế.</p></details>
 
       <p>Đối chiếu <a href="https://www.ti.com/lit/ds/symlink/lm2596.pdf" target="_blank" rel="noopener">datasheet LM2596 của TI</a> trước khi vẽ symbol và chọn linh kiện; “OUTPUT” ở pin 2 là nút chuyển mạch SW, không phải đầu ra 5V sau cuộn cảm.</p>
 
@@ -98,10 +90,10 @@
       <div class="callout callout-practice">
         <div class="callout-header"><span class="callout-icon">💻</span> Thiết kế PCB Buck Converter từng bước</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Vẽ schematic đầy đủ theo sơ đồ trên. Chú ý symbol LM2596S trong KiCad library (Regulator_Switching).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Vẽ schematic đầy đủ theo các net và pin của TI LM2596S-5.0 ở trên; hình minh họa chưa thay thế bản vẽ EDA. Chú ý kiểm pin của symbol LM2596S trong thư viện KiCad (Regulator_Switching) và chạy ERC trước khi layout.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Assign footprint theo đúng mã/package mua: LM2596S TO-263-5 (tab = GND theo TI), diode Schottky theo package thực, cuộn cảm có dòng bão hòa lớn hơn dòng đỉnh, tụ đúng điện áp/ESR.</p></div></li>
           <li class="step-item"><div class="step-content"><p>PCB Layout: VIN connector → C_in sát chân 1 → LM2596 pin 2 → L → C_out → VOUT connector. <strong>Thu nhỏ vòng chuyển mạch C_in→IC→D1→GND và nút SW; FB lấy ở VOUT, tránh xa SW.</strong></p></div></li>
-          <li class="step-item"><div class="step-content"><p>Track width: VIN, VOUT, GND power = 2mm (1A). Tín hiệu ON/OFF = 0,3mm.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Tính bề rộng đường VIN, VOUT và GND theo lớp đồng, độ tăng nhiệt cho phép, chiều dài và quy tắc nhà sản xuất PCB; 2 mm chỉ là giá trị khởi đầu cần kiểm tra, không phải định mức 1 A chung cho mọi board. Tín hiệu ON/OFF cần giữ xa SW.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Ground plane B.Cu; vùng đồng tản nhiệt của tab TO-263 thuộc GND. Kiểm tra net tab trong symbol/footprint trước khi đặt copper pour.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Thêm silk screen: "IN+", "IN−", "OUT+", "OUT−". Version, date.</p></div></li>
           <li class="step-item"><div class="step-content"><p>DRC → 0 errors → Xuất Gerber + Drill files → Tải lên JLCPCB/PCBWay để báo giá (5 PCB ~$2–5).</p></div></li>

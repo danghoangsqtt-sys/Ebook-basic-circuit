@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 410" width="360" height="410" role="img" aria-labelledby="title desc"><title id="title">Cầu chia áp cơ bản</title><desc id="desc">VCC nối tiếp R1 rồi R2 xuống GND. Điểm giữa R1 và R2 là Vout, đo so với GND.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="360" height="410" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M130 60 V350 M130 195 H260"/>
+<text x="180" y="28" class="h" text-anchor="middle">Cầu chia áp cơ bản</text>
+<circle cx="130" cy="60" r="4.5" class="c"/>
+<text x="146" y="56" class="b">VCC</text>
+<rect class="c" x="117" y="90" width="26" height="50" rx="4"/>
+<text x="158" y="120">R1</text>
+<circle cx="130" cy="195" r="4.5" class="n"/>
+<circle cx="260" cy="195" r="4.5" class="c"/>
+<text x="272" y="199" class="b">Vout</text>
+<rect class="c" x="117" y="235" width="26" height="50" rx="4"/>
+<text x="158" y="265">R2</text>
+<path class="w" d="M130 350 V360 M115 360 H145 M120 366 H140 M125 372 H135"/>
+<text x="152" y="366" class="m">GND</text>
+<text x="180" y="398" class="m" text-anchor="middle">Đo Vout so với GND</text>
+</svg>

@@ -53,19 +53,11 @@
 
       <h2>1. HC-SR04 — Đo khoảng cách bằng siêu âm</h2>
 
-      <div class="circuit-ascii">  Nguyên lý HC-SR04:
-
-  TRIG ──[10µs pulse HIGH]──→ [HC-SR04] phát sóng 40kHz
-                              ↓
-                         Sóng phản xạ từ vật cản
-                              ↓
-  ECHO ←── [pulse dài tỷ lệ thời gian truyền sóng]
-
-  Khoảng cách = (Thời gian ECHO HIGH µs) / 58 = cm
-  Hoặc:         (Thời gian ECHO HIGH µs) / 148 = inch
-
-  Tốc độ âm thanh ≈ 340m/s = 29µs/cm (đi + về = 58µs/cm)
-  Dải đo: 2cm–400cm   Góc cone: ~15°   Tần số: 40kHz</div>
+      <figure class="figure" id="diagram-D40-1">
+        <img src="../assets/images/lessons/d40-1.svg" width="400" height="610" style="max-width:400px;margin-inline:auto" loading="lazy" decoding="async" alt="HC-SR04 cấp 5 V; MCU phát xung TRIG tối thiểu 10 micro giây; cảm biến phát 8 chu kỳ 40 kHz; ECHO 5 V cần chia áp trước khi vào GPIO 3,3 V ESP32; đo độ rộng ECHO tính khoảng cách.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D40-1 — HC-SR04 và ESP32</div><div class="figure-text">Thời gian ECHO biểu diễn quãng đường âm đi và về; phải giới hạn thời gian chờ. <a href="../assets/images/lessons/d40-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.elecfreaks.com/download/HC-SR04.pdf" target="_blank" rel="noopener">ElecFreaks HC-SR04</a> và <a href="https://learn.adafruit.com/distance-measurement-ultrasound-hcsr04/connect-the-sensor" target="_blank" rel="noopener">Adafruit mức logic</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả sơ đồ D40-1 bằng chữ</summary><p>VCC của HC-SR04 ElecFreaks nhận 5 V và GND nối GND của MCU. MCU gửi xung TRIG mức cao ít nhất 10 µs; module phát tám xung 40 kHz rồi tạo xung ECHO có độ rộng tỷ lệ thời gian âm đi và về. ECHO loại 5 V không nối trực tiếp vào GPIO ESP32: mắc điện trở 10 kΩ từ ECHO đến GPIO, 15 kΩ từ GPIO xuống GND, cho khoảng 3 V khi ECHO ở 5 V. Khoảng cách bằng thời gian ECHO nhân tốc độ âm rồi chia hai; giá trị gần đúng bằng t (µs) chia 58 để ra cm khi lấy tốc độ âm 340 m/s. Đặt timeout để xử lý khi không có echo.</p></details>
 
       <p>Khi dùng HC-SR04 loại cấp 5V với ESP32, chân ECHO có thể xuất mức 5V. Với rail 5V ổn áp trong khoảng 4,75–5,25V, nối <strong>ECHO → điện trở 10kΩ → GPIO19 → điện trở 15kΩ → GND</strong> để hạ còn khoảng 3,0V ở 5V; TRIG từ GPIO18 đi thẳng tới TRIG, và nối GND của cảm biến với GND ESP32. Kiểm tra mức logic của đúng module và rail thực tế trước khi lắp. <a href="https://learn.adafruit.com/ultrasonic-sonar-distance-sensors/pinouts" target="_blank" rel="noopener">Sơ đồ chân HC-SR04 của Adafruit</a>; <a href="https://documentation.espressif.com/esp32-wroom-32_datasheet_en.html" target="_blank" rel="noopener">datasheet ESP32-WROOM-32</a> ghi V<sub>IH</sub> tối thiểu 0,75×VDD.</p>
 
@@ -91,7 +83,7 @@ float readDistanceFiltered() {
   for (int attempt=0; attempt&lt;10 &amp;&amp; count&lt;5; attempt++) {
     float d = readDistance_cm();
     if (d &gt;= 2.0 &amp;&amp; d &lt;= 400.0) vals[count++] = d;
-    delay(5);
+    delay(60);  // ElecFreaks khuyến nghị chu kỳ đo trên 60 ms để tránh echo cũ
   }
   if (count &lt; 5) return -1;  // không đủ mẫu hợp lệ
   // Sắp xếp đơn giản (bubble sort 5 phần tử)
@@ -156,7 +148,7 @@ void loop() {
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
-            <p><strong>1:</strong> d = 1160µs / 58 = <strong>20cm</strong>. Nhiệt độ ảnh hưởng: tốc độ âm v = 331.4 + 0.6×T°C (m/s). Ở 20°C: 343m/s → 34300cm/s → 29µs/cm. Ở 35°C: 352m/s → 29,7µs/cm. Sai số ~3% giữa 20°C và 35°C. Để chính xác: đọc nhiệt độ từ DHT22 và tính lại hệ số chia.</p>
+            <p><strong>1:</strong> d = 1160µs / 58 = <strong>20cm</strong>. Nhiệt độ ảnh hưởng: tốc độ âm v = 331.4 + 0.6×T°C (m/s). Ở 20°C: 343m/s → 34300cm/s → 29µs/cm. Ở 35°C: khoảng 352m/s → 28,4µs/cm cho quãng đường một chiều 1 cm. Hệ số hai chiều khoảng 56,8µs/cm, khác khoảng 2,6% so với 58,3µs/cm ở 20°C. Để chính xác: đọc nhiệt độ từ DHT22 và tính lại hệ số chia.</p>
             <p><strong>2:</strong> Pseudo-code: <code>loop(): d=readDist(); if(d&lt;20){ stop(); int bestAngle=-1; float maxDist=0; for(a=0;a&lt;=180;a+=10){ servo.write(a); delay(50); float dd=readDist(); if(dd&gt;maxDist){maxDist=dd;bestAngle=a;} } if(bestAngle&lt;90)turnLeft(150); else turnRight(150); delay(400); } else forward(200);</code></p>
           </div>
         </div>

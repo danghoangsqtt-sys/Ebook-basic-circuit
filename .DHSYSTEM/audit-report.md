@@ -156,3 +156,25 @@ P6-01/P6-02 có hợp đồng, báo cáo QA, checkpoint và tag nhiệm vụ. TR
 ## Quyết định cổng
 
 Phase 6 đạt nghiệm thu sau khi sửa hai lệch audit; hoàn tất milestone hình minh họa Phase 4–6.
+
+---
+
+# DH-AUDIT — Phase 7, lượt giữa P7-04 — 2026-10-03
+
+## Tier 1 — Trạng thái DHSYSTEM: PASS cho tiến độ hiện hành
+
+TRACKER, PHASE-STATE, ROADMAP và HANDOFF cùng ghi Phase 7 đang ở P7-04; P7-01–P7-03/P7-05 PASS, P7-06 TODO. Phase 8–10 chưa mở. P7-04 có kế hoạch tệp và vẫn in_progress vì phần kiểm điện học/part/reviewer chưa đạt. Cổng Git persistence cho các thay đổi đang làm chưa thực hiện; không đổi P7-04 thành PASS khi worktree còn sửa.
+
+## Tier 2 — Tài liệu: LOW → RESOLVED
+
+TRACKER/ROADMAP còn gọi Phase 7 “chưa triển khai”; ARCHITECTURE còn nói P7-05 chưa chốt dữ liệu menu và KiCad đã là nguồn vẽ thực tế; CHANGELOG chưa phản ánh việc sửa 80 sơ đồ. Đã cập nhật README, CHANGELOG, ARCHITECTURE, TRACKER, ROADMAP và nhật ký QA để khớp hiện trạng. Các báo cáo Phase 4–6 giữ số liệu lịch sử, không được dùng làm kết quả hiện tại.
+
+## Tier 3 — Website và điện học: HIGH còn mở
+
+Kiểm tích hợp hiện đạt 80 ID (70 SVG/10 HTML), 56/56 bài có hình, 0 ASCII, 0 link/asset lỗi; Chromium toàn luồng và 168 ca 320/390/1280 px ở 24 px PASS. Audit độc lập đã phát hiện nhiều lỗi P1/P2 trong cực tính, net, sai số chia áp, BOM, chọn diode, module 3,3/5 V, sơ đồ/mã lệch nhau; các lỗi xác nhận đã được sửa hoặc khóa đường lắp chưa xác minh. Chi tiết theo ID và giới hạn nằm trong `docs/qa/curriculum-phase7.md` và `.DHSYSTEM/debug/session-phase7-audit-corrections.json`.
+
+Chưa có board/module/revision thật, người duyệt kỹ thuật, ERC và đo phần cứng cho mạch nguồn, LiPo, motor/relay, chuyển mức. `docs/curriculum/diagram-register.csv` cố ý vẫn ghi 74 trạng thái điện học chưa xác minh revision hiện hành; không coi kiểm màn hình là kiểm mạch. Arduino-ESP32 sketches chưa compile trên target vì môi trường không có `arduino-cli` và danh sách board/library được chốt.
+
+## Cổng tiếp theo
+
+Hoàn tất source/net/power/tolerance và ghi kết luận từng hình rủi ro P0/P1 theo part/module đúng revision; lấy người duyệt kỹ thuật ghi phần chưa thử. Sau đó mới đóng P7-04, chạy P7-06 `dh-audit`/`dh-debug` cuối Phase 7 và mở P8-01. Guardrail: với module chưa xác định, giữ bài lắp phần cứng ở chế độ mô phỏng/điều kiện; không suy pinout hay định mức từ module cùng tên.

@@ -76,17 +76,11 @@
 
       <p>Mỗi thiết bị trên cùng bus cần <strong>địa chỉ 7-bit không trùng</strong> (trong miền 0x00–0x7F, có một số địa chỉ dành riêng). Master gửi địa chỉ trước mỗi giao dịch — chỉ thiết bị có đúng địa chỉ mới phản hồi. Số thiết bị thực tế còn bị giới hạn bởi điện dung bus, điện trở pull-up, nguồn và địa chỉ mà module cho phép.</p>
 
-      <div class="circuit-ascii">  Kết nối I2C — nhiều thiết bị chung bus:
-
-  Net SDA: Master SDA ↔ OLED SDA ↔ BME280 SDA
-           VCC_logic → R_pullup_SDA=4,7kΩ → net SDA
-  Net SCL: Master SCL → OLED SCL và BME280 SCL
-           VCC_logic → R_pullup_SCL=4,7kΩ → net SCL
-  Net GND: Master GND ↔ OLED GND ↔ BME280 GND
-
-  SDA và SCL là HAI net riêng, tuyệt đối không nối tắt.
-  Với ESP32, kéo lên 3,3V và dùng module tương thích 3,3V;
-  kiểm tra pull-up tích hợp trước khi thêm điện trở ngoài.</div>
+      <figure class="figure figure--circuit" data-diagram-id="D23-1">
+        <img src="../assets/images/lessons/d23-1.svg" width="360" height="480" loading="lazy" decoding="async" alt="ESP32, OLED và BME280 cùng nối SDA và SCL thành hai net riêng, chung GND. SDA qua một điện trở pull-up tương đương về Vlogic 3,3 V; SCL qua điện trở pull-up khác về 3,3 V. 4,7 kΩ là giá trị minh họa, phải xét điện trở đã có trên module, điện dung bus và khả năng kéo xuống. Module phải thật sự tương thích mức 3,3 V.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D23-1</span> <span class="figure-text">Bus I²C với hai điện trở kéo lên.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://cache.nxp.com/docs/en/user-guide/UM10204.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d23-1.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>ESP32, OLED và BME280 cùng nối SDA và SCL thành hai net riêng, chung GND. SDA qua một điện trở pull-up tương đương về Vlogic 3,3 V; SCL qua điện trở pull-up khác về 3,3 V. 4,7 kΩ là giá trị minh họa, phải xét điện trở đã có trên module, điện dung bus và khả năng kéo xuống. Module phải thật sự tương thích mức 3,3 V.</p></details>
+      </figure>
 
       <h3>1.1 Tại sao cần pull-up resistor?</h3>
 
@@ -105,22 +99,17 @@
 
       <div class="callout callout-note">
         <div class="callout-header"><span class="callout-icon">📌</span> Nhiều module đã có pull-up tích hợp</div>
-        <p>Hầu hết module OLED, BME280, MPU6050 đã có điện trở pull-up 4,7kΩ trên PCB module. Khi nối nhiều module, pull-up song song nhau (ví dụ 3 module × 4,7kΩ = 1,57kΩ effective) — có thể quá thấp cho bus dài. Với bus ngắn trên breadboard thường vẫn ổn.</p>
+        <p>Một số module OLED, BME280 hoặc MPU6050 đã có pull-up trên PCB; giá trị và rail kéo lên tùy phiên bản. Trước khi thêm điện trở ngoài, xem schematic module hoặc đo điện trở khi đã tắt nguồn. Ba điện trở 4,7 kΩ song song chỉ còn khoảng 1,57 kΩ; kiểm dòng LOW, thời gian lên và điện dung bus theo thông số các thiết bị.</p>
       </div>
 
       <!-- PHẦN 2 — FRAME I2C -->
       <h2>2. Cấu trúc giao dịch I2C</h2>
 
-      <div class="circuit-ascii">  Frame I2C — ghi 1 byte vào thiết bị:
-
-   START  │ 7-bit ADDR │ R/W │ ACK │  8-bit DATA  │ ACK │ STOP
-   ───────┼────────────┼─────┼─────┼──────────────┼─────┼──────
-  SDA ↓   │ 0x3C (0111100) │ 0(W)│  ↓  │   0xAE     │  ↓  │ SDA ↑
-
-  START: SDA xuống trong khi SCL HIGH
-  STOP:  SDA lên trong khi SCL HIGH
-  ACK:   Slave kéo SDA xuống sau mỗi byte → xác nhận nhận được
-  NACK:  SDA ở mức HIGH → thiết bị không nhận hoặc lỗi</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d23-2.svg" width="400" height="395" loading="lazy" decoding="async" alt="Điều kiện START: SDA xuống khi SCL cao. Sau đó 7 bit địa chỉ 0x3C là 0111100, bit R/W bằng 0 là ghi, slave kéo SDA xuống ở xung ACK, tiếp theo 8 bit dữ liệu 0xAE là 10101110 và ACK thứ hai. Điều kiện STOP: SDA lên khi SCL cao.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D23-2 — Khung I2C ghi một byte vào thiết bị</div><div class="figure-text">Điều kiện START: SDA xuống khi SCL cao. Sau đó 7 bit địa chỉ 0x3C là 0111100, bit R/W bằng 0 là ghi, slave kéo SDA xuống ở xung ACK, tiếp theo 8 bit dữ liệu 0xAE là 10101110 và ACK thứ hai. Điều kiện STOP: SDA lên khi SCL cao.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d23-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D23-2</summary><p>Điều kiện START: SDA xuống khi SCL cao. Sau đó 7 bit địa chỉ 0x3C là 0111100, bit R/W bằng 0 là ghi, slave kéo SDA xuống ở xung ACK, tiếp theo 8 bit dữ liệu 0xAE là 10101110 và ACK thứ hai. Điều kiện STOP: SDA lên khi SCL cao.</p></details>
 
       <!-- PHẦN 3 — I2C SCANNER -->
       <h2>3. I2C Scanner — Tìm địa chỉ thiết bị</h2>

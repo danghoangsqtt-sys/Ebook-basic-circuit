@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 392" width="400" height="392" role="img" aria-labelledby="title desc"><title id="title">SPI: bus dùng chung và CS riêng cho từng slave</title><desc id="desc">Master nối MOSI, MISO, SCK dùng chung tới thẻ SD và màn TFT; các đường này không nối với nhau. Master có hai dây CS riêng: CS_SD chỉ tới thẻ SD, CS_TFT chỉ tới màn TFT, active LOW. Ba thiết bị nối GND chung.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="400" height="392" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M30 190 V120 H310 V190 M170 120 V190 M60 190 V95 H340 V190 M200 95 V190 M90 190 V70 H370 V190 M230 70 V190 M30 290 V362 H310 V290 M60 290 V337 H170 V290 M90 290 V300 M230 290 V300 M370 290 V300"/>
+<text x="200" y="24" class="h" text-anchor="middle">SPI: bus chung + CS riêng</text>
+<rect class="p" x="10" y="190" width="100" height="100" rx="8"/>
+<text x="60" y="244" class="b" text-anchor="middle">Master</text>
+<text x="30" y="206" class="s" text-anchor="middle">MOSI</text>
+<text x="60" y="220" class="s" text-anchor="middle">MISO</text>
+<text x="90" y="206" class="s" text-anchor="middle">SCK</text>
+<rect class="z" x="150" y="190" width="100" height="100" rx="8"/>
+<text x="200" y="244" class="b" text-anchor="middle">Thẻ SD</text>
+<text x="170" y="206" class="s" text-anchor="middle">MOSI</text>
+<text x="200" y="220" class="s" text-anchor="middle">MISO</text>
+<text x="230" y="206" class="s" text-anchor="middle">SCK</text>
+<rect class="y" x="290" y="190" width="100" height="100" rx="8"/>
+<text x="340" y="244" class="b" text-anchor="middle">Màn TFT</text>
+<text x="310" y="206" class="s" text-anchor="middle">MOSI</text>
+<text x="340" y="220" class="s" text-anchor="middle">MISO</text>
+<text x="370" y="206" class="s" text-anchor="middle">SCK</text>
+<circle cx="170" cy="120" r="4.5" class="n"/>
+<circle cx="200" cy="95" r="4.5" class="n"/>
+<circle cx="230" cy="70" r="4.5" class="n"/>
+<text x="112" y="114" class="m">MOSI →</text>
+<text x="112" y="89" class="m">MISO ←</text>
+<text x="112" y="64" class="m">SCK →</text>
+<text x="66" y="326" class="m">CS_SD</text>
+<text x="36" y="378" class="m">CS_TFT</text>
+<text x="90" y="282" class="s" text-anchor="middle">GND</text>
+<path class="w" d="M78 300 H102 M82 306 H98 M86 312 H94"/>
+<text x="230" y="282" class="s" text-anchor="middle">GND</text>
+<path class="w" d="M218 300 H242 M222 306 H238 M226 312 H234"/>
+<text x="370" y="282" class="s" text-anchor="middle">GND</text>
+<path class="w" d="M358 300 H382 M362 306 H378 M366 312 H374"/>
+<text x="214" y="330" class="m">GND chung ở cả ba thiết bị</text>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 390" width="360" height="390" role="img" aria-labelledby="title desc"><title id="title">PWM với ba độ rộng xung</title><desc id="desc">Ba dạng sóng vuông cùng chu kỳ T = 8 ô thời gian. Duty 25% có điện áp trung bình 1,25 V, duty 50% có 2,50 V, duty 75% có 3,75 V ở mức 5 V.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="360" height="390" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<text x="180" y="28" class="h" text-anchor="middle">PWM: ba độ rộng xung (mức 5 V)</text>
+<path class="ao" marker-start="url(#ao)" marker-end="url(#ao)" d="M90 58 L218 58"/>
+<text x="154" y="48" class="o b" text-anchor="middle">chu kỳ T = 8 ô</text>
+<path class="w" d="M90 130 V90 H122 V130 H218 V90 H250 V130 H346"/>
+<text x="8" y="116" class="b">Duty 25%</text>
+<text x="82" y="95" class="m" text-anchor="end">5 V</text>
+<text x="82" y="135" class="m" text-anchor="end">0 V</text>
+<text x="218" y="156" class="g b" text-anchor="middle">V_avg = 1,25 V</text>
+<path class="w" d="M90 230 V190 H154 V230 H218 V190 H282 V230 H346"/>
+<text x="8" y="216" class="b">Duty 50%</text>
+<text x="82" y="195" class="m" text-anchor="end">5 V</text>
+<text x="82" y="235" class="m" text-anchor="end">0 V</text>
+<text x="218" y="256" class="g b" text-anchor="middle">V_avg = 2,50 V</text>
+<path class="w" d="M90 330 V290 H186 V330 H218 V290 H314 V330 H346"/>
+<text x="8" y="316" class="b">Duty 75%</text>
+<text x="82" y="295" class="m" text-anchor="end">5 V</text>
+<text x="82" y="335" class="m" text-anchor="end">0 V</text>
+<text x="218" y="356" class="g b" text-anchor="middle">V_avg = 3,75 V</text>
+<text x="180" y="384" class="b" text-anchor="middle">D = T_on / T × 100%</text>
+</svg>

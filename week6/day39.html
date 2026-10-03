@@ -53,22 +53,11 @@
 
       <h2>1. H-Bridge — Mạch cầu điều khiển chiều dòng</h2>
 
-      <div class="circuit-ascii">  H-Bridge — 4 switch tạo thành chữ "H":
-
-  VCC ─────┬──────────────┬─────
-          [Q1]           [Q3]
-           │              │
-           ● A──[ MOTOR ]──● B
-           │              │
-          [Q2]           [Q4]
-  GND ─────┴──────────────┴─────
-
-  Tiến:  Q1,Q4=ON (Q2,Q3=OFF) → dòng qua M từ trái→phải
-  Lùi:   Q2,Q3=ON (Q1,Q4=OFF) → dòng qua M từ phải→trái
-  Hãm:   Q1,Q3=ON hoặc Q2,Q4=ON → short brake
-  Coast: Tất cả OFF → motor quán tính tự dừng
-
-  KHÔNG ĐƯỢC: Q1,Q2=ON hoặc Q3,Q4=ON → short circuit VCC→GND!</div>
+      <figure class="figure" id="diagram-D39-1">
+        <img src="../assets/images/lessons/d39-1.svg" width="400" height="560" style="max-width:400px;margin-inline:auto" loading="lazy" decoding="async" alt="Hai nhánh VM xuống GND mỗi nhánh có công tắc trên và dưới; motor nối giữa điểm A và B; Q1 Q4 dẫn để dòng A sang B, Q2 Q3 dẫn để dòng B sang A; không đóng đồng thời cùng nhánh.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D39-1 — Cầu H bốn công tắc</div><div class="figure-text">Cặp chéo đổi chiều; đóng đồng thời công tắc trên và dưới cùng một nhánh gây chập nguồn. <a href="../assets/images/lessons/d39-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.ti.com/video/6059539558001" target="_blank" rel="noopener">TI Precision Labs: The H-bridge</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả sơ đồ D39-1 bằng chữ</summary><p>VM+ cấp cho đầu trên của Q1 và Q3. Q1–Q2 là nhánh trái, Q3–Q4 là nhánh phải; hai đầu motor A và B ở giữa hai nhánh. Q1 và Q4 đóng cho dòng đi từ A qua motor đến B; Q2 và Q3 đóng cho dòng đảo chiều. Q1 cùng Q2 hoặc Q3 cùng Q4 không được đóng đồng thời vì ngắn mạch VM+ xuống GND. Mọi công tắc tắt là coast; đóng cả hai nhánh dưới có thể tạo brake, tùy driver và đường tuần hoàn dòng. Mạch thực cần driver và thời gian chết khi chuyển trạng thái.</p></details>
 
       <h2>2. Bảng điều khiển L298N</h2>
 
@@ -130,7 +119,7 @@ void loop() {
 
       <div class="callout callout-tip">
         <div class="callout-header"><span class="callout-icon">💡</span> L298N nóng — chuyển sang TB6612FNG</div>
-        <p>L298N dùng transistor lưỡng cực → V_drop = 1,5–3V khi ON → tổn thất nhiệt cao (P_heat = V_drop × I). Ở I=1A: P_heat = 2V×1A = 2W chỉ riêng IC! TB6612FNG dùng MOSFET → V_drop &lt;0,5V → tổn thất nhỏ hơn 5×, không cần heat sink, kích thước nhỏ hơn. Giá tương đương → TB6612FNG tốt hơn L298N cho hầu hết dự án.</p>
+        <p>L298N dùng transistor lưỡng cực nên sụt áp và tổn thất nhiệt có thể lớn; ví dụ giả định V_drop=2V ở 1A thì P_heat=2W cho một kênh. TB6612FNG dùng MOSFET và thường có sụt áp thấp hơn, nhưng <a href="https://toshiba.semicon-storage.com/info/TB6612FNG_datasheet_en_20141001.pdf?did=10660" target="_blank" rel="noopener">datasheet Toshiba</a> nêu mức điển hình và tối đa phụ thuộc dòng, điện áp, nhiệt độ. Không giả định sụt áp luôn dưới 0,5V hoặc không cần tản nhiệt: tính công suất cả hai kênh, nhiệt độ môi trường và giới hạn của chính carrier trước khi chọn driver.</p>
       </div>
 
       <!-- VIDEO -->

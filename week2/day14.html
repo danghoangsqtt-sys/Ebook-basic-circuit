@@ -83,27 +83,11 @@
 
       <p>Đây là bài thử tải nhỏ trên breadboard; giới hạn tải ngoài ở 5 V là 100 mA và 3,3 V là 50 mA. Dòng đi qua LM7805 gồm <em>cả</em> tải rail 5 V lẫn dòng cấp cho AMS1117. Ở nguồn 12 V, dù tổng tải chỉ khoảng 150 mA, LM7805 vẫn có thể tiêu tán gần 1 W; tính nhiệt theo datasheet và gắn tản nhiệt khi cần. Không lấy công suất danh định của IC làm công suất cho phép của cách lắp trên breadboard.</p>
 
-      <div class="circuit-ascii">  Mạch nguồn DC hoàn chỉnh:
-
-    V_in+ ── A[D_prot 1N4007]K ── VIN_REG ── IN [LM7805] OUT ── +5 V
-    (9 V)                           │          GND │               │
-                              C1 || C2        GND │          C3 || C4
-                                    │              │               │
-    GND chung ──────────────────────┴──────────────┴───────────────┘
-
-    Từ nút +5 V:  +5 V ── IN [AMS1117-3.3] OUT ── +3,3 V
-                              GND (chân 1)         │
-                                   │             C5 || C6
-    GND chung ──────────────────────┴────────────────┘
-
-    LED chỉ thị là hai NHÁNH TẢI riêng:
-      +5 V   ──[R 330 Ω]── A[LED đỏ]K ── GND
-      +3,3 V ──[R 150 Ω]── A[LED xanh lá]K ── GND
-
-    C1/C2 nối VIN_REG–GND; C3/C4 nối +5 V–GND;
-    C5=22 µF tantalum, C6=100 nF nối +3,3 V–GND.
-    Không tụ nào nằm nối tiếp rail.
-    AMS1117: chân 3=IN, chân 2/tab=OUT, chân 1=GND.</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d14-1.svg" width="390" height="805" loading="lazy" decoding="async" alt="Sơ đồ nút: 9 V qua Dprot vào LM7805 tạo +5 V, rồi AMS1117 tạo +3,3 V. Tụ và LED là nhánh về GND chung.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D14-1 — Nguồn DC hai mức</div><div class="figure-text">Sơ đồ nút: 9 V qua Dprot vào LM7805 tạo +5 V, rồi AMS1117 tạo +3,3 V. Tụ và LED là nhánh về GND chung.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.ti.com/lit/ds/symlink/lm7800.pdf" target="_blank" rel="noopener">datasheet TI LM7805</a>. <a href="../assets/images/lessons/d14-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D14-1</summary><p>9 V DC vào anode Dprot; cathode tạo VIN_REG đến IN LM7805. OUT LM7805 là rail +5 V, cấp IN AMS1117-3.3; OUT AMS1117 là +3,3 V. GND hai IC nối chung. C1/C2 từ VIN_REG về GND; C3/C4 từ +5 V về GND; C5/C6 từ +3,3 V về GND. Hai nhánh chỉ thị riêng: +5 V–R330–LED đỏ–GND và +3,3 V–R150–LED xanh lá–GND. Đây là sơ đồ nút; pinout xem D13-1/D13-2; tính nhiệt trước khi lắp.</p></details>
 
       <h3>2.2 Tính toán linh kiện</h3>
 

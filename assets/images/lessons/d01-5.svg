@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 620" role="img" aria-labelledby="title desc">
+  <title id="title">So sánh vòng mạch kín và vòng mạch hở</title>
+  <desc id="desc">Hai mạch cùng gồm pin, điện trở R và khối LED có cực A ở trên, K ở dưới. Mạch trên có công tắc đóng ở đường về nên vòng kín và có dòng. Mạch dưới công tắc mở tạo khe hở ở đường về nên không có dòng qua LED.</desc>
+  <rect width="360" height="620" rx="18" fill="#10233b"/>
+  <g fill="#f8fafc" font-family="Arial,sans-serif" font-size="20" font-weight="700"><text x="16" y="37">Mạch kín và mạch hở</text><text x="16" y="79">1. Công tắc đóng</text><text x="16" y="360">2. Công tắc mở</text></g>
+  <g fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M58 120H143M205 120H292V168M292 226V280H200M160 280H58V194M58 170V120"/>
+    <path d="M143 99h62v42h-62zM264 168h56v58h-56z"/>
+    <path d="M28 170h60M40 194h36M160 280H200"/>
+    <path d="M58 400H143M205 400H292V448M292 506V560H207M150 560H58V474M58 450V400"/>
+    <path d="M143 379h62v42h-62zM264 448h56v58h-56z"/>
+    <path d="M28 450h60M40 474h36"/>
+    <path d="M150 560l43-31" stroke="#fbbf24"/>
+  </g>
+  <g fill="#34d399"><circle cx="160" cy="280" r="5"/><circle cx="200" cy="280" r="5"/><circle cx="150" cy="560" r="5"/><circle cx="207" cy="560" r="5"/></g>
+  <g fill="#f8fafc" font-family="Arial,sans-serif" font-size="16" font-weight="700" text-anchor="middle"><text x="174" y="126">R</text><text x="292" y="190">A</text><text x="292" y="213">LED/K</text><text x="174" y="406">R</text><text x="292" y="470">A</text><text x="292" y="493">LED/K</text></g>
+  <g fill="#fbbf24" font-family="Arial,sans-serif" font-size="18" font-weight="700"><text x="12" y="168">+</text><text x="12" y="200">−</text><text x="12" y="448">+</text><text x="12" y="480">−</text></g>
+  <g fill="#cbd5e1" font-family="Arial,sans-serif" font-size="16"><text x="16" y="313">Vòng kín → có dòng; LED có thể sáng.</text><text x="16" y="597">Khe hở → không có dòng qua LED.</text></g>
+</svg>

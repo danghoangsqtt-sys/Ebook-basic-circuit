@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 615" role="img" aria-labelledby="title desc"><title id="title">Nguồn pin 1S · sơ đồ chức năng</title><desc id="desc">Kiến trúc chức năng cho một cell Li ion loại sạc 4,2V: nguồn USB cấp bộ sạc TP4056, cell mắc vào BAT của bộ sạc; bảo vệ xả là mạch riêng nếu có, tải dùng đầu ra bảo vệ rồi qua bộ chuyển đổi ổn áp. Đây không phải sơ đồ chân của module chưa xác định.</desc><rect width="400" height="615" rx="16" fill="#10233b"/>
+<text x="20" y="38" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20" font-weight="700">Nguồn pin 1S · sơ đồ chức năng</text>
+<text x="20" y="66" fill="#fbbf24" font-family="Arial,sans-serif" font-size="13" font-weight="700">Không phải pinout module hay sơ đồ đấu dây.</text>
+<rect x="48" y="94" width="130" height="62" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="113.0" y="130.0" fill="#f8fafc" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">USB 5 V</text>
+<rect x="222" y="94" width="130" height="62" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="287.0" y="130.0" fill="#f8fafc" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">TP4056</text>
+<line x1="178" y1="125" x2="222" y2="125" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<text x="290" y="184" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="13" font-weight="400" text-anchor="middle">CC/CV một cell</text>
+<line x1="287" y1="156" x2="287" y2="218" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<rect x="188" y="218" width="164" height="62" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="270.0" y="253.33333333333334" fill="#f8fafc" font-family="Arial,sans-serif" font-size="13" font-weight="700" text-anchor="middle">BAT+/BAT− → cell</text>
+<text x="270" y="313" fill="#34d399" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">Cell Li-ion 1S</text>
+<rect x="48" y="346" width="304" height="62" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="200.0" y="382.0" fill="#f8fafc" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">Bảo vệ xả riêng (nếu có)</text>
+<line x1="270" y1="280" x2="270" y2="346" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<text x="270" y="433" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="13" font-weight="400" text-anchor="middle">Kiểm IC bảo vệ + MOSFET</text>
+<line x1="270" y1="408" x2="270" y2="466" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<rect x="48" y="466" width="304" height="57" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="200.0" y="499.1666666666667" fill="#f8fafc" font-family="Arial,sans-serif" font-size="14" font-weight="700" text-anchor="middle">OUT bảo vệ → converter → tải</text>
+<text x="20" y="553" fill="#fbbf24" font-family="Arial,sans-serif" font-size="13" font-weight="400">Board không rõ revision: xác minh BAT/OUT</text>
+<text x="20" y="577" fill="#fbbf24" font-family="Arial,sans-serif" font-size="13" font-weight="400">và power-path trước khi lắp thực tế.</text>
+</svg>

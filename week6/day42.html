@@ -75,25 +75,11 @@
 
       <h3>2.1 Kiến trúc hệ thống</h3>
 
-      <div class="circuit-ascii">  Sơ đồ hệ thống Robot WiFi:
-
-  ┌─────────────────────────────────────────┐
-  │              ESP32                      │
-  │  GPIO: AIN1/2, BIN1/2 → TB6612FNG     │
-  │  GPIO: PWMA/B PWM, STBY HIGH           │
-  │  GPIO: TRIG → HC-SR04                 │
-  │  GPIO: ECHO ← chia áp 10k/15k ← ECHO │
-  │  GPIO: SERVO_PIN → SG90 servo          │
-  │  I2C: SDA,SCL → SSD1306 OLED           │
-  │  ADC34 ← chia áp 100k/100k ← pin 1S    │
-  │  WiFi: Web Server port 80              │
-  └─────────────────────────────────────────┘
-       │ 5V cho ESP32, HC-SR04, servo và VM motor
-  LiPo 1S → mạch bảo vệ 1S → boost 5V ──┬─ ESP32 chân 5V
-                                       ├─ TB6612FNG VM, motor
-                                       └─ HC-SR04 VCC, servo
-  ESP32 3,3V → TB6612FNG VCC; tất cả GND nối chung.
-  USB 5V → TP4056 → cell 1S khi sạc; kiểm tra power-path nếu vừa sạc vừa chạy.</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d42-1.svg" width="400" height="720" loading="lazy" decoding="async" alt="Phần A: USB 5 V qua TP4056 sạc cell LiPo 1S có mạch bảo vệ; pin qua boost 5 V cấp cho ESP32, VM của TB6612FNG và motor, HC-SR04 và servo; ESP32 3,3 V cấp VCC của TB6612FNG; GND nối chung. Phần B: ESP32 điều khiển TB6612FNG bằng AIN, BIN, PWM và STBY; TRIG tới HC-SR04 còn ECHO qua chia áp 10k/15k về GPIO; servo SG90; OLED SSD1306 qua I2C; pin 1S qua chia áp 100k/100k vào ADC34.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D42-1 — Hệ thống robot WiFi: nguồn và tín hiệu</div><div class="figure-text">Phần A: USB 5 V qua TP4056 sạc cell LiPo 1S có mạch bảo vệ; pin qua boost 5 V cấp cho ESP32, VM của TB6612FNG và motor, HC-SR04 và servo; ESP32 3,3 V cấp VCC của TB6612FNG; GND nối chung. Phần B: ESP32 điều khiển TB6612FNG bằng AIN, BIN, PWM và STBY; TRIG tới HC-SR04 còn ECHO qua chia áp 10k/15k về GPIO; servo SG90; OLED SSD1306 qua I2C; pin 1S qua chia áp 100k/100k vào ADC34. Đây là sơ đồ để phân tích/mô phỏng; chỉ lắp trên phần cứng sau khi xác minh đúng part/module, nguồn, dòng và duyệt mạch cụ thể.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d42-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D42-1</summary><p>Phần A: USB 5 V qua TP4056 sạc cell LiPo 1S có mạch bảo vệ; pin qua boost 5 V cấp cho ESP32, VM của TB6612FNG và motor, HC-SR04 và servo; ESP32 3,3 V cấp VCC của TB6612FNG; GND nối chung. Phần B: ESP32 điều khiển TB6612FNG bằng AIN, BIN, PWM và STBY; TRIG tới HC-SR04 còn ECHO qua chia áp 10k/15k về GPIO; servo SG90; OLED SSD1306 qua I2C; pin 1S qua chia áp 100k/100k vào ADC34. Đây là sơ đồ để phân tích/mô phỏng; chỉ lắp trên phần cứng sau khi xác minh đúng part/module, nguồn, dòng và duyệt mạch cụ thể.</p></details>
 
       <p>Chân ECHO của HC-SR04 cấp 5V không nối trực tiếp tới GPIO ESP32 3,3V: với rail 5V ổn áp 4,75–5,25V, dùng 10kΩ từ ECHO tới GPIO và 15kΩ từ GPIO xuống GND, cho khoảng 3,0V ở 5V; kiểm tra rail và ngưỡng đầu vào của board thực. Xem <a href="https://learn.adafruit.com/ultrasonic-sonar-distance-sensors/pinouts" target="_blank" rel="noopener">hướng dẫn HC-SR04 của Adafruit</a> và <a href="https://documentation.espressif.com/esp32-wroom-32_datasheet_en.html" target="_blank" rel="noopener">datasheet ESP32-WROOM-32</a>. Theo <a href="https://toshiba.semicon-storage.com/info/datasheet_en_20141001.pdf?did=10660" target="_blank" rel="noopener">datasheet TB6612FNG của Toshiba</a>, rail logic 3,3V và rail motor 5V phù hợp; chân STBY phải ở mức HIGH, dòng liên tục tối đa 1A/kênh ở VM≥4,5V. Chọn motor có dòng kẹt trục và nhu cầu tản nhiệt phù hợp; kiểm tra dòng đỉnh của servo/ESP32 để chọn boost, pin và mạch bảo vệ có dự phòng. Module TP4056 chỉ sạc một cell và khả năng bảo vệ phụ thuộc linh kiện gắn thêm trên board.</p>
 

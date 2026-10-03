@@ -133,17 +133,11 @@ void loop() { server.handleClient(); }</pre>
 
       <p>MQTT (<em>Message Queuing Telemetry Transport</em>) là giao thức nhẹ, phù hợp IoT — thiết bị <strong>publish</strong> dữ liệu lên topic, và bất kỳ ai <strong>subscribe</strong> topic đó đều nhận được ngay lập tức.</p>
 
-      <div class="circuit-ascii">  Kiến trúc MQTT:
-
-  [ESP32/Sensor] ──publish──→ [MQTT Broker] ──→ [Dashboard/App]
-                 ←──subscribe──             ←──  [Điều khiển]
-
-  Topic ví dụ:
-  "home/room1/temperature" : publish 25.3
-  "home/room1/led/cmd"     : subscribe → nhận "ON" hoặc "OFF"
-
-  Broker miễn phí: broker.hivemq.com (port 1883)
-                   test.mosquitto.org (port 1883)</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d37-1.svg" width="400" height="470" loading="lazy" decoding="async" alt="ESP32 publish nhiệt độ lên topic home/room1/temperature tới broker; broker chuyển tin cho Dashboard/App đã subscribe. Thiết bị điều khiển publish lệnh lên home/room1/led/cmd; broker chuyển tin cho ESP32 đã subscribe topic đó.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D37-1 — Kiến trúc MQTT: publish, broker và subscribe</div><div class="figure-text">ESP32 publish nhiệt độ lên topic home/room1/temperature tới broker; broker chuyển tin cho Dashboard/App đã subscribe. Thiết bị điều khiển publish lệnh lên home/room1/led/cmd; broker chuyển tin cho ESP32 đã subscribe topic đó.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d37-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D37-1</summary><p>ESP32 publish nhiệt độ lên topic home/room1/temperature tới broker; broker chuyển tin cho Dashboard/App đã subscribe. Thiết bị điều khiển publish lệnh lên home/room1/led/cmd; broker chuyển tin cho ESP32 đã subscribe topic đó.</p></details>
 
       <!-- VIDEO -->
       <div class="video-card">

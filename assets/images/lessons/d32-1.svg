@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 580" role="img" aria-labelledby="title desc"><title id="title">Buck không đồng bộ</title><desc id="desc">VIN qua Qsw tới nút SW, qua L đến VOUT. C in và C out nối về GND. Diode hồi tiếp có cathode ở SW, anode ở GND.</desc><rect width="400" height="580" rx="16" fill="#10233b"/>
+<text x="20" y="38" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20" font-weight="700">Buck không đồng bộ</text>
+<text x="20" y="66" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="14" font-weight="400">Đường cấp: VIN → Qsw → SW → L → VOUT</text>
+<text x="22" y="116" fill="#34d399" font-family="Arial,sans-serif" font-size="15" font-weight="700">VIN+</text>
+<line x1="70" y1="112" x2="105" y2="112" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<rect x="105" y="88" width="80" height="48" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="145.0" y="117.0" fill="#f8fafc" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">Qsw</text>
+<line x1="185" y1="112" x2="270" y2="112" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<circle cx="270" cy="112" r="5" fill="#34d399"/>
+<text x="270" y="92" fill="#fbbf24" font-family="Arial,sans-serif" font-size="14" font-weight="700" text-anchor="middle">SW</text>
+<line x1="270" y1="112" x2="270" y2="172" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<rect x="237" y="172" width="66" height="48" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="270.0" y="201.0" fill="#f8fafc" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">L</text>
+<line x1="270" y1="220" x2="270" y2="272" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<circle cx="270" cy="272" r="5" fill="#34d399"/>
+
+<text x="204" y="260" fill="#34d399" font-family="Arial,sans-serif" font-size="15" font-weight="700">VOUT+</text>
+<line x1="75" y1="112" x2="75" y2="200" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<rect x="42" y="200" width="66" height="48" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="75.0" y="229.0" fill="#f8fafc" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">Cin</text>
+<line x1="75" y1="248" x2="75" y2="450" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<line x1="270" y1="112" x2="355" y2="112" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<line x1="355" y1="112" x2="355" y2="184" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<rect x="316" y="184" width="78" height="48" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="355.0" y="213.0" fill="#f8fafc" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">Dfw</text>
+<text x="355" y="170" fill="#fbbf24" font-family="Arial,sans-serif" font-size="13" font-weight="700" text-anchor="middle">K ↑ SW</text>
+<text x="355" y="255" fill="#fbbf24" font-family="Arial,sans-serif" font-size="13" font-weight="700" text-anchor="middle">A ↓ GND</text>
+<line x1="355" y1="232" x2="355" y2="450" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<line x1="270" y1="272" x2="270" y2="325" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<rect x="235" y="325" width="70" height="48" rx="8" fill="#1e3a5f" stroke="#93c5fd" stroke-width="2"/>
+<text x="270.0" y="354.0" fill="#f8fafc" font-family="Arial,sans-serif" font-size="15" font-weight="700" text-anchor="middle">Cout</text>
+<line x1="270" y1="373" x2="270" y2="450" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<line x1="45" y1="450" x2="355" y2="450" stroke="#93c5fd" stroke-width="3" stroke-linecap="round"/>
+<text x="30" y="476" fill="#34d399" font-family="Arial,sans-serif" font-size="14" font-weight="700">GND / VIN− / VOUT− (đường hồi dòng)</text>
+<text x="20" y="512" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="14" font-weight="400">Qsw tắt: GND → Dfw → SW → L → tải</text>
+<text x="20" y="535" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="14" font-weight="400">→ GND. D = VOUT/VIN chỉ là gần đúng lý tưởng.</text>
+</svg>

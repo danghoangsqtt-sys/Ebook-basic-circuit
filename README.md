@@ -34,6 +34,8 @@ Phase 1 đã triển khai trang đầu, giao diện đọc mobile, cỡ chữ, t
 
 Phase 4 đã kiểm và sửa 31 nhóm lỗi sơ đồ/nội dung kỹ thuật. Phase 5 đã minh họa đủ 56 bài; Phase 6 bổ sung 12 sơ đồ tổng hợp và hoàn tất kiểm tra hình toàn giáo trình.
 
+Phase 7 đang rà lại nội dung và sơ đồ: 80 khối ký tự đã được thay bằng 70 SVG và 10 bảng/đoạn HTML có thể đọc, menu 56 bài đã khớp tiêu đề. [Sổ kiểm Phase 7](docs/qa/curriculum-phase7.md) ghi các lỗi điện học đã sửa và phần cứng chưa được nghiệm thu. Các bài chuyên sâu Phase 8–10 chưa triển khai.
+
 ## Bản quyền
 
 © 2026 Lê Bá Đăng Hoàng. Giữ bản quyền riêng; hiện chưa cấp giấy phép tái sử dụng mã hoặc nội dung. Chủ dự án sẽ chọn giấy phép nếu muốn công bố quyền sử dụng sau này.

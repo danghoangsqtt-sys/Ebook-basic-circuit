@@ -56,21 +56,11 @@
 
       <p>Buck converter giảm điện áp từ V_in xuống V_out (&lt; V_in) bằng cách bật/tắt MOSFET ở tần số cao (100kHz–2MHz). Cuộn cảm và tụ điện lọc tạo điện áp DC ổn định ở đầu ra.</p>
 
-      <div class="circuit-ascii">  Buck Converter — nguyên lý:
-
-  V_in ──[Q_sw]──● SW──[L]──● V_out ──→ tải
-                 │            │
-             cathode       [C_out]
-              [D_fw]          │
-              anode           │
-                 │            │
-                GND──────────GND
-
-  MOSFET ON (D%):   Q_sw cấp dòng qua L đến tải; i_L tăng và C lọc đầu ra
-  MOSFET OFF (1-D%): dòng L tiếp tục qua tải rồi GND→D_fw→SW
-
-  V_out = D × V_in  (CCM - Continuous Conduction Mode)
-  D = duty cycle (0 → 1)</div>
+      <figure class="figure" id="diagram-D32-1">
+        <img src="../assets/images/lessons/d32-1.svg" width="400" height="580" style="max-width:400px;margin-inline:auto" loading="lazy" decoding="async" alt="Nguồn VIN qua công tắc Qsw đến nút SW, qua cuộn L đến VOUT; diode Dfw có cathode ở SW và anode ở GND; Cin, Cout và tải trở về GND.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D32-1 — Buck không đồng bộ</div><div class="figure-text">Đường cấp qua Qsw và L; khi Qsw ngắt, cuộn cảm giữ dòng qua tải và diode hồi tiếp. <a href="../assets/images/lessons/d32-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.ti.com/lit/ds/symlink/lm2596.pdf" target="_blank" rel="noopener">datasheet TI LM2596</a> cho topology buck không đồng bộ.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả sơ đồ D32-1 bằng chữ</summary><p>VIN+ nối vào Qsw; Qsw nối nút SW; SW nối cuộn L rồi đến VOUT+. Tụ Cin nối VIN+ với GND; tụ Cout nối VOUT+ với GND. Diode Dfw có cathode tại SW và anode ở GND. VIN−, VOUT− và cực âm của tụ dùng cùng GND. Khi Qsw tắt, dòng qua cuộn L và tải tiếp tục khép vòng qua GND rồi diode Dfw lên SW. Công thức D gần bằng VOUT/VIN chỉ áp dụng mô hình lý tưởng ở chế độ dòng liên tục.</p></details>
 
       <div class="formula-block">
         <div class="formula-main">D = V_out / V_in &nbsp;&nbsp;(Buck — lý tưởng)</div>
@@ -110,14 +100,14 @@
       </div>
 
       <div class="callout callout-warning">
-        <div class="callout-header"><span class="callout-icon">⚠️</span> Diode freewheeling phải dùng Schottky, không dùng 1N4007!</div>
-        <p>Diode freewheeling trong Buck/Boost phải là <strong>Schottky</strong> (SS14, 1N5819, SB360): thời gian phục hồi ngược (t_rr) cực ngắn (~ns). Diode thường (1N4007) có t_rr = 1–5µs — ở tần số 100kHz (chu kỳ = 10µs), diode chưa kịp phục hồi → tạo short circuit ngắn mỗi chu kỳ → nóng, hỏng converter, giảm hiệu suất nghiêm trọng.</p>
+        <div class="callout-header"><span class="callout-icon">⚠️</span> Chọn diode hồi tiếp đúng cho mạch buck không đồng bộ</div>
+        <p>Trong mạch buck không đồng bộ LM2596 minh họa, <a href="https://www.ti.com/lit/ds/symlink/lm2596.pdf" target="_blank" rel="noopener">TI yêu cầu</a> chọn diode hồi dòng theo điện áp ngược, dòng trung bình, dòng đỉnh và nhiệt: điện áp ngược định mức ít nhất 1,25 lần V<sub>in,max</sub>, dòng trung bình định mức ít nhất 1,3 lần dòng tải tối đa; còn phải xét điều kiện ngắn mạch liên tục nếu thiết kế yêu cầu. Không suy một mã diode 1 A/40 V phù hợp với mọi module hoặc tải 3 A. Schottky thường được ưu tiên vì phục hồi nhanh và sụt áp thuận thấp; không thay trực tiếp bằng 1N4007 khi chưa kiểm tổn hao và chuyển mạch theo datasheet.</p>
       </div>
 
       <!-- PHẦN 4 — MODULE LM2596 -->
       <h2>4. Module LM2596 — Buck step-down thực tế</h2>
 
-      <p>LM2596 là IC Buck converter phổ biến nhất, thường bán dưới dạng module có biến trở điều chỉnh V_out. V_in: 4–40V, V_out: 1,25–37V, I_max: 3A.</p>
+      <p>LM2596 là họ IC Buck 150 kHz có bản đầu ra cố định và bản điều chỉnh; module có biến trở thường dùng bản LM2596-ADJ. Theo <a href="https://www.ti.com/product/LM2596" target="_blank" rel="noopener">TI</a>, IC có dải V_in 4,5–40 V và dòng đầu ra danh định tối đa 3 A trong điều kiện thiết kế phù hợp; giới hạn thực của module phụ thuộc tản nhiệt, diode, cuộn cảm và PCB. Điện áp đầu ra bản ADJ phải được đặt và đo trước khi nối tải nhạy cảm.</p>
 
       <div class="callout callout-practice">
         <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Đo và điều chỉnh LM2596 module</div>

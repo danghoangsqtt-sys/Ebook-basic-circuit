@@ -2,7 +2,7 @@
 
 Ngày chốt: 2026-10-02. Nguồn phạm vi: `docs/brainstorm/session-2026-10-02.md`. Hướng màn hình: `.DHSYSTEM/ui-direction/2026-10-02/`.
 
-Trạng thái 2026-10-03: Phase 1–6 đã hoàn tất và qua audit/debug; Phase 7–10 là **kế hoạch tái biên soạn mới, chưa triển khai**. Chi tiết từng task, phụ thuộc và nghiệm thu ở `CURRICULUM-PLAN.md`.
+Trạng thái 2026-10-03: Phase 1–6 đã hoàn tất và qua audit/debug; Phase 7 đang triển khai (P7-01–P7-03, P7-05 PASS; P7-04 đang rà kỹ thuật; P7-06 chưa mở). Phase 8–10 chưa triển khai theo cổng phụ thuộc trong `CURRICULUM-PLAN.md`.
 
 ## Nguyên tắc thực hiện
 

@@ -61,22 +61,19 @@
 
       <h2>1. BLE Architecture — GATT Model</h2>
 
-      <div class="circuit-ascii">  BLE GATT Hierarchy:
-
-  Device (ESP32 BLE Server)
-  └── Service UUID: 4fafc201-...  (Temperature Monitoring)
-      ├── Characteristic UUID: beb5483e-...  (Temperature)
-      │   ├── Properties: READ + NOTIFY
-      │   └── Value: "25.3" (float as string)
-
-  Ví dụ bên dưới chỉ tạo Temperature Characteristic.
-  LED WRITE là bài tập mở rộng ở mục 2, cần thêm characteristic
-  và callback trước khi có thể điều khiển LED.
-
-  Điện thoại (BLE Client)
-  └── nRF Connect app → Scan → Connect → Read/Write Characteristic</div>
+      <div class="callout callout-note">
+        <div id="diagram-d53-1" class="callout-header"><span class="callout-icon">📡</span> Cấu trúc GATT của ví dụ</div>
+        <ol>
+          <li><strong>Thiết bị:</strong> ESP32 đóng vai trò BLE server.</li>
+          <li><strong>Service:</strong> nhóm chức năng theo UUID bắt đầu <code>4fafc201</code>.</li>
+          <li><strong>Characteristic nhiệt độ:</strong> UUID bắt đầu <code>beb5483e</code>, thuộc service trên; có quyền <code>READ</code> và <code>NOTIFY</code>. Giá trị ví dụ <code>"25.3"</code> là chuỗi văn bản, không phải số float truyền trực tiếp.</li>
+        </ol>
+        <p>Điện thoại dùng nRF Connect làm BLE client: quét, kết nối, đọc hoặc đăng ký thông báo của characteristic nhiệt độ. Mã bên dưới <strong>chưa có quyền WRITE</strong>; muốn điều khiển LED cần thêm characteristic WRITE và callback như bài tập 2.</p>
+      </div>
 
       <h2>2. ESP32 BLE Server — Code</h2>
+
+      <p>Mã này gửi <strong>25,3°C giả lập</strong> để kiểm tra GATT/notification mà không cần cảm biến. Muốn gửi nhiệt độ thật, thay giá trị giả lập bằng phép đọc cảm biến đã đấu và khởi tạo theo đúng datasheet/library.</p>
 
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
 <pre style="margin:0;white-space:pre-wrap;">// ESP32 BLE Server — gửi nhiệt độ lên điện thoại
@@ -97,6 +94,7 @@ class MyServerCallbacks: public BLEServerCallbacks {
 };
 
 void setup() {
+  Serial.begin(115200);
   BLEDevice::init("ESP32-WeatherStation");
   BLEServer* server = BLEDevice::createServer();
   server->setCallbacks(new MyServerCallbacks());
@@ -116,7 +114,7 @@ void setup() {
 
 void loop() {
   if (deviceConnected) {
-    float temp = bme.readTemperature();
+    float temp = 25.3f;  // Dữ liệu demo, không phải số đo cảm biến
     String tempStr = String(temp, 1);  // "25.3"
     tempChar->setValue(tempStr.c_str());
     tempChar->notify();  // Push to phone

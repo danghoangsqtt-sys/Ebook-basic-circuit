@@ -58,7 +58,7 @@
           <tbody>
             <tr><td>Diode Zener 5,1V/0,5W</td><td>BZX79-C5V1 hoặc tương đương</td><td>2</td></tr>
             <tr><td>Diode Zener 3,3V/0,5W</td><td>BZX79-C3V3</td><td>1</td></tr>
-            <tr><td>Điện trở 330Ω, 470Ω, 1kΩ</td><td>¼W</td><td>2 mỗi loại</td></tr>
+            <tr><td>Điện trở 220Ω, 330Ω, 470Ω, 1kΩ</td><td>¼W; 220Ω dùng cho mạch thực hành Zener 9V</td><td>2 mỗi loại</td></tr>
             <tr><td>Nguồn 9V hoặc 12V</td><td>Adapter DC</td><td>1</td></tr>
             <tr><td>Tải test: LED + R hoặc điện trở 1kΩ</td><td>—</td><td>1</td></tr>
             <tr><td>Breadboard + multimeter</td><td>—</td><td>1 bộ</td></tr>
@@ -69,24 +69,15 @@
       <!-- PHẦN 1 -->
       <h2>1. Diode Zener — Breakdown có kiểm soát</h2>
 
-      <p>Diode Zener được thiết kế đặc biệt để hoạt động <em>trong vùng breakdown nghịch</em> một cách an toàn và ổn định. Khi điện áp nghịch đạt đến điện áp Zener V_Z, diode dẫn điện theo chiều nghịch và giữ điện áp trên nó ổn định tại V_Z — bất kể dòng qua nó thay đổi trong phạm vi cho phép.</p>
+      <p>Diode Zener được thiết kế đặc biệt để hoạt động <em>trong vùng breakdown nghịch</em> một cách an toàn và ổn định. Khi điện áp nghịch đạt đến điện áp Zener V_Z, diode dẫn điện theo chiều nghịch và giữ điện áp trên nó gần V_Z khi dòng và công suất vẫn nằm trong phạm vi cho phép.</p>
 
       <p>Đây là đặc tính hoàn toàn ngược với diode thường: diode thường bị hỏng khi breakdown, nhưng Zener được thiết kế để dùng ở vùng đó.</p>
 
-      <div class="circuit-ascii">  Diode Zener — hướng cắm:
-
-    V_in ──[R_s]──●──────── V_out (xấp xỉ V_Z khi đủ dòng)
-                 │
-                 ├──[tải R_L]──┐
-                 │              │
-                 └── K[Zener]A ┘
-                                │
-    0 V ────────────────────────┴── GND
-
-   CHÚ Ý: Zener cắm ngược so với diode thường:
-   - Cathode (vạch) ở phía điện áp CAO
-   - Anode ở phía GND
-   → Zener đang phân cực NGHỊCH</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d12-1.svg" width="390" height="420" loading="lazy" decoding="async" alt="Vin qua Rs đến Vout; cathode Zener và tải ở Vout, anode Zener và đầu dưới tải ở GND.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D12-1 — Zener ổn áp song song</div><div class="figure-text">Vin qua Rs đến Vout; cathode Zener và tải ở Vout, anode Zener và đầu dưới tải ở GND.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.onsemi.com/pdf/datasheet/1n47xxa-d.pdf" target="_blank" rel="noopener">onsemi về Zener</a>. <a href="../assets/images/lessons/d12-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D12-1</summary><p>Vin đi qua Rs tới Vout. Từ Vout có hai nhánh song song: Zener có cathode ở Vout anode ở GND; tải R cũng từ Vout xuống GND. Vout gần Vz chỉ khi dòng và công suất Zener ở dải cho phép; kiểm tra có tải và không tải.</p></details>
 
       <h3>1.1 Nguyên lý ổn áp Zener</h3>
       <p>Khi V_in > V_Z:</p>
@@ -138,21 +129,11 @@
       <!-- PHẦN 3 — BẢO VỆ -->
       <h2>3. Ứng dụng bảo vệ quá áp</h2>
 
-      <div class="circuit-ascii">  Chuyển tín hiệu số 5 V sang mức GPIO ESP32 (tín hiệu chậm):
-
-    5 V logic ──[R1=10 kΩ]──●── GPIO ESP32
-                            │
-                         [R2=15 kΩ]
-                            │
-    GND cảm biến ────────────┴── GND ESP32
-
-    V_GPIO ≈ V_in × 15/(10+15): 5,0 V → 3,0 V;
-    với nguồn 5 V ±5%: khoảng 2,85–3,15 V (trị số danh định).
-    Đọc giới hạn điện áp của đúng dòng ESP32, và dùng IC chuyển mức
-    nếu tín hiệu nhanh, nguồn không ổn định hoặc cần hai chiều.
-
-    Zener 3,3 V không bảo đảm kẹp chính xác tại 3,3 V:
-    điện áp phụ thuộc dung sai và dòng làm việc của từng mã.</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d12-2.svg" width="390" height="385" loading="lazy" decoding="async" alt="R1 10 kΩ từ tín hiệu 5 V tới GPIO; R2 15 kΩ từ GPIO về GND chung, cho khoảng 3,0 V danh định.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D12-2 — Chia mức 5 V cho GPIO</div><div class="figure-text">R1 10 kΩ từ tín hiệu 5 V tới GPIO; R2 15 kΩ từ GPIO về GND chung, cho khoảng 3,0 V danh định.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://docs.espressif.com/projects/esp-faq/en/latest/hardware-related/hardware-design.html" target="_blank" rel="noopener">Espressif về điện áp GPIO</a>. <a href="../assets/images/lessons/d12-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D12-2</summary><p>Tín hiệu logic 5 V qua R1 10 kΩ tới nút GPIO. R2 15 kΩ từ nút ấy về GND chung của cảm biến và ESP32. Tính lý tưởng Vgpio = 5 × 15/(10+15) = 3,0 V. Chỉ dùng cho tín hiệu chậm một chiều sau khi kiểm tra đúng giới hạn điện áp và ngưỡng logic của chip/board.</p></details>
 
       <!-- VIDEO -->
       <div class="video-card">

@@ -6,6 +6,7 @@ Usage: python tools/qa_lesson_visuals.py --start 1 --end 14
 from __future__ import annotations
 
 import argparse
+import json
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -27,6 +28,8 @@ def main() -> int:
     parser.add_argument("--start", type=int, default=1)
     parser.add_argument("--end", type=int, default=56)
     parser.add_argument("--widths", nargs="+", type=int, default=[320, 360, 390, 430, 1280])
+    parser.add_argument("--font-size", type=int, choices=range(16, 25), metavar="16..24")
+    parser.add_argument("--theme", choices=["dark", "light"])
     args = parser.parse_args()
     if not 1 <= args.start <= args.end <= 56:
         raise ValueError("Invalid lesson range")
@@ -40,6 +43,12 @@ def main() -> int:
             try:
                 for width in args.widths:
                     page = browser.new_page(viewport={"width": width, "height": 900})
+                    if args.font_size is not None or args.theme is not None:
+                        settings = json.dumps({"size": args.font_size, "theme": args.theme})
+                        page.add_init_script("""(({size, theme}) => {
+                          if (size !== null) localStorage.setItem('ebook-fontsize-px', String(size));
+                          if (theme !== null) localStorage.setItem('ebook-theme', theme);
+                        })(""" + settings + ")")
                     errors: list[str] = []
                     page.on("pageerror", lambda error: errors.append(str(error)))
                     for day in range(args.start, args.end + 1):
@@ -61,6 +70,8 @@ def main() -> int:
                               filter(fig => fig.querySelector('img')).
                               every(fig => fig.querySelector('.figure-caption') &&
                                 fig.querySelector('.figure-source')?.textContent.trim()),
+                            fontSize: document.querySelector('.content-area')?.style.getPropertyValue('--reader-font-size'),
+                            theme: document.documentElement.getAttribute('data-theme') || 'dark',
                             images: all.map(img => ({src: img.getAttribute('src'),
                               loaded: img.complete && img.naturalWidth > 0,
                               alt: Boolean(img.alt.trim()),
@@ -71,6 +82,10 @@ def main() -> int:
                         assert state["overview"], f"{path}: no overview image"
                         assert state["captions"], f"{path}: missing figure caption/source"
                         assert state["expected"] == f"day{day:02}-overview.svg", f"{path}: wrong image"
+                        if args.font_size is not None:
+                            assert state["fontSize"] == f"{args.font_size}px", f"{path}: font size not applied"
+                        if args.theme is not None:
+                            assert state["theme"] == args.theme, f"{path}: theme not applied"
                         assert state["scroll"] <= state["viewport"] + 1, f"{path} {width}px: horizontal overflow"
                         for image in state["images"]:
                             assert image["loaded"] and image["alt"], f"{path}: broken/unlabelled {image['src']}"

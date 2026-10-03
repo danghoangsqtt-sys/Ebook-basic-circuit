@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 345" width="400" height="345" role="img" aria-labelledby="title desc"><title id="title">Bộ lọc thông dải: HPF rồi LPF</title><desc id="desc">Vin qua C1 nối tiếp tới nút 1; R1 từ nút 1 xuống GND tạo HPF. Từ nút 1 qua R2 nối tiếp tới nút 2 là Vout; C2 từ nút 2 xuống GND tạo LPF.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="400" height="345" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M20 110 H50 M100 110 H220 M130 110 V150 M130 200 V235 M220 110 H280 M280 110 H350 M50 110 H70 M100 110 H80 M280 110 V167.5 M280 235 V177.5"/>
+<text x="200" y="24" class="h" text-anchor="middle">Thông dải = HPF (C1, R1) + LPF (R2, C2)</text>
+<rect x="38" y="52" width="112" height="210" rx="10" class="d" fill="none"/>
+<rect x="160" y="52" width="150" height="210" rx="10" class="d" fill="none"/>
+<text x="94" y="70" class="o b" text-anchor="middle">HPF</text>
+<text x="235" y="70" class="o b" text-anchor="middle">LPF</text>
+<circle cx="20" cy="110" r="4.5" class="c"/>
+<text x="20" y="92" class="b">Vin</text>
+<path class="k" d="M70 93 V127 M80 93 V127"/>
+<text x="75" y="86" class="b" text-anchor="middle">C1</text>
+<circle cx="130" cy="110" r="4.5" class="n"/>
+<rect class="c" x="117" y="150" width="26" height="50" rx="4"/>
+<text x="146" y="180" class="b">R1</text>
+<path class="w" d="M130 235 V245 M115 245 H145 M120 251 H140 M125 257 H135"/>
+<rect class="c" x="165" y="97" width="55" height="26" rx="4"/>
+<text x="192" y="115" class="b" text-anchor="middle">R2</text>
+<circle cx="280" cy="110" r="4.5" class="n"/>
+<path class="k" d="M263 167.5 H297 M263 177.5 H297"/>
+<text x="298" y="175" class="b">C2</text>
+<circle cx="350" cy="110" r="4.5" class="c"/>
+<text x="350" y="92" class="b" text-anchor="end">Vout</text>
+<path class="w" d="M280 235 V245 M265 245 H295 M270 251 H290 M275 257 H285"/>
+<text x="200" y="292" class="b" text-anchor="middle">f_cH ≈ 1/(2πR1C1) &lt; f_cL ≈ 1/(2πR2C2)</text>
+<text x="200" y="312" class="m" text-anchor="middle">Hai tầng RC tương tác tải: công thức chỉ gần đúng</text>
+<text x="200" y="332" class="m" text-anchor="middle">Băng thông ≈ f_cL − f_cH</text>
+</svg>

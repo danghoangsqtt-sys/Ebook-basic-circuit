@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 270" width="380" height="270" role="img" aria-labelledby="title desc"><title id="title">Khung UART 8N1 với dữ liệu 0x55</title><desc id="desc">Đường truyền nghỉ ở mức HIGH. Start bit LOW dài một bit. Tám bit dữ liệu, bit thấp nhất D0 truyền trước; ví dụ 0x55 là 1,0,1,0,1,0,1,0. Sau đó một stop bit HIGH rồi lại nghỉ HIGH.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="380" height="270" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<text x="190" y="28" class="h" text-anchor="middle">Khung UART 8N1 (ví dụ dữ liệu 0x55)</text>
+<path class="w" d="M20 100 H60 V140 H88 V100 H116 V140 H144 V100 H172 V140 H200 V100 H228 V140 H256 V100 H284 V140 H312 V100 H340 H360"/>
+<path class="gr" d="M60 82 V150"/>
+<text x="74" y="76" class="s" text-anchor="middle">Start</text>
+<path class="gr" d="M88 82 V150"/>
+<text x="102" y="76" class="s" text-anchor="middle">D0</text>
+<path class="gr" d="M116 82 V150"/>
+<text x="130" y="76" class="s" text-anchor="middle">D1</text>
+<path class="gr" d="M144 82 V150"/>
+<text x="158" y="76" class="s" text-anchor="middle">D2</text>
+<path class="gr" d="M172 82 V150"/>
+<text x="186" y="76" class="s" text-anchor="middle">D3</text>
+<path class="gr" d="M200 82 V150"/>
+<text x="214" y="76" class="s" text-anchor="middle">D4</text>
+<path class="gr" d="M228 82 V150"/>
+<text x="242" y="76" class="s" text-anchor="middle">D5</text>
+<path class="gr" d="M256 82 V150"/>
+<text x="270" y="76" class="s" text-anchor="middle">D6</text>
+<path class="gr" d="M284 82 V150"/>
+<text x="298" y="76" class="s" text-anchor="middle">D7</text>
+<path class="gr" d="M312 82 V150"/>
+<text x="326" y="76" class="s" text-anchor="middle">Stop</text>
+<path class="gr" d="M340 82 V150"/>
+<path class="ao" marker-start="url(#ao)" marker-end="url(#ao)" d="M60 166 L88 166"/>
+<text x="74" y="184" class="o b" text-anchor="middle">1 bit</text>
+<text x="10" y="92" class="s">HIGH</text>
+<text x="10" y="154" class="s">LOW</text>
+<text x="20" y="216" class="m">Nghỉ = HIGH; Start = LOW dài 1 bit</text>
+<text x="20" y="233" class="m">Dữ liệu 5–8 bit, bit thấp (LSB) truyền trước</text>
+<text x="20" y="250" class="m">Parity: không/lẻ/chẵn; Stop: 1 hoặc 2 bit HIGH</text>
+</svg>

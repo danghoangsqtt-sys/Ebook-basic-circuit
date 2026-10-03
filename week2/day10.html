@@ -80,15 +80,17 @@
 
       <p>Nguyên lý: khi dòng điện qua cuộn thay đổi, từ trường thay đổi → cảm ứng một điện áp ngược (<em>back-EMF</em>) theo định luật Lenz — điện áp này luôn có chiều cản lại sự thay đổi dòng ban đầu. Đây là tính chất quan trọng nhất của cuộn cảm.</p>
 
-      <div class="circuit-ascii">  Đặc tính cuộn cảm:
-
-  Dòng tăng đột ngột → EMF ngược chiều → cản lại sự tăng
-  Dòng giảm đột ngột → EMF thuận chiều → cản lại sự giảm
-
-  → Cuộn cảm "muốn" giữ dòng ổn định — không để dòng thay đổi nhanh
-
-  Ký hiệu mạch:
-  ──(((─── (cuộn lò xo)   hoặc   ──LLLL──</div>
+      <div class="table-wrap">
+        <table>
+          <caption id="diagram-d10-1">Cuộn cảm lý tưởng phản đối sự thay đổi dòng điện</caption>
+          <thead><tr><th scope="col">Dòng qua cuộn</th><th scope="col">Điện áp trên cuộn trong mô hình lý tưởng</th></tr></thead>
+          <tbody>
+            <tr><td>Đang tăng</td><td>Cực tính điện áp tự cảm được xác định bởi quy ước dấu và chống lại sự tăng dòng.</td></tr>
+            <tr><td>Đang giảm</td><td>Cực tính đảo so với lúc dòng tăng, nhằm chống lại sự giảm dòng.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Trong sơ đồ mạch, cuộn cảm thường được vẽ bằng một dãy cung cong giữa hai đầu nối và ký hiệu <strong>L</strong>. Công thức <strong>v<sub>L</sub> = L × di/dt</strong> áp dụng khi điện áp đo theo chiều dòng đi vào đầu dương đã chọn; cuộn thật còn có điện trở và giới hạn dòng bão hòa.</p>
 
       <h3>1.1 Điện cảm — Inductance (L)</h3>
 
@@ -162,17 +164,12 @@
 
       <div class="callout callout-danger">
         <div class="callout-header"><span class="callout-icon">🚫</span> BẮT BUỘC: Diode freewheeling khi dùng relay hoặc motor</div>
-        <p>Khi dùng transistor/MOSFET để điều khiển relay hoặc motor DC, <strong>luôn đặt một diode "freewheeling" song song với cuộn dây của relay/motor</strong>, anode vào GND, cathode vào nguồn. Diode này sẽ hấp thụ điện áp spike khi ngắt dòng, bảo vệ linh kiện điều khiển. Không có diode này = rủi ro cao phá transistor ngay lần đầu tiên.</p>
-        <div class="circuit-ascii" style="margin-top:12px;">  Mạch điều khiển relay đúng cách:
-
-   VCC ─────────┬───── Coil Relay (+)
-               [D]   ← Freewheeling diode (cathode lên VCC)
-                │
-               Coil Relay (–) ──── Drain MOSFET
-                                        │
-                                   Gate (từ GPIO)
-                                        │
-   GND ───────────────────────── Source MOSFET ── GND</div>
+        <p>Khi dùng transistor/MOSFET để điều khiển relay hoặc motor DC, <strong>luôn đặt một diode "freewheeling" song song với cuộn dây của relay/motor</strong>, anode vào nút drain/đầu thấp cuộn dây, cathode vào nguồn VCC. Diode này sẽ hấp thụ điện áp spike khi ngắt dòng, bảo vệ linh kiện điều khiển. Không có diode này = rủi ro cao phá transistor ngay lần đầu tiên.</p>
+        <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d10-2.svg" width="390" height="540" loading="lazy" decoding="async" alt="Cuộn relay từ VCC đến drain MOSFET N; diode song song cuộn, cathode ở VCC và anode ở drain.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D10-2 — Relay và diode dập xung</div><div class="figure-text">Cuộn relay từ VCC đến drain MOSFET N; diode song song cuộn, cathode ở VCC và anode ở drain.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.ti.com/document-viewer/lit/html/slvaf04" target="_blank" rel="noopener">TI về tải cảm</a>. <a href="../assets/images/lessons/d10-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D10-2</summary><p>VCC nối đầu trên cuộn relay và cathode diode. Đầu thấp cuộn nối drain MOSFET N và anode diode. Source MOSFET về GND. Gate nhận tín hiệu lái phù hợp và có điện trở kéo xuống GND 100 kΩ để tránh trôi mức khi GPIO chưa khởi tạo. Khi MOSFET ngắt, dòng tự cảm đi trong vòng cuộn và diode. Đây là sơ đồ nguyên lý, không là pinout MOSFET; chọn transistor, diode và dòng lái theo cuộn thực tế.</p></details>
       </div>
 
       <!-- VIDEO -->

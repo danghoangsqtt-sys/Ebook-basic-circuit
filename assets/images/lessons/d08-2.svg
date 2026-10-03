@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 370" width="400" height="370" role="img" aria-labelledby="title desc"><title id="title">Nhận dạng tụ hóa 100 µF 25 V</title><desc id="desc">Thân tụ trụ có dải trắng với dấu trừ ở phía cực âm. Chân ngắn là cực âm, chân dài là cực dương khi chân chưa bị cắt. Thân ghi 100 µF và 25 V là điện áp định mức tối đa.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="400" height="370" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<text x="200" y="28" class="h" text-anchor="middle">Tụ hóa 100 µF / 25 V</text>
+<rect x="150" y="50" width="120" height="140" rx="10" fill="#1e293b" stroke="#0f172a" stroke-width="2"/>
+<path d="M160 50 H176 V190 H160 Q150 190 150 180 V60 Q150 50 160 50 Z" fill="#e2e8f0" stroke="#0f172a" stroke-width="2"/>
+<text x="163" y="94" class="b" text-anchor="middle">−</text>
+<text x="163" y="131" class="b" text-anchor="middle">−</text>
+<text x="163" y="168" class="b" text-anchor="middle">−</text>
+<text x="224" y="110" fill="#fff" font-size="17" font-weight="700" text-anchor="middle" style="fill:#fff">100 µF</text>
+<text x="224" y="134" fill="#fff" font-size="15" text-anchor="middle" style="fill:#fff">25 V</text>
+<path d="M163 190 V240 M257 190 V300" stroke="#64748b" stroke-width="4" stroke-linecap="round"/>
+<text x="163" y="262" class="b" text-anchor="middle">chân NGẮN</text>
+<text x="163" y="278" class="m" text-anchor="middle">cực ÂM (−)</text>
+<text x="257" y="322" class="b" text-anchor="middle">chân DÀI</text>
+<text x="257" y="338" class="m" text-anchor="middle">cực DƯƠNG (+)</text>
+<text x="138" y="92" class="m" text-anchor="end">Dải trắng + dấu −</text>
+<text x="138" y="108" class="m" text-anchor="end">là cực ÂM (−)</text>
+<text x="282" y="92" class="m">100 µF: điện dung</text>
+<text x="282" y="130" class="m">25 V: áp định mức</text>
+<text x="282" y="146" class="m">tối đa, không vượt</text>
+<text x="200" y="362" class="o b" text-anchor="middle">Chân đã cắt: tin dải trắng/dấu −</text>
+</svg>

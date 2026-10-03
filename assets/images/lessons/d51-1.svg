@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 290" width="400" height="290" role="img" aria-labelledby="title desc"><title id="title">Vòng điều khiển PID</title><desc id="desc">Setpoint r vào bộ cộng với dấu cộng; từ đó trừ giá trị đo. Sai số e vào bộ PID; PID cho u, ví dụ PWM, vào khối driver, heater và lò. Đầu ra y là nhiệt độ lò, cảm biến nhiệt đo y và đưa về bộ cộng với dấu trừ.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="400" height="290" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M358 100 V210 M358 210 H300 M150 210 H62 V117"/>
+<text x="200" y="26" class="h" text-anchor="middle">Vòng điều khiển PID</text>
+<circle cx="62" cy="100" r="17" class="c"/>
+<text x="62" y="105" class="b" text-anchor="middle">Σ</text>
+<text x="38" y="88" class="b">+</text>
+<text x="70" y="135" class="b">−</text>
+<path class="a" d="M14 100 L44 100" marker-end="url(#ah)"/>
+<text x="14" y="86" class="b">r (setpoint)</text>
+<path class="a" d="M79 100 L108 100" marker-end="url(#ah)"/>
+<text x="93" y="88" class="b" text-anchor="middle">e</text>
+<rect class="p" x="110" y="75" width="70" height="50" rx="8"/>
+<text x="145" y="104" class="b" text-anchor="middle">PID</text>
+<path class="a" d="M180 100 L212 100" marker-end="url(#ah)"/>
+<text x="196" y="88" class="b" text-anchor="middle">u</text>
+<text x="196" y="120" class="s" text-anchor="middle">PWM</text>
+<rect class="y" x="214" y="65" width="120" height="70" rx="8"/>
+<text x="274" y="95.5" class="b" text-anchor="middle">Driver +</text>
+<text x="274" y="112.5" text-anchor="middle">heater + lò</text>
+<path class="a" d="M334 100 L380 100" marker-end="url(#ah)"/>
+<text x="360" y="86" class="b" text-anchor="middle">y (°C)</text>
+<circle cx="358" cy="100" r="4.5" class="n"/>
+<path class="a" d="M358 210 L300 210" marker-end="url(#ah)"/>
+<rect class="z" x="150" y="188" width="150" height="44" rx="8"/>
+<text x="225" y="214" class="b" text-anchor="middle">Cảm biến nhiệt</text>
+<path class="a" d="M62 160 L62 119" marker-end="url(#ah)"/>
+<text x="200" y="262" class="b" text-anchor="middle">e = r − (giá trị đo của cảm biến)</text>
+<text x="200" y="280" class="m" text-anchor="middle">y là đầu ra của quá trình, không phải u</text>
+</svg>

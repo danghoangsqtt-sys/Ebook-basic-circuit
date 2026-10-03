@@ -71,18 +71,13 @@
 
       <p>Trong cấu hình Common Emitter, cực Emitter là điểm chung (reference) cho cả tín hiệu vào (Base–Emitter) và tín hiệu ra (Collector–Emitter). Đây là cấu hình khuếch đại phổ biến nhất vì cho độ lợi điện áp (voltage gain) lớn nhất trong 3 cấu hình BJT.</p>
 
-      <div class="circuit-ascii">  Mạch khuếch đại CE cơ bản:
+      <figure class="figure figure--circuit" data-diagram-id="D17-1">
+        <img src="../assets/images/lessons/d17-1.svg" width="360" height="794" loading="lazy" decoding="async" alt="Nguồn +12 V qua R_C 4,7 kΩ tới collector. Base nhận phân cực từ R1 150 kΩ lên +12 V và R2 22 kΩ xuống GND; Vin qua C_in 10 µF tới base. Emitter qua R_E 560 Ω về GND, C_E 47 µF song song R_E. Collector qua C_out 10 µF ra tải có đường DC về GND. Cực tính tụ điện phân phải kiểm theo điện áp DC và tải thực tế.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D17-1</span> <span class="figure-text">Khuếch đại emitter chung BC547.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.onsemi.com/pdf/datasheet/bc546-d.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d17-1.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>Nguồn +12 V qua R_C 4,7 kΩ tới collector. Base nhận phân cực từ R1 150 kΩ lên +12 V và R2 22 kΩ xuống GND; Vin qua C_in 10 µF tới base. Emitter qua R_E 560 Ω về GND, C_E 47 µF song song R_E. Collector qua C_out 10 µF ra tải có đường DC về GND. Nếu dùng tụ điện phân, C_E có cực dương ở emitter; C_out có cực dương ở collector khi tải có đường DC về GND; cực C_in phải xác định bằng điện áp DC hai phía nguồn tín hiệu và base, hoặc dùng tụ không phân cực. Chọn điện áp định mức cao hơn điện áp DC cộng biên độ tín hiệu lớn nhất trên từng tụ.</p></details>
+      </figure>
 
-  Nhánh collector: +12V → R_C=4,7kΩ → nút C → Collector BC547
-  Tín hiệu ra:     nút C → C_out=10µF → Vout (đo với GND)
-
-  Phân cực base:  +12V → R1=150kΩ → nút B → R2=22kΩ → GND
-  Tín hiệu vào:   Vin → C_in=10µF → nút B → Base BC547
-
-  Nhánh emitter:  Emitter BC547 → nút E → R_E=560Ω → GND
-                                      └→ C_E=47µF → GND
-  C_E mắc SONG SONG R_E để bypass tín hiệu AC; không nối tiếp R_E.
-  Kiểm tra cực tính tụ hóa theo điện áp DC tại mỗi nút.</div>
+      <p>Với tụ điện phân trong sơ đồ D17-1: C_E có cực dương về emitter; C_out có cực dương về collector khi tải có đường DC về GND. Cực C_in tùy điện áp DC ở nguồn tín hiệu so với base: đo hai phía trước khi chọn chiều, hoặc dùng tụ không phân cực. Điện áp định mức của từng tụ phải cao hơn tổng điện áp DC và biên độ tín hiệu lớn nhất dự kiến; tham khảo <a href="https://www.nichicon.co.jp/english/wp-content/uploads/CAT.8101.pdf" target="_blank" rel="noopener">hướng dẫn tụ nhôm Nichicon</a>.</p>
 
       <!-- PHẦN 2 — Q-POINT -->
       <h2>2. Điểm làm việc Q-Point</h2>

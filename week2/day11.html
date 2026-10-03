@@ -72,18 +72,11 @@
 
       <p>Diode là linh kiện bán dẫn có hai cực: <strong>anode (A)</strong> và <strong>cathode (K)</strong>, được tạo thành từ tiếp giáp P-N — một vùng bán dẫn loại P (nhiều lỗ trống) tiếp xúc với một vùng bán dẫn loại N (nhiều electron tự do). Tại vùng tiếp giáp, electron và lỗ trống kết hợp với nhau tạo ra vùng nghèo (<em>depletion region</em>) — một "rào thế" tự nhiên.</p>
 
-      <div class="circuit-ascii">  Cấu tạo diode và ký hiệu:
-
-   Cực A (Anode)          Cực K (Cathode)
-       │                       │
-       P ──── depletion ──── N
-              zone (rào thế)
-
-   Ký hiệu sơ đồ mạch:
-    A ──▷|── K    (vạch đứng chỉ cathode K)
-
-    Dòng quy ước khi phân cực thuận: A → K.
-    Electron trong dây dẫn đi ngược chiều dòng quy ước.</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d11-1.svg" width="360" height="340" loading="lazy" decoding="async" alt="Cấu trúc P-N có vùng nghèo giữa hai bán dẫn; cực A nối phía P, cực K nối phía N. Ký hiệu mạch là tam giác hướng từ A sang K với vạch đứng ở phía K. Dòng quy ước đi từ A sang K khi phân cực thuận.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D11-1 — Cấu tạo và ký hiệu diode</div><div class="figure-text">Cấu trúc P-N có vùng nghèo giữa hai bán dẫn; cực A nối phía P, cực K nối phía N. Ký hiệu mạch là tam giác hướng từ A sang K với vạch đứng ở phía K. Dòng quy ước đi từ A sang K khi phân cực thuận.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d11-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D11-1</summary><p>Cấu trúc P-N có vùng nghèo giữa hai bán dẫn; cực A nối phía P, cực K nối phía N. Ký hiệu mạch là tam giác hướng từ A sang K với vạch đứng ở phía K. Dòng quy ước đi từ A sang K khi phân cực thuận.</p></details>
 
       <h3>1.1 Phân cực thuận — Forward Bias</h3>
       <p>Khi đặt điện áp dương vào anode (A) và âm vào cathode (K), rào thế bị thu hẹp. Khi V_AK đủ lớn (~0,6–0,7V với diode silicon; ~0,2–0,3V với diode Schottky), rào thế bị thắng, dòng điện chạy từ A → K. Diode <strong>dẫn điện</strong>.</p>
@@ -129,33 +122,19 @@
 
       <h3>3.1 Chỉnh lưu bán sóng (Half-Wave Rectifier)</h3>
 
-      <div class="circuit-ascii">  Mạch chỉnh lưu bán sóng:
-
-    AC1 ──▷|───┬── DC+ (anode trái, cathode phải)
-              [R_load]
-              │
-    AC2 ─────────┴── DC– (điểm tham chiếu)
-
-   AC1 dương so với AC2: diode dẫn, tải nhận nửa sóng dương.
-   AC1 âm so với AC2: diode khóa, tải gần 0 V.
-   Lý tưởng: V_out_avg = V_peak / π ≈ 0,318 × V_peak;
-   diode thật làm điện áp ra thấp hơn.</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d11-2.svg" width="390" height="355" loading="lazy" decoding="async" alt="AC1 → anode D1; cathode D1 → DC+; tải từ DC+ về AC2/DC−. Chỉ dùng AC thấp áp cách ly.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D11-2 — Chỉnh lưu bán sóng</div><div class="figure-text">AC1 → anode D1; cathode D1 → DC+; tải từ DC+ về AC2/DC−. Chỉ dùng AC thấp áp cách ly.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.microchip.com/en-us/application-notes/303" target="_blank" rel="noopener">Microchip về diode chỉnh lưu</a>. <a href="../assets/images/lessons/d11-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D11-2</summary><p>AC1 nối anode D1. Cathode tạo DC+. Tải điện trở nối DC+ đến AC2/DC−. Khi AC1 dương so với AC2, dòng đi qua D1 rồi tải về AC2; nửa chu kỳ âm D1 khóa. Trung bình Vpeak/π chỉ đúng mô hình diode lý tưởng không có tụ lọc.</p></details>
 
       <h3>3.2 Chỉnh lưu toàn sóng cầu (Full-Wave Bridge Rectifier)</h3>
 
-      <div class="circuit-ascii">  Cầu diode 4 linh kiện:
-
-   Bốn diode nối tại bốn nút riêng; | là cathode:
-
-   D1: AC1 ──▷|── DC+       D2: AC2 ──▷|── DC+
-   D3: DC– ──▷|── AC1       D4: DC– ──▷|── AC2
-
-   Tải R_L nối DUY NHẤT từ DC+ xuống DC–.
-   AC1 dương: AC1 → D1 → DC+ → R_L → DC– → D4 → AC2.
-   AC2 dương: AC2 → D2 → DC+ → R_L → DC– → D3 → AC1.
-   Mỗi bán kỳ có 2 diode dẫn; V_peak,out ≈ V_peak,in – 2V_f.
-   Lý tưởng: V_out_avg = 2V_peak/π ≈ 0,637V_peak.
-   Chỉ dùng nguồn AC thấp áp cách ly khi lắp thực hành.</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d11-3.svg" width="390" height="520" loading="lazy" decoding="async" alt="D1 AC1→DC+, D2 AC2→DC+, D3 DC−→AC1, D4 DC−→AC2; tải chỉ nối DC+ với DC−.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D11-3 — Cầu chỉnh lưu bốn diode</div><div class="figure-text">D1 AC1→DC+, D2 AC2→DC+, D3 DC−→AC1, D4 DC−→AC2; tải chỉ nối DC+ với DC−.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://www.microchip.com/en-us/application-notes/303" target="_blank" rel="noopener">Microchip về cầu chỉnh lưu</a>. <a href="../assets/images/lessons/d11-3.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D11-3</summary><p>Bốn nút AC1, AC2, DC+, DC−. D1 anode AC1 cathode DC+; D2 anode AC2 cathode DC+; D3 anode DC− cathode AC1; D4 anode DC− cathode AC2. Bán kỳ AC1 dương dẫn qua D1, tải, D4; bán kỳ AC2 dương dẫn qua D2, tải, D3. Hai diode dẫn mỗi bán kỳ. Chỉ dùng AC thấp áp cách ly.</p></details>
 
       <div class="callout callout-note">
         <div class="callout-header"><span class="callout-icon">📌</span> Tụ lọc sau chỉnh lưu</div>

@@ -356,17 +356,13 @@
 
       <p>Khi vòng này bị gián đoạn tại bất kỳ điểm nào — dù chỉ một điểm — không có dòng điện nào có thể chạy. Đây là <strong>mạch hở (Open Circuit)</strong>. Điện áp vẫn tồn tại ở hai đầu nguồn, nhưng không có dòng.</p>
 
-      <div class="circuit-ascii">  Mạch kín (có dòng):         Mạch hở (không có dòng):
+      <figure class="figure">
+        <img src="../assets/images/lessons/d01-5.svg" width="360" height="620" style="max-width:360px;margin-inline:auto" loading="lazy" decoding="async" alt="Cùng mạch pin, R và LED: công tắc ở đường về đóng tạo vòng kín; công tắc mở để lại khe hở nên dòng qua LED bằng không.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D01-5 · Mạch kín và hở</div><div class="figure-text">Hai hình có cùng nguồn, R và khối LED; chỉ khác công tắc ở đường về. Khi đóng, vòng khép kín và LED có thể sáng nếu điện áp, dòng phù hợp. Khi mở, dòng ổn định qua nhánh này bằng không.</div><div class="figure-source">Sơ đồ khối mạch tự vẽ; A/K ghi cực của LED, chưa thay cho ký hiệu diode chuẩn. <a href="../assets/images/lessons/d01-5.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc hai vòng mạch bằng chữ</summary><p>Ở hình trên, từ cực dương pin đi qua R rồi qua LED từ anode A đến cathode K, qua công tắc đóng và về cực âm pin. Ở hình dưới, công tắc trên đường về mở nên vòng bị ngắt và không có dòng ổn định qua LED.</p></details>
 
-   [+]───[R]───[LED]───[−]        [+]───[R]──╳──[LED]───[−]
-    │                    │         │               ↑         │
-    └────────────────────┘         └─────────── HỞ ──────────┘
-
-   → Dòng I chạy vòng quanh      → Không có dòng nào chạy
-   → LED sáng                     → LED tắt
-   → Có thể đo dòng               → Điện áp tại điểm hở = V nguồn</div>
-
-      <p>Điểm thú vị: trong mạch hở, nếu bạn đặt que đo điện áp tại điểm hở, bạn sẽ đo được <strong>toàn bộ điện áp nguồn</strong> — vì không có phân áp nào xảy ra. Đây là căn cứ để debug: nếu một đoạn mạch đọc được toàn bộ điện áp nguồn, rất có thể đoạn đó đang hở mạch.</p>
+      <p>Nếu chỉ có một vòng nguồn–tải–công tắc như hình, đo <em>giữa hai đầu công tắc hở</em> bằng đồng hồ có trở kháng vào cao có thể đọc gần điện áp nguồn. Giá trị thực còn phụ thuộc đường mắc song song, tải và đồng hồ; không suy rằng mọi điểm hở trong mọi mạch đều có toàn bộ điện áp nguồn.</p>
 
       <h3>7.1 Short Circuit — Ngắn mạch</h3>
 

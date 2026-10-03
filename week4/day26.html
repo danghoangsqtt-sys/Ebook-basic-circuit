@@ -101,21 +101,11 @@ void loop() {
 
       <h2>3. Debounce Nút Nhấn</h2>
 
-      <div class="circuit-ascii">  Hardware debounce (RC filter):
-
-  VCC_logic → R_pullup=10kΩ → nút GPIO
-  Nút GPIO → công tắc nhấn → GND
-  Nút GPIO → C=100nF → GND
-  GPIO ở chế độ INPUT (đã có pull-up ngoài 10kΩ).
-  C đặt ngay tại nút GPIO, SONG SONG công tắc xuống GND.
-  τ xấp xỉ R×C = 1ms khi thả nút; đo thực tế và xử lý
-  debounce bằng phần mềm nếu cần lọc bounce dài hơn.
-
-  Software debounce trong ISR:
-  if (millis() - lastPress &gt; 50) {
-    lastPress = millis();
-    // xử lý nhấn
-  }</div>
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d26-1.svg" width="360" height="400" loading="lazy" decoding="async" alt="VCC_logic qua R_pullup 10 kΩ tới nút GPIO. Công tắc nhấn từ nút GPIO xuống GND. Tụ 100 nF cũng nối từ nút GPIO xuống GND, song song với công tắc, đặt sát nút GPIO. GPIO ở chế độ INPUT.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D26-1 — Khử rung nút nhấn bằng tụ RC</div><div class="figure-text">VCC_logic qua R_pullup 10 kΩ tới nút GPIO. Công tắc nhấn từ nút GPIO xuống GND. Tụ 100 nF cũng nối từ nút GPIO xuống GND, song song với công tắc, đặt sát nút GPIO. GPIO ở chế độ INPUT.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d26-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D26-1</summary><p>VCC_logic qua R_pullup 10 kΩ tới nút GPIO. Công tắc nhấn từ nút GPIO xuống GND. Tụ 100 nF cũng nối từ nút GPIO xuống GND, song song với công tắc, đặt sát nút GPIO. GPIO ở chế độ INPUT.</p></details>
 
       <h2>4. Timer Interrupt — ESP32 Hardware Timer</h2>
 
@@ -179,7 +169,7 @@ void loop() {
           <div class="answer-content">
             <p><strong>1:</strong> Không có volatile: compiler tối ưu bằng cách cache biến trong register CPU. ISR thay đổi biến trong RAM, nhưng main loop đọc giá trị cũ trong register → không bao giờ thấy cập nhật từ ISR. volatile báo compiler luôn đọc từ RAM.</p>
             <p><strong>2:</strong> Tốc độ = (5000 xung/s) / (1000 xung/vòng) = 5 vòng/s = 5×60 = <strong>300 RPM</strong>.</p>
-            <p><strong>3:</strong> Software debounce: debounce time = 50ms (giữa 20ms bounce và 200ms min press). Logic: lưu lastPressTime. Khi interrupt: if (millis() - lastPressTime &gt; 50) { xử lý; lastPressTime = millis(); }. Hardware: thêm RC 10kΩ+100nF = 1ms time constant để lọc spike ngắn &lt; 5ms trước khi vào GPIO.</p>
+            <p><strong>3:</strong> Software debounce: đặt cửa sổ ổn định 50ms để xử lý bounce dưới 20ms mà vẫn nhận lần nhấn kéo dài hơn 200ms; ISR chỉ đặt cờ, xác nhận trạng thái sau cửa sổ thời gian trong loop. RC 10kΩ+100nF có τ=1ms chỉ làm mềm các cạnh/xung rất ngắn, không bảo đảm loại xung bounce 5ms hoặc 20ms.</p>
           </div>
         </div>
       </div>

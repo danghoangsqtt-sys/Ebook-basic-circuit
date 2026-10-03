@@ -1,9 +1,9 @@
 # Theo dõi tiến độ
 
 - Cập nhật: 2026-10-03
-- Trạng thái: Phase 1–6 hoàn tất; Phase 7–10 đã lập kế hoạch, chưa triển khai
-- Phase hiện tại: Phase 7 — P7-02 in_progress
-- Việc kế tiếp: Tái kiểm 80 khối ASCII và lập sổ claim trước P7-03
+- Trạng thái: Phase 1–6 hoàn tất; Phase 7 đang triển khai, Phase 8–10 chưa mở
+- Phase hiện tại: Phase 7 — P7-04 in_progress; P7-06 chờ cổng P7-04
+- Việc kế tiếp: Hoàn tất đối chiếu điện học/part/revision và người duyệt cho P7-04; sau đó audit/debug P7-06
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -16,7 +16,7 @@
 | Phase 4 | 4 | 4 | Hoàn tất; audit/debug PASS |
 | Phase 5 | 4 | 4 | Hoàn tất; audit/debug PASS |
 | Phase 6 | 2 | 2 | Hoàn tất; audit/debug PASS |
-| Phase 7 | 6 | 1 | P7-01 PASS; đang làm P7-02 |
+| Phase 7 | 6 | 4 | P7-01–P7-03 và P7-05 PASS; P7-04 in_progress; P7-06 TODO |
 | Phase 8 | 6 | 0 | Kế hoạch; phụ thuộc Phase 7 |
 | Phase 9 | 5 | 0 | Kế hoạch; phụ thuộc Phase 8 |
 | Phase 10 | 4 | 0 | Kế hoạch; phụ thuộc Phase 9 |
@@ -134,13 +134,13 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 
 2026-10-03 Audit Phase 6: Tier 1 PASS; Tier 2 sửa số nhánh 49/49 trên 12 sơ đồ; Tier 3 thêm đối chiếu bài dùng ảnh trong manifest và fixture phát hiện sai bài. Các cổng asset/link/index/Chromium/WebKit PASS; xem `.DHSYSTEM/audit-report.md`. Phase 6 và milestone hình Phase 4–6 hoàn tất.
 
-## Phase 7–10 — Tái biên soạn giáo trình (chưa triển khai)
+## Phase 7–10 — Tái biên soạn giáo trình (Phase 7 đang triển khai)
 
 Nguồn task và tiêu chí: `.DHSYSTEM/CURRICULUM-PLAN.md`. Chưa có bài mới, sơ đồ thay thế hay bằng chứng nghiệm thu từ đợt này. Báo cáo Phase 4–6 là kết quả trong phạm vi QA hình cũ.
 
 | Phase | Task | Trạng thái |
 | --- | --- | --- |
-| 7 | P7-01–P7-03 PASS; P7-04 in_progress; P7-05–P7-06 TODO | Đang làm |
+| 7 | P7-01–P7-03 và P7-05 PASS; P7-04 in_progress; P7-06 TODO | Đang làm |
 | 8 | P8-01, P8-02, P8-03, P8-04, P8-05, P8-06 | TODO |
 | 9 | P9-01, P9-02, P9-03, P9-04, P9-05 | TODO |
 | 10 | P10-01, P10-02, P10-03, P10-04 | TODO |
@@ -152,3 +152,7 @@ Mỗi P7-06/P8-06/P9-05/P10-04 là cổng `dh-audit` và `dh-debug`; chỉ chuy�
 2026-10-03 P7-02: đăng ký 80/80 khối hiện hành và 17 claim cần kiểm; 48 schematic, 4 waveform, 12 pinout/vật lý, 10 luồng, 6 văn bản tra. Sáu hình người dùng nêu còn lỗi đọc ASCII; lỗi điện học lịch sử không được tự coi là lỗi hiện hành. Commit `fe045a1` đã push, clean/0 ahead; xem `docs/qa/curriculum-phase7.md`.
 
 2026-10-03 P7-03: thay sáu sơ đồ người dùng chỉ ra bằng SVG tự vẽ có bản chữ, sửa an toàn/GND/đo điện, lỗi d/e trên breadboard và đáy sóng AC; 74 ASCII còn lại. Reviewer độc lập rà hình học và phát hiện lỗi đã sửa. 56/56 bài có hình, 0/580 liên kết hỏng, search index mới, 9 ca viewport và 12 ca 24 px/theme PASS. Commit `e1df893` đã push, clean/0 ahead; xem `docs/qa/curriculum-phase7.md`.
+
+2026-10-03 P7-05: đồng bộ 48 nhãn menu sai/lệch với `h1` thật; 56/56 URL giữ nguyên. Thêm `tools/check_navigation.py`; link 59 trang/656 tham chiếu 0 hỏng, chỉ mục 56 bài hiện hành, JS syntax PASS. Đã rà lại câu an toàn Bài 1 và nhận xét ký hiệu Bài 3. P7-04 đang đổi HTML nên sẽ chạy lại cổng trước P7-06; xem `docs/qa/curriculum-phase7.md`.
+
+2026-10-03 P7-04 tiến độ: đã chuyển 80/80 khối ASCII thành 70 SVG + 10 HTML có bản chữ, 56/56 bài có hình; 168 ca viewport 24 px và 56 ca dark 320 px PASS, 59 trang/709 tham chiếu 0 hỏng. Rà kỹ thuật độc lập phát hiện và sửa nhiều lỗi P1/P2 trong sơ đồ, BOM, mức điện áp và mã ví dụ; chi tiết `docs/qa/curriculum-phase7.md` và phiên `dh-debug`. Chưa có board/module cụ thể, reviewer phần cứng, ERC/mô phỏng/đo cho toàn bộ mạch rủi ro; P7-04/P7-06 chưa nghiệm thu, không chuyển Phase 8.

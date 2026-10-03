@@ -71,22 +71,11 @@
 
       <p>Op-Amp (<em>Operational Amplifier</em>) là IC khuếch đại vi sai (differential amplifier) có độ lợi vòng hở (open-loop gain) cực lớn (100,000–1,000,000 lần). Khi thêm mạch phản hồi âm (negative feedback) qua điện trở, độ lợi được điều chỉnh chính xác theo tỷ lệ điện trở.</p>
 
-      <div class="circuit-ascii">  Ký hiệu Op-Amp và chân LM358 (DIP-8):
-
-       Ký hiệu mạch:
-          V+ ─────(+)┐
-                     │▷── Vout
-          V– ─────(–)┘
-
-       LM358 DIP-8 — 2 op-amp độc lập:
-        ┌─────────────────┐
-     1OUT ┤1             8├ VCC (+)
-     1IN– ┤2             7├ 2OUT
-     1IN+ ┤3             6├ 2IN–
-      GND ┤4             5├ 2IN+
-        └─────────────────┘
-
-  Decoupling: 100nF từ VCC(pin 8) xuống GND(pin 4) — sát IC!</div>
+      <figure class="figure figure--circuit" data-diagram-id="D20-1">
+        <img src="../assets/images/lessons/d20-1.svg" width="360" height="360" loading="lazy" decoding="async" alt="LM358 TI PDIP-8 nhìn từ trên, rãnh khuyết ở trên: trái trên xuống 1 OUT A, 2 IN− A, 3 IN+ A, 4 V−; phải dưới lên 5 IN+ B, 6 IN− B, 7 OUT B, 8 V+. Tụ 100 nF nối pin 8 và 4 gần IC. V− không luôn là GND: với nguồn hai cực là rail âm.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D20-1</span> <span class="figure-text">LM358 PDIP-8: sơ đồ chân nhìn từ trên.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.ti.com/lit/ds/symlink/lm358.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d20-1.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>LM358 TI PDIP-8 nhìn từ trên, rãnh khuyết ở trên: trái trên xuống 1 OUT A, 2 IN− A, 3 IN+ A, 4 V−; phải dưới lên 5 IN+ B, 6 IN− B, 7 OUT B, 8 V+. Tụ 100 nF nối pin 8 và 4 gần IC. V− không luôn là GND: với nguồn hai cực là rail âm.</p></details>
+      </figure>
 
       <div class="table-wrap">
         <table>
@@ -115,18 +104,11 @@
         </div>
       </div>
 
-      <div class="circuit-ascii">  Inverting Amplifier:
-
-  Vin → R_in=10kΩ → nút IN(–) LM358
-  Vout LM358 → R_f=100kΩ → chính nút IN(–) (phản hồi âm)
-  IN(+) → GND (điểm giữa hai nguồn);
-  LM358 pin 8 → +9V, pin 4 → –9V so với điểm GND này.
-  Ví dụ Vin=+0,5V → Vout≈–5V, trong giới hạn nguồn ±9V.
-
-  Với nguồn đơn 0–5V, phải phân cực IN(+) ở V_ref giữa nguồn
-  và đặt Vin quanh V_ref: Vout = V_ref – (R_f/R_in)×(Vin–V_ref).
-  Vout và cả hai điện áp đầu vào phải nằm trong miền hợp lệ
-  của LM358; không thể tạo điện áp ra âm từ nguồn 0–5V.</div>
+      <figure class="figure figure--circuit" data-diagram-id="D20-2">
+        <img src="../assets/images/lessons/d20-2.svg" width="360" height="440" loading="lazy" decoding="async" alt="Vin qua Rin 10 kΩ vào IN−. Rf 100 kΩ hồi tiếp từ Vout về đúng nút IN−. IN+ về GND tham chiếu. Pin 8 tới +9 V, pin 4 tới −9 V. Với Vin +0,5 V, Vout lý tưởng khoảng −5 V khi dải đầu vào/đầu ra và tải cho phép. Nguồn đơn cần Vref và kiểm dải common-mode, không tạo được áp âm.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D20-2</span> <span class="figure-text">LM358 khuếch đại đảo với nguồn hai cực.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.ti.com/lit/ds/symlink/lm358.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d20-2.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>Vin qua Rin 10 kΩ vào IN−. Rf 100 kΩ hồi tiếp từ Vout về đúng nút IN−. IN+ về GND tham chiếu. Pin 8 tới +9 V, pin 4 tới −9 V. Với Vin +0,5 V, Vout lý tưởng khoảng −5 V khi dải đầu vào/đầu ra và tải cho phép. Nguồn đơn cần Vref và kiểm dải common-mode, không tạo được áp âm.</p></details>
+      </figure>
 
       <h3>2.2 Non-Inverting Amplifier — Khuếch đại thuận pha</h3>
 
@@ -141,27 +123,19 @@
 
       <h3>2.3 Voltage Follower (Unity Gain Buffer)</h3>
 
-      <div class="circuit-ascii">  Voltage Follower — A_V = 1, không đảo pha:
-
-  V_in──(+)──[LM358]──┬── V_out ≈ V_in
-              (–)──────┘
-
-  Tại sao cần? Trở kháng đầu vào = ~∞ → không tải nguồn tín hiệu yếu
-  Trở kháng đầu ra = ~50Ω → có thể lái tải nhỏ mà không sụt áp
-  Dùng: buffer cảm biến (nhiệt điện, quang điện), isolate nguồn reference</div>
+      <figure class="figure figure--circuit" data-diagram-id="D20-3">
+        <img src="../assets/images/lessons/d20-3.svg" width="360" height="545" loading="lazy" decoding="async" alt="Vin vào IN+; nối trực tiếp Vout về IN− tạo phản hồi âm; Vout xấp xỉ Vin khi đầu vào nằm trong dải common-mode, đầu ra còn headroom, tải nằm trong khả năng LM358. Pin nguồn 8 tới V+, pin 4 tới V−; tụ 100 nF giữa hai rail.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D20-3</span> <span class="figure-text">LM358 bộ đệm điện áp.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.ti.com/lit/ds/symlink/lm358.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d20-3.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>Vin vào IN+; nối trực tiếp Vout về IN− tạo phản hồi âm; Vout xấp xỉ Vin khi đầu vào nằm trong dải common-mode, đầu ra còn headroom, tải nằm trong khả năng LM358. Pin nguồn 8 tới V+, pin 4 tới V−; tụ 100 nF giữa hai rail.</p></details>
+      </figure>
 
       <h3>2.4 Comparator — So sánh điện áp</h3>
 
-      <div class="circuit-ascii">  Comparator:
-
-  V_in──(+)──[LM358]── V_out (HIGH hoặc LOW)
-  V_ref──(–)
-
-  Khi V_in > V_ref: V_out = HIGH (thấp hơn V_CC, tùy tải)
-  Khi V_in < V_ref: V_out = LOW (~0V)
-  Không có vòng phản hồi → open-loop → output "kẹp" ở cực trị
-
-  Ứng dụng: phát hiện ngưỡng nhiệt độ, mức nước, ánh sáng</div>
+      <figure class="figure figure--circuit" data-diagram-id="D20-4">
+        <img src="../assets/images/lessons/d20-4.svg" width="360" height="545" loading="lazy" decoding="async" alt="Vin vào IN+; Vref vào IN−; không hồi tiếp âm. Vout đi lên khi Vin vượt Vref và xuống khi Vin thấp hơn Vref, nhưng không đạt rail dương khi tải và nguồn giới hạn. LM358 dùng như comparator chỉ cho tín hiệu chậm, kiểm common-mode, tốc độ và trạng thái khi sát ngưỡng; thiết kế cần chuyển mạch sạch nên dùng comparator chuyên dụng/hysteresis.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D20-4</span> <span class="figure-text">LM358 so sánh ngưỡng chậm.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.ti.com/lit/ds/symlink/lm358.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d20-4.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>Vin vào IN+; Vref vào IN−; không hồi tiếp âm. Vout đi lên khi Vin vượt Vref và xuống khi Vin thấp hơn Vref, nhưng không đạt rail dương khi tải và nguồn giới hạn. LM358 dùng như comparator chỉ cho tín hiệu chậm, kiểm common-mode, tốc độ và trạng thái khi sát ngưỡng; thiết kế cần chuyển mạch sạch nên dùng comparator chuyên dụng/hysteresis.</p></details>
+      </figure>
 
       <div class="callout callout-tip">
         <div class="callout-header"><span class="callout-icon">💡</span> LM358 vs LM393 (dedicated comparator)</div>
@@ -193,7 +167,7 @@
           <li class="step-item"><div class="step-content"><p>Non-Inverting: R_f=90kΩ (hoặc 2×47kΩ nối tiếp) từ OUT→IN–. R1=10kΩ từ IN–→GND.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Biến trở 10kΩ: một đầu VCC, một đầu GND, giữa vào IN+. Điều chỉnh để V_in = 0,2V.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Đo V_out: kỳ vọng = 10 × 0,2V = 2V. Tăng V_in đến 0,35V → V_out kỳ vọng 3,5V.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Tăng V_in đến 0,5V → V_out kỳ vọng 5V nhưng thực tế bị clamp ở ~3,5V (LM358 output swing limit). Ghi nhận.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Tăng V_in đến 0,5 V: công thức lý tưởng cho độ lợi 10 cho V_out = 5 V, nhưng LM358 cấp nguồn đơn 5 V không đạt sát rail dương. Đo V_out thực tế; mức cao phụ thuộc tải và phiên bản IC, không mặc định 3,5 V.</p></div></li>
         </ol>
       </div>
 

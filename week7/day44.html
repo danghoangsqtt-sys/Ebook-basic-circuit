@@ -52,19 +52,24 @@
 
       <h2>1. Cấu trúc firmware chuyên nghiệp</h2>
 
-      <div class="circuit-ascii">  Cấu trúc thư mục dự án Arduino/PlatformIO:
-
-  project/
-  ├── src/
-  │   ├── main.cpp          ← Entry point, setup/loop
-  │   ├── config.h          ← Tất cả hằng số, pin definitions
-  │   ├── sensors.h/cpp     ← Module đọc cảm biến
-  │   ├── display.h/cpp     ← Module điều khiển OLED
-  │   ├── connectivity.h/cpp ← WiFi, MQTT, OTA
-  │   ├── storage.h/cpp     ← SD card, EEPROM
-  │   └── state_machine.h   ← State machine hệ thống
-  ├── lib/                  ← Thư viện local
-  └── platformio.ini        ← Cấu hình PlatformIO</div>
+      <p>Ví dụ dưới đây là bố cục <strong>PlatformIO dùng Arduino framework</strong>. Tên tệp và cách chia module là gợi ý cho đồ án, không phải yêu cầu cố định của mọi dự án Arduino.</p>
+      <div class="table-wrap">
+        <table>
+          <caption id="diagram-d44-1">Thư mục và vai trò trong ví dụ PlatformIO</caption>
+          <thead><tr><th scope="col">Đường dẫn trong project/</th><th scope="col">Vai trò</th></tr></thead>
+          <tbody>
+            <tr><td><code>src/main.cpp</code></td><td>Điểm bắt đầu; <code>setup()</code> và <code>loop()</code>.</td></tr>
+            <tr><td><code>src/config.h</code></td><td>Hằng số cấu hình và ánh xạ chân đã kiểm trên board dùng.</td></tr>
+            <tr><td><code>src/sensors.h/.cpp</code></td><td>Giao diện và mã đọc cảm biến.</td></tr>
+            <tr><td><code>src/display.h/.cpp</code></td><td>Điều khiển màn hình.</td></tr>
+            <tr><td><code>src/connectivity.h/.cpp</code></td><td>WiFi, MQTT hoặc OTA nếu đồ án dùng.</td></tr>
+            <tr><td><code>src/storage.h/.cpp</code></td><td>Lưu trữ SD hoặc bộ nhớ phù hợp.</td></tr>
+            <tr><td><code>src/state_machine.h</code></td><td>Trạng thái và sự kiện của hệ thống.</td></tr>
+            <tr><td><code>lib/</code></td><td>Thư viện cục bộ của dự án.</td></tr>
+            <tr><td><code>platformio.ini</code></td><td>Cấu hình môi trường build của PlatformIO.</td></tr>
+          </tbody>
+        </table>
+      </div>
 
       <h2>2. State Machine — Quản lý trạng thái</h2>
 

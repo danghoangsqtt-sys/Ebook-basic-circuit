@@ -88,7 +88,7 @@
         <figcaption class="figure-caption">
           <div class="figure-number">D03-1 · Ký hiệu điện trở</div>
           <div class="figure-text">Nét gấp khúc và hình chữ nhật là hai cách thể hiện điện trở trên sơ đồ. Hai đầu A và B là đầu nối, không chỉ cực tính; điện trở thông thường không phân cực.</div>
-          <div class="figure-source">Nguồn: sơ đồ tự vẽ cho giáo trình.</div>
+          <div class="figure-source">Nguồn: sơ đồ tự vẽ cho giáo trình. <a href="../assets/images/lessons/d03-resistor-symbols.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div>
         </figcaption>
       </figure>
       <details class="summary-transcript"><summary>Mô tả ký hiệu bằng chữ</summary><p>Ở cả hai hàng, dây bên trái nối đến đầu A, đi qua điện trở R, rồi dây bên phải nối đến đầu B. Hàng trên biểu diễn thân điện trở bằng đường zigzag; hàng dưới biểu diễn bằng hình chữ nhật. Hai hình tương đương về ý nghĩa mạch điện.</p></details>
@@ -147,15 +147,14 @@
 
       <p>Điện trở 4 vạch (carbon film thông thường): <strong>Vạch 1 · Vạch 2 · Vạch nhân · Vạch sai số</strong></p>
 
-      <div class="circuit-ascii">  Ví dụ: Nâu · Đen · Đỏ · Vàng kim
-
-   ┌──────────────────────────────────┐
-   │  │ Nâu │ Đen │ Đỏ │Vàng│         │
-   └──────────────────────────────────┘
-        1      0    ×100  ±5%
-
-   Giá trị = 10 × 100 = 1000 Ω = 1 kΩ ± 5%
-   Dải thực tế = 950 Ω → 1050 Ω</div>
+      <div class="table-wrap">
+        <table>
+          <caption id="diagram-d03-2">Ví dụ bốn vạch: nâu · đen · đỏ · vàng kim</caption>
+          <thead><tr><th scope="col">Vạch 1</th><th scope="col">Vạch 2</th><th scope="col">Vạch 3</th><th scope="col">Vạch 4</th></tr></thead>
+          <tbody><tr><td>Nâu: 1</td><td>Đen: 0</td><td>Đỏ: ×100</td><td>Vàng kim: ±5%</td></tr></tbody>
+        </table>
+      </div>
+      <p><strong>Tính:</strong> (1 × 10 + 0) × 100 = 1&nbsp;000 Ω = 1 kΩ. Với sai số ±5%, khoảng giá trị danh định theo dung sai là 950–1&nbsp;050 Ω; giá trị đo thực tế còn phụ thuộc dụng cụ và điều kiện đo.</p>
 
       <div class="callout callout-formula">
         <div class="callout-header"><span class="callout-icon">📐</span> Công thức đọc mã màu 4 vạch</div>
@@ -179,15 +178,14 @@
 
       <p>Điện trở 5 vạch: <strong>Vạch 1 · Vạch 2 · Vạch 3 · Vạch nhân · Vạch sai số</strong></p>
 
-      <div class="circuit-ascii">  Ví dụ: Nâu · Đen · Đen · Đỏ · Nâu
-
-   ┌─────────────────────────────────────┐
-   │  │Nâu │Đen │Đen │ Đỏ │Nâu│          │
-   └─────────────────────────────────────┘
-        1     0    0   ×100  ±1%
-
-   Giá trị = (1×100 + 0×10 + 0) × 100 = 100 × 100 = 10,000 Ω = 10 kΩ ± 1%
-   Dải thực tế = 9,900 Ω → 10,100 Ω</div>
+      <div class="table-wrap">
+        <table>
+          <caption id="diagram-d03-3">Ví dụ năm vạch: nâu · đen · đen · đỏ · nâu</caption>
+          <thead><tr><th scope="col">Vạch 1</th><th scope="col">Vạch 2</th><th scope="col">Vạch 3</th><th scope="col">Vạch 4</th><th scope="col">Vạch 5</th></tr></thead>
+          <tbody><tr><td>Nâu: 1</td><td>Đen: 0</td><td>Đen: 0</td><td>Đỏ: ×100</td><td>Nâu: ±1%</td></tr></tbody>
+        </table>
+      </div>
+      <p><strong>Tính:</strong> (1 × 100 + 0 × 10 + 0) × 100 = 10&nbsp;000 Ω = 10 kΩ. Với sai số ±1%, khoảng giá trị danh định theo dung sai là 9&nbsp;900–10&nbsp;100 Ω.</p>
 
       <!-- VIDEO điện trở -->
       <div class="video-card">

@@ -53,22 +53,15 @@
 
       <h2>1. Vòng điều khiển kín (Closed-Loop Control)</h2>
 
-      <div class="circuit-ascii">  Vòng điều khiển PID:
+            <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d51-1.svg" width="400" height="290" loading="lazy" decoding="async" alt="Setpoint r vào bộ cộng với dấu cộng; từ đó trừ giá trị đo. Sai số e vào bộ PID; PID cho u, ví dụ PWM, vào khối driver, heater và lò. Đầu ra y là nhiệt độ lò, cảm biến nhiệt đo y và đưa về bộ cộng với dấu trừ.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D51-1 — Vòng điều khiển PID</div><div class="figure-text">Setpoint r vào bộ cộng với dấu cộng; từ đó trừ giá trị đo. Sai số e vào bộ PID; PID cho u, ví dụ PWM, vào khối driver, heater và lò. Đầu ra y là nhiệt độ lò, cảm biến nhiệt đo y và đưa về bộ cộng với dấu trừ.</div><div class="figure-source">Sơ đồ tự vẽ từ ví dụ trong bài; cần kiểm các thông số cụ thể trước khi lắp. <a href="../assets/images/lessons/d51-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D51-1</summary><p>Setpoint r vào bộ cộng với dấu cộng; từ đó trừ giá trị đo. Sai số e vào bộ PID; PID cho u, ví dụ PWM, vào khối driver, heater và lò. Đầu ra y là nhiệt độ lò, cảm biến nhiệt đo y và đưa về bộ cộng với dấu trừ.</p></details>
 
-  r: Setpoint ─→ (+)Σ ─e─→ [PID] ─u: PWM─→ [Driver + heater + lò] ─y: °C─→
-                  ↑ (−)                                               │
-                  └────────────── [Cảm biến nhiệt] ←──────────────────┘
+      <h2>2. PID rời rạc — mô phỏng nối tiếp trên vi điều khiển</h2>
 
-  Error = Setpoint - Measurement (từ cảm biến)
-  u (tín hiệu điều khiển) = Kp×e + Ki×∫e dt + Kd×(de/dt)
-  y (nhiệt độ lò) là đầu ra của quá trình, không phải u.
-
-  Ví dụ: Điều khiển nhiệt độ lò
-  SP = 100°C, Measurement = 85°C → Error = +15°C
-  → PID tăng PWM heating element
-  → Nhiệt độ tăng → Error giảm → PWM giảm → cân bằng tại 100°C</div>
-
-      <h2>2. PID rời rạc — Code vi điều khiển</h2>
+      <p>Mã dưới mô phỏng nhiệt độ qua Serial, không nối heater hoặc cảm biến thật. Mô hình nhiệt là giả định để quan sát thuật toán; khi chuyển sang phần cứng cần chọn cảm biến, tầng công suất và bảo vệ quá nhiệt theo thiết bị.</p>
 
       <div class="formula-block">
         <div class="formula-main">u(k) = Kp×e(k) + Ki×Σe(k)×dt + Kd×(e(k)–e(k-1))/dt</div>
@@ -82,7 +75,7 @@
       </div>
 
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
-<pre style="margin:0;white-space:pre-wrap;">// PID Controller cho điều khiển nhiệt độ
+<pre style="margin:0;white-space:pre-wrap;">// PID Controller — mô phỏng nhiệt độ, không điều khiển heater
 struct PID {
   float Kp, Ki, Kd;
   float setpoint;
@@ -110,20 +103,25 @@ struct PID {
   }
 };
 
-// Sử dụng
+// Mô hình minh họa, KHÔNG đấu tải sưởi vào GPIO
 PID tempPID = {2.0, 0.5, 0.1, 100.0};  // Kp, Ki, Kd, SP=100°C
-const int HEATER_PIN = 25;  // GPIO25 trên ESP32-WROOM; kiểm tra pinout board thực tế
 const float DT = 0.1;  // 100ms chu kỳ
+float simulatedTemp = 25.0;
+
+void setup() {
+  Serial.begin(115200);
+}
 
 void loop() {
-  float temp = readTemperature();  // PT100 qua mạch giao tiếp phù hợp; không dùng BME280 cho lò 100°C
-  float pwm = tempPID.compute(temp, DT);
-  analogWrite(HEATER_PIN, (int)pwm);
+  float pwm = tempPID.compute(simulatedTemp, DT);
+  // Plant giả lập: gia nhiệt theo PWM, mất nhiệt về môi trường 25°C.
+  simulatedTemp += (0.03f * pwm - 0.02f * (simulatedTemp - 25.0f)) * DT;
+  Serial.printf("T=%.2f C, PWM=%.0f/255\n", simulatedTemp, pwm);
   delay(100);
 }</pre>
       </div>
 
-      <p><strong>Phần cứng:</strong> GPIO25 chỉ xuất PWM tới tầng driver MOSFET/SSR phù hợp với điện áp, dòng và loại tải; không nối heater trực tiếp vào GPIO. Ví dụ lò 100°C dùng PT100 cùng mạch đo phù hợp hoặc cảm biến có dải đo trên 100°C. BME280 có dải nhiệt độ giới hạn ở 85°C, không phù hợp để đo điểm đặt này. Khi dùng heater điện lưới, cần thiết kế bảo vệ và cách ly theo yêu cầu thiết bị.</p>
+      <p><strong>Chuyển sang phần cứng:</strong> GPIO chỉ xuất PWM tới tầng driver MOSFET/SSR phù hợp với điện áp, dòng và loại tải; không nối heater trực tiếp vào GPIO. Ví dụ lò 100°C dùng PT100 cùng mạch đo phù hợp hoặc cảm biến có dải đo trên 100°C. BME280 có dải nhiệt độ giới hạn ở 85°C, không phù hợp để đo điểm đặt này. Khi dùng heater điện lưới, cần thiết kế bảo vệ và cách ly theo yêu cầu thiết bị.</p>
 
       <h2>3. Tuning PID — Phương pháp thực hành</h2>
 

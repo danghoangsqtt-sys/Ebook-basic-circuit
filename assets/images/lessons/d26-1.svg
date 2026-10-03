@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 400" width="360" height="400" role="img" aria-labelledby="title desc"><title id="title">Khử rung nút nhấn bằng tụ RC</title><desc id="desc">VCC_logic qua R_pullup 10 kΩ tới nút GPIO. Công tắc nhấn từ nút GPIO xuống GND. Tụ 100 nF cũng nối từ nút GPIO xuống GND, song song với công tắc, đặt sát nút GPIO. GPIO ở chế độ INPUT.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="360" height="400" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M110 50 V170 M110 170 V212 M110 262 V330 M110 170 H320 M110 330 H230 M230 170 V245 M230 330 V255"/>
+<text x="180" y="28" class="h" text-anchor="middle">Khử rung bằng RC</text>
+<circle cx="110" cy="50" r="4.5" class="c"/>
+<text x="126" y="46" class="b">VCC_logic</text>
+<rect class="c" x="97" y="80" width="26" height="50" rx="4"/>
+<text x="134" y="110">R_pullup = 10 kΩ</text>
+<circle cx="110" cy="170" r="4.5" class="n"/>
+<circle cx="110" cy="212" r="4.5" class="c"/><circle cx="110" cy="262" r="4.5" class="c"/>
+<path class="w" d="M110 262 L90 224"/>
+<text x="76" y="242" class="b" text-anchor="end">Nút nhấn</text>
+<text x="76" y="258" class="m" text-anchor="end">(công tắc)</text>
+<path class="k" d="M213 245 H247 M213 255 H247"/>
+<circle cx="230" cy="170" r="4.5" class="n"/>
+<text x="250" y="255" class="b">C = 100 nF</text>
+<circle cx="320" cy="170" r="4.5" class="c"/>
+<text x="320" y="154" class="b" text-anchor="end">GPIO (INPUT)</text>
+<path class="w" d="M170 330 V340 M155 340 H185 M160 346 H180 M165 352 H175"/>
+<text x="192" y="358" class="m">GND</text>
+<text x="180" y="392" class="m" text-anchor="middle">Thả nút: τ ≈ R×C = 10 kΩ × 100 nF = 1 ms</text>
+</svg>

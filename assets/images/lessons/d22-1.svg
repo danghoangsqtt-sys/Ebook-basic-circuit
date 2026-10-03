@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 310" width="360" height="310" role="img" aria-labelledby="title desc"><title id="title">Nối UART giữa hai thiết bị</title><desc id="desc">TX của thiết bị A nối RX của thiết bị B, RX của A nối TX của B, và hai GND nối chung. UART full-duplex nên hai chiều chạy đồng thời.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="360" height="310" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M110 100 H250 M110 150 H250 M110 200 H250"/>
+<text x="180" y="28" class="h" text-anchor="middle">UART: TX → RX chéo, GND chung</text>
+<rect class="p" x="20" y="60" width="90" height="160" rx="8"/>
+<rect class="z" x="250" y="60" width="90" height="160" rx="8"/>
+<text x="65" y="50" class="b" text-anchor="middle">Thiết bị A</text>
+<text x="295" y="50" class="b" text-anchor="middle">Thiết bị B</text>
+<text x="102" y="104" class="b" text-anchor="end">TX</text>
+<text x="258" y="104" class="b">RX</text>
+<text x="102" y="154" class="b" text-anchor="end">RX</text>
+<text x="258" y="154" class="b">TX</text>
+<text x="102" y="204" class="b" text-anchor="end">GND</text>
+<text x="258" y="204" class="b">GND</text>
+<path class="a" d="M150 100 L215 100" marker-end="url(#ah)"/>
+<path class="ao" d="M215 150 L150 150" marker-end="url(#ao)"/>
+<text x="180" y="90" class="m" text-anchor="middle">A gửi → B nhận</text>
+<text x="180" y="140" class="m" text-anchor="middle">B gửi → A nhận</text>
+<text x="180" y="190" class="b" text-anchor="middle">GND chung</text>
+<text x="180" y="250" class="m" text-anchor="middle">GND chung là bắt buộc</text>
+<text x="180" y="270" class="m" text-anchor="middle">Full-duplex: hai chiều đồng thời</text>
+<text x="180" y="290" class="m" text-anchor="middle">Hai thiết bị cần cùng mức logic</text>
+</svg>

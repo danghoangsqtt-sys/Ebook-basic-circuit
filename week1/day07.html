@@ -151,19 +151,11 @@
 
       <h3>2.3 Bước 2 — Sơ đồ mạch</h3>
 
-      <div class="circuit-ascii">  Sơ đồ mạch Mini Project:
-
-   GPIO2  ──[R=150Ω]── A[LED ĐỎ]K ────┐
-   GPIO4  ──[R=120Ω]── A[LED VÀNG]K ───┤
-   GPIO5  ──[R=120Ω]── A[LED LÁ]K ─────┼── GND ESP32
-   GPIO18 ──[R=150Ω]── A[LED XANH]K ───┘
-
-  Quan trọng: GND của ESP32 phải nối chung với GND của mạch LED.
-
-  Chiều LED: Anode (+, chân dài) vào phía GPIO qua R; Cathode (–) vào GND.
-
-  Khi GPIO OUTPUT HIGH (3,3V): dòng chạy từ GPIO → R → LED anode → cathode → GND → LED SÁNG
-  Khi GPIO OUTPUT LOW (0V):   dòng = 0 → LED TẮT</div>
+      <figure class="figure figure--overview">
+        <img src="../assets/images/lessons/d07-1.svg" width="390" height="490" loading="lazy" decoding="async" alt="Mỗi GPIO qua R riêng và LED riêng; bốn cathode về GND chung. GPIO2/5 là chân strap trên ESP32 cổ điển.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D07-1 — Bốn nhánh LED từ ESP32</div><div class="figure-text">Mỗi GPIO qua R riêng và LED riêng; bốn cathode về GND chung. GPIO2/5 là chân strap trên ESP32 cổ điển.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32/schematic-checklist.html" target="_blank" rel="noopener">Espressif về GPIO strap</a>. <a href="../assets/images/lessons/d07-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc mô tả D07-1</summary><p>GPIO2 qua 150 Ω và LED đỏ về GND; GPIO4 qua 120 Ω và LED vàng về GND; GPIO5 qua 120 Ω và LED xanh lá về GND; GPIO18 qua 150 Ω và LED xanh dương về GND. Anode mỗi LED ở phía điện trở, cathode về GND. Kiểm tra đúng bo mạch, chức năng chân và trạng thái boot trước khi lắp.</p></details>
 
       <h3>2.4 Bước 3 — Lắp mạch trên breadboard</h3>
 

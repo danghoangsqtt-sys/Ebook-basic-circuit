@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 610" width="360" height="610" role="img" aria-labelledby="title desc"><title id="title">Hệ thống báo nhiệt tự động: relay, LED đỏ và tiếp điểm</title><desc id="desc">Ba khối riêng. A: ngõ ra OUT qua R_B 1 kΩ vào chân B của BC337, emitter nối GND, collector nối cuộn relay lên +5 V, diode 1N4007 ngược song song cuộn (cathode +5 V, anode phía collector). B: LED đỏ từ OUT qua R 2,2 kΩ xuống GND báo nhiệt cao; khi OUT thấp, LED tắt. C: tiếp điểm COM–NO của relay đóng cắt nguồn 12 V riêng của quạt.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="360" height="610" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M240 50 H290 M240 70 V50 M290 50 V80 M290 125 V150 H240 M240 115 V187 M30 215 H205 M240 243 V282 M290 80 V94.5 M290 125 V114.5 M30 390 H70 M125 390 H170 M215 390 H255 M170 390 H182.5 M215 390 H202.5 M30 520 H80 M150 520 H205 M257 520 H300"/>
+<text x="20" y="24" class="b">A. Tầng relay (BC337)</text>
+<text x="248" y="40" class="b">+5 V</text>
+<circle cx="240" cy="50" r="4.5" class="c"/>
+<rect class="c" x="227" y="70" width="26" height="45" rx="4"/>
+<text x="222" y="88" class="m" text-anchor="end">Cuộn relay</text>
+<text x="222" y="104" class="m" text-anchor="end">≤ 25 mA</text>
+<path d="M278 114.5 H302 L290 94.5 Z" fill="#fff" stroke="#334155" stroke-width="2.5" stroke-linejoin="round"/>
+<path class="w" d="M278 94.5 H302"/>
+<text x="306" y="106" class="m">1N4007</text>
+<circle cx="240" cy="150" r="4.5" class="n"/>
+<path class="k" d="M205 195 V235"/>
+<path class="w" d="M205 205 L240 187"/>
+<path class="w" marker-end="url(#ad)" d="M205 225 L240 243"/>
+<text x="120" y="255" class="b" text-anchor="middle">BC337</text>
+<text x="120" y="271" class="m" text-anchor="middle">(NPN)</text>
+<text x="188" y="207" class="s" text-anchor="end">B</text>
+<text x="247" y="182" class="s">C</text>
+<text x="247" y="250" class="s">E</text>
+<circle cx="30" cy="215" r="4.5" class="c"/>
+<text x="30" y="197" class="b">OUT</text>
+<rect class="c" x="60" y="202" width="55" height="26" rx="4"/>
+<text x="88" y="241" class="m" text-anchor="middle">R_B 1 kΩ</text>
+<path class="w" d="M240 282 V292 M225 292 H255 M230 298 H250 M235 304 H245"/>
+<text x="20" y="346" class="b">B. LED đỏ chỉ thị nhiệt cao</text>
+<circle cx="30" cy="390" r="4.5" class="c"/>
+<text x="30" y="374" class="b">OUT</text>
+<rect class="c" x="70" y="377" width="55" height="26" rx="4"/>
+<text x="97" y="395" class="s" text-anchor="middle">2,2 kΩ</text>
+<path d="M182.5 378 V402 L202.5 390 Z" fill="#fff" stroke="#334155" stroke-width="2.5" stroke-linejoin="round"/><path class="w" d="M202.5 378 V402"/>
+<path class="ao" marker-end="url(#ao)" d="M190.5 372 L204.5 358"/><path class="ao" marker-end="url(#ao)" d="M200.5 376 L214.5 362"/>
+<path class="w" d="M255 390 V400 M240 400 H270 M245 406 H265 M250 412 H260"/>
+<text x="30" y="424" class="m">Đỏ sáng khi nóng; tắt khi OUT thấp</text>
+<text x="20" y="466" class="b">C. Tiếp điểm relay: nguồn quạt 12 V riêng</text>
+<circle cx="30" cy="520" r="4.5" class="c"/>
+<text x="30" y="502" class="b">+12 V riêng</text>
+<circle cx="80" cy="520" r="4.5" class="c"/><circle cx="150" cy="520" r="4.5" class="c"/>
+<path class="w" d="M80 520 L142 495"/>
+<text x="80" y="542" class="m" text-anchor="middle">COM</text>
+<text x="150" y="542" class="m" text-anchor="middle">NO</text>
+<circle cx="231" cy="520" r="26" class="c"/>
+<text x="231" y="525" class="b" text-anchor="middle">Quạt</text>
+<path class="w" d="M300 520 V530 M285 530 H315 M290 536 H310 M295 542 H305"/>
+<text x="300" y="556" class="m" text-anchor="middle">GND 12 V</text>
+<text x="180" y="584" class="m" text-anchor="middle">Dòng quạt chỉ qua tiếp điểm relay, không qua LM358 hay BC337</text>
+</svg>

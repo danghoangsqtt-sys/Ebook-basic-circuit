@@ -73,14 +73,11 @@
 
       <h3>1.1 Đặc tính mạch nối tiếp</h3>
 
-      <div class="circuit-ascii">  Mạch nối tiếp 3 điện trở:
-
-   VCC ──[R1]──[R2]──[R3]── GND
-         1kΩ   2kΩ   3kΩ
-
-   Dòng: I_R1 = I_R2 = I_R3 = I_total  (dòng bằng nhau)
-   Áp:   V_R1 + V_R2 + V_R3 = V_supply  (áp cộng lại)
-   R_eq: R_total = R1 + R2 + R3          (cộng thẳng)</div>
+      <figure class="figure">
+        <img src="../assets/images/lessons/d05-1.svg" width="360" height="500" style="max-width:360px;margin-inline:auto" loading="lazy" decoding="async" alt="Ba điện trở R1 1 kΩ, R2 2 kΩ, R3 3 kΩ mắc nối tiếp từ VCC đến GND theo một nhánh duy nhất.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D05-1 · Nối tiếp</div><div class="figure-text">Cùng một dòng đi lần lượt qua R1, R2 và R3; các sụt áp cộng bằng điện áp cấp, điện trở tương đương bằng 6 kΩ.</div><div class="figure-source">Tự vẽ cho giáo trình. <a href="../assets/images/lessons/d05-1.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc sơ đồ nối tiếp bằng chữ</summary><p>Chỉ có một nhánh từ VCC qua R1 = 1 kΩ, R2 = 2 kΩ, R3 = 3 kΩ rồi tới GND. Vì không có chỗ rẽ, dòng qua ba điện trở bằng nhau; tổng sụt áp bằng áp nguồn.</p></details>
 
       <div class="formula-block">
         <div class="formula-main">R_series = R1 + R2 + R3 + ... + Rn</div>
@@ -107,18 +104,11 @@
 
       <h3>2.1 Đặc tính mạch song song</h3>
 
-      <div class="circuit-ascii">  Mạch song song 3 điện trở:
-
-   VCC ──┬────[R1]────┬── GND
-         │   1kΩ      │
-         ├────[R2]────┤
-         │   2kΩ      │
-         └────[R3]────┘
-              3kΩ
-
-   Áp:   V_R1 = V_R2 = V_R3 = V_supply  (áp bằng nhau)
-   Dòng: I_total = I_R1 + I_R2 + I_R3  (dòng cộng lại)
-   R_eq: 1/R_eq = 1/R1 + 1/R2 + 1/R3   (nghịch đảo)</div>
+      <figure class="figure">
+        <img src="../assets/images/lessons/d05-2.svg" width="360" height="490" style="max-width:360px;margin-inline:auto" loading="lazy" decoding="async" alt="Ba nhánh R1 1 kΩ, R2 2 kΩ, R3 3 kΩ nối chung giữa hai nút VCC và GND.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D05-2 · Song song</div><div class="figure-text">Mỗi nhánh nối đúng hai nút VCC và GND nên điện áp trên ba điện trở bằng nhau; dòng nguồn bằng tổng ba dòng nhánh.</div><div class="figure-source">Tự vẽ cho giáo trình. <a href="../assets/images/lessons/d05-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc sơ đồ song song bằng chữ</summary><p>Từ VCC, dòng chia thành ba nhánh riêng qua R1 = 1 kΩ, R2 = 2 kΩ và R3 = 3 kΩ. Ba nhánh gặp nhau ở GND. Do cùng hai nút đầu cuối, mỗi nhánh nhận cùng điện áp nguồn; tổng dòng là tổng dòng các nhánh.</p></details>
 
       <div class="formula-block">
         <div class="formula-main">1/R_parallel = 1/R1 + 1/R2 + ... + 1/Rn</div>
@@ -177,20 +167,17 @@
 
       <h4>Ví dụ tính toán 3 — Mạch hỗn hợp</h4>
 
-      <div class="circuit-ascii">  Mạch hỗn hợp:
-
-   VCC ──[R1=1kΩ]──┬──[R2=2kΩ]──┬── GND
-                   │              │
-                   └──[R3=4kΩ]──┘
-
-   Bước 1: R2 || R3 = (2k × 4k) / (2k + 4k) = 8M/6k = 1,333 kΩ
-   Bước 2: R_total = R1 + (R2||R3) = 1k + 1,333k = 2,333 kΩ
-   Bước 3: I_total = 5V / 2333Ω = 2,14 mA
-   Bước 4: V_R1 = 2,14mA × 1000Ω = 2,14V
-           V_(R2||R3) = 5 – 2,14 = 2,86V
-   Bước 5: I_R2 = 2,86V / 2000Ω = 1,43 mA
-           I_R3 = 2,86V / 4000Ω = 0,715 mA
-   Kiểm tra: 1,43 + 0,715 = 2,145 mA ≈ I_total ✓</div>
+      <figure class="figure">
+        <img src="../assets/images/lessons/d05-3.svg" width="360" height="540" style="max-width:360px;margin-inline:auto" loading="lazy" decoding="async" alt="Nguồn 5 V qua R1 1 kΩ đến nút A; dòng tách qua R2 2 kΩ và R3 4 kΩ rồi gặp nhau ở GND.">
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D05-3 · Mạch hỗn hợp</div><div class="figure-text">R2 và R3 song song giữa nút A và GND; cả nhóm nối tiếp R1. Tính tương đương nhóm song song trước khi dùng định luật Ohm.</div><div class="figure-source">Tự vẽ cho giáo trình. <a href="../assets/images/lessons/d05-3.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Đọc sơ đồ hỗn hợp bằng chữ</summary><p>Từ nguồn +5 V đi qua R1 = 1 kΩ tới nút A. Tại A, một nhánh đi qua R2 = 2 kΩ và nhánh còn lại qua R3 = 4 kΩ; hai nhánh trở về GND. Vì vậy R2 song song R3, còn R1 nối tiếp với nhóm đó.</p></details>
+      <ol>
+        <li>R2 ∥ R3 = (2 kΩ × 4 kΩ) / (2 kΩ + 4 kΩ) ≈ 1,333 kΩ.</li>
+        <li>R tổng ≈ 1 kΩ + 1,333 kΩ = 2,333 kΩ; I tổng ≈ 5 V / 2,333 kΩ = 2,143 mA.</li>
+        <li>Áp trên R1 ≈ 2,143 V; áp trên mỗi nhánh song song ≈ 2,857 V.</li>
+        <li>I qua R2 ≈ 1,429 mA; I qua R3 ≈ 0,714 mA. Tổng hai nhánh ≈ 2,143 mA, khớp dòng qua R1.</li>
+      </ol>
 
       <!-- VIDEO -->
       <div class="video-card">

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 430" width="360" height="430" role="img" aria-labelledby="title desc"><title id="title">KVL: nguồn 5 V nối tiếp R1, R2, R3</title><desc id="desc">Nguồn 5 V nối tiếp R1 = 1 kΩ, R2 = 2 kΩ, R3 = 2 kΩ rồi về GND. Dòng một nhánh 1 mA; sụt áp 1 V, 2 V, 2 V; 5 − 1 − 2 − 2 = 0.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="360" height="430" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M70 70 H250 V370 H70 M70 70 V214 M70 370 V226"/>
+<text x="180" y="28" class="h" text-anchor="middle">KVL: vòng nối tiếp 5 V</text>
+<path class="w" d="M53 214 H87"/><path class="k" style="stroke-width:6" d="M61 226 H79"/>
+<text x="92" y="217" class="b">+</text>
+<text x="92" y="237" class="b">−</text>
+<rect class="c" x="237" y="95" width="26" height="50" rx="4"/>
+<text x="272" y="118">R1 = 1 kΩ</text>
+<text x="272" y="136" class="g b">sụt áp 1 V</text>
+<rect class="c" x="237" y="175" width="26" height="50" rx="4"/>
+<text x="272" y="198">R2 = 2 kΩ</text>
+<text x="272" y="216" class="g b">sụt áp 2 V</text>
+<rect class="c" x="237" y="255" width="26" height="50" rx="4"/>
+<text x="272" y="278">R3 = 2 kΩ</text>
+<text x="272" y="296" class="g b">sụt áp 2 V</text>
+<text x="18" y="226" class="b">5 V</text>
+<text x="236" y="84" class="m" text-anchor="end">5 V</text>
+<text x="236" y="165" class="m" text-anchor="end">4 V</text>
+<text x="236" y="245" class="m" text-anchor="end">2 V</text>
+<text x="236" y="335" class="m" text-anchor="end">0 V</text>
+<path class="w" d="M70 370 V380 M55 380 H85 M60 386 H80 M65 392 H75"/>
+<text x="92" y="392" class="m">GND = 0 V</text>
+<path class="a" d="M105 70 L175 70" marker-end="url(#ah)"/>
+<text x="140" y="56" class="b" text-anchor="middle">I = 1 mA</text>
+<text x="180" y="418" class="b" text-anchor="middle">KVL: 5 − 1 − 2 − 2 = 0</text>
+</svg>

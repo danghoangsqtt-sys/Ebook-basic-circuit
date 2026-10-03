@@ -78,17 +78,11 @@
       <!-- PHẦN 1 — DHT22 -->
       <h2>1. DHT22 — Cảm biến nhiệt độ & độ ẩm</h2>
 
-      <div class="circuit-ascii">  DHT22 cảm biến rời 4 chân (mặt có lưới hướng về bạn,
-  chân hướng xuống; module gắn PCB có thể khác):
-       [1]  [2]  [3]  [4]
-       VCC  DATA  NC  GND
-  3,3V → chân 1; chân 2 → GPIO; chân 4 → GND chung
-  3,3V → R_pullup=10kΩ → chân 2 (DATA); chân 3 bỏ trống
-
-  DHT22 tốt hơn DHT11:
-  - Nhiệt độ: –40 → 80°C (±0,5°C vs ±2°C của DHT11)
-  - Độ ẩm: 0–100% (±2% vs ±5% DHT11)
-  - Không nên đọc quá 1 lần/2 giây (sampling rate thấp)</div>
+      <figure class="figure figure--circuit" data-diagram-id="D27-1">
+        <img src="../assets/images/lessons/d27-1.svg" width="360" height="365" loading="lazy" decoding="async" alt="DHT22 cảm biến rời 4 chân, mặt lưới hướng về người xem, chân xuống dưới: 1 VCC, 2 DATA, 3 NC, 4 GND. Ví dụ cấp 3,3 V, DATA kéo lên 3,3 V qua 10 kΩ tới GPIO, pin 3 bỏ trống, GND chung. Module gắn PCB có thể có pinout và pull-up khác, phải đọc nhãn/datasheet module.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D27-1</span> <span class="figure-text">DHT22 rời 4 chân nhìn chính diện.</span> <span class="figure-source">Tự vẽ; đối chiếu <a href="https://www.aosong.com/uploadfiles/2025/04/20250417105409216.pdf" target="_blank" rel="noopener">datasheet AM2302 Aosong</a>.</span> <a href="../assets/images/lessons/d27-1.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>DHT22 cảm biến rời 4 chân, mặt lưới hướng về người xem, chân xuống dưới: 1 VCC, 2 DATA, 3 NC, 4 GND. Ví dụ cấp 3,3 V, DATA kéo lên 3,3 V qua 10 kΩ tới GPIO, pin 3 bỏ trống, GND chung. Module gắn PCB có thể có pinout và pull-up khác, phải đọc nhãn/datasheet module.</p></details>
+      </figure>
 
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
 <pre style="margin:0;white-space:pre-wrap;">// DHT22 — Arduino với thư viện DHT sensor library (Adafruit)
@@ -120,6 +114,8 @@ void loop() {
 
       <p>DS18B20 dùng giao thức 1-Wire — chỉ cần <strong>1 dây dữ liệu + GND</strong> (VCC có thể lấy từ dây data). Ưu điểm lớn: nhiều DS18B20 trên <strong>cùng 1 dây</strong>, phân biệt bởi địa chỉ ROM 64-bit unique.</p>
 
+      <p>Ví dụ này dùng <strong>DS18B20 TO-92 nguồn riêng 3,3V</strong>, không dùng chế độ cấp nguồn ký sinh. Nhìn mặt phẳng có chữ, chân hướng xuống: chân 1 GND, chân 2 DQ, chân 3 VDD theo <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/DS18B20.pdf" target="_blank" rel="noopener">datasheet ADI/Maxim</a>. Nối VDD của cả hai cảm biến tới 3,3V, GND tới GND chung, hai DQ cùng tới GPIO5 và kéo DQ lên 3,3V qua 4,7kΩ. Kiểm package và chân của đúng linh kiện trước khi cấp nguồn; thứ tự <code>ByIndex</code> có thể thay đổi, dùng ROM 64-bit nếu cần gán tên vị trí ổn định.</p>
+
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
 <pre style="margin:0;white-space:pre-wrap;">// DS18B20 — cài OneWire + DallasTemperature library
 #include &lt;OneWire.h&gt;
@@ -139,11 +135,12 @@ void setup() {
 
 void loop() {
   sensors.requestTemperatures();  // Gửi lệnh đo
-  float tempC = sensors.getTempCByIndex(0);  // Sensor #0
-  if (tempC == DEVICE_DISCONNECTED_C) {
-    Serial.println("ERROR: DS18B20 disconnected");
-  } else {
-    Serial.printf("DS18B20: %.2f°C\n", tempC);
+  for (int i = 0; i &lt; sensors.getDeviceCount(); ++i) {
+    float tempC = sensors.getTempCByIndex(i);
+    if (tempC == DEVICE_DISCONNECTED_C)
+      Serial.printf("ERROR: sensor index %d disconnected\n", i);
+    else
+      Serial.printf("DS18B20 index %d: %.2f°C\n", i, tempC);
   }
   delay(1000);
 }</pre>
@@ -152,23 +149,11 @@ void loop() {
       <!-- PHẦN 3 — PIR -->
       <h2>3. PIR HC-SR501 — Phát hiện chuyển động</h2>
 
-      <div class="circuit-ascii">  HC-SR501 — xác định chân trên PCB thật:
-  Module có VCC, OUT, GND; thứ tự trên đầu 3 chân có thể
-  khác theo nhà sản xuất/góc nhìn. Đọc chữ in trên chính
-  board hoặc datasheet module trước khi cắm, không suy ra
-  thứ tự từ hình minh họa này.
-
-  VCC module → nguồn theo nhãn/datasheet module; GND → GND chung
-  OUT → GPIO chỉ sau khi đo mức HIGH/LOW bằng multimeter.
-  Nếu OUT có thể vượt 3,3V, dùng mạch chuyển mức trước ESP32.
-
-  Hai biến trở điều chỉnh trên module:
-  - Sensitivity (Sx): xoay phải = nhạy hơn, phát hiện xa hơn (7m max)
-  - Time delay (Tx): thời gian giữ OUTPUT HIGH sau khi phát hiện (3s–5min)
-
-  Hai chế độ (jumper):
-  - H (Retriggering): OUTPUT giữ HIGH khi vẫn phát hiện chuyển động
-  - L (Non-retriggering): OUTPUT HIGH một lần rồi tự reset sau Tx</div>
+      <figure class="figure figure--circuit" data-diagram-id="D27-2">
+        <img src="../assets/images/lessons/d27-2.svg" width="360" height="491" loading="lazy" decoding="async" alt="Không có PCB/revision cụ thể nên không thể xác nhận thứ tự ba chân từ hình. Tắt nguồn; đọc nhãn VCC, OUT, GND trên PCB thực; đối chiếu tài liệu đúng module; cấp VCC theo nhãn; đo OUT HIGH/LOW với GND và chỉ nối GPIO 3,3 V sau khi xác nhận mức điện áp. Không suy vị trí chân từ ảnh hoặc hướng biến trở; nếu OUT vượt giới hạn GPIO dùng chuyển mức.">
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D27-2</span> <span class="figure-text">Quy trình nhận diện module PIR HC-SR501.</span> <span class="figure-source">Quy trình tự biên soạn; chưa xác định PCB/revision nên không có sơ đồ thứ tự chân.</span> <a href="../assets/images/lessons/d27-2.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <details><summary>Bản chữ của sơ đồ</summary><p>Không có PCB/revision cụ thể nên không thể xác nhận thứ tự ba chân từ hình. Tắt nguồn; đọc nhãn VCC, OUT, GND trên PCB thực; đối chiếu tài liệu đúng module; cấp VCC theo nhãn; đo OUT HIGH/LOW với GND và chỉ nối GPIO 3,3 V sau khi xác nhận mức điện áp. Không suy vị trí chân từ ảnh hoặc hướng biến trở; nếu OUT vượt giới hạn GPIO dùng chuyển mức.</p></details>
+      </figure>
 
       <div class="callout callout-note">
         <div class="callout-header"><span class="callout-icon">📌</span> Warm-up time của PIR</div>
@@ -212,8 +197,8 @@ void loop() {
       <div class="checklist">
         <div class="checklist-title">✅ Checklist Bài 27</div>
         <div class="checklist-item"><input type="checkbox" id="c1b27"><label for="c1b27">Tôi kết nối và đọc DHT22 thành công, có error handling</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c2b27"><label for="c2b27">Tôi kết nối 2 DS18B20 trên cùng 1 dây và đọc riêng biệt</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c3b27"><label for="c3b27">Tôi cắm PIR và phát hiện chuyển động, biết điều chỉnh sensitivity</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b27"><label for="c2b27">Tôi biết đấu hai DS18B20 cùng bus và đọc từng index; dùng ROM khi cần gán vị trí cố định</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b27"><label for="c3b27">Tôi chỉ cấp nguồn/cắm PIR sau khi xác minh nhãn chân, điện áp và PCB/revision của module thực</label></div>
         <div class="checklist-item"><input type="checkbox" id="c4b27"><label for="c4b27">Tôi biết chọn cảm biến phù hợp cho từng ứng dụng</label></div>
       </div>
 

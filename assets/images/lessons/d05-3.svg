@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 540" role="img" aria-labelledby="title desc">
+  <title id="title">R1 nối tiếp với hai điện trở R2 và R3 song song</title>
+  <desc id="desc">Từ nguồn 5 vôn đi qua R1 một kilô ôm tới nút A. Tại A dòng chia qua R2 hai kilô ôm và R3 bốn kilô ôm; hai nhánh gặp nhau tại GND. R2 và R3 mắc song song, cả nhóm nối tiếp R1.</desc>
+  <rect width="360" height="540" rx="18" fill="#10233b"/>
+  <g fill="#f8fafc" font-family="Arial,sans-serif" font-weight="700"><text x="20" y="40" font-size="21">Mạch hỗn hợp</text><text x="20" y="88" font-size="18">+5 V</text><text x="20" y="486" font-size="18">GND / 0 V</text></g>
+  <g fill="none" stroke="#e2e8f0" stroke-width="3" stroke-linejoin="round"><path d="M180 82V126M180 183V251M100 251H260M100 251V320M100 375V452M260 251V320M260 375V452M100 452H260"/><rect x="153" y="126" width="54" height="57"/><rect x="80" y="320" width="40" height="55"/><rect x="240" y="320" width="40" height="55"/></g>
+  <g fill="#34d399"><circle cx="180" cy="251" r="6"/><circle cx="180" cy="82" r="5"/><circle cx="180" cy="452" r="5"/></g>
+  <g fill="#67e8f9" font-family="Arial,sans-serif" font-size="17" font-weight="700"><text x="218" y="158">R1 = 1 kΩ</text><text x="7" y="351">R2 2 kΩ</text><text x="288" y="351">R3 4 kΩ</text><text x="192" y="256">A</text></g>
+  <text x="20" y="521" fill="#cbd5e1" font-family="Arial,sans-serif" font-size="15">R1 nối tiếp với nhóm R2 // R3.</text>
+</svg>

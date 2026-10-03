@@ -102,3 +102,70 @@ Các SVG dưới đây do dự án tự vẽ từ `docs/visuals/summary-specs.js
 | `d01-ac-dc-wave.svg` | Bài 1 | Tự vẽ từ Bài 1 | Nội dung dự án | Sóng DC và AC thấp áp cách ly minh họa 50 Hz, T = 20 ms; không phải hướng dẫn thử điện lưới. |
 | `d02-breadboard-connectivity.svg` | Bài 2 | Tự vẽ; tham chiếu [Adafruit breadboard](https://learn.adafruit.com/breadboards-for-beginners/breadboard-tips-and-tricks) | Nội dung dự án | Nhóm a–e/f–j, rãnh giữa và rail nguồn có thể chia đoạn. |
 | `d03-resistor-symbols.svg` | Bài 3 | Tự vẽ từ Bài 3 | Nội dung dự án | Hai cách vẽ ký hiệu điện trở zigzag và chữ nhật; không xếp hạng độ phổ biến. |
+| `d05-1.svg` | Bài 5 | Tự vẽ từ phép tính và sơ đồ bài học | Nội dung dự án | Ba điện trở mắc nối tiếp, cùng một dòng. |
+| `d05-2.svg` | Bài 5 | Tự vẽ từ phép tính và sơ đồ bài học | Nội dung dự án | Ba điện trở song song cùng hai nút. |
+| `d05-3.svg` | Bài 5 | Tự vẽ từ phép tính và sơ đồ bài học | Nội dung dự án | R1 nối tiếp với nhóm R2 song song R3; kiểm dòng hai nhánh. |
+| `d01-5.svg` | Bài 1 | Tự vẽ từ Bài 1, đã đối chiếu vòng kín/hở | Nội dung dự án | Cùng topology nguồn–R–LED với công tắc đóng và mở ở đường về; sơ đồ khối LED ghi A/K. |
+
+## Sơ đồ P7-04
+
+| `d02-2.svg` | Bài 2 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d04-1.svg` | Bài 4 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d06-1.svg` | Bài 6 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d06-2.svg` | Bài 6 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d06-3.svg` | Bài 6 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d06-4.svg` | Bài 6 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d06-5.svg` | Bài 6 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d07-1.svg` | Bài 7 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d08-1.svg` | Bài 8 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d08-2.svg` | Bài 8 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d08-3.svg` | Bài 8 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d09-1.svg` | Bài 9 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d10-2.svg` | Bài 10 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d11-1.svg` | Bài 11 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d11-2.svg` | Bài 11 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d11-3.svg` | Bài 11 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d12-1.svg` | Bài 12 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d12-2.svg` | Bài 12 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d13-1.svg` | Bài 13 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d13-2.svg` | Bài 13 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d14-1.svg` | Bài 14 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d15-1.svg` | Bài 15 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d15-2.svg` | Bài 15 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d16-1.svg` | Bài 16 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d16-2.svg` | Bài 16 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d17-1.svg` | Bài 17 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d18-1.svg` | Bài 18 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d18-2.svg` | Bài 18 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d19-1.svg` | Bài 19 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d19-2.svg` | Bài 19 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d20-1.svg` | Bài 20 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d20-2.svg` | Bài 20 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d20-3.svg` | Bài 20 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d20-4.svg` | Bài 20 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d21-1.svg` | Bài 21 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d21-2.svg` | Bài 21 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d22-1.svg` | Bài 22 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d22-2.svg` | Bài 22 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d22-3.svg` | Bài 22 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d23-1.svg` | Bài 23 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d23-2.svg` | Bài 23 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d24-1.svg` | Bài 24 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d26-1.svg` | Bài 26 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d27-1.svg` | Bài 27 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d27-2.svg` | Bài 27 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d28-1.svg` | Bài 28 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d30-1.svg` | Bài 30 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d31-1.svg` | Bài 31 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d31-2.svg` | Bài 31 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d32-1.svg` | Bài 32 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d35-1.svg` | Bài 35 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d37-1.svg` | Bài 37 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d38-1.svg` | Bài 38 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d39-1.svg` | Bài 39 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d40-1.svg` | Bài 40 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d41-1.svg` | Bài 41 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d42-1.svg` | Bài 42 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d51-1.svg` | Bài 51 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d54-1.svg` | Bài 54 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d54-2.svg` | Bài 54 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |

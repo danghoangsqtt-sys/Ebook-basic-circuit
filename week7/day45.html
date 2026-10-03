@@ -50,27 +50,14 @@
       </div>
       <!-- LESSON VISUALS END day45 -->
 
-      <h2>1. Bottom-Up Integration — Tích hợp từ dưới lên</h2>
+      <h2 id="diagram-d45-1">1. Bottom-Up Integration — Tích hợp từ dưới lên</h2>
 
-      <div class="circuit-ascii">  Thứ tự test module — bottom-up:
-
-  Cấp 1 (Hardware):
-    ├─ Test nguồn: V_VCC đúng không?
-    ├─ Test I2C Scanner: có tìm thấy địa chỉ linh kiện?
-    └─ Test GPIO: LED bật/tắt, button đọc đúng?
-
-  Cấp 2 (Drivers):
-    ├─ Test từng sensor: BME280, RTC, SD card
-    └─ Test display: OLED in text cơ bản
-
-  Cấp 3 (Logic):
-    ├─ Test WiFi connect/disconnect
-    ├─ Test State Machine chuyển đổi trạng thái
-    └─ Test Task Scheduler chạy đúng interval
-
-  Cấp 4 (Integration):
-    ├─ Tích hợp 2 module cùng lúc
-    └─ Test toàn hệ thống end-to-end</div>
+      <ol class="step-list">
+        <li class="step-item"><div class="step-content"><p><strong>1. Phần cứng:</strong> tắt nguồn khi kiểm dây; sau đó cấp nguồn có giới hạn dòng và đo rail VCC/GND theo thiết kế. Kiểm địa chỉ thiết bị I²C bằng scanner và thử GPIO với tải phù hợp.</p></div></li>
+        <li class="step-item"><div class="step-content"><p><strong>2. Driver:</strong> thử riêng từng cảm biến, RTC và giao tiếp thẻ SD; OLED hiển thị mẫu chữ. Ghi đầu vào, kết quả mong đợi và kết quả thực tế.</p></div></li>
+        <li class="step-item"><div class="step-content"><p><strong>3. Logic:</strong> thử kết nối/ngắt WiFi, từng chuyển trạng thái của state machine và thời điểm chạy scheduler.</p></div></li>
+        <li class="step-item"><div class="step-content"><p><strong>4. Tích hợp:</strong> ghép hai module một lần, kiểm các giao diện và nguồn chung, rồi kiểm luồng từ cảm biến đến đầu ra của toàn hệ thống.</p></div></li>
+      </ol>
 
       <h2>2. Serial Debug có cấu trúc</h2>
 

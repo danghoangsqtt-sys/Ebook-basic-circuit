@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 280" width="360" height="280" role="img" aria-labelledby="title desc"><title id="title">Cấu tạo cơ bản của tụ điện</title><desc id="desc">Hai bản cực dẫn điện ngăn cách bởi lớp điện môi cách điện. Bản trên tích điện dương, bản dưới tích điện âm; điện trường E hướng từ bản dương sang bản âm trong điện môi.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="360" height="280" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M130 70 V42 M130 190 V222"/>
+<text x="180" y="28" class="h" text-anchor="middle">Cấu tạo tụ điện</text>
+<circle cx="130" cy="42" r="4.5" class="c"/>
+<circle cx="130" cy="222" r="4.5" class="c"/>
+<text x="142" y="46" class="m">đầu A</text>
+<text x="142" y="230" class="m">đầu B</text>
+<rect x="40" y="70" width="180" height="20" fill="#cbd5e1" stroke="#475569" stroke-width="2"/>
+<rect x="40" y="90" width="180" height="80" fill="#fef3c7" stroke="#b45309" stroke-width="2"/>
+<rect x="40" y="170" width="180" height="20" fill="#cbd5e1" stroke="#475569" stroke-width="2"/>
+<text x="60" y="85" class="b" text-anchor="middle">+</text>
+<text x="60" y="185" class="b" text-anchor="middle">−</text>
+<text x="90" y="85" class="b" text-anchor="middle">+</text>
+<text x="90" y="185" class="b" text-anchor="middle">−</text>
+<text x="120" y="85" class="b" text-anchor="middle">+</text>
+<text x="120" y="185" class="b" text-anchor="middle">−</text>
+<text x="150" y="85" class="b" text-anchor="middle">+</text>
+<text x="150" y="185" class="b" text-anchor="middle">−</text>
+<text x="180" y="85" class="b" text-anchor="middle">+</text>
+<text x="180" y="185" class="b" text-anchor="middle">−</text>
+<text x="210" y="85" class="b" text-anchor="middle">+</text>
+<text x="210" y="185" class="b" text-anchor="middle">−</text>
+<path class="a" d="M70 98 L70 162" marker-end="url(#ah)"/>
+<path class="a" d="M190 98 L190 162" marker-end="url(#ah)"/>
+<text x="130" y="134" class="b" text-anchor="middle">E</text>
+<text x="130" y="152" class="s" text-anchor="middle">(điện trường)</text>
+<text x="232" y="84" class="b">Bản cực 1</text>
+<text x="232" y="100" class="m">(dẫn điện)</text>
+<text x="232" y="124" class="b">Điện môi</text>
+<text x="232" y="140" class="m">cách điện: không khí,</text>
+<text x="232" y="156" class="m">gốm, oxit…</text>
+<text x="232" y="184" class="b">Bản cực 2</text>
+<text x="232" y="200" class="m">(dẫn điện)</text>
+<text x="180" y="268" class="m" text-anchor="middle">Điện tích dồn vào hai bản khi có điện áp</text>
+</svg>

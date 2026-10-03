@@ -69,20 +69,15 @@
 
       <h2>2. Test Point — Debug Professional</h2>
 
-      <div class="circuit-ascii">  Thêm Test Point (TP) trong KiCad:
-  Schematic: Place Symbol → Connector:TestPoint
-  Nối symbol vào net cần đo và đặt tên TP tương ứng.
-  Gán footprint TestPoint phù hợp → Update PCB from Schematic.
-  PCB: đặt pad test tại các net quan trọng:
-
-  Board:
-  [TP_VCC3V3]  [TP_GND]  [TP_SDA]  [TP_SCL]
-  [TP_UART_TX] [TP_UART_RX] [TP_ADC_BAT]
-
-  Khi debug:
-  - Đặt GND clip vào TP_GND
-  - Probe oscilloscope vào TP_SDA → xem I2C waveform
-  - Probe multimeter vào TP_VCC3V3 → kiểm tra nguồn ổn định</div>
+      <div class="callout callout-note">
+        <div id="diagram-d46-1" class="callout-header"><span class="callout-icon">🔎</span> Quy trình thêm test point</div>
+        <ol>
+          <li>Trong schematic, chọn biểu tượng TestPoint của thư viện đang dùng, nối vào <em>net</em> cần đo và đặt mã riêng như <code>TP_SDA</code>.</li>
+          <li>Gán footprint test point phù hợp cách đặt que đo, rồi cập nhật PCB từ schematic. Đặt điểm đo ở vị trí dễ tiếp cận, không tạo nguy cơ chạm tắt net lân cận.</li>
+          <li>Ví dụ các net nên cân nhắc: <code>TP_3V3</code>, <code>TP_GND</code>, <code>TP_SDA</code>, <code>TP_SCL</code>, <code>TP_UART_TX</code>, <code>TP_UART_RX</code> và <code>TP_ADC_BAT</code>.</li>
+          <li>Trước khi đo, kiểm tra điện áp dự kiến và mốc tham chiếu. Đồng hồ số đo giữa hai điểm đã chọn; với máy hiện sóng để bàn, phải biết kẹp mass của probe có nối PE hay không trước khi gắn vào mạch.</li>
+        </ol>
+      </div>
 
       <h2>3. Assembly Checklist — Hàn theo thứ tự</h2>
 

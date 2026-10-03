@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 330" width="360" height="330" role="img" aria-labelledby="title desc"><title id="title">KCL tại nút A</title><desc id="desc">Dòng I1 = 5 mA đi vào nút A. Hai dòng đi ra: I2 = 3 mA xuống dưới và I3 đi sang phải. KCL cho I3 = 5 − 3 = 2 mA.</desc><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0f766e"/></marker><marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b45309"/></marker><marker id="ad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#334155"/></marker></defs><rect width="360" height="330" rx="18" fill="#f8fafc"/><style>text{font-family:Arial,Helvetica,sans-serif;fill:#0f172a;font-size:13px}.w{stroke:#334155;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.k{stroke:#334155;stroke-width:3.5;fill:none;stroke-linecap:round}.c{fill:#fff;stroke:#475569;stroke-width:2}.p{fill:#dbeafe;stroke:#1e40af;stroke-width:2}.y{fill:#fef3c7;stroke:#b45309;stroke-width:2}.z{fill:#dcfce7;stroke:#15803d;stroke-width:2}.d{stroke:#64748b;stroke-width:1.5;fill:none;stroke-dasharray:5 4}.gr{stroke:#cbd5e1;stroke-width:1;fill:none}.n{fill:#0f766e}.b{font-weight:700}.m{fill:#475569;font-size:12px}.g{fill:#0f766e}.o{fill:#b45309}.h{font-size:15px;font-weight:700}.s{font-size:11px}.wh{fill:#fff}.a{stroke:#0f766e;stroke-width:2.2;fill:none}.ao{stroke:#b45309;stroke-width:2.2;fill:none}</style>
+<path class="w" d="M20 130 H340 M180 130 V285"/>
+<text x="180" y="28" class="h" text-anchor="middle">KCL tại nút A</text>
+<circle cx="20" cy="130" r="4.5" class="c"/>
+<circle cx="340" cy="130" r="4.5" class="c"/>
+<circle cx="180" cy="285" r="4.5" class="c"/>
+<circle cx="180" cy="130" r="4.5" class="n"/>
+<text x="192" y="118" class="b">A</text>
+<path class="a" d="M55 130 L125 130" marker-end="url(#ah)"/>
+<text x="90" y="112" class="b" text-anchor="middle">I1 = 5 mA</text>
+<text x="90" y="156" class="m" text-anchor="middle">đi vào A</text>
+<path class="ao" d="M180 165 L180 235" marker-end="url(#ao)"/>
+<text x="194" y="205" class="b">I2 = 3 mA</text>
+<text x="194" y="223" class="m">đi ra</text>
+<path class="ao" d="M225 130 L295 130" marker-end="url(#ao)"/>
+<text x="262" y="112" class="b" text-anchor="middle">I3 = 2 mA</text>
+<text x="262" y="156" class="m" text-anchor="middle">đi ra</text>
+<text x="180" y="312" class="b" text-anchor="middle">KCL: I1 = I2 + I3 → 5 = 3 + 2 mA</text>
+</svg>

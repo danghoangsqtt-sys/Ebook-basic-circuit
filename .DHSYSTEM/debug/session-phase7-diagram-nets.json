@@ -1,0 +1,38 @@
+{
+  "id": "phase7-diagram-nets",
+  "status": "resolved",
+  "created_at": "2026-10-03T18:10:51+07:00",
+  "updated_at": "2026-10-03T18:10:51+07:00",
+  "problem": {
+    "description": "Audit độc lập P7-04 phát hiện các nét đứt làm hình cầu chỉnh lưu và tầng relay mâu thuẫn với mô tả net; nhánh LED xanh cũng có trạng thái không chắc chắn do LM358 không rail-to-rail.",
+    "symptoms": [
+      "D11-3: nhánh DC+ đến tải hở 10 px",
+      "D21-2: cuộn relay đến collector hở 11 px, emitter đến GND hở 3 px",
+      "D21-2: LED xanh có thể sáng mờ khi OUT HIGH"
+    ],
+    "error_messages": [],
+    "affected_files": ["assets/images/lessons/d11-3.svg", "assets/images/lessons/d21-2.svg", "tools/p7_figs1.py", "week3/day21.html"]
+  },
+  "investigation": {
+    "hypotheses": [
+      {"id": 1, "description": "Đường vẽ SVG của D11-3 không nối đủ từ DC+ tới điện trở tải", "status": "confirmed"},
+      {"id": 2, "description": "Hàm dựng D21-2 có khoảng trống giữa net cuộn/collector và emitter/GND", "status": "confirmed"},
+      {"id": 3, "description": "LM358-N tại nguồn 5 V không bảo đảm OUT HIGH sát rail nên LED mắc từ +5 V về OUT không biểu thị trạng thái ngược một cách chắc chắn", "status": "confirmed"}
+    ],
+    "tests_run": [
+      {"command": "Đọc tọa độ path SVG và đối chiếu alt/transcript; reviewer đọc độc lập", "output": "Hai khe hở nét vẽ P1; một rủi ro P2 LED xanh", "timestamp": "2026-10-03T18:10:51+07:00"},
+      {"command": "Render D21-2 sau sửa và xem hình", "output": "Cuộn relay, collector, emitter và GND nối liên tục; chỉ còn LED đỏ chỉ thị nóng", "timestamp": "2026-10-03T18:10:51+07:00"},
+      {"command": "python -X utf8 tools/check_visuals.py --require-all; python -X utf8 tools/check_links.py", "output": "56 bài, 0 lỗi asset; 59 trang, 0 liên kết hỏng", "timestamp": "2026-10-03T18:10:51+07:00"}
+    ],
+    "findings": [
+      "Kiểm tải ảnh và mobile không phát hiện được khoảng hở trong net vẽ bằng path SVG.",
+      "Datasheet TI LM358-N cho thấy ngõ ra HIGH không lên sát rail dương dưới tải: https://www.ti.com/lit/ds/symlink/lm358-n.pdf"
+    ]
+  },
+  "resolution": {
+    "root_cause": "Tọa độ của các path tạo nét hở; thiết kế LED xanh giả định sai rằng LM358 lên sát +5 V.",
+    "fix_applied": "Nối liền path DC+–tải D11-3 và cuộn–collector/emitter–GND D21-2. Bỏ nhánh LED xanh, giữ LED đỏ báo nóng và sửa lời hướng dẫn/alt/transcript.",
+    "files_changed": ["assets/images/lessons/d11-3.svg", "assets/images/lessons/d21-2.svg", "tools/p7_figs1.py", "week3/day21.html"],
+    "verification": "Reviewer xác nhận hai khe hở P1 đã đóng trong source SVG; ảnh relay được xem sau render. Cổng hình/link qua; tiếp tục audit 80 ID trước nghiệm thu Phase 7."
+  }
+}
