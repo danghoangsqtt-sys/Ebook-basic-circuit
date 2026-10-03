@@ -1,0 +1,31 @@
+{
+  "id": "phase9-p9-02-audit",
+  "status": "resolved",
+  "created_at": "2026-10-04",
+  "updated_at": "2026-10-04",
+  "problem": {
+    "description": "P9-02 dh-audit found an architecture diagram ambiguity and a flaky immediate WebKit answer visibility assertion.",
+    "symptoms": [
+      "First A22 SVG placed SRAM and peripherals outside the RP2040 chip boundary and visually connected them in series with board flash",
+      "WebKit target QA failed one immediate answer-content visibility check on A19 although isolated 320/390/430 px reproduction passed"
+    ],
+    "affected_files": ["tools/build_phase9_board_lessons.py", "assets/images/advanced/a22.svg", "tools/qa_phase9_browser.py"]
+  },
+  "investigation": {
+    "root_cause": "A22 diagram geometry confused chip-level ownership and bus branches. Browser check queried visibility immediately after a click without waiting for a rendered visible state.",
+    "sources_checked": [
+      "Raspberry Pi Pico board datasheet section 1 and Figure 1 Rev3",
+      "Raspberry Pi RP2040 datasheet section 2.6.2 and Raspberry Pi Pico board documentation",
+      "Espressif ESP32-C6-DevKitC-1 v1.2 user guide Hardware Revision Details",
+      "MicroPython RP2 quick reference and machine.Pin API"
+    ]
+  },
+  "resolution": {
+    "changes": [
+      "Redrew A22 so CPU0/CPU1, bus, SRAM and peripherals are inside RP2040 while 2 MB QSPI flash is outside the chip but on the Pico board",
+      "Connected CPU0 to the bus and kept separate branches to SRAM, peripherals and flash; visually rendered the final SVG",
+      "Changed targeted browser QA to wait for answer-content.visible, then reran all 24 advanced lessons at three mobile widths in Chromium and WebKit"
+    ],
+    "remaining": "No board or compiler/firmware run, physical GPIO/ADC/radio measurement, or exact DevKitC PW-batch schematic has been verified. No confirmed P0/P1 remains in the published digital/table scope."
+  }
+}

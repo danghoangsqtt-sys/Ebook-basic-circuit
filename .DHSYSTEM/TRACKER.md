@@ -2,8 +2,8 @@
 
 - Cập nhật: 2026-10-03
 - Trạng thái: Phase 1–6 hoàn tất; Phase 7–8 PASS trong phạm vi nội dung số/phân tích và hoạt động giấy/bảng tính có điều kiện, phần cứng thật còn pending; Phase 9 kế tiếp, Phase 10 chưa mở
-- Phase hiện tại: Phase 9 P9-01 PASS nội dung số; P9-02 kế tiếp; Phase 8 đã PASS nội dung số; cổng phần cứng theo `docs/qa/curriculum-hardware-pending.md`
-- Việc kế tiếp: Soạn A22–A24 theo đúng board/MCU và nguồn hãng, thiết kế lab ngoại vi có nhánh tái lập
+- Phase hiện tại: Phase 9 P9-01/P9-02 PASS nội dung số; P9-03 kế tiếp; Phase 8 đã PASS nội dung số; cổng phần cứng theo `docs/qa/curriculum-hardware-pending.md`
+- Việc kế tiếp: Soạn A25–A28 về cảm biến và hiệu chuẩn/sai số từ datasheet đúng part/module
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -18,7 +18,7 @@
 | Phase 6 | 2 | 2 | Hoàn tất; audit/debug PASS |
 | Phase 7 | 6 | 6 số / 4 đầy đủ | P7-04/P7-06 PASS nội dung số; phần cứng thật còn chờ |
 | Phase 8 | 6 | 6 số / 0 phần cứng | P8-01…P8-06 PASS nội dung số; phần cứng thật còn chờ |
-| Phase 9 | 5 | 1 số / 0 phần cứng | P9-01 PASS nội dung số; P9-02–P9-05 còn lại |
+| Phase 9 | 5 | 2 số / 0 phần cứng | P9-01/P9-02 PASS nội dung số; P9-03–P9-05 còn lại |
 | Phase 10 | 4 | 0 | Kế hoạch; phụ thuộc Phase 9 |
 
 ## Phase 1
@@ -142,7 +142,7 @@ Nguồn task và tiêu chí: `.DHSYSTEM/CURRICULUM-PLAN.md`. Phase 7–8 đã c�
 | --- | --- | --- |
 | 7 | P7-01–P7-03/P7-05 PASS; P7-04/P7-06 PASS nội dung số, phần cứng pending | Qua cổng số, chưa nghiệm thu thiết bị thật |
 | 8 | P8-01…P8-06 PASS nội dung số; phần cứng pending | `docs/qa/curriculum-phase8.md`; 16/16 bài, 75 trang/890 link, Chromium/WebKit, audit/debug |
-| 9 | P9-01 PASS nội dung số; P9-02, P9-03, P9-04, P9-05 | Đang triển khai; `docs/qa/curriculum-phase9.md` |
+| 9 | P9-01/P9-02 PASS nội dung số; P9-03, P9-04, P9-05 | Đang triển khai; `docs/qa/curriculum-phase9.md` |
 | 10 | P10-01, P10-02, P10-03, P10-04 | TODO |
 
 Mỗi P7-06/P8-06/P9-05/P10-04 là cổng `dh-audit` và `dh-debug`; chỉ chuyển Phase sau khi lỗi chặn đã được sửa và bằng chứng được điền. Các câu hỏi còn mở về phạm vi, độc giả, toán, board và người duyệt nằm ở `CURRICULUM-PLAN.md`.
@@ -172,3 +172,5 @@ Mỗi P7-06/P8-06/P9-05/P10-04 là cổng `dh-audit` và `dh-debug`; chỉ chuy�
 2026-10-04 P8-06 cổng Phase 8 số: đối chiếu 16 bài A01–A16 với syllabus/ma trận, mỗi bài có mục tiêu, hình/nguồn/mô tả, hoạt động số, bài tập và đáp án/rubric. Hai bộ tính độc lập cho mạch/trường PASS; 75 trang/890 link 0 hỏng, menu 56+16, search 72, 56 bài nền/80 ID, Chromium full 205 ca và WebKit 16 bài ở 320 px/24 px PASS. Audit `dh-audit` thấy README/ARCHITECTURE còn ghi 4 bài, `dh-debug` đã sửa; không còn P0/P1 xác nhận trong phạm vi số. Cổng phần cứng riêng vẫn pending, không có SPICE/FEM/ERC/đo thật; xem `docs/qa/curriculum-phase8.md`.
 
 2026-10-04 P9-01: xuất bản A17–A21, năm SVG tự vẽ, đề cương và sổ nguồn TI/MIT. Audit `dh-audit` thấy A17 thiếu tính biên nhiễu, A20 Q cạnh 4 chưa thể quyết định, A21 hình FSM thiếu hướng; `dh-debug` đã sửa và ghi `session-phase9-p9-01-audit.json`. Phép tính/logic độc lập PASS: bốn/tám hàng chân trị, DFF/mod-4, FSM và setup 65 ns, biên A17 theo tải. 21/21 trang nâng cao, menu 56+21, search 77, 80 trang/940 link cục bộ 0 hỏng, Chromium full 245 ca bài/viewport; sau sửa Chromium/WebKit A17–A21 mỗi loại 15 ca mobile/24 px PASS. Phần cứng IC và timing closure thật pending; xem `docs/qa/curriculum-phase9.md`.
+
+2026-10-04 P9-02: xuất bản A22–A24 và ba SVG tự vẽ, đối chiếu Pico board Rev3 reference/RP2040 với Espressif DevKitC-1 v1.2 và batch schematic; lab GP25 Pico non-W có host fake Pin PASS nhưng chưa nạp/đo board. Audit `dh-audit` sửa A22 ranh giới chip/flash và nhánh bus qua `dh-debug`; WebKit một lần hỏi đáp trả quá sớm, test chờ trạng thái rồi cả hai engine 24 bài × 3 viewport 24 px PASS. 24/24 bài nâng cao, menu 56+24, search 80, 83 trang/972 link 0 hỏng, Chromium full 269 ca bài/viewport và reader/library/backup PASS. Sổ QA và hardware pending ghi rõ phạm vi.

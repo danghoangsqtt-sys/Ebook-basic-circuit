@@ -1,4 +1,4 @@
-"""Targeted P9-01 mobile/zoom/browser check for A17–A21."""
+"""Targeted Phase 9 mobile/zoom/browser check for published A17–A24."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from playwright.sync_api import sync_playwright
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PAGES = [f"a{number:02}.html" for number in range(17, 22)]
+PAGES = [f"a{number:02}.html" for number in range(17, 25)]
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
@@ -42,9 +42,9 @@ def main() -> None:
                             assert page.locator(".summary-transcript").count() == 1
                             assert page.locator(".answer-toggle").count() == 1
                             page.locator(".answer-toggle").click()
-                            assert page.locator(".answer-content").is_visible(), (name, filename, "answer")
+                            page.locator(".answer-content.visible").wait_for(state="visible", timeout=3000)
                             assert not errors, (name, filename, errors)
-                    print(f"P9-01 {name}: {len(PAGES) * 3} page/viewport cases PASS")
+                    print(f"Phase 9 advanced {name}: {len(PAGES) * 3} page/viewport cases PASS")
                 finally:
                     browser.close()
     finally:

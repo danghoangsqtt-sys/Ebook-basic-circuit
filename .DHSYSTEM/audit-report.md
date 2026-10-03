@@ -199,3 +199,23 @@ Rà hình A21 thấy đường chuyển không có mũi tên, và A20 chưa có 
 Đây là kho giáo trình, không phải mã nguồn framework DHSYSTEM.
 
 ---
+
+# DH-AUDIT — Phase 9 P9-02 (kiểm tăng dần, chưa đóng Phase) — 2026-10-04
+
+## Tier 1 — Trạng thái: PASS task trong phạm vi số/lab host
+
+P9-01 đã PASS số; A22–A24, đề cương, nguồn, ma trận và lab GP25 có ở P9-02. Board vật lý, nạp firmware và đo ngoại vi chưa có nên vẫn nằm ở sổ phần cứng pending. P9-03–P9-05 chưa đóng.
+
+## Tier 2 — Tài liệu: PASS sau cập nhật
+
+README/ARCHITECTURE/TRACKER/ROADMAP/HANDOFF đã đếm 56 bài nền + 24 bài nâng cao, P9-03 kế tiếp. Sổ nguồn phân biệt RP2040 silicon (264 kB SRAM) với Pico board (2 MB flash, hình Rev3 reference), và DevKitC-1 v1.2 với schematic v1.2/1.3/1.4 theo PW batch. Không có một board cầm trên tay để xác định revision/firmware.
+
+## Tier 3 — Nội dung và website: P2 → RESOLVED, cổng số PASS
+
+SVG A22 đầu tiên đặt SRAM/ngoại vi ngoài ranh giới chip và trông mắc nối tiếp với flash; `dh-debug` đã sửa khung RP2040, kết nối CPU0/CPU1 với bus và nhánh riêng tới SRAM/ngoại vi/flash ngoài chip, rồi render xem lại. Code MicroPython GPIO chỉ nhắm Pico non-W/GP25; host fake Pin kiểm chuỗi lệnh và chu kỳ danh định, không mô phỏng điện. `check_advanced.py` 24/24; navigation 56+24; link 83 trang/972 refs 0 hỏng; index 80; Chromium full 269 ca bài/viewport cùng flow PASS. WebKit target lần đầu hụt một assertion mở đáp án A19, chạy cô lập ba độ rộng đúng; phép kiểm chờ visible đã chạy lại 24 ca mỗi engine Chromium/WebKit tại 320/390/430 px và chữ 24 px PASS. Không có P0/P1 xác nhận trong phạm vi số, nhưng chưa có board/timing/ADC/radio test.
+
+## Tier 4 — Không áp dụng
+
+Đây là kho giáo trình, không phải mã nguồn framework DHSYSTEM.
+
+---

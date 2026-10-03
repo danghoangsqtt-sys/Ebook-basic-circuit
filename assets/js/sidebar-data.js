@@ -153,6 +153,9 @@ const CURRICULUM = {
         { id: 'a19', number: 'A19', title: 'Mạch Tổ Hợp & Bộ Chọn Kênh', file: '../advanced/a19.html' },
         { id: 'a20', number: 'A20', title: 'Latch, Flip-Flop & Bộ Đếm', file: '../advanced/a20.html' },
         { id: 'a21', number: 'A21', title: 'FSM, Clock & Kiểm Timing', file: '../advanced/a21.html' },
+        { id: 'a22', number: 'A22', title: 'CPU, Bộ Nhớ, Bus & Hệ Xử Lý', file: '../advanced/a22.html' },
+        { id: 'a23', number: 'A23', title: 'Ngoại Vi MCU & Lab GPIO Pico', file: '../advanced/a23.html' },
+        { id: 'a24', number: 'A24', title: 'So Board Theo Mã & Revision', file: '../advanced/a24.html' },
       ]
     }
   ]
