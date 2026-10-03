@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="410" viewBox="0 0 940 410" role="img" aria-labelledby="title desc">
+  <title id="title">A13: Hai vòng kín RC và RL nhận bước điện áp tại thời điểm không</title>
+  <desc id="desc">Bên trái: nguồn bước lý tưởng 5 volt cực dương ở trên nối qua điện trở 10 kiloohm tới bản dương tụ 100 microfarad, rồi về cực âm nguồn qua dây GND; dòng nạp chạy theo chiều kim đồng hồ. Bên phải: nguồn bước 5 volt nối tiếp điện trở 10 ohm và cuộn cảm 100 millihenry thành vòng kín, dòng chạy theo chiều kim đồng hồ. Hai mạch riêng, không nối điện với nhau; tất cả giá trị là giả định bài tập.</desc>
+  <rect width="940" height="410" rx="18" fill="#101827"/>
+  <g font-family="Arial,sans-serif" fill="#eef6ff" font-size="15">
+    <text x="30" y="43" font-size="22" font-weight="700">Bước điện áp → đại lượng trạng thái liên tục</text>
+    <rect x="25" y="65" width="425" height="305" rx="12" fill="#192c40" stroke="#54738a"/>
+    <rect x="490" y="65" width="425" height="305" rx="12" fill="#192c40" stroke="#54738a"/>
+    <text x="45" y="96" font-size="19" font-weight="700">RC: vC(0+) = vC(0−) = 0 V</text>
+    <text x="510" y="96" font-size="19" font-weight="700">RL: iL(0+) = iL(0−) = 0 A</text>
+    <!-- RC: one unbroken four-side electrical loop, with components inserted in each branch. -->
+    <g fill="none" stroke="#8ed5da" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M90 145 H164 M250 145 H380 V213 M380 246 V310 H90 V235 M90 203 V145"/>
+      <path d="M164 145 l10 -10 12 20 12 -20 12 20 12 -20 12 20 16 -10"/>
+      <path d="M357 213 H403 M357 246 H403"/>
+      <path d="M70 203 H110 M80 235 H100"/>
+      <path d="M90 310 V327 M77 327 H103 M82 333 H98 M87 339 H93" stroke="#b2c2d1"/>
+      <path d="M285 119 H321" stroke="#f9bd74" marker-end="url(#arrow)"/>
+    </g>
+    <text x="80" y="188" fill="#f9bd74">+</text><text x="80" y="257" fill="#f9bd74">−</text>
+    <text x="64" y="278">5 V</text><text x="166" y="183">R = 10 kΩ</text>
+    <text x="300" y="291">C = 100 µF</text>
+    <text x="307" y="204" fill="#f9bd74">+ vC</text>
+    <text x="337" y="269" fill="#f9bd74">−</text>
+    <text x="288" y="109" fill="#f9bd74">iC →</text>
+    <text x="48" y="358" font-size="13" fill="#bfd4df">Nguồn bước giả định: 0 → 5 V tại t = 0</text>
+    <!-- RL: one unbroken four-side electrical loop. Coil is a visible continuous winding. -->
+    <g fill="none" stroke="#8ed5da" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M550 145 H624 M710 145 H842 V207 M842 273 V310 H550 V235 M550 203 V145"/>
+      <path d="M624 145 l10 -10 12 20 12 -20 12 20 12 -20 12 20 16 -10"/>
+      <path d="M842 207 c-16 0 -16 13 0 13 c-16 0 -16 13 0 13 c-16 0 -16 13 0 13 c-16 0 -16 13 0 13 c-16 0 -16 14 0 14"/>
+      <path d="M530 203 H570 M540 235 H560"/>
+      <path d="M550 310 V327 M537 327 H563 M542 333 H558 M547 339 H553" stroke="#b2c2d1"/>
+      <path d="M749 119 H785" stroke="#f9bd74" marker-end="url(#arrow)"/>
+    </g>
+    <text x="540" y="188" fill="#f9bd74">+</text><text x="540" y="257" fill="#f9bd74">−</text>
+    <text x="524" y="278">5 V</text><text x="632" y="183">R = 10 Ω</text>
+    <text x="744" y="256">L = 100 mH</text>
+    <text x="750" y="109" fill="#f9bd74">iL →</text>
+    <text x="513" y="358" font-size="13" fill="#bfd4df">Nguồn bước giả định: 0 → 5 V tại t = 0</text>
+  </g>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#f9bd74"/></marker></defs>
+</svg>

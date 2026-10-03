@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="470" viewBox="0 0 880 470" role="img" aria-labelledby="title desc">
+  <title id="title">A06: mạch RL lý tưởng và ba vai trò phần tử từ</title>
+  <desc id="desc">Mạch ví dụ thấp áp có nguồn bước 5 volt, điện trở 100 ohm và cuộn cảm lý tưởng 10 millihenry mắc nối tiếp, tạo vòng về ground. Hằng số thời gian L chia R là 0,1 millisecond; dòng cuối 50 milliampere. Ba ô phân biệt cuộn cảm tích trữ từ năng, biến áp ghép năng lượng giữa hai cuộn với cách ly tùy thiết kế, và ferrite bead cản/suy hao theo tần số. Không có hướng dẫn ngắt cuộn thật không bảo vệ.</desc>
+  <rect width="880" height="470" rx="20" fill="#0d1b2a"/>
+  <text x="36" y="50" fill="#f8fafc" font-family="Arial,sans-serif" font-size="27" font-weight="700">Cuộn cảm lưu năng lượng; dòng không đổi tức thời</text>
+  <text x="36" y="81" fill="#bfd0df" font-family="Arial,sans-serif" font-size="17">Mô hình RL lý tưởng để tính trên giấy — không phải sơ đồ thử ngắt cuộn thật</text>
+  <rect x="40" y="105" width="800" height="196" rx="16" fill="#142b40" stroke="#5c7891" stroke-width="2"/>
+  <line x1="108" y1="151" x2="274" y2="151" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="364" y1="151" x2="480" y2="151" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="608" y1="151" x2="762" y2="151" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="762" y1="151" x2="762" y2="260" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="762" y1="260" x2="108" y2="260" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="108" y1="151" x2="108" y2="192" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="108" y1="215" x2="108" y2="260" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="85" y1="193" x2="131" y2="193" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="93" y1="215" x2="123" y2="215" stroke="#e8f3fa" stroke-width="4"/>
+  <text x="56" y="191" fill="#f8fafc" font-family="Arial,sans-serif" font-size="16">+</text>
+  <text x="56" y="237" fill="#f8fafc" font-family="Arial,sans-serif" font-size="16">−</text>
+  <text x="132" y="226" fill="#f8fafc" font-family="Arial,sans-serif" font-size="17">bước 5 V</text>
+  <rect x="274" y="130" width="90" height="42" rx="5" fill="#e8f3fa"/>
+  <text x="282" y="157" fill="#122439" font-family="Arial,sans-serif" font-size="16" font-weight="700">R 100 Ω</text>
+  <path d="M480 151q16-35 32 0q16-35 32 0q16-35 32 0q16-35 32 0" fill="none" stroke="#f3c87d" stroke-width="4"/>
+  <text x="484" y="207" fill="#f8fafc" font-family="Arial,sans-serif" font-size="18">L = 10 mH (lý tưởng)</text>
+  <path d="M268 112h115m-13-10 13 10-13 10" fill="none" stroke="#43d9a3" stroke-width="3"/>
+  <text x="270" y="95" fill="#43d9a3" font-family="Arial,sans-serif" font-size="17">i(t)</text>
+  <text x="430" y="281" fill="#bfd0df" font-family="Arial,sans-serif" font-size="15">τ = L/R = 0,1 ms · i(∞) = 5/100 = 50 mA</text>
+  <rect x="40" y="323" width="251" height="112" rx="13" fill="#173329" stroke="#43d9a3"/>
+  <rect x="314" y="323" width="251" height="112" rx="13" fill="#173329" stroke="#43d9a3"/>
+  <rect x="588" y="323" width="252" height="112" rx="13" fill="#173329" stroke="#43d9a3"/>
+  <text x="59" y="356" fill="#f8fafc" font-family="Arial,sans-serif" font-size="19" font-weight="700">Inductor</text>
+  <text x="59" y="383" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="15">L, DCR, I nhiệt, I bão hòa</text>
+  <text x="59" y="411" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="15">E = ½LI²</text>
+  <text x="333" y="356" fill="#f8fafc" font-family="Arial,sans-serif" font-size="19" font-weight="700">Transformer</text>
+  <text x="333" y="383" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="15">Ghép năng lượng giữa cuộn</text>
+  <text x="333" y="411" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="15">Cần tín hiệu biến thiên/driver</text>
+  <text x="607" y="356" fill="#f8fafc" font-family="Arial,sans-serif" font-size="19" font-weight="700">Ferrite bead</text>
+  <text x="607" y="383" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="15">Z phụ thuộc f và dòng DC</text>
+  <text x="607" y="411" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="15">Không lấy Z@100 MHz làm RDC</text>
+  <text x="40" y="457" fill="#bfd0df" font-family="Arial,sans-serif" font-size="13">Hình tự vẽ. Không dùng mạch RL này để đóng/ngắt cuộn cảm thật khi chưa có đường kẹp đã duyệt.</text>
+</svg>

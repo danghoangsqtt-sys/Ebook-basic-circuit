@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="390" viewBox="0 0 560 390" role="img" aria-labelledby="title desc">
+  <title id="title">A08: Cổng quyết định chọn linh kiện dựa datasheet</title>
+  <desc id="desc">Yêu cầu áp ngược lặp lại 30 volt dẫn tới cổng so VRRM. Ứng viên giả định 20 volt bị loại; Vishay 1N4001 DO-41 có VRRM 50 volt chỉ qua cổng áp, sau đó còn phải kiểm dòng, nhiệt, tốc độ, cách lắp và xung. Ba kết quả quyết định là loại, qua một cổng, hoặc thiếu dữ liệu, không có kết quả duyệt BOM tự động.</desc>
+  <rect width="560" height="390" rx="16" fill="#101827"/>
+  <g font-family="Arial,sans-serif" fill="#eef6ff">
+    <text x="25" y="40" font-size="21" font-weight="700">Yêu cầu → bằng chứng → cổng quyết định</text>
+    <rect x="24" y="71" width="512" height="54" rx="9" fill="#20344a" stroke="#8cb8ff"/>
+    <text x="42" y="103" font-size="16">Bài toán: áp ngược lặp lại ≥ 30 V</text>
+    <path d="M280 125 V148 M130 148 H430 M130 148 V166 M430 148 V166" fill="none" stroke="#9cb9c5" stroke-width="2"/>
+    <rect x="24" y="166" width="226" height="115" rx="9" fill="#442f3b" stroke="#f8a5a5"/>
+    <text x="41" y="198" font-size="17" font-weight="700">Ứng viên giả định</text>
+    <text x="41" y="228" font-size="15">VRRM = 20 V &lt; 30 V</text>
+    <text x="41" y="259" font-size="16">LOẠI</text>
+    <rect x="310" y="166" width="226" height="115" rx="9" fill="#243b3c" stroke="#69d0b7"/>
+    <text x="327" y="198" font-size="17" font-weight="700">Vishay 1N4001</text>
+    <text x="327" y="228" font-size="15">VRRM = 50 V ≥ 30 V</text>
+    <text x="327" y="259" font-size="16">QUA CỔNG ÁP</text>
+    <rect x="24" y="309" width="512" height="55" rx="9" fill="#302f3b" stroke="#ffcc80"/>
+    <text x="40" y="334" font-size="14">Còn kiểm: dòng, nhiệt, xung, tần số, package, PCB</text>
+    <text x="40" y="354" font-size="14">Nguồn: Vishay Doc. 88503, Rev. 29-Apr-2020, tr. 1</text>
+  </g>
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520" role="img" aria-labelledby="title desc">
+  <title id="title">A12: cổng A–GND của cầu chia áp và tương đương Thévenin</title>
+  <desc id="desc">Mạch gốc có nguồn 12 volt cực dương nối R1 2 kiloohm đến nút A, R2 4 kiloohm từ A về GND và cổng hai cực là A dương so với GND. Tải RL nối từ A về GND khi cần. Mạch tương đương Thévenin nhìn tại cổng có nguồn 8 volt nối tiếp Rth 1,333 kiloohm; Norton tương ứng có nguồn dòng 6 milliampere song song Rth. Với RL 4 kiloohm, áp tải là 6 volt và dòng tải 1,5 milliampere.</desc>
+  <rect width="900" height="520" rx="20" fill="#0d1b2a"/>
+  <text x="34" y="48" fill="#f8fafc" font-family="Arial,sans-serif" font-size="27" font-weight="700">Nhìn từ cổng A–GND: mạch gốc và nguồn tương đương</text>
+  <text x="34" y="78" fill="#b8cede" font-family="Arial,sans-serif" font-size="17">Các dấu + / − xác định V<tspan baseline-shift="sub" font-size="12">A</tspan> và V<tspan baseline-shift="sub" font-size="12">th</tspan> so với GND; tải được thêm sau khi xác định cổng</text>
+  <rect x="35" y="106" width="518" height="326" rx="16" fill="#142b40" stroke="#5c7891" stroke-width="2"/>
+  <text x="55" y="140" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20" font-weight="700">Mạch gốc</text>
+  <line x1="90" y1="188" x2="183" y2="188" stroke="#ecf5fc" stroke-width="4"/>
+  <rect x="183" y="167" width="88" height="42" rx="5" fill="#e8f3fa"/>
+  <text x="190" y="194" fill="#142b40" font-family="Arial,sans-serif" font-size="16" font-weight="700">R1 2 kΩ</text>
+  <line x1="271" y1="188" x2="356" y2="188" stroke="#ecf5fc" stroke-width="4"/>
+  <circle cx="356" cy="188" r="7" fill="#43d9a3"/>
+  <text x="340" y="165" fill="#43d9a3" font-family="Arial,sans-serif" font-size="17" font-weight="700">A (+)</text>
+  <line x1="356" y1="188" x2="356" y2="259" stroke="#ecf5fc" stroke-width="4"/>
+  <rect x="320" y="259" width="72" height="54" rx="5" fill="#e8f3fa"/>
+  <text x="327" y="282" fill="#142b40" font-family="Arial,sans-serif" font-size="15" font-weight="700">R2</text>
+  <text x="327" y="301" fill="#142b40" font-family="Arial,sans-serif" font-size="14">4 kΩ</text>
+  <line x1="356" y1="313" x2="356" y2="382" stroke="#ecf5fc" stroke-width="4"/>
+  <line x1="90" y1="188" x2="90" y2="256" stroke="#ecf5fc" stroke-width="4"/>
+  <circle cx="90" cy="287" r="31" fill="#173329" stroke="#ecf5fc" stroke-width="3"/>
+  <text x="82" y="279" fill="#f8fafc" font-family="Arial,sans-serif" font-size="19">+</text>
+  <text x="83" y="305" fill="#f8fafc" font-family="Arial,sans-serif" font-size="19">−</text>
+  <line x1="90" y1="318" x2="90" y2="382" stroke="#ecf5fc" stroke-width="4"/>
+  <line x1="90" y1="382" x2="485" y2="382" stroke="#ecf5fc" stroke-width="4"/>
+  <line x1="356" y1="188" x2="485" y2="188" stroke="#43d9a3" stroke-width="3"/>
+  <circle cx="485" cy="188" r="6" fill="#43d9a3"/>
+  <circle cx="485" cy="382" r="6" fill="#43d9a3"/>
+  <text x="58" y="349" fill="#f8fafc" font-family="Arial,sans-serif" font-size="17">12 V</text>
+  <text x="414" y="227" fill="#b6e9d2" font-family="Arial,sans-serif" font-size="16">Port A (+)</text>
+  <text x="411" y="369" fill="#b6e9d2" font-family="Arial,sans-serif" font-size="16">GND (−)</text>
+  <rect x="574" y="106" width="291" height="326" rx="16" fill="#173329" stroke="#43d9a3" stroke-width="2"/>
+  <text x="596" y="140" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20" font-weight="700">Tương đương tại port</text>
+  <text x="597" y="185" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="18">Thévenin:</text>
+  <text x="597" y="218" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20">V<tspan baseline-shift="sub" font-size="13">th</tspan> = 8 V</text>
+  <text x="597" y="248" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20">R<tspan baseline-shift="sub" font-size="13">th</tspan> = 4/3 kΩ</text>
+  <line x1="596" y1="267" x2="840" y2="267" stroke="#79b79a"/>
+  <text x="597" y="304" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="18">Norton:</text>
+  <text x="597" y="336" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20">I<tspan baseline-shift="sub" font-size="13">N</tspan> = 6 mA</text>
+  <text x="597" y="366" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20">R<tspan baseline-shift="sub" font-size="13">N</tspan> = R<tspan baseline-shift="sub" font-size="13">th</tspan></text>
+  <text x="35" y="465" fill="#f8fafc" font-family="Arial,sans-serif" font-size="19">Gắn R<tspan baseline-shift="sub" font-size="13">L</tspan> = 4 kΩ vào A–GND: V<tspan baseline-shift="sub" font-size="13">L</tspan> = 6 V; I<tspan baseline-shift="sub" font-size="13">L</tspan> = 1,5 mA.</text>
+  <text x="35" y="495" fill="#b8cede" font-family="Arial,sans-serif" font-size="14">Hình tự vẽ; cổng hở trong hình để xác định Vth. Hai nguồn tương đương giữ hành vi tại cổng, không mô tả nội bộ mạch gốc.</text>
+</svg>

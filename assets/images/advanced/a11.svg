@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="510" viewBox="0 0 900 510" role="img" aria-labelledby="title desc">
+  <title id="title">A11: hai nguồn điện áp độc lập cấp một nút qua hai điện trở</title>
+  <desc id="desc">Nguồn V1 10 volt có cực dương tại nút A, âm tại GND; từ A qua R1 1 kiloohm đến nút X. Nguồn V2 5 volt có cực dương tại nút B, âm tại GND; từ B qua R2 1 kiloohm đến X. R tải 1 kiloohm từ X về GND. Cực dương VX ở X và âm tại GND. Chồng chất cho VX do V1 là 10 phần 3 volt và do V2 là 5 phần 3 volt, tổng 5 volt.</desc>
+  <rect width="900" height="510" rx="20" fill="#0d1b2a"/>
+  <text x="34" y="48" fill="#f8fafc" font-family="Arial,sans-serif" font-size="27" font-weight="700">Chồng chất tại nút X của mạch tuyến tính</text>
+  <text x="34" y="79" fill="#b8cede" font-family="Arial,sans-serif" font-size="17">Hai nguồn lý tưởng độc lập; GND chung; R1 = R2 = RL = 1 kΩ</text>
+  <rect x="35" y="105" width="830" height="310" rx="16" fill="#142b40" stroke="#5c7891" stroke-width="2"/>
+  <line x1="90" y1="168" x2="180" y2="168" stroke="#ecf5fc" stroke-width="4"/>
+  <rect x="180" y="147" width="86" height="42" rx="5" fill="#e8f3fa"/>
+  <text x="188" y="174" fill="#142b40" font-family="Arial,sans-serif" font-size="16" font-weight="700">R1 1 kΩ</text>
+  <line x1="266" y1="168" x2="450" y2="168" stroke="#ecf5fc" stroke-width="4"/>
+  <line x1="450" y1="168" x2="630" y2="168" stroke="#ecf5fc" stroke-width="4"/>
+  <rect x="630" y="147" width="86" height="42" rx="5" fill="#e8f3fa"/>
+  <text x="638" y="174" fill="#142b40" font-family="Arial,sans-serif" font-size="16" font-weight="700">R2 1 kΩ</text>
+  <line x1="716" y1="168" x2="810" y2="168" stroke="#ecf5fc" stroke-width="4"/>
+  <circle cx="450" cy="168" r="7" fill="#43d9a3"/>
+  <text x="430" y="140" fill="#43d9a3" font-family="Arial,sans-serif" font-size="18" font-weight="700">X (+VX)</text>
+  <line x1="450" y1="168" x2="450" y2="237" stroke="#ecf5fc" stroke-width="4"/>
+  <rect x="414" y="237" width="72" height="57" rx="5" fill="#e8f3fa"/>
+  <text x="420" y="260" fill="#142b40" font-family="Arial,sans-serif" font-size="15" font-weight="700">RL</text>
+  <text x="420" y="282" fill="#142b40" font-family="Arial,sans-serif" font-size="14">1 kΩ</text>
+  <line x1="450" y1="294" x2="450" y2="359" stroke="#ecf5fc" stroke-width="4"/>
+  <line x1="90" y1="168" x2="90" y2="236" stroke="#ecf5fc" stroke-width="4"/>
+  <circle cx="90" cy="267" r="31" fill="#173329" stroke="#ecf5fc" stroke-width="3"/>
+  <text x="82" y="259" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20">+</text>
+  <text x="83" y="285" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20">−</text>
+  <line x1="90" y1="298" x2="90" y2="359" stroke="#ecf5fc" stroke-width="4"/>
+  <line x1="810" y1="168" x2="810" y2="236" stroke="#ecf5fc" stroke-width="4"/>
+  <circle cx="810" cy="267" r="31" fill="#173329" stroke="#ecf5fc" stroke-width="3"/>
+  <text x="802" y="259" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20">+</text>
+  <text x="803" y="285" fill="#f8fafc" font-family="Arial,sans-serif" font-size="20">−</text>
+  <line x1="810" y1="298" x2="810" y2="359" stroke="#ecf5fc" stroke-width="4"/>
+  <line x1="90" y1="359" x2="810" y2="359" stroke="#ecf5fc" stroke-width="4"/>
+  <text x="66" y="219" fill="#f8fafc" font-family="Arial,sans-serif" font-size="18">V1 10 V</text>
+  <text x="775" y="219" fill="#f8fafc" font-family="Arial,sans-serif" font-size="18">V2 5 V</text>
+  <text x="355" y="390" fill="#b8cede" font-family="Arial,sans-serif" font-size="17">GND / 0 V chung (−VX)</text>
+  <text x="35" y="454" fill="#f8fafc" font-family="Arial,sans-serif" font-size="19">VX = 10/3 V + 5/3 V = 5 V;  I<tspan baseline-shift="sub" font-size="13">RL</tspan> = 5 mA</text>
+  <text x="35" y="484" fill="#b8cede" font-family="Arial,sans-serif" font-size="14">Khi tắt một nguồn áp độc lập lý tưởng, thay bằng dây ngắn; không bỏ R của nhánh đó.</text>
+</svg>

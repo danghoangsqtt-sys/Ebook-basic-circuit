@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="410" viewBox="0 0 560 410" role="img" aria-labelledby="title desc">
+  <title id="title">A09: Mạch 5 volt qua 1 kiloohm tới nút X, chia hai nhánh 2 kiloohm về ground</title>
+  <desc id="desc">Cực dương nguồn lý tưởng 5 volt tại nút S, cực âm nối ground. R0 1 kiloohm nối S tới X, điện áp rơi dương phía S và âm phía X, dòng I0 hướng sang phải. Từ X, R1 và R2 mỗi điện trở 2 kiloohm song song xuống ground; điện áp rơi dương ở X và âm ở ground, dòng I1 và I2 hướng xuống. VX đo dương tại X so với ground. Đường ground chung hồi về âm nguồn. Số tính theo mô hình: VX 2,5 volt, I0 2,5 miliampere, I1 và I2 mỗi nhánh 1,25 miliampere.</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ffca80"/></marker></defs>
+  <rect width="560" height="410" rx="16" fill="#101827"/>
+  <g font-family="Arial,sans-serif" fill="#eaf4ff">
+    <text x="22" y="36" font-size="20" font-weight="700">Nút X: dòng vào = dòng ra</text>
+    <g stroke="#95c5d4" stroke-width="3" fill="none" stroke-linecap="round">
+      <path d="M75 181 V103 H167 M267 103 H418 M418 103 H484 V149 M418 103 V149 M418 244 V305 H75 V235 M484 244 V305"/>
+      <path d="M167 103 h10 l10 -14 l16 28 l16 -28 l16 28 l16 -28 l10 14 h6"/>
+      <path d="M418 149 v10 l-14 10 l28 15 l-28 15 l28 15 l-14 10 v20"/>
+      <path d="M484 149 v10 l-14 10 l28 15 l-28 15 l28 15 l-14 10 v20"/>
+      <circle cx="75" cy="208" r="27"/>
+      <circle cx="418" cy="103" r="5" fill="#95c5d4"/>
+    </g>
+    <text x="65" y="200" font-size="16">+</text><text x="68" y="226" font-size="16">−</text>
+    <text x="30" y="154" font-size="15">5 V</text><text x="166" y="72" font-size="15">R0 = 1 kΩ</text>
+    <text x="153" y="128" font-size="17" fill="#ffca80">+</text><text x="271" y="128" font-size="17" fill="#ffca80">−</text>
+    <text x="315" y="90" font-size="14">I0 →</text><text x="426" y="90" font-size="15">X, VX +</text>
+    <text x="336" y="188" font-size="15">R1 = 2 kΩ</text><text x="485" y="274" font-size="15">R2 = 2 kΩ</text>
+    <text x="393" y="144" font-size="17" fill="#ffca80">+</text><text x="393" y="263" font-size="17" fill="#ffca80">−</text>
+    <text x="506" y="145" font-size="17" fill="#ffca80">+</text><text x="506" y="263" font-size="17" fill="#ffca80">−</text>
+    <path d="M392 215 v29 M509 215 v29" stroke="#ffca80" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="355" y="249" font-size="14">I1 ↓</text><text x="505" y="207" font-size="14">I2</text>
+    <text x="220" y="329" font-size="15">GND · đường hồi</text>
+    <rect x="22" y="351" width="516" height="38" rx="8" fill="#20354a" stroke="#6bcfb8"/>
+    <text x="36" y="375" font-size="14">VX = 2,5 V · I0 = 2,5 mA · I1 = I2 = 1,25 mA</text>
+  </g>
+</svg>

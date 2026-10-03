@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="450" viewBox="0 0 760 450" role="img" aria-labelledby="title desc">
+  <title id="title">A14: Vòng series RLC kín với nguồn AC một volt RMS</title>
+  <desc id="desc">Nguồn xoay chiều một volt RMS ở nhánh trái, cực áp tham chiếu dương phía trên, nối theo chiều kim đồng hồ qua R một trăm ohm ở nhánh trên, cuộn cảm mười millihenry và tụ một trăm nanofarad ở nhánh phải rồi dây hồi về nguồn ở nhánh dưới. Dòng tham chiếu hướng sang phải trên nhánh trên. Các giá trị là giả định bài toán, không là BOM thật.</desc>
+  <rect width="760" height="450" rx="18" fill="#101827"/>
+  <g font-family="Arial,sans-serif" fill="#eef6ff">
+    <text x="30" y="41" font-size="22" font-weight="700">Series RLC: một dòng qua R, L, C</text>
+    <rect x="24" y="63" width="712" height="350" rx="13" fill="#192c40" stroke="#54738a"/>
+    <g fill="none" stroke="#8ed5da" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M110 131 H230 M316 131 H570 V172 M570 238 V288 M570 320 V358 H110 V267 M110 203 V131"/>
+      <path d="M230 131 l10 -10 12 20 12 -20 12 20 12 -20 12 20 16 -10"/>
+      <path d="M570 172 c-16 0 -16 13 0 13 c-16 0 -16 13 0 13 c-16 0 -16 13 0 13 c-16 0 -16 13 0 13 c-16 0 -16 14 0 14"/>
+      <path d="M548 288 H592 M548 320 H592"/>
+      <circle cx="110" cy="235" r="32"/>
+      <path d="M89 235 c6 -16 16 -16 21 0 s16 16 21 0" stroke="#f9bd74"/>
+      <path d="M379 105 H430" stroke="#f9bd74" marker-end="url(#arrow)"/>
+    </g>
+    <text x="94" y="181" font-size="18" fill="#f9bd74">+</text><text x="96" y="298" font-size="18" fill="#f9bd74">−</text>
+    <text x="38" y="326" font-size="15">1 Vrms</text><text x="222" y="170" font-size="16">R = 100 Ω</text>
+    <text x="595" y="209" font-size="16">L = 10 mH</text><text x="595" y="310" font-size="16">C = 100 nF</text>
+    <text x="380" y="94" font-size="16" fill="#f9bd74">I(f) →</text>
+    <text x="225" y="388" font-size="16" fill="#bfd4df">GND tham chiếu tại cực âm nguồn</text>
+    <text x="34" y="433" font-size="13" fill="#bfd4df">Mô hình lý tưởng: nguồn sin ổn định, R/L/C không đổi theo f; không gồm ESR, DCR, ký sinh.</text>
+  </g>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#f9bd74"/></marker></defs>
+</svg>

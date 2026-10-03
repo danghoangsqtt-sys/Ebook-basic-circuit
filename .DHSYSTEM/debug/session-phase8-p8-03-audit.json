@@ -1,0 +1,31 @@
+{
+  "id": "phase8-p8-03-audit",
+  "status": "resolved",
+  "created_at": "2026-10-03",
+  "updated_at": "2026-10-03",
+  "problem": {
+    "description": "Independent dh-audit of A05–A08 found two documentation/navigation drifts after source-backed lesson integration.",
+    "symptoms": [
+      "A06 previous/next navigation did not point onward to the published A07 lesson",
+      "TRACKER overview still reported one completed Phase 8 task and P8-02 in progress"
+    ],
+    "affected_files": ["advanced/a06.html", ".DHSYSTEM/TRACKER.md"]
+  },
+  "investigation": {
+    "root_cause": "The A06 footer and overview count were written before A07 and the P8-02 persistence gate were complete.",
+    "tests_run": [
+      {"command": "independent read-only dh-audit P8-03", "output": "No confirmed P0/P1; two P2 navigation/status findings"},
+      {"command": "python tools/check_advanced.py", "output": "8/8 published advanced pages PASS before corrections"},
+      {"command": "python tools/check_navigation.py", "output": "56 foundation and 8 advanced entries PASS before corrections"},
+      {"command": "python tools/check_links.py", "output": "67 pages, 805 internal references, 0 broken before corrections"},
+      {"command": "python tools/qa_browser.py --quick", "output": "Chromium PASS before corrections, including reader, library and backup flows"}
+    ]
+  },
+  "resolution": {
+    "changes": [
+      "Added A06 next lesson link to A07",
+      "Aligned Phase 8 overview with P8-01/P8-02 PASS and P8-03/P8-04 in progress"
+    ],
+    "remaining": "A05–A08 claims were checked against vendor datasheets but no ERC, SPICE, physical circuit or thermal measurement is claimed. TI SN6501 PDF remains indirect-only in the source ledger; its pin/netlist is deliberately absent."
+  }
+}

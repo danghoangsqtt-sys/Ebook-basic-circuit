@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="430" viewBox="0 0 880 430" role="img" aria-labelledby="title desc">
+  <title id="title">A05: mạch LED có điện trở hạn dòng và cực tính</title>
+  <desc id="desc">Nguồn một chiều 5 volt nối từ cực dương qua R1 330 ohm đến anode của LED đỏ TLHR4400. Cathode LED nối về GND, cực âm nguồn. Dòng thuận đi qua R1 rồi LED. Ví dụ giả định điện áp thuận LED 2 volt cho dòng xấp xỉ 9,09 milliampere và công suất R1 xấp xỉ 27,3 milliwatt; các giá trị này không phải định mức của part ở dòng đó.</desc>
+  <rect width="880" height="430" rx="20" fill="#0d1b2a"/>
+  <text x="38" y="52" fill="#f8fafc" font-family="Arial,sans-serif" font-size="27" font-weight="700">LED cần giới hạn dòng — kiểm cực tính trước</text>
+  <text x="38" y="83" fill="#bfd0df" font-family="Arial,sans-serif" font-size="17">Ví dụ tính với V<tspan baseline-shift="sub" font-size="12">F</tspan> giả định; sơ đồ thấp áp trên giấy</text>
+  <rect x="40" y="112" width="505" height="268" rx="16" fill="#142b40" stroke="#5c7891" stroke-width="2"/>
+  <line x1="105" y1="166" x2="247" y2="166" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="337" y1="166" x2="378" y2="166" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="422" y1="166" x2="492" y2="166" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="492" y1="166" x2="492" y2="335" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="492" y1="335" x2="105" y2="335" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="105" y1="166" x2="105" y2="234" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="105" y1="258" x2="105" y2="335" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="82" y1="237" x2="128" y2="237" stroke="#e8f3fa" stroke-width="4"/>
+  <line x1="90" y1="258" x2="120" y2="258" stroke="#e8f3fa" stroke-width="4"/>
+  <text x="54" y="230" fill="#f8fafc" font-family="Arial,sans-serif" font-size="17">+</text>
+  <text x="54" y="282" fill="#f8fafc" font-family="Arial,sans-serif" font-size="17">−</text>
+  <text x="123" y="264" fill="#f8fafc" font-family="Arial,sans-serif" font-size="18">5 V DC</text>
+  <rect x="247" y="145" width="90" height="42" rx="5" fill="#e8f3fa"/>
+  <text x="254" y="172" fill="#122439" font-family="Arial,sans-serif" font-size="16" font-weight="700">R1 330 Ω</text>
+  <polygon points="378,138 378,194 414,166" fill="#e6b35d" stroke="#f8fafc" stroke-width="3"/>
+  <line x1="420" y1="139" x2="420" y2="193" stroke="#f8fafc" stroke-width="4"/>
+  <path d="M386 130l15-19m-7 1 7-1-1 7M400 139l15-19m-7 1 7-1-1 7" fill="none" stroke="#f3c87d" stroke-width="2"/>
+  <text x="356" y="227" fill="#f8fafc" font-family="Arial,sans-serif" font-size="18">A LED K</text>
+  <text x="351" y="253" fill="#bfd0df" font-family="Arial,sans-serif" font-size="15">TLHR4400</text>
+  <path d="M210 124h85m-13-10 13 10-13 10" fill="none" stroke="#43d9a3" stroke-width="3"/>
+  <text x="210" y="109" fill="#43d9a3" font-family="Arial,sans-serif" font-size="17">I thuận</text>
+  <text x="188" y="361" fill="#bfd0df" font-family="Arial,sans-serif" font-size="16">GND / cực âm nguồn</text>
+  <rect x="565" y="112" width="277" height="268" rx="16" fill="#173329" stroke="#43d9a3" stroke-width="2"/>
+  <text x="590" y="156" fill="#f8fafc" font-family="Arial,sans-serif" font-size="22" font-weight="700">Bài tính giả định</text>
+  <text x="590" y="207" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="19">V<tspan baseline-shift="sub" font-size="12">F</tspan> = 2 V</text>
+  <text x="590" y="247" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="19">I = (5 − 2) / 330</text>
+  <text x="590" y="282" fill="#f8fafc" font-family="Arial,sans-serif" font-size="23" font-weight="700">≈ 9,09 mA</text>
+  <text x="590" y="322" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="19">P<tspan baseline-shift="sub" font-size="12">R</tspan> ≈ 27,3 mW</text>
+  <text x="38" y="410" fill="#bfd0df" font-family="Arial,sans-serif" font-size="14">Hình tự vẽ; giả định V<tspan baseline-shift="sub" font-size="10">F</tspan> = 2 V không phải thông số bảo đảm ở dòng 9,09 mA.</text>
+</svg>

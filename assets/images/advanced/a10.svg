@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="420" viewBox="0 0 560 420" role="img" aria-labelledby="title desc">
+  <title id="title">A10: Mạch hai nút A và B dùng giải nút và hai dòng vòng</title>
+  <desc id="desc">Nguồn lý tưởng 10 volt có cực âm tại ground và cực dương S. Điện trở R0 2 kiloohm nối S tới A. Điện trở RA 2 kiloohm từ A xuống ground. Điện trở RAB 2 kiloohm nối A tới B. Điện trở RB 2 kiloohm từ B xuống ground. Dòng vòng i1 thuận chiều kim đồng hồ ở vòng trái đi qua nguồn, R0 và RA; i2 thuận chiều kim đồng hồ ở vòng phải đi qua RAB, RB và RA, ngược chiều i1 trên RA. Các node đo dương so với ground. Kết quả theo mô hình VA 4 volt, VB 2 volt, i1 3 miliampere và i2 1 miliampere.</desc>
+  <defs><marker id="ma" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ffca80"/></marker></defs>
+  <rect width="560" height="420" rx="16" fill="#101827"/>
+  <g font-family="Arial,sans-serif" fill="#eaf4ff">
+    <text x="20" y="36" font-size="20" font-weight="700">Hai nút A, B · hai vòng độc lập</text>
+    <g stroke="#95c5d4" stroke-width="3" fill="none" stroke-linecap="round">
+      <path d="M62 194 V100 H150 M230 100 H275 M275 100 H322 M406 100 H487 V162 M275 100 V162 M275 250 V317 H62 V246 M487 250 V317"/>
+      <path d="M150 100 h8 l9 -13 l15 26 l15 -26 l15 26 l9 -13 h9"/>
+      <path d="M322 100 h8 l9 -13 l15 26 l15 -26 l15 26 l9 -13 h13"/>
+      <path d="M275 162 v8 l-13 11 l26 15 l-26 15 l26 15 l-13 11 v13"/>
+      <path d="M487 162 v8 l-13 11 l26 15 l-26 15 l26 15 l-13 11 v13"/>
+      <circle cx="62" cy="220" r="26"/>
+      <circle cx="275" cy="100" r="5" fill="#95c5d4"/>
+      <circle cx="487" cy="100" r="5" fill="#95c5d4"/>
+    </g>
+    <text x="55" y="213" font-size="16">+</text><text x="56" y="237" font-size="16">−</text><text x="24" y="163" font-size="15">10 V</text>
+    <text x="149" y="72" font-size="14">R0 2 kΩ</text><text x="277" y="78" font-size="15">A, VA +</text>
+    <text x="329" y="72" font-size="14">RAB 2 kΩ</text><text x="462" y="78" font-size="15">B, VB +</text>
+    <text x="202" y="202" font-size="14">RA 2 kΩ</text><text x="491" y="272" font-size="14">RB 2 kΩ</text>
+    <path d="M137 203 C150 167 211 167 225 203" stroke="#ffca80" stroke-width="2" marker-end="url(#ma)"/>
+    <path d="M341 203 C354 167 420 167 433 203" stroke="#ffca80" stroke-width="2" marker-end="url(#ma)"/>
+    <text x="161" y="226" font-size="16">i1 ↻</text><text x="371" y="226" font-size="16">i2 ↻</text>
+    <text x="210" y="340" font-size="14">GND chung · hồi về cực âm</text>
+    <rect x="21" y="360" width="518" height="40" rx="8" fill="#20354a" stroke="#6bcfb8"/>
+    <text x="35" y="385" font-size="14">VA = 4 V · VB = 2 V · i1 = 3 mA · i2 = 1 mA</text>
+  </g>
+</svg>

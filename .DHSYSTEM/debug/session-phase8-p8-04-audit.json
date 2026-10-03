@@ -1,0 +1,31 @@
+{
+  "id": "phase8-p8-04-audit",
+  "status": "resolved",
+  "created_at": "2026-10-03",
+  "updated_at": "2026-10-03",
+  "problem": {
+    "description": "Cross-audit of the A09–A14 analysis lessons found two diagram presentation gaps in A09/A10.",
+    "symptoms": [
+      "A09 SVG omitted voltage polarity signs across R0/R1/R2 although the lesson teaches signed voltage drops",
+      "At narrow viewports the 560px A09/A10 SVGs scaled down, reducing diagram labels to approximately 6–9px"
+    ],
+    "affected_files": ["assets/images/advanced/a09.svg", "advanced/a09.html", "advanced/a10.html", "assets/css/style.css"]
+  },
+  "investigation": {
+    "root_cause": "The first diagrams relied on prose for resistor polarities and used the generic responsive image rule, which shrank embedded SVG text.",
+    "tests_run": [
+      {"command": "independent read-only dh-audit A09–A10", "output": "0 P0/P1; two P2 figure presentation findings"},
+      {"command": "independent read-only dh-audit A11–A12", "output": "0 confirmed P0/P1/P2, electrical topology and arithmetic consistent"},
+      {"command": "independent read-only dh-audit A13–A14", "output": "0 confirmed P0/P1/P2, RC/RL/RLC results and SVG topology consistent"},
+      {"command": "python tools/verify_phase8_numeric.py", "output": "A09–A14 ideal DC, transient and AC reference numbers match independent calculations"}
+    ]
+  },
+  "resolution": {
+    "changes": [
+      "Marked positive and negative resistor voltage reference ends in a09.svg and its accessible description",
+      "Wrapped A09–A14 SVGs in keyboard-focusable horizontal-scroll regions and preserved native diagram size with CSS",
+      "Kept text transcripts and full-size SVG links next to each figure"
+    ],
+    "remaining": "No SPICE, ERC, physical measurements or part-specific thermal/EMC validation is claimed."
+  }
+}

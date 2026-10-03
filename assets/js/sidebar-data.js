@@ -136,6 +136,16 @@ const CURRICULUM = {
         { id: 'a02', number: 'A02', title: 'Điện Trở Chức Năng & Phép Đo', file: '../advanced/a02.html' },
         { id: 'a03', number: 'A03', title: 'Các Họ Tụ Điện', file: '../advanced/a03.html' },
         { id: 'a04', number: 'A04', title: 'Tụ Điện Trong Mạch Thực', file: '../advanced/a04.html' },
+        { id: 'a05', number: 'A05', title: 'Các Họ Diode', file: '../advanced/a05.html' },
+        { id: 'a06', number: 'A06', title: 'Cuộn Cảm, Biến Áp & Ferrite Bead', file: '../advanced/a06.html' },
+        { id: 'a07', number: 'A07', title: 'Adapter, Bộ Ổn Áp & Pin', file: '../advanced/a07.html' },
+        { id: 'a08', number: 'A08', title: 'Chọn Linh Kiện Bằng Datasheet', file: '../advanced/a08.html' },
+        { id: 'a09', number: 'A09', title: 'Mô Hình Mạch DC & KCL/KVL', file: '../advanced/a09.html' },
+        { id: 'a10', number: 'A10', title: 'Phương Pháp Nút & Vòng', file: '../advanced/a10.html' },
+        { id: 'a11', number: 'A11', title: 'Chồng Chất & Nguồn Phụ Thuộc', file: '../advanced/a11.html' },
+        { id: 'a12', number: 'A12', title: 'Thévenin & Norton', file: '../advanced/a12.html' },
+        { id: 'a13', number: 'A13', title: 'Phân Tích Mạch RC/RL Quá Độ', file: '../advanced/a13.html' },
+        { id: 'a14', number: 'A14', title: 'Mạch RLC & Cộng Hưởng', file: '../advanced/a14.html' },
       ]
     }
   ]

@@ -90,7 +90,8 @@ def check_layout(browser, server: ThreadingHTTPServer, quick: bool) -> int:
                                     ("capacitor", {"day08", "a03", "a04"}), ("sensor", {"day27"}),
                                     ("pcb", {"day33"})):
                 first = page.evaluate("q => EbookSearch.search(q)[0]", query)
-                check(first and first["id"] in expected and first["snippet"] and first["heading"],
+                check(first and first["id"] in expected and first["snippet"] and first["heading"]
+                      and "�" not in first["snippet"] and "�" not in first["heading"],
                       f"Search quality failed for {query} on {path}: {first}")
         count += 1
     for path in SAMPLES:
