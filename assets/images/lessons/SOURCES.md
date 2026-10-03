@@ -60,5 +60,20 @@ Giáo trình giữ bản quyền riêng. Ảnh bên ngoài chỉ được đưa 
 | `oscilloscope-digimess-cc0.webp` | Bài 30 | Stablenode — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Digimess_oscilloscope.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh hiện tại 2845 × 1525 do Stablenode chụp, Wikimedia đã crop/chỉnh màu; thu về 1200 × 643, WebP. Máy analog minh họa vị trí các núm. |
 | `assembled-pcb-cc0.webp` | Bài 33 | Lenharth Systems — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Computer_Motherboard_Closeup.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 4764 × 3156; thu về 1200 × 795, WebP. Bo máy tính đã lắp linh kiện, không phải layout KiCad của bài. |
 | `li-ion-cells-cc0.webp` | Bài 41 | Sevenethics — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:18650_and_21700_lithium_ion_battery_cell.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 2048 × 1536; thu về 1200 × 900, WebP. Hai cell 18650/21700, không phải LiPo dạng túi. |
+| `day43-overview.svg` | Bài 43 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Nhu cầu → SRS → sơ đồ khối → BOM. |
+| `day44-overview.svg` | Bài 44 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Schematic, module firmware, state machine và scheduler. |
+| `day45-overview.svg` | Bài 45 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Tích hợp từng tầng và debug có chứng cứ. |
+| `day46-overview.svg` | Bài 46 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Layout PCB, đường hồi, test point và lắp. |
+| `day47-overview.svg` | Bài 47 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Test plan, hiệu chuẩn và kiểm thử bền. |
+| `day48-overview.svg` | Bài 48 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bản đồ bộ tài liệu kỹ thuật. |
+| `day49-overview.svg` | Bài 49 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Kịch bản demo 10 phút. |
+| `day50-overview.svg` | Bài 50 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bản đồ đánh giá, chứng cứ và portfolio. |
+| `day51-overview.svg` | Bài 51 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Vòng kín PID và dt/giới hạn đầu ra. |
+| `day52-overview.svg` | Bài 52 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Task đo → queue → xử lý → giao tiếp. |
+| `day53-overview.svg` | Bài 53 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | ESP32 BLE server, GATT, notify/write. |
+| `day54-overview.svg` | Bài 54 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bản đồ PCB chống nhiễu. |
+| `day55-overview.svg` | Bài 55 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bốn hướng học tiếp. |
+| `day56-overview.svg` | Bài 56 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bản đồ năng lực sau khóa. |
+| `esp32-dev-board-cc0.webp` | Bài 53 | Ubahnverleih — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:ESP32_Espressif_ESP-WROOM-32_Dev_Board.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 4082 × 3134; thu về 1200 × 921, WebP. Bo phát triển ESP-WROOM-32; pinout chỉ của bo trong ảnh. |
 
 Khi thêm ảnh mới, ghi lại trang tệp cụ thể, tác giả, giấy phép, ngày kiểm tra, mọi biến đổi và vị trí sử dụng. Không suy giấy phép của ảnh từ giấy phép của cả website chứa ảnh.

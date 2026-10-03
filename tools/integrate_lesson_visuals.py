@@ -26,6 +26,7 @@ PHOTOS = {
     30: ("oscilloscope-digimess-cc0.webp", "Stablenode", "CC0 1.0", "Digimess oscilloscope.jpg", "Máy hiện sóng Digimess loại analog nhìn chính diện, có màn hình và nhiều núm chỉnh.", "Ví dụ máy hiện sóng analog Digimess; vị trí núm Volt/div, Time/div và Trigger thay đổi theo model. Ảnh không đại diện giao diện máy số hiện nay."),
     33: ("assembled-pcb-cc0.webp", "Lenharth Systems", "CC0 1.0", "Computer Motherboard Closeup.jpg", "Cận cảnh bo mạch máy tính có linh kiện SMD, đầu nối, đường mạch và tụ điện.", "Ví dụ PCB đã lắp linh kiện ở mật độ cao. Đây là bo máy tính, không phải layout KiCad của bài; dùng ảnh để nhận diện lớp mạch, vị trí và linh kiện."),
     41: ("li-ion-cells-cc0.webp", "Sevenethics", "CC0 1.0", "18650 and 21700 lithium ion battery cell.jpg", "Hai cell Li-ion hình trụ kích cỡ 18650 và 21700 đặt cạnh nhau.", "Hai cell Li-ion 18650 và 21700 để nhận diện kích cỡ. Ảnh không phải LiPo dạng túi, không cho biết dòng sạc/xả an toàn; đọc datasheet của cell dùng thật."),
+    53: ("esp32-dev-board-cc0.webp", "Ubahnverleih", "CC0 1.0", "ESP32 Espressif ESP-WROOM-32 Dev Board.jpg", "Bo phát triển ESP32 dùng module ESP-WROOM-32, nhìn từ mặt linh kiện với đầu nối USB và hai hàng chân.", "Ví dụ bo ESP32 dùng module ESP-WROOM-32 có BLE. Sơ đồ chân/USB thay đổi theo bo; ảnh không xác định cách nối nguồn hay GPIO của board khác."),
 }
 
 

@@ -28,6 +28,7 @@ PHOTOS = {
     "File:Digimess oscilloscope.jpg": ("oscilloscope-digimess-cc0.webp", "CC0"),
     "File:Computer Motherboard Closeup.jpg": ("assembled-pcb-cc0.webp", "CC0"),
     "File:18650 and 21700 lithium ion battery cell.jpg": ("li-ion-cells-cc0.webp", "CC0"),
+    "File:ESP32 Espressif ESP-WROOM-32 Dev Board.jpg": ("esp32-dev-board-cc0.webp", "CC0"),
 }
 HEADERS = {"User-Agent": "ElectricBasicCourse/1.0 (educational media import; Wikimedia Commons API)"}
 

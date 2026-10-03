@@ -3,7 +3,7 @@
 - Cập nhật: 2026-10-03
 - Trạng thái: Phase 1–4 hoàn tất; Phase 5–6 hình minh họa đang triển khai
 - Phase hiện tại: Phase 5
-- Việc kế tiếp: P5-04
+- Việc kế tiếp: Audit Phase 5, rồi P6-01
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -14,7 +14,7 @@
 | Phase 2 | 3 | 3 | Hoàn tất; audit/debug PASS |
 | Phase 3 | 2 | 2 | Hoàn tất; audit/debug PASS |
 | Phase 4 | 4 | 4 | Hoàn tất; audit/debug PASS |
-| Phase 5 | 4 | 3 | Đang triển khai |
+| Phase 5 | 4 | 4 | Chờ audit Phase 5 |
 | Phase 6 | 2 | 0 | Đã lên kế hoạch |
 
 ## Phase 1
@@ -101,7 +101,7 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 | P5-01 | PASS | 14 SVG và 4 ảnh thật đã kiểm giấy phép; `docs/qa/visual-week1-2.md`; 42 ca mobile/desktop, link/asset/index PASS |
 | P5-02 | PASS | 14 SVG, ba ảnh CC0; `docs/qa/visual-week3-4.md`; 42 ca viewport và cổng link/asset/index PASS |
 | P5-03 | PASS | 14 SVG và ba ảnh CC0; `docs/qa/visual-week5-6.md`; 42 ca viewport và cổng link/asset/index PASS |
-| P5-04 | IN_PROGRESS | Đang biên tập sơ đồ Bài 43–56 |
+| P5-04 | PASS | 14 SVG, ảnh ESP32 CC0; `docs/qa/visual-week7-8.md`; 56/56 bài và 168 ca viewport PASS |
 | P6-01 | PLANNED | — |
 | P6-02 | PLANNED | — |
 
@@ -118,3 +118,5 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 2026-10-03 P5-02: 14/14 bài tuần 3–4 có sơ đồ riêng, 3 ảnh BJT/MOSFET/DHT22 CC0 với giới hạn diễn giải ghi ngay ở caption. 42 ca viewport PASS; 59 trang/525 tham chiếu 0 hỏng; chỉ mục và Chromium quick PASS. Chi tiết `docs/qa/visual-week3-4.md`.
 
 2026-10-03 P5-03: 14/14 bài tuần 5–6 có sơ đồ riêng, 3 ảnh Digimess/PCB/cell Li-ion CC0. Loại ảnh động cơ bước sai loại trước tích hợp; sửa sơ đồ Bài 42 về TB6612FNG. 42 ca viewport PASS; 59 trang/542 tham chiếu 0 hỏng; chỉ mục và Chromium quick PASS. Chi tiết `docs/qa/visual-week5-6.md`.
+
+2026-10-03 P5-04: 14/14 bài tuần 7–8 có sơ đồ riêng, ảnh bo ESP-WROOM-32 CC0. 56/56 bài có hình; 168 ca viewport 320/390/1280 px PASS, 59 trang/557 tham chiếu 0 hỏng, index và Chromium quick PASS. Chi tiết `docs/qa/visual-week7-8.md`. Chờ audit Phase 5.
