@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bài 36: RTC DS3231 — Đồng Hồ Thời Gian Thực — Giáo Trình Điện Tử Thực Hành</title>
-  <meta name="description" content="Bài 36: Module RTC DS3231 I2C — đọc/ghi thời gian, alarm, nhiệt độ tích hợp và backup pin CR2032.">
+  <meta name="description" content="Bài 36: IC RTC DS3231 I2C — đọc/ghi thời gian, alarm, nhiệt độ tích hợp và nguồn dự phòng ngoài theo đúng module.">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -22,7 +22,7 @@
       <div class="lesson-header">
         <div class="lesson-meta"><span class="tag tag-week">Tuần 6</span><span class="tag tag-day">Ngày 36</span><span class="tag tag-difficulty-intermediate">Dự án</span></div>
         <h1 class="lesson-title">RTC DS3231 — Đồng Hồ Thời Gian Thực</h1>
-        <p class="lesson-subtitle">Module thời gian thực chính xác nhất trong phân khúc giá rẻ — độ trôi &lt;2ppm, tích hợp nhiệt độ bù và pin dự phòng CR2032.</p>
+        <p class="lesson-subtitle">RTC bù nhiệt DS3231: sai số tần số ±2 ppm trong 0–40 °C theo datasheet; nguồn dự phòng phụ thuộc thiết kế module.</p>
         <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~25 phút</span><span class="lesson-stat">🔬 Thực hành: 60 phút</span></div>
       </div>
 
@@ -30,9 +30,9 @@
         <div class="objectives-title">🎯 Mục tiêu bài học</div>
         <ul class="objectives-list">
           <li>Hiểu RTC (Real Time Clock) — tại sao vi điều khiển cần module RTC riêng</li>
-          <li>Phân biệt DS3231 (TCXO, ±2ppm) và DS1307 (±20ppm) — chọn loại nào</li>
+          <li>Phân biệt DS3231 có TCXO và DS1307 dùng thạch anh ngoài; đọc điều kiện sai số từ datasheet</li>
           <li>Kết nối DS3231 I2C với Arduino/ESP32 — đọc giờ/phút/giây/ngày</li>
-          <li>Set thời gian vào RTC và giữ qua tắt nguồn nhờ pin CR2032</li>
+          <li>Đặt thời gian và giải thích điều kiện giữ giờ qua mất nguồn nhờ VBAT ngoài đã xác minh</li>
           <li>Đọc nhiệt độ tích hợp của DS3231 (±3°C, không chính xác bằng BME280)</li>
           <li>Cài đặt Alarm 1 và Alarm 2 — ngắt khi đến giờ</li>
           <li>Dự án: Đồng hồ hiển thị trên OLED với thời gian từ DS3231</li>
@@ -53,21 +53,25 @@
       <h2>1. Tại sao cần RTC module?</h2>
 
       <p>Vi điều khiển (Arduino, ESP32) có thể đếm thời gian bằng millis() — nhưng:<br>
-      (1) millis() reset về 0 khi tắt nguồn; (2) millis() dần dần sai số (oscillator không chính xác như TCXO). DS3231 có <strong>oscillator bù nhiệt (TCXO)</strong> và <strong>pin CR2032 dự phòng</strong> — giữ thời gian chính xác kể cả khi mạch chính mất điện.</p>
+      (1) millis() reset về 0 khi tắt nguồn; (2) millis() dần dần sai số (oscillator không chính xác như TCXO). IC DS3231 có <strong>oscillator bù nhiệt (TCXO)</strong> và <strong>chân VBAT cho nguồn dự phòng ngoài</strong>. Bản thân IC không có pin CR2032 hoặc bộ sạc; loại pin và đường nối VBAT tùy đúng PCB module. Chỉ lắp pin sau khi xem schematic/revision và xác nhận module có hay không có mạch sạc. <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/DS3231.pdf" target="_blank" rel="noopener">ADI DS3231 Rev. 10, sơ đồ chân và VBAT</a>; <a href="https://ez.analog.com/clock_and_timing/a/documents/do12021/does-the-ds3231-provide-trickle-charging" target="_blank" rel="noopener">ADI xác nhận IC không tự sạc pin</a>.</p>
 
       <div class="table-wrap">
         <table>
           <thead><tr><th>Module</th><th>Độ chính xác</th><th>Kết nối</th><th>Tích hợp</th></tr></thead>
           <tbody>
-            <tr><td>DS3231</td><td>±2ppm (~1 phút/năm)</td><td>I2C (0x68)</td><td>TCXO, nhiệt độ, 2 alarm</td></tr>
-            <tr><td>DS1307</td><td>±20ppm (~10 phút/năm)</td><td>I2C (0x68)</td><td>Chỉ RTC cơ bản</td></tr>
-            <tr><td>PCF8563</td><td>±4,3ppm</td><td>I2C (0x51)</td><td>Low power, phổ biến IoT</td></tr>
+            <tr><td>DS3231</td><td>±2 ppm trong 0–40 °C theo ADI Rev. 10; ngoài dải đó xem datasheet</td><td>I2C (0x68)</td><td>TCXO, nhiệt độ, 2 alarm, VBAT dự phòng ngoài</td></tr>
+            <tr><td>DS1307</td><td>Phụ thuộc thạch anh 32,768 kHz ngoài, tải và nhiệt độ</td><td>I2C (0x68)</td><td>RTC với thạch anh ngoài</td></tr>
+            <tr><td>PCF8563</td><td>Phụ thuộc thạch anh/mạch cụ thể; không gán ±4,3 ppm cho mọi module</td><td>I2C (0x51)</td><td>RTC tiêu thụ thấp, thạch anh ngoài</td></tr>
           </tbody>
         </table>
       </div>
 
+      <p>Nguồn cho bảng: <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/DS3231.pdf" target="_blank" rel="noopener">ADI DS3231 Rev. 10, Electrical Characteristics</a>, <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/DS1307.pdf" target="_blank" rel="noopener">ADI DS1307, Clock Accuracy</a> và <a href="https://www.nxp.com/products/PCF8563" target="_blank" rel="noopener">NXP PCF8563</a>. Sai số theo ppm không tính thêm lão hóa, biến thiên nhiệt hoặc sai số lúc đặt đồng hồ.</p>
+
       <!-- THỰC HÀNH -->
       <h2>2. Kết nối và đọc DS3231</h2>
+
+      <p>Trước khi nối dây thật, xác nhận part DS3231, mã/revision PCB, VCC, rail pull-up SDA/SCL và đường pin dự phòng bằng schematic module. Nếu thiếu hồ sơ này, đọc code và mô phỏng chuỗi thời gian qua Serial; không gắn CR2032 hoặc cấp nguồn theo hình module không rõ nguồn. Ví dụ mã dưới dùng RTClib và các hàm <code>Serial.print()</code>/<code>println()</code> có trên Arduino Uno AVR; <code>Serial.printf()</code> không có trong <a href="https://github.com/arduino/ArduinoCore-avr/blob/master/cores/arduino/Print.h" target="_blank" rel="noopener">ArduinoCore-avr Print API</a>.</p>
 
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
 <pre style="margin:0;white-space:pre-wrap;">// DS3231 RTC — Arduino (thư viện RTClib của Adafruit)
@@ -75,6 +79,11 @@
 #include &lt;RTClib.h&gt;
 
 RTC_DS3231 rtc;
+
+void print2(int value) {
+  if (value &lt; 10) Serial.print('0');
+  Serial.print(value);
+}
 
 void setup() {
   Serial.begin(115200);
@@ -89,12 +98,13 @@ void setup() {
 
 void loop() {
   DateTime now = rtc.now();
-  Serial.printf("%04d/%02d/%02d %02d:%02d:%02d\n",
-    now.year(), now.month(), now.day(),
-    now.hour(), now.minute(), now.second());
+  Serial.print(now.year()); Serial.print('/');
+  print2(now.month()); Serial.print('/'); print2(now.day()); Serial.print(' ');
+  print2(now.hour()); Serial.print(':'); print2(now.minute()); Serial.print(':');
+  print2(now.second()); Serial.println();
   
   // Nhiệt độ tích hợp DS3231
-  Serial.printf("Temp: %.2f°C\n", rtc.getTemperature());
+  Serial.print("Temp: "); Serial.print(rtc.getTemperature(), 2); Serial.println(" C");
   delay(1000);
 }</pre>
       </div>
@@ -105,10 +115,10 @@ void loop() {
       <div class="callout callout-practice">
         <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Đồng hồ số hiển thị trên OLED 0,96"</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Kết nối: DS3231 và SSD1306 OLED đều qua I2C (SDA, SCL, VCC 3,3V, GND).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Vẽ hai net I²C SDA/SCL và GND chung; dùng 3,3 V chỉ khi <em>cả hai breakout</em> được xác nhận làm việc với nguồn/mức logic đó và pull-up không kéo lên rail khác. Chỉ sau khi biết đúng module/revision và chân, mới nối thật. Nếu chưa biết, dùng mô phỏng I²C/Serial.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Cài thư viện: RTClib (Adafruit), Adafruit_SSD1306, Adafruit_GFX.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Code: đọc thời gian từ DS3231 mỗi giây → hiển thị trên OLED dạng HH:MM:SS và DD/MM/YYYY.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Tắt nguồn 30 giây → bật lại → kiểm tra đồng hồ vẫn chạy đúng (nhờ pin CR2032).</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Chỉ khi PCB và loại cell dự phòng đã được xác minh, kiểm tra thời gian trước/sau khi ngắt nguồn chính 30 giây. Ghi loại cell, điện áp VBAT và sai khác quan sát được; nếu chưa xác minh mạch pin, mô phỏng trường hợp mất VCC và nêu phép thử cần làm, không lắp cell.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Nâng cao: Thêm nút nhấn interrupt để điều chỉnh thời gian (tăng giờ/phút).</p></div></li>
         </ol>
       </div>
@@ -133,26 +143,26 @@ void loop() {
       <div class="exercise-section">
         <div class="exercise-title">📝 Bài tập Bài 36</div>
         <div class="exercise-part">
-          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">DS3231 độ trôi ±2ppm. Sau 1 năm (365 ngày), sai số tối đa là bao nhiêu giây?</div></div>
-          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">RTC pin CR2032 (225mAh) tiêu thụ ~1,5µA khi chỉ dùng RTC không nguồn chính. Pin sống được bao nhiêu ngày?</div></div>
-          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Cài đặt alarm DS3231 để bật LED mỗi ngày lúc 7:00 AM. Viết code setup alarm.</div></div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Giả sử DS3231 nằm trong dải 0–40 °C với sai số tần số đúng ±2 ppm không đổi suốt 365 ngày. Sai số lý tưởng tương ứng là bao nhiêu giây? Vì sao đây không phải bảo đảm sai số đồng hồ thực sau một năm?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Giả sử một cell dự phòng tương thích có dung lượng danh định 225 mAh và toàn PCB tiêu thụ 1,5 µA không đổi. Tính thời gian lý tưởng theo giờ/ngày/năm; liệt kê các yếu tố khiến thời gian thật ngắn hơn.</div></div>
+          <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Thiết kế luồng alarm DS3231 bật LED mỗi ngày lúc 7:00. SQW/INT là ngõ ra loại gì, cần xác minh gì ở module và vì sao phải xóa cờ alarm ngoài ISR?</div></div>
         </div>
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
-            <p><strong>1:</strong> 1 năm = 365×24×3600 = 31,536,000 giây. Sai số = 2ppm × 31,536,000 = 2×10⁻⁶ × 31,536,000 = <strong>63 giây/năm</strong> ≈ 1 phút/năm. DS1307 ±20ppm → 630 giây = 10,5 phút/năm.</p>
-            <p><strong>2:</strong> I = 1,5µA = 0,0000015A. t = 225mAh / 0,0000015A = 150,000,000 giờ? Không đúng vì pin tự xả dần. Thực tế pin CR2032 giữ được <strong>3–10 năm</strong> khi làm RTC backup — tự xả là yếu tố giới hạn, không phải dòng tiêu thụ.</p>
-            <p><strong>3:</strong> <code>rtc.setAlarm1(DateTime(2024,1,1,7,0,0), DS3231_A1_Hour);</code> — Mode DS3231_A1_Hour: trigger khi giờ:phút:giây khớp. Cần kết nối chân SQW của DS3231 vào GPIO interrupt để nhận tín hiệu alarm. Trong ISR: bật LED, clear alarm flag.</p>
+            <p><strong>1:</strong> 365×24×3600 = 31.536.000 s; 2×10<sup>−6</sup>×31.536.000 ≈ <strong>63 s</strong>. Đây chỉ là phép đổi từ giới hạn ppm trong dải 0–40 °C của <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/DS3231.pdf" target="_blank" rel="noopener">ADI DS3231 Rev. 10</a>; sai số ban đầu lúc đặt giờ, nhiệt độ ngoài dải và lão hóa không nằm trong phép tính.</p>
+            <p><strong>2:</strong> 1,5 µA = 0,0015 mA; 225/0,0015 = <strong>150.000 giờ</strong> ≈ 6.250 ngày ≈ 17,1 năm lý tưởng. Dung lượng hữu dụng ở dòng/nhiệt độ thực, tự xả, tuổi cell và rò trên PCB làm thời gian thật khác; không gán một tuổi thọ cố định cho module chưa rõ. Kiểm mạch VBAT/charge path trước khi lắp cell.</p>
+            <p><strong>3:</strong> Đặt Alarm 1 khớp 07:00:00 theo API/phiên RTClib đang dùng; cấu hình SQW/INT ở chế độ ngắt và pull-up về đúng rail vì ngõ ra này là open-drain theo <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/DS3231.pdf" target="_blank" rel="noopener">ADI DS3231 Rev. 10, pin descriptions</a>. ISR chỉ đặt cờ phần mềm; vòng lặp chính đọc/xóa cờ RTC qua I²C rồi điều khiển LED. Chỉ nối thật khi pinout, rail và pull-up của module đã xác minh.</p>
           </div>
         </div>
       </div>
 
       <div class="checklist">
         <div class="checklist-title">✅ Checklist Bài 36</div>
-        <div class="checklist-item"><input type="checkbox" id="c1b36"><label for="c1b36">Tôi kết nối DS3231 I2C và đọc thời gian chính xác</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c2b36"><label for="c2b36">Tôi đặt thời gian và xác nhận giữ qua tắt nguồn</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c3b36"><label for="c3b36">Tôi hiển thị đồng hồ trên OLED 128×64</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c4b36"><label for="c4b36">Tôi biết cài Alarm và nhận interrupt khi đến giờ</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c1b36"><label for="c1b36">Tôi vẽ đúng bus I²C và chỉ nối DS3231 khi module, rail và pull-up đã xác minh</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b36"><label for="c2b36">Tôi tính được thời gian VBAT lý tưởng và biết điều kiện thử giữ giờ sau mất VCC</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b36"><label for="c3b36">Tôi mô tả luồng đọc thời gian và hiển thị OLED 128×64</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b36"><label for="c4b36">Tôi biết xử lý cờ Alarm ngoài ISR và kiểm tra mạch pull-up SQW/INT</label></div>
       </div>
 
       <div class="lesson-nav">

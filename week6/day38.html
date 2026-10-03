@@ -61,7 +61,7 @@
       </figure>
       <details class="summary-transcript"><summary>Đọc mô tả sơ đồ D38-1 bằng chữ</summary><p>MCU nối STEP và DIR tới carrier. VDD nhận nguồn logic 3–5,5 V phù hợp MCU; VMOT nhận nguồn motor 8–35 V theo Pololu. GND logic và GND nguồn motor phải nối chung. Tụ điện phân ít nhất 47 µF mắc song song giữa VMOT và GND sát carrier, đúng cực. Đầu 1A/1B nối một cuộn; 2A/2B nối cuộn còn lại, xác định bằng ohmmeter. Nếu không điều khiển, RST và SLP kéo lên VDD, EN kéo xuống GND để bật. Ngắt nguồn trước khi cắm/rút motor. Đặt giới hạn dòng theo đúng điện trở sense và hướng dẫn của carrier đang dùng.</p></details>
 
-      <p>Đối chiếu <a href="https://www.pololu.com/product/1182" target="_blank" rel="noopener">hướng dẫn carrier A4988 của Pololu</a> cho biến thể board đang dùng. Ngắt nguồn trước khi cắm/rút dây motor; không đo dòng cuộn bằng dòng tại nguồn VMOT.</p>
+      <p>Đây là sơ đồ và mã để phân tích/mô phỏng, chưa phải hướng dẫn cấp nguồn cho carrier không rõ revision. Trước khi thử trên motor thật, đối chiếu <a href="https://www.pololu.com/product/1182" target="_blank" rel="noopener">hướng dẫn carrier A4988 của Pololu</a> với board đang dùng, xác định cặp cuộn, điện áp, tụ VMOT và đặt giới hạn dòng theo điện trở sense thực tế; cần duyệt mạch cụ thể. Ngắt nguồn trước khi cắm/rút dây motor; không đo dòng cuộn bằng dòng tại nguồn VMOT.</p>
 
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
 <pre style="margin:0;white-space:pre-wrap;">// Stepper với A4988 — quay 1 vòng
@@ -170,9 +170,9 @@ void loop() {
 
       <div class="checklist">
         <div class="checklist-title">✅ Checklist Bài 38</div>
-        <div class="checklist-item"><input type="checkbox" id="c1b38"><label for="c1b38">Tôi kết nối A4988 và điều chỉnh V_ref đúng dòng motor</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c2b38"><label for="c2b38">Tôi điều khiển stepper quay 90°/180°/360° chính xác</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c3b38"><label for="c3b38">Tôi điều khiển servo RC quét 0°–180° mượt mà</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c1b38"><label for="c1b38">Tôi chỉ ra điều kiện đặt dòng A4988 theo carrier và motor cụ thể trước khi lắp</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b38"><label for="c2b38">Tôi tính số bước cho góc 90°/180°/360° và ghi giới hạn mất bước</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b38"><label for="c3b38">Tôi phân tích xung điều khiển servo 0°–180°; chưa khẳng định đã thử thiết bị thật</label></div>
         <div class="checklist-item"><input type="checkbox" id="c4b38"><label for="c4b38">Tôi biết nguyên nhân mất bước và cách phòng tránh</label></div>
       </div>
 

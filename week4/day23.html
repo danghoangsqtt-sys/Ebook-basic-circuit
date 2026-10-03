@@ -22,7 +22,7 @@
       <div class="lesson-header">
         <div class="lesson-meta"><span class="tag tag-week">Tuần 4</span><span class="tag tag-day">Ngày 23</span><span class="tag tag-difficulty-intermediate">Giao tiếp số</span></div>
         <h1 class="lesson-title">I2C — Giao Tiếp Đa Thiết Bị Trên 2 Dây</h1>
-        <p class="lesson-subtitle">Inter-Integrated Circuit — giao tiếp đồng bộ với địa chỉ thiết bị, kết nối tối đa 127 thiết bị trên 2 dây SDA/SCL.</p>
+        <p class="lesson-subtitle">Inter-Integrated Circuit — giao tiếp đồng bộ trên hai dây SDA/SCL; số thiết bị phụ thuộc địa chỉ khả dụng và tải bus.</p>
         <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~45 phút</span><span class="lesson-stat">🔬 Thực hành: 50 phút</span></div>
       </div>
 
@@ -56,10 +56,10 @@
         <table>
           <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
           <tbody>
-            <tr><td>Arduino Uno/ESP32</td><td>I2C: SDA=A4, SCL=A5 (Uno) hoặc pin 21/22 (ESP32)</td><td>1</td></tr>
+            <tr><td>Host logic 3,3 V (ví dụ ESP32-WROOM-32)</td><td>Ví dụ chân GPIO21=SDA, GPIO22=SCL; xác nhận chân trên đúng board. Uno R3 logic 5 V cần breakout chịu 5 V hoặc bộ chuyển mức I²C hai chiều đã kiểm.</td><td>1</td></tr>
             <tr><td>Màn hình OLED SSD1306 0,96"</td><td>128×64 pixel, I2C, địa chỉ 0x3C hoặc 0x3D</td><td>1</td></tr>
-            <tr><td>Cảm biến BME280 hoặc SHT31</td><td>Nhiệt độ/độ ẩm, I2C địa chỉ 0x76/0x77</td><td>1</td></tr>
-            <tr><td>Điện trở 4,7kΩ (pull-up)</td><td>SDA pull-up và SCL pull-up</td><td>2</td></tr>
+            <tr><td>Cảm biến BME280 hoặc SHT31</td><td>Nhiệt độ/độ ẩm; BME280: 0x76/0x77, SHT31: 0x44/0x45. Kiểm địa chỉ và điện áp của breakout cụ thể.</td><td>1</td></tr>
+            <tr><td>Điện trở kéo lên (ví dụ 4,7 kΩ)</td><td>Chỉ thêm nếu tính R tổng, C bus và dòng LOW cho thấy cần; nhiều breakout đã lắp sẵn.</td><td>Tùy mạch</td></tr>
             <tr><td>Breadboard + dây jumper</td><td>—</td><td>1 bộ</td></tr>
           </tbody>
         </table>
@@ -74,7 +74,7 @@
         <li><strong>SCL</strong> (Serial Clock): clock do Master tạo ra</li>
       </ul>
 
-      <p>Mỗi thiết bị trên cùng bus cần <strong>địa chỉ 7-bit không trùng</strong> (trong miền 0x00–0x7F, có một số địa chỉ dành riêng). Master gửi địa chỉ trước mỗi giao dịch — chỉ thiết bị có đúng địa chỉ mới phản hồi. Số thiết bị thực tế còn bị giới hạn bởi điện dung bus, điện trở pull-up, nguồn và địa chỉ mà module cho phép.</p>
+      <p>Mỗi thiết bị trên cùng bus cần <strong>địa chỉ 7-bit không trùng</strong>. Trong 128 mã 7-bit, NXP dành riêng hai dải 0x00–0x07 và 0x78–0x7F; 112 địa chỉ còn lại là dải thiết bị thông thường. Số thiết bị thực tế thấp hơn vì địa chỉ cố định, điện dung bus, điện trở kéo lên và nguồn. Xem <a href="https://www.nxp.com/docs/en/user-guide/UM10204.pdf" target="_blank" rel="noopener">NXP UM10204 Rev. 7, §3.1.12 và §7.1</a>.</p>
 
       <figure class="figure figure--circuit" data-diagram-id="D23-1">
         <img src="../assets/images/lessons/d23-1.svg" width="360" height="480" loading="lazy" decoding="async" alt="ESP32, OLED và BME280 cùng nối SDA và SCL thành hai net riêng, chung GND. SDA qua một điện trở pull-up tương đương về Vlogic 3,3 V; SCL qua điện trở pull-up khác về 3,3 V. 4,7 kΩ là giá trị minh họa, phải xét điện trở đã có trên module, điện dung bus và khả năng kéo xuống. Module phải thật sự tương thích mức 3,3 V.">
@@ -123,7 +123,7 @@ void setup() {
   Serial.begin(115200);
   Serial.println("I2C Scanner started...");
   
-  for (byte addr = 1; addr &lt; 127; addr++) {
+  for (byte addr = 0x08; addr &lt;= 0x77; addr++) { // bỏ dải địa chỉ dành riêng
     Wire.beginTransmission(addr);
     byte error = Wire.endTransmission();
     if (error == 0) {
@@ -144,7 +144,7 @@ void loop() {}</pre>
           <table>
             <thead><tr><th>Module</th><th>Địa chỉ mặc định</th><th>Ghi chú</th></tr></thead>
             <tbody>
-              <tr><td>OLED SSD1306</td><td>0x3C hoặc 0x3D</td><td>Chân ADDR quyết định (GND=0x3C, VCC=0x3D)</td></tr>
+              <tr><td>OLED SSD1306</td><td>0x3C hoặc 0x3D</td><td>Địa chỉ và cách chọn phụ thuộc breakout/jumper; dùng scanner và sơ đồ đúng module.</td></tr>
               <tr><td>BME280</td><td>0x76 hoặc 0x77</td><td>Chân SDO quyết định (GND=0x76, VCC=0x77)</td></tr>
               <tr><td>MPU-6050 (IMU)</td><td>0x68 hoặc 0x69</td><td>Chân AD0 quyết định</td></tr>
               <tr><td>ADS1115 (ADC)</td><td>0x48–0x4B</td><td>ADDR nối GND/VCC/SDA/SCL = 4 địa chỉ</td></tr>
@@ -176,10 +176,10 @@ void loop() {}</pre>
         <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: OLED hiển thị nhiệt độ từ BME280</div>
         <ol class="step-list">
           <li class="step-item"><div class="step-content"><p>Cài thư viện: <code>Adafruit SSD1306</code>, <code>Adafruit GFX</code>, <code>Adafruit BME280</code> qua Library Manager.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Kết nối: OLED và BME280 đều nối SDA→A4, SCL→A5 (Arduino Uno). VCC=3,3V. GND chung.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Chạy I2C Scanner → tìm địa chỉ OLED và BME280. Ghi lại.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Upload code đọc BME280 → in nhiệt độ qua Serial → thấy giá trị hợp lý (~25–35°C).</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Thêm code hiển thị nhiệt độ lên OLED 0,96". Kỳ vọng: text "Temp: 27.3 C" xuất hiện trên màn hình.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Trước tiên vẽ hoặc mô phỏng hai net SDA/SCL kéo lên 3,3 V, với OLED và BME280 cùng GND. Chỉ lắp thật khi có mã/revision của từng breakout, xác nhận VCC, VDDIO, rail pull-up và pinout. Với host logic 3,3 V đã xác minh, nối SDA/SCL theo chân board. <strong>Không nối trực tiếp Uno R3 logic 5 V với chip BME280 trần hoặc breakout 3,3 V chưa có chuyển mức</strong>; nếu dùng Uno, chọn breakout được nhà sản xuất xác nhận chịu I²C 5 V hoặc bộ chuyển mức I²C hai chiều phù hợp. <a href="https://docs.arduino.cc/resources/datasheets/A000066-datasheet.pdf" target="_blank" rel="noopener">Uno R3</a>; <a href="https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme280-ds002.pdf" target="_blank" rel="noopener">Bosch BME280, VDDIO tối đa 3,6 V</a>.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Sau khi cổng điện áp và module ở bước trên đạt, chạy I2C Scanner → tìm địa chỉ OLED và BME280. Ghi lại; địa chỉ SHT31 thay thế là 0x44/0x45 theo <a href="https://sensirion.com/media/documents/213E6A3B/63A5A569/Datasheet_SHT3x_DIS.pdf" target="_blank" rel="noopener">Sensirion SHT3x-DIS, bảng địa chỉ</a>.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Sau khi mạch thật đã qua cổng trên, upload code đọc BME280 và in nhiệt độ qua Serial; so với nhiệt kế tham chiếu, không mặc định nhiệt độ môi trường 25–35 °C. Ở nhánh mô phỏng, kiểm luồng dữ liệu giả định và xử lý sensor không phản hồi.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thêm code hiển thị nhiệt độ lên OLED 0,96"; với dữ liệu thử 27,3 °C, kỳ vọng text "Temp: 27.3 C". Việc màn hình thật hoạt động còn phụ thuộc địa chỉ, nguồn và module đã xác minh.</p></div></li>
         </ol>
       </div>
 
@@ -190,8 +190,8 @@ void loop() {}</pre>
         <table class="debug-table">
           <thead><tr><th>Lỗi</th><th>Nguyên nhân</th><th>Cách kiểm tra</th><th>Fix</th></tr></thead>
           <tbody>
-            <tr><td class="symptom">I2C Scanner không tìm thấy thiết bị (0 devices)</td><td class="cause">Thiếu pull-up hoặc nối SDA/SCL sai</td><td>Đo V_SDA và V_SCL: phải HIGH (~3,3V) khi không giao dịch</td><td class="fix">Kiểm tra kết nối SDA/SCL, thêm 4,7kΩ pull-up lên VCC</td></tr>
-            <tr><td class="symptom">Tìm thấy địa chỉ sai (ví dụ 0x00)</td><td class="cause">Pull-up quá thấp hoặc nhiễu</td><td>Đo R_pullup thực tế giữa SDA và VCC</td><td class="fix">Thay pull-up bằng 4,7kΩ</td></tr>
+            <tr><td class="symptom">I2C Scanner không tìm thấy thiết bị (0 devices)</td><td class="cause">Có thể thiếu pull-up, sai chân, sai nguồn/mức logic hoặc địa chỉ</td><td>Đo SDA/SCL khi bus rỗi, xác nhận điện áp theo datasheet của từng thiết bị và R kéo lên tổng.</td><td class="fix">Sửa chân/nguồn trước; chỉ thêm pull-up lên đúng rail logic sau khi tính R tổng và dòng LOW theo NXP UM10204 §7.1.</td></tr>
+            <tr><td class="symptom">Địa chỉ bất thường hoặc ACK không ổn định</td><td class="cause">Có thể sai địa chỉ, nguồn, pull-up, điện dung dây hoặc nhiễu</td><td>Đối chiếu datasheet/module, đo rail và dạng sóng SDA/SCL; kiểm điện trở tương đương khi tắt nguồn.</td><td class="fix">Sửa nguyên nhân đã đo; không thay điện trở bằng 4,7 kΩ theo phỏng đoán.</td></tr>
             <tr><td class="symptom">OLED không hiển thị dù Scanner thấy</td><td class="cause">Địa chỉ trong code sai</td><td>So sánh địa chỉ Scanner với địa chỉ trong Adafruit_SSD1306 constructor</td><td class="fix">Sửa địa chỉ: <code>display(128, 64, &Wire, -1)</code> rồi <code>display.begin(SSD1306_SWITCHCAPVCC, 0x3C)</code></td></tr>
             <tr><td class="symptom">BME280 đọc 0 hoặc -999</td><td class="cause">Thư viện không tìm thấy sensor</td><td>Kiểm tra bme.begin() trả về false → Serial.println</td><td class="fix">Kiểm tra địa chỉ 0x76 vs 0x77, SDA/SCL đúng chân</td></tr>
           </tbody>
@@ -210,8 +210,8 @@ void loop() {}</pre>
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
-            <p><strong>1:</strong> 5 × 10kΩ song song = 10000/5 = <strong>2kΩ hiệu dụng</strong>. Ở 100kHz: thường vẫn ổn. Ở 400kHz với bus dài 1m: có thể gây rising edge chậm → lỗi. Nên xóa bỏ bớt pull-up nội (rút hoặc hàn cầu chì trên module).</p>
-            <p><strong>2:</strong> 2⁷ – 1 = <strong>127 thiết bị</strong> (địa chỉ 0 dành cho general call). Nếu 2 thiết bị cùng địa chỉ: cả 2 cùng kéo SDA — có thể dữ liệu sai, bus bị treo (hung). I2C không có cơ chế giải quyết conflict địa chỉ.</p>
+            <p><strong>1:</strong> Năm điện trở 10 kΩ song song cho <strong>R tương đương 2 kΩ</strong>. R thấp làm cạnh lên nhanh hơn với cùng điện dung, nhưng tăng dòng mà thiết bị phải kéo xuống khi LOW; dây 1 m lại tăng điện dung và có thể làm cạnh lên chậm. Theo <a href="https://www.nxp.com/docs/en/user-guide/UM10204.pdf" target="_blank" rel="noopener">NXP UM10204 Rev. 7, §7.1</a>, kiểm cả R tối thiểu theo dòng sink, R tối đa theo C bus và thời gian lên; không quyết định tháo pull-up nếu chưa đo và tính.</p>
+            <p><strong>2:</strong> Địa chỉ 7-bit có 128 mã, trong đó 16 mã thuộc hai dải dành riêng theo <a href="https://www.nxp.com/docs/en/user-guide/UM10204.pdf" target="_blank" rel="noopener">NXP UM10204 Rev. 7, bảng 4</a>; còn <strong>112 địa chỉ thông thường</strong>, không có nghĩa là gắn được 112 module thật. Nếu hai target cùng địa chỉ, cả hai có thể ACK và cùng tham gia truyền, khiến dữ liệu không xác định; chọn địa chỉ khác, bus thứ hai hoặc multiplexer.</p>
             <p><strong>3:</strong> BME280 chỉ có 2 địa chỉ (0x76, 0x77) → không đủ cho 3 module. <strong>Giải pháp:</strong> (a) Dùng I2C Multiplexer TCA9548A — 8 kênh I2C độc lập, mỗi kênh 1 địa chỉ; (b) Dùng 2 BME280 trên I2C + 1 BME280 trên bus I2C thứ 2 (ESP32 có 2 I2C hardware); (c) Dùng SPI cho một số module.</p>
           </div>
         </div>
@@ -220,8 +220,8 @@ void loop() {}</pre>
       <div class="checklist">
         <div class="checklist-title">✅ Checklist Bài 23</div>
         <div class="checklist-item"><input type="checkbox" id="c1b23"><label for="c1b23">Tôi hiểu I2C — 2 dây, open-drain, pull-up bắt buộc</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c2b23"><label for="c2b23">Tôi chạy I2C Scanner và tìm được địa chỉ OLED/cảm biến</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c3b23"><label for="c3b23">Tôi đọc được dữ liệu BME280 và hiển thị trên OLED</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b23"><label for="c2b23">Tôi biết dùng scanner sau khi xác minh rail logic và module</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b23"><label for="c3b23">Tôi mô tả được luồng dữ liệu BME280 tới OLED và điều kiện để chạy trên mạch thật</label></div>
         <div class="checklist-item"><input type="checkbox" id="c4b23"><label for="c4b23">Tôi biết debug 4 lỗi I2C phổ biến</label></div>
       </div>
 

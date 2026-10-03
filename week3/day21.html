@@ -51,11 +51,11 @@
             <tr><td>Transistor vào Saturation khi nào?</td><td>Khi I_B đủ lớn để I_C bị giới hạn bởi mạch ngoài; V_CE &lt; 0,3V</td></tr>
             <tr><td>Mạch relay driver bắt buộc có linh kiện nào?</td><td>Freewheeling diode (1N4007) song song cuộn relay, cathode lên VCC</td></tr>
             <tr><td>Common Emitter: A_V = ? (với C_E bypass, R_C=4,7kΩ, I_CQ=1mA)</td><td>r_e = 26Ω; A_V = –4700/26 = –181</td></tr>
-            <tr><td>MOSFET Logic-Level khác MOSFET thường ở điểm nào?</td><td>V_GS(th) thấp hơn (1–2V thay vì 4V) → dùng được với GPIO 3,3V</td></tr>
+            <tr><td>MOSFET nào có thể được GPIO 3,3 V điều khiển cho tải đã chọn?</td><td>Tra R_DS(on) tối đa tại V_GS thực tế ≤3,3 V và kiểm dòng khởi động/kẹt, tổn hao nhiệt, điện tích Gate và giới hạn GPIO. V_GS(th) đo ở dòng rất nhỏ, không chứng minh dẫn đủ tải.</td></tr>
             <tr><td>PWM 5V, duty cycle 75%. V_avg = ?</td><td>V_avg = 0,75 × 5V = 3,75V</td></tr>
             <tr><td>Op-Amp Inverting: R_f=47kΩ, R_in=4,7kΩ. A_V = ?</td><td>A_V = –47k/4,7k = –10 (đảo pha 10 lần)</td></tr>
             <tr><td>Op-Amp Non-Inverting: R_f=90kΩ, R1=10kΩ. A_V = ?</td><td>A_V = 1 + 90k/10k = 10 (thuận pha 10 lần)</td></tr>
-            <tr><td>Comparator: V_in(+) > V_ref(–). V_out = ?</td><td>V_out = HIGH (~VCC)</td></tr>
+            <tr><td>LM358 dùng như comparator: V_in(+) > V_ref(–). V_out = ?</td><td>Ngõ ra đi về mức cao theo nguồn và tải nhưng không rail-to-rail; đo/tra swing HIGH của đúng LM358-N với tải thực, không lấy V_out≈VCC.</td></tr>
             <tr><td>Tại sao cần R_GS pull-down 10kΩ trong mạch MOSFET switch?</td><td>Đảm bảo V_GS=0 khi GPIO floating → MOSFET không tự bật ngẫu nhiên</td></tr>
           </tbody>
         </table>
@@ -104,7 +104,7 @@
             <tr><td>R_ref (phân áp NTC)</td><td>10kΩ</td><td>Bằng R_NTC tại 25°C → V_sensor = VCC/2 = 1,65V ở nhiệt phòng</td></tr>
             <tr><td>R_pot (V_ref)</td><td>Biến trở 10kΩ</td><td>Điều chỉnh ngưỡng nhiệt độ kích hoạt</td></tr>
             <tr><td>Op-Amp</td><td>LM358 op-amp 1</td><td>Single supply 5V, comparator mode</td></tr>
-            <tr><td>R_B (BJT driver)</td><td>1kΩ</td><td>V_OUT thực tế khoảng 3–3,5V: I_B≈2,3–2,8mA; dùng relay cuộn ≤25mA và xác nhận V_CE thấp khi ON</td></tr>
+            <tr><td>R_B (BJT driver)</td><td>1 kΩ minh họa</td><td>LM358-N không có ngõ ra rail-to-rail; mức HIGH và dòng cấp với LED/base đồng thời chưa được bảo đảm tại nguồn 5 V. Chỉ dùng nhánh relay để mô phỏng; đo V_OUT, tính I_B và V_CE trên đúng mạch đã duyệt trước khi lắp.</td></tr>
             <tr><td>Transistor</td><td>BC337</td><td>800mA I_C_max; kiểm tra đúng chân và dòng cuộn của relay đang dùng</td></tr>
             <tr><td>Relay thử nghiệm</td><td>5V, cuộn ≥200Ω (≤25mA), SPDT</td><td>Relay cuộn 70Ω/71mA cần thiết kế driver mạnh hơn và kiểm tra khả năng cấp dòng của LM358</td></tr>
             <tr><td>Freewheeling diode</td><td>1N4007</td><td>Bảo vệ BC337 khi relay ngắt</td></tr>
@@ -119,7 +119,7 @@
       <div class="callout callout-practice">
         <div class="callout-header"><span class="callout-icon">🔌</span> Thử NTC–comparator–LED; mô phỏng relay</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p><strong>Cấp nguồn:</strong> Lắp AMS1117-3.3 hoặc dùng nguồn 5V, GND.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Cấp nguồn:</strong> Sơ đồ dùng rail 5 V cho LM358 và rail 3,3 V cho NTC/V_ref. Chỉ tạo rail 3,3 V bằng AMS1117 đúng mã khi đã kiểm pinout, dropout ở tải thực, tụ ổn định và nhiệt theo datasheet; nếu chưa có đúng linh kiện/nguồn, phân tích hoặc mô phỏng hai rail, không đấu tùy ý 5 V vào nhánh 3,3 V.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>Mạch phân áp:</strong> 3,3V → R_ref(10kΩ) → NTC → GND. Đo V_sensor ở điểm giữa (kỳ vọng ~1,65V ở nhiệt phòng).</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>V_ref:</strong> 3,3V → biến trở 10kΩ → GND. Chân giữa nối IN(+) LM358. Chỉnh biến trở sao cho V_ref thấp hơn V_sensor lúc nguội; điều chỉnh ngưỡng bằng phép đo thực tế.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>LM358 Comparator:</strong> V_sensor → IN(–, pin 2), V_ref → IN(+, pin 3). Nguồn +5V pin 8, GND pin 4; 100nF từ +5V xuống GND sát IC. Đo V_out pin 1. Với LM358-N, tránh đưa điện áp đầu vào lên sát rail +5V.</p></div></li>

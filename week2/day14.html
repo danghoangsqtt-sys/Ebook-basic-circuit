@@ -33,10 +33,10 @@
       <!-- ÔN TẬP -->
       <!-- LESSON VISUALS START day14 -->
       <div class="figure figure--overview">
-        <img src="../assets/images/lessons/day14-overview.svg" width="560" height="1114" loading="lazy" decoding="async" alt="Lắp và kiểm nguồn hai rail. 9 V DC vào: Diode bảo vệ đúng chiều rồi tới tụ đầu vào.; Rail 5 V: LM7805 tạo 5 V; tụ đầu vào và ra về GND.; Rail 3,3 V: AMS1117-3.3 hạ từ 5 V; dùng tụ theo datasheet.; Đo từng rail: Kiểm 5 V, 3,3 V và nhiệt độ trước khi gắn tải.">
+        <img src="../assets/images/lessons/day14-overview.svg" width="560" height="1114" loading="lazy" decoding="async" alt="Thiết kế nguồn hai rail có điều kiện. 9 V DC vào: diode bảo vệ đúng chiều rồi tới tụ đầu vào; LM7805 tạo rail 5 V; AMS1117-3.3 hạ từ 5 V theo đúng datasheet. Chỉ lắp và đo sau khi xác minh part, PCB, tải, nhiệt và người duyệt.">
         <div class="figure-caption">
           <div class="figure-number">Sơ đồ tổng quan Bài 14</div>
-          <div class="figure-text">Lắp và kiểm nguồn hai rail. GND chung, tránh đảo cực nguồn.</div>
+          <div class="figure-text">Phân tích nguồn hai rail và kế hoạch kiểm; chỉ lắp trên phần cứng đã xác minh.</div>
           <div class="figure-source">Nguồn: tự vẽ cho giáo trình; nội dung đối chiếu với bài học.</div>
         </div>
       </div>
@@ -57,7 +57,7 @@
             <tr><td>V_f diode Schottky?</td><td>≈ 0,2–0,3V</td></tr>
             <tr><td>Cầu chỉnh lưu 4 diode: V_peak=12V → V_DC?</td><td>V_DC ≈ 12–1,4 = 10,6V (sau tụ lọc lớn)</td></tr>
             <tr><td>Zener cắm thuận hay nghịch khi ổn áp?</td><td>Nghịch (cathode lên phía áp cao, anode xuống GND)</td></tr>
-            <tr><td>LM7805 cần V_in tối thiểu bao nhiêu?</td><td>Tối thiểu 7V (dropout 2V + 5V out)</td></tr>
+            <tr><td>LM7805 cần V_in bao nhiêu để còn điều áp?</td><td>Phụ thuộc part, tải và nhiệt; <a href="https://www.ti.com/lit/ds/symlink/lm7800.pdf" target="_blank" rel="noopener">TI LM7805 Rev. L</a> nêu điều kiện line regulation từ 7,5 V tại chân IN trong bảng đặc tính. Tính cả sụt áp diode/dây.</td></tr>
           </tbody>
         </table>
       </div>
@@ -81,7 +81,7 @@
 
       <h3>2.1 Sơ đồ mạch tổng thể</h3>
 
-      <p>Đây là bài thử tải nhỏ trên breadboard; giới hạn tải ngoài ở 5 V là 100 mA và 3,3 V là 50 mA. Dòng đi qua LM7805 gồm <em>cả</em> tải rail 5 V lẫn dòng cấp cho AMS1117. Ở nguồn 12 V, dù tổng tải chỉ khoảng 150 mA, LM7805 vẫn có thể tiêu tán gần 1 W; tính nhiệt theo datasheet và gắn tản nhiệt khi cần. Không lấy công suất danh định của IC làm công suất cho phép của cách lắp trên breadboard.</p>
+      <p>Đây là bài thiết kế và lập kế hoạch thử tải nhỏ: mục tiêu tải ngoài 5 V là 100 mA, 3,3 V là 50 mA. Dòng đi qua LM7805 gồm <em>cả</em> tải rail 5 V lẫn dòng cấp cho AMS1117. Ở nguồn 12 V, dù tổng tải chỉ khoảng 150 mA, LM7805 vẫn có thể tiêu tán gần 1 W. Trước khi chuyển sang breadboard thật, xác minh đúng part/package, nguồn, tụ, pinout, điện áp tại chân IN, tính nhiệt và có người duyệt; nếu thiếu, chỉ dùng sơ đồ để tính hoặc mô phỏng. Không lấy công suất danh định của IC làm công suất cho phép của cách lắp trên breadboard.</p>
 
       <figure class="figure figure--overview">
         <img src="../assets/images/lessons/d14-1.svg" width="390" height="805" loading="lazy" decoding="async" alt="Sơ đồ nút: 9 V qua Dprot vào LM7805 tạo +5 V, rồi AMS1117 tạo +3,3 V. Tụ và LED là nhánh về GND chung.">
@@ -106,10 +106,10 @@
         </table>
       </div>
 
-      <h3>2.3 Quy trình lắp mạch an toàn</h3>
+      <h3>2.3 Kế hoạch nối dây và kiểm tra có điều kiện</h3>
 
       <div class="callout callout-practice">
-        <div class="callout-header"><span class="callout-icon">🔌</span> Lắp theo thứ tự — chưa cấp điện</div>
+        <div class="callout-header"><span class="callout-icon">🔌</span> Chỉ thực hiện sau khi xác minh part, nguồn và duyệt mạch</div>
         <ol class="step-list">
           <li class="step-item"><div class="step-content"><p>Lắp đường GND chạy suốt breadboard. Cắm D_prot (1N4007) — cathode (vạch) vào phía mạch.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Cắm C1 (100µF, đúng chiều +/-) và C2 (100nF) song song sau D_prot.</p></div></li>
@@ -119,7 +119,7 @@
           <li class="step-item"><div class="step-content"><p>Cắm AMS1117-3.3 theo đúng mã: chân 3=IN từ rail 5 V, chân 1=GND, chân 2/tab=OUT 3,3 V. Kiểm tra chân trên datasheet trước khi nối nguồn.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Cắm C5 (22µF tantalum đúng cực), C6 (100nF) từ 3,3 V xuống GND. Nối LED xanh lá và R150Ω nối tiếp thành một nhánh từ 3,3 V xuống GND.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>Continuity test:</strong> Kiểm tra VCC không short với GND trước khi cấp điện.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Giới hạn dòng nguồn thử, cấp 9 V; đo VIN_REG, 5 V và 3,3 V rồi mới xem hai LED sáng. Không dùng đầu ra này cấp ESP32 Wi-Fi: bài thử hiện chỉ kiểm chứng tải nhỏ, ESP32 cần thiết kế nguồn theo dòng đỉnh của module.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nếu cổng phần cứng đã đạt: đặt giới hạn dòng nguồn thử theo BOM, cấp 9 V từ nguồn DC cách ly; đo VIN_REG, 5 V và 3,3 V trước khi nối tải ngoài. Nếu chưa đạt, mô phỏng/ước tính các rail và ghi các phép đo cần làm. Không dùng đầu ra này cấp ESP32 Wi-Fi: bài chỉ xét tải nhỏ, ESP32 cần thiết kế theo dòng đỉnh của module.</p></div></li>
         </ol>
       </div>
 
@@ -130,12 +130,12 @@
           <thead><tr><th>Điểm đo</th><th>Kỳ vọng</th><th>Đo được</th><th>P/F</th></tr></thead>
           <tbody>
             <tr><td>V_in trước D_prot</td><td>9–12V</td><td>_____</td><td>—</td></tr>
-            <tr><td>V_in sau D_prot</td><td>V_in – 0,7V</td><td>_____</td><td>—</td></tr>
+            <tr><td>V_in sau D_prot</td><td>V_in − V_F; V_F phụ thuộc dòng/nhiệt của diode thật</td><td>_____</td><td>—</td></tr>
             <tr><td>V_out 5V rail</td><td>4,8–5,2V</td><td>_____</td><td>_____</td></tr>
             <tr><td>V_out 3,3V rail</td><td>3,2–3,4V</td><td>_____</td><td>_____</td></tr>
             <tr><td>LED đỏ sáng?</td><td>Có</td><td>_____</td><td>_____</td></tr>
             <tr><td>LED xanh sáng?</td><td>Có</td><td>_____</td><td>_____</td></tr>
-            <tr><td>Test bảo vệ cực tính: dùng nguồn giới hạn dòng, ngắt điện rồi đổi chiều</td><td>Cả hai LED tắt; kiểm tra không có dòng/tăng nhiệt bất thường</td><td>_____</td><td>_____</td></tr>
+            <tr><td>Phân tích đảo cực đầu vào</td><td>D_prot nối tiếp dự kiến chặn dòng qua rail; chưa thử thật khi chưa có sơ đồ/BOM và phép duyệt</td><td>_____</td><td>_____</td></tr>
           </tbody>
         </table>
       </div>
@@ -150,8 +150,8 @@
             <tr><td><strong>9</strong></td><td>Mạch RC: τ, đường cong nạp/xả, RC filter</td><td>Đo V_C theo thời gian thực</td></tr>
             <tr><td><strong>10</strong></td><td>Cuộn cảm: điện cảm H, cảm kháng X_L, voltage spike</td><td>Nhận biết cuộn cảm, biết dùng freewheeling diode</td></tr>
             <tr><td><strong>11</strong></td><td>Diode: P-N, phân cực, chỉnh lưu, bảo vệ</td><td>Đo V_f, mạch bảo vệ cực tính</td></tr>
-            <tr><td><strong>12</strong></td><td>Zener: ổn áp tham chiếu, bảo vệ quá áp</td><td>Đo mạch ổn áp Zener</td></tr>
-            <tr><td><strong>13</strong></td><td>IC LDO: LM7805, AMS1117, P_heat, tản nhiệt</td><td>Lắp mạch nguồn 5V+3,3V</td></tr>
+            <tr><td><strong>12</strong></td><td>Zener: ổn áp tham chiếu, bảo vệ quá áp</td><td>Phân tích/mô phỏng mạch Zener trước khi đo thật</td></tr>
+            <tr><td><strong>13</strong></td><td>Ổn áp tuyến tính thường và LDO: LM7805, AMS1117, P_heat, tản nhiệt</td><td>Thiết kế nguồn 5 V + 3,3 V và lập kế hoạch đo có điều kiện</td></tr>
             <tr><td><strong>14</strong></td><td>Tổng hợp + Mini Project</td><td>Mạch nguồn DC hoàn chỉnh với bảo vệ</td></tr>
           </tbody>
         </table>
@@ -175,7 +175,7 @@
           <div class="exercise-item"><span class="exercise-num">6</span><div class="exercise-text">V_peak AC = 15V, qua cầu chỉnh lưu 4 diode Schottky (V_f=0,3V). V_DC sau tụ lọc lớn = ?</div></div>
           <div class="exercise-item"><span class="exercise-num">7</span><div class="exercise-text">Tính R_s cho Zener 5,1V, V_in=9V, I_Z=15mA, không tải. Kiểm tra công suất Zener (P_max=500mW).</div></div>
           <div class="exercise-item"><span class="exercise-num">8</span><div class="exercise-text">LM7805, V_in=15V, I_out=600mA. P_heat = ? Có cần tản nhiệt không?</div></div>
-          <div class="exercise-item"><span class="exercise-num">9</span><div class="exercise-text">Tại sao mạch nguồn cho ESP32 thường dùng AMS1117-3.3 từ USB 5V thay vì LM7805 + thêm mạch giảm áp?</div></div>
+            <div class="exercise-item"><span class="exercise-num">9</span><div class="exercise-text">Nếu cần rail 3,3 V từ USB 5 V, vì sao LM7805 không dùng trực tiếp? Với AMS1117-3.3, còn phải kiểm điều kiện nào trước khi chọn cho ESP32?</div></div>
           <div class="exercise-item"><span class="exercise-num">10</span><div class="exercise-text">Mạch nguồn của bạn: LED chỉ thị 5V sáng nhưng LED chỉ thị 3,3V không sáng. Liệt kê 4 nguyên nhân có thể và cách kiểm tra từng nguyên nhân.</div></div>
         </div>
         <div class="answer-section">
@@ -188,9 +188,9 @@
             <p><strong>5:</strong> Cả hai chiều đều ~0V → diode <strong>bị ngắn mạch (shorted)</strong>. Thay diode mới.</p>
             <p><strong>6:</strong> V_DC ≈ V_peak – 2×V_f_Schottky = 15 – 0,6 = <strong>14,4V</strong></p>
             <p><strong>7:</strong> R_s = (9–5,1)/0,015 = <strong>260Ω → chọn 270Ω</strong>. I_Z = (9–5,1)/270 = 14,4mA. P_Z = 5,1×0,0144 = <strong>73,4 mW</strong> &lt;&lt; 500mW ✓</p>
-            <p><strong>8:</strong> P_heat = (15–5)×0,6 = <strong>6W</strong>. Rất nóng — <strong>cần tản nhiệt lớn</strong> (fin heatsink). Nhiệt độ không tản nhiệt: 25 + 6×65 = 415°C — vượt quá giới hạn, IC sẽ shutdown nhiệt.</p>
-            <p><strong>9:</strong> LM7805 cần V_in ≥ 7V — USB 5V không đủ. AMS1117 LDO dropout chỉ 1,2V → USB 4,7V vẫn đủ cho 3,3V. Đơn giản hơn, ít linh kiện hơn.</p>
-            <p><strong>10:</strong> (a) AMS1117 cắm sai chân — kiểm tra sơ đồ chân; (b) C5 hoặc C6 cắm ngược tạo ngắn mạch — kiểm tra chiều; (c) Đường dây IN của AMS1117 không nối vào 5V — kiểm tra continuity; (d) AMS1117 hỏng — đo V tại chân IN và OUT của AMS1117.</p>
+            <p><strong>8:</strong> P_heat xấp xỉ (15−5)×0,6 = <strong>6 W</strong>, chưa tính dòng tĩnh. Công thức T_j=T_a+P×R_θJA cho thấy thiết kế không tản nhiệt có thể vượt giới hạn rất xa; không xem nhiệt độ ngoại suy là nhiệt độ chip thật vì giới hạn nhiệt có thể tác động. Phải tra R_θJA theo package/PCB hoặc tản nhiệt thật và kiểm T_j,max của đúng part; chưa thể kết luận loại tản nhiệt từ số 6 W một mình.</p>
+            <p><strong>9:</strong> LM7805 là ổn áp 5 V thông thường, không tạo rail 3,3 V và USB 5 V không đủ headroom cho nó. AMS1117-3.3 là một ứng viên từ rail 5 V, nhưng <a href="https://datasheet.lcsc.com/datasheet/pdf/e6935943fc6b1bbf350a1a0f3e90dc4a.pdf?productCode=C6186" target="_blank" rel="noopener">datasheet AMS</a> cho dropout tối đa 1,3 V ở 0,8 A, nên phải kiểm V_IN tối thiểu ngay tại chân IC dưới tải/dây, tụ ổn định, dòng đỉnh ESP32 và nhiệt. Không suy USB 4,7 V luôn đủ cho mọi tải/module.</p>
+            <p><strong>10:</strong> (a) AMS1117 cắm sai chân — đối chiếu package/pinout; (b) C5 tantalum mắc sai cực hoặc C5/C6 bị chập/hỏng — kiểm đúng loại tụ và đo khi đã ngắt nguồn; C6 gốm 100 nF không có cực; (c) IN của AMS1117 mất rail 5 V — kiểm đường nối khi ngắt nguồn; (d) IC hoặc tải hỏng — đo V tại IN/OUT dưới điều kiện nguồn giới hạn dòng đã được duyệt.</p>
           </div>
         </div>
       </div>
@@ -199,15 +199,15 @@
         <div class="checklist-title">✅ Checklist hoàn thành Tuần 2</div>
         <div class="checklist-item"><input type="checkbox" id="wk2c1"><label for="wk2c1">Tôi nhận biết và đọc thông số tụ điện, cuộn cảm, diode các loại</label></div>
         <div class="checklist-item"><input type="checkbox" id="wk2c2"><label for="wk2c2">Tôi tính được τ, f_c cho mạch RC và X_L cho cuộn cảm</label></div>
-        <div class="checklist-item"><input type="checkbox" id="wk2c3"><label for="wk2c3">Tôi thiết kế được mạch ổn áp Zener và LDO cho nguồn thực tế</label></div>
-        <div class="checklist-item"><input type="checkbox" id="wk2c4"><label for="wk2c4">Tôi đã hoàn thành Mini Project nguồn DC kép 5V+3,3V</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk2c3"><label for="wk2c3">Tôi tính được mạch Zener và phân biệt LM7805 tuyến tính thường với AMS1117 LDO</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk2c4"><label for="wk2c4">Tôi đã hoàn thành sơ đồ, phép tính và kế hoạch kiểm Mini Project nguồn 5 V + 3,3 V; chưa xem là đã đo thật</label></div>
         <div class="checklist-item"><input type="checkbox" id="wk2c5"><label for="wk2c5">Tôi làm bài kiểm tra cuối tuần và tự chấm điểm</label></div>
       </div>
 
       <section class="lesson-summary" aria-labelledby="summary-day14">
         <h2 id="summary-day14">Sơ đồ tổng hợp Bài 14</h2>
         <div class="figure figure--summary">
-          <img src="../assets/images/lessons/day14-summary.svg" width="560" height="1067" loading="lazy" decoding="async" alt="Nguồn DC hai rail. 9 V DC → 5 V + 3,3 V. Sơ đồ tổng thể: Bảo vệ, lọc, 7805, AMS1117.; Chọn linh kiện: Tính dòng, tụ và công suất nhiệt.; Lắp an toàn: Kiểm cực và chập trước cấp nguồn.; Đo hai rail: Đo 5 V, 3,3 V và nhiệt có tải.">
+          <img src="../assets/images/lessons/day14-summary.svg" width="560" height="1067" loading="lazy" decoding="async" alt="Nguồn DC hai rail. 9 V DC → 5 V + 3,3 V. Sơ đồ tổng thể: bảo vệ, lọc, LM7805, AMS1117. Chọn linh kiện: tính dòng, tụ và công suất nhiệt. Kiểm trước khi lắp: rà cực, chập, part, nguồn và nhiệt. Kế hoạch đo rail: chỉ đo khi mạch và linh kiện đã được duyệt.">
           <div class="figure-caption">
             <div class="figure-number">Nguồn DC hai rail</div>
             <div class="figure-text">9 V DC → 5 V + 3,3 V. Các nhánh bên dưới dẫn tới nội dung đã học trong bài.</div>
@@ -218,8 +218,8 @@
           <ol>
             <li><strong>Sơ đồ tổng thể</strong>: Bảo vệ, lọc, 7805, AMS1117. (mục Sơ đồ mạch tổng thể).</li>
             <li><strong>Chọn linh kiện</strong>: Tính dòng, tụ và công suất nhiệt. (mục Tính toán linh kiện).</li>
-            <li><strong>Lắp an toàn</strong>: Kiểm cực và chập trước cấp nguồn. (mục Quy trình lắp mạch an toàn).</li>
-            <li><strong>Đo hai rail</strong>: Đo 5 V, 3,3 V và nhiệt có tải. (mục Bảng đo kiểm).</li>
+            <li><strong>Kiểm trước khi lắp</strong>: Rà cực, chập, part, nguồn và nhiệt; chỉ lắp sau khi duyệt mạch. (mục Kế hoạch nối dây và kiểm tra có điều kiện).</li>
+            <li><strong>Kế hoạch đo rail</strong>: Ghi mức cần kiểm tại 5 V, 3,3 V và nhiệt theo tải; chưa ghi số đo thật. (mục Bảng đo kiểm).</li>
           </ol>
         </details>
       </section>

@@ -1,8 +1,8 @@
 {
   "id": "phase7-audit-corrections",
-  "status": "active",
+  "status": "resolved",
   "created_at": "2026-10-03T18:53:00+07:00",
-  "updated_at": "2026-10-03T18:53:00+07:00",
+  "updated_at": "2026-10-03T20:13:54+07:00",
   "problem": {
     "description": "Independent Phase 7 review found mismatches between diagrams, BOMs, code examples, and hardware limits after ASCII replacement.",
     "symptoms": [
@@ -12,38 +12,143 @@
       "D28 example had two preprocessor macros on one line and used ESP32 boot strap GPIO0 for a button",
       "D24 Uno 5V to unspecified SD module had no level-shift qualification",
       "D37 MQTT subscribe topic differed from publish topic",
-      "D51 and D53 examples referenced uninitialized or undefined sensor functions"
+      "D51 and D53 examples referenced uninitialized or undefined sensor functions",
+      "D12/D13/D19/D21/D23/D24/D30/D32/D36/D40/D42 contained source, limit, calculation or hardware-gate drift",
+      "Coverage matrix objectives diverged from corrected HTML and HC-SR04 table overstated 3 mm accuracy",
+      "D14 summary repeated false LM7805-as-LDO and unconditional AMS1117 dropout claim; D32 table treated buck efficiency/ripple/thermal as fixed",
+      "D21 weekly recap inferred 3.3 V MOSFET drive from VGS(th) and assumed LM358 HIGH≈VCC",
+      "D28 DHT error path displayed/logged stale values and test matrix promised unverified accuracy/threshold"
     ],
     "affected_files": [
-      "week2/day09.html", "week3/day21.html", "week4/day22.html", "week4/day24.html",
-      "week4/day28.html", "week8/day51.html", "week8/day53.html",
-      "assets/images/lessons/d09-1.svg", "assets/images/lessons/d22-3.svg",
-      "assets/images/lessons/d37-1.svg"
+      "week2/day09.html",
+      "week3/day21.html",
+      "week4/day22.html",
+      "week4/day24.html",
+      "week4/day28.html",
+      "week8/day51.html",
+      "week8/day53.html",
+      "assets/images/lessons/d09-1.svg",
+      "assets/images/lessons/d22-3.svg",
+      "assets/images/lessons/d37-1.svg",
+      "week2/day12.html",
+      "week2/day13.html",
+      "week3/day19.html",
+      "week4/day23.html",
+      "week5/day30.html",
+      "week6/day36.html",
+      "week6/day40.html",
+      "docs/curriculum/coverage-matrix.csv",
+      "week2/day14.html",
+      "week5/day32.html",
+      "assets/images/lessons/day14-overview.svg",
+      "assets/images/lessons/day14-summary.svg",
+      "week3/day21.html",
+      "week4/day28.html",
+      "week5/day32.html"
     ]
   },
   "investigation": {
     "hypotheses": [
-      {"id": 1, "description": "Nominal-only divider analysis hid worst-case GPIO overvoltage", "status": "confirmed"},
-      {"id": 2, "description": "Figure generation and lesson text diverged after ASCII replacement", "status": "confirmed"},
-      {"id": 3, "description": "Some hands-on snippets were illustrative skeletons but presented as runnable", "status": "confirmed"},
-      {"id": 4, "description": "Unspecified board/module revisions prevent hardware sign-off", "status": "open"}
+      {
+        "id": 1,
+        "description": "Nominal-only divider analysis hid worst-case GPIO overvoltage",
+        "status": "confirmed"
+      },
+      {
+        "id": 2,
+        "description": "Figure generation and lesson text diverged after ASCII replacement",
+        "status": "confirmed"
+      },
+      {
+        "id": 3,
+        "description": "Some hands-on snippets were illustrative skeletons but presented as runnable",
+        "status": "confirmed"
+      },
+      {
+        "id": 4,
+        "description": "Unspecified board/module revisions prevent hardware sign-off",
+        "status": "open"
+      }
     ],
     "tests_run": [
-      {"command": "Independent read-only source/geometry review by three agents", "output": "P1/P2 findings localized to diagram IDs and adjacent hands-on text"},
-      {"command": "python -X utf8 tools/check_diagram_register.py", "output": "80 unique IDs, 70 SVGs, 10 HTML references"},
-      {"command": "python -X utf8 tools/check_visuals.py --require-all", "output": "56/56 illustrated, 0 ASCII, 0 asset errors"},
-      {"command": "python -X utf8 tools/check_links.py", "output": "59 pages, 709 local references, 0 broken"},
-      {"command": "python -X utf8 tools/qa_lesson_visuals.py --widths 320 390 1280 --font-size 24", "output": "168 viewport checks PASS"}
+      {
+        "command": "Independent read-only source/geometry review by three agents",
+        "output": "P1/P2 findings localized to diagram IDs and adjacent hands-on text"
+      },
+      {
+        "command": "python -X utf8 tools/check_diagram_register.py",
+        "output": "80 unique IDs, 70 SVGs, 10 HTML references"
+      },
+      {
+        "command": "python -X utf8 tools/check_visuals.py --require-all",
+        "output": "56/56 illustrated, 0 ASCII, 0 asset errors"
+      },
+      {
+        "command": "python -X utf8 tools/check_links.py",
+        "output": "59 pages, 709 local references, 0 broken"
+      },
+      {
+        "command": "python -X utf8 tools/qa_lesson_visuals.py --widths 320 390 1280 --font-size 24",
+        "output": "168 viewport checks PASS"
+      },
+      {
+        "command": "Manufacturer reference circuit/datasheet comparison",
+        "output": "TI, ADI, NXP, ST, Nexperia, onsemi, Infineon, Toshiba, Pololu, ElecFreaks and manufacturer-authored AMS1117/TP4056 documents; findings in docs/curriculum/reference-circuit-review.md"
+      },
+      {
+        "command": "Independent read-only residual Phase 7 audit",
+        "output": "0 remaining P0/P1 electrical/arithmetic errors in changed D13/D19/D23/D24/D30/D36/D40; four P2 drift findings fixed"
+      },
+      {
+        "command": "python -X utf8 tools/qa_browser.py --quick",
+        "output": "Chromium 4 home viewports, 24 lesson/viewport checks, reader/library/backup PASS"
+      },
+      {
+        "command": "python -X utf8 tools/qa_lesson_visuals.py --widths 320 390 1280 --font-size 24",
+        "output": "168 checks PASS after final content corrections"
+      },
+      {
+        "command": "Independent targeted audit of D14/D21/D28/D32 and D14 SVGs",
+        "output": "One P1 and multiple P2 findings, fixed in lesson content and source register; target compilation remains pending"
+      }
     ],
     "findings": [
       "Automated image/mobile checks cannot prove net topology, electrical ratings, or code compilation.",
-      "Primary manufacturer references are linked in the corrected lessons; no physical board or module was supplied."
+      "Primary manufacturer references are linked in the corrected lessons; no physical board or module was supplied.",
+      "Generic module claims were carried into objectives and comparison tables after lesson corrections; synchronized against current HTML and primary datasheets."
     ]
   },
   "resolution": {
     "root_cause": "Old lesson examples mixed nominal calculations, generic module assumptions and incomplete sketches; figure integration did not initially revalidate them against actual hardware limits.",
-    "fix_applied": "Corrected known BOM/net/polarity/voltage/timing defects, aligned code and figures, and made uncertain relay/heater/sensor paths explicitly simulation-only or conditional on exact hardware review.",
-    "files_changed": ["week1/day06.html", "week2/day09.html", "week3/day15.html", "week3/day16.html", "week3/day18.html", "week3/day21.html", "week4/day22.html", "week4/day24.html", "week4/day27.html", "week4/day28.html", "week6/day37.html", "week8/day51.html", "week8/day53.html"],
-    "verification": "Automated integration and viewport gates pass. Remaining hardware-specific and human technical review are tracked in P7-04/P7-06; this debug session remains active until those gates are satisfied."
+    "fix_applied": "Corrected known BOM/net/polarity/voltage/timing defects, aligned code and figures, and made uncertain relay/heater/sensor paths explicitly simulation-only or conditional on exact hardware review. Rechecked manufacturer reference circuits, corrected regulator/Zener/MOSFET/I2C/RTC/ranging claims and conditional lab instructions, synchronized coverage matrix and search index. Corrected D14 recap/capstone and D32 regulator comparison after residual cross-page search. Targeted independent review repaired VGS(th) logic, LM358 output claim, DHT invalid sample handling and unsupported test expectations.",
+    "files_changed": [
+      "week1/day06.html",
+      "week2/day09.html",
+      "week3/day15.html",
+      "week3/day16.html",
+      "week3/day18.html",
+      "week3/day21.html",
+      "week4/day22.html",
+      "week4/day24.html",
+      "week4/day27.html",
+      "week4/day28.html",
+      "week6/day37.html",
+      "week8/day51.html",
+      "week8/day53.html",
+      "docs/curriculum/reference-circuit-review.md",
+      "docs/qa/curriculum-hardware-pending.md",
+      "docs/curriculum/coverage-matrix.csv",
+      "week2/day13.html",
+      "week6/day36.html",
+      "week6/day40.html",
+      "week2/day14.html",
+      "week5/day32.html",
+      "assets/images/lessons/day14-overview.svg",
+      "assets/images/lessons/day14-summary.svg",
+      "week3/day21.html",
+      "week4/day28.html",
+      "week5/day32.html"
+    ],
+    "verification": "Phase 7 digital/simulation scope: 80 ID/17 claim locators, 56/56 visuals, 709 links, 56 navigation/search, 168 mobile/font checks and Chromium quick flow PASS; no P0/P1 confirmed in independent residual audit. Hardware-specific verification remains separately pending in docs/qa/curriculum-hardware-pending.md."
   }
 }

@@ -83,7 +83,7 @@
 
       <figure class="figure figure--circuit" data-diagram-id="D16-1">
         <img src="../assets/images/lessons/d16-1.svg" width="360" height="490" loading="lazy" decoding="async" alt="Nguồn +5 V qua cuộn relay đến collector BC337; emitter về GND. Diode 1N4007 mắc ngược song song cuộn: cathode tại +5 V, anode tại collector. GPIO 3,3 V qua R_B 330 Ω vào base; GND nguồn và GPIO nối chung. Tiếp điểm COM/NO/NC tách điện khỏi cuộn và chỉ dùng tải DC áp thấp trong bài.">
-        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D16-1</span> <span class="figure-text">Driver cuộn relay DC bằng BC337.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.onsemi.com/download/data-sheet/pdf/bc337-fsc-d.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d16-1.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
+        <figcaption class="figure-caption"><span class="figure-number">Sơ đồ D16-1</span> <span class="figure-text">Driver cuộn relay DC bằng BC337; R_B 330 Ω chỉ là giá trị tính ví dụ, chưa phải BOM lắp thật.</span> <span class="figure-source">Tự vẽ; tham chiếu <a href="https://www.onsemi.com/download/data-sheet/pdf/bc337-fsc-d.pdf" target="_blank" rel="noopener">tài liệu kỹ thuật</a>.</span> <a href="../assets/images/lessons/d16-1.svg" target="_blank" rel="noopener">Mở SVG để phóng to</a>.</figcaption>
         <details><summary>Bản chữ của sơ đồ</summary><p>Nguồn +5 V qua cuộn relay đến collector BC337; emitter về GND. Diode 1N4007 mắc ngược song song cuộn: cathode tại +5 V, anode tại collector. GPIO 3,3 V qua R_B 330 Ω vào base; GND nguồn và GPIO nối chung. Tiếp điểm COM/NO/NC tách điện khỏi cuộn và chỉ dùng tải DC áp thấp trong bài.</p></details>
       </figure>
 
@@ -94,7 +94,7 @@
       I_C = V_CC / R_coil = 5V / 70Ω = <strong>71,4 mA</strong></p>
 
       <p><strong>Bước 2: Chọn transistor</strong><br>
-      I_C = 71mA → Chọn BC337 (I_C_max = 800mA). Hệ số an toàn tốt.</p>
+      I_C danh định ≈71 mA. BC337 có I_C tuyệt đối tối đa 800 mA theo <a href="https://www.onsemi.com/download/data-sheet/pdf/bc337-fsc-d.pdf" target="_blank" rel="noopener">onsemi BC337-FSC/D</a>, nhưng con số đó một mình không chứng minh mạch an toàn: phải kiểm dòng base từ GPIO, V_CE(sat), tổn hao và nhiệt theo đúng điều kiện tải.</p>
 
       <p><strong>Bước 3: Tính R_B cho ví dụ BC337 (giả thiết β cưỡng bức ≈ 10)</strong><br>
       I_B_target = I_C / (hFE_min / 10) = 0,0714 / 10 = 7,14mA<br>
@@ -141,17 +141,17 @@
       </div>
 
       <!-- THỰC HÀNH -->
-      <h2>4. Thực hành: Mạch relay driver hoàn chỉnh</h2>
+      <h2>4. Phân tích mạch relay driver</h2>
 
       <div class="callout callout-practice">
-        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Lắp mạch relay và test</div>
+        <div class="callout-header"><span class="callout-icon">🔬</span> Bài tính và mô phỏng relay driver</div>
+        <p>Chưa có mã/revision relay, dòng cuộn, nguồn và người duyệt mạch này. Không cấp điện hoặc đấu tiếp điểm theo giá trị R_B ví dụ; trước khi lắp thật phải đối chiếu datasheet đúng relay/transistor, tính dòng base theo GPIO, tổn hao, diode và giới hạn tiếp điểm.</p>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Đo R_coil relay: nối multimeter (Ω) vào 2 chân cuộn relay. Ghi lại giá trị.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Lắp mạch theo sơ đồ: BC337, R_B=330Ω, diode 1N4007 (đúng chiều!), cuộn relay từ 5V.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Chạm Base (qua R_B) vào 3,3V: nghe tiếng "click" relay đóng. Đo V_CE → kỳ vọng &lt; 0,3V.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Ngắt Base (về GND): nghe tiếng "click" relay mở. Đo V_CE → kỳ vọng ≈ 5V.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Ngắt nguồn, kiểm tra diode bằng chế độ diode test và xác nhận vạch cathode nối +5V, anode nối Collector; lắp lại chắc chắn trước khi cấp nguồn. Giữ diode bảo vệ trong mọi lần bật/tắt relay.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Lắp mạch kiểm tra tiếp điểm với nguồn DC thấp: +5V → COM, NO → điện trở 470Ω → LED → GND. Điều khiển relay bật/tắt LED qua tiếp điểm, không nối tải điện lưới trong bài thực hành.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Chọn một relay có datasheet cụ thể; ghi điện áp/dòng cuộn và tính I_coil từ R_coil như bước kiểm tra sơ bộ.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Với BC337 và mức điều khiển giả định 3,3 V, tính R_B theo dòng cuộn cần bảo đảm và dòng GPIO cho phép; 330 Ω chỉ là giá trị ví dụ, không dùng mặc định.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Trên mô phỏng, so trạng thái transistor ON/OFF và điện áp V_CE; điện áp bão hòa thực phụ thuộc dòng và transistor cụ thể, không đặt một giá trị kỳ vọng chung.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Đánh dấu diode hồi dòng song song cuộn: cathode ở phía nguồn dương, anode ở phía collector; giải thích dòng cuộn khi ngắt.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Vẽ mạch tiếp điểm điều khiển LED với nguồn DC thấp trên giấy; chỉ kiểm thực tế sau khi xác minh relay, giới hạn tiếp điểm và toàn bộ mạch được duyệt. Không dùng điện lưới trong bài này.</p></div></li>
         </ol>
       </div>
 
@@ -162,8 +162,8 @@
         <table class="debug-table">
           <thead><tr><th>Hiện tượng</th><th>Nguyên nhân</th><th>Kiểm tra</th><th>Xử lý</th></tr></thead>
           <tbody>
-            <tr><td class="symptom">Relay click nhưng tiếp điểm không đủ mạnh / tự nhả</td><td class="cause">Transistor không bão hòa đủ — I_B quá nhỏ</td><td>Đo V_CE: nếu &gt; 0,5V → chưa bão hòa</td><td class="fix">Giảm R_B xuống một bước (ví dụ: 1kΩ → 470Ω)</td></tr>
-            <tr><td class="symptom">Transistor nóng khi relay ON</td><td class="cause">Chưa bão hòa hoàn toàn (vùng Active) → tiêu tán nhiệt lớn</td><td>Đo V_CE — nếu &gt; 1V là vấn đề</td><td class="fix">Tăng I_B (giảm R_B) để đưa vào saturation</td></tr>
+            <tr><td class="symptom">Relay click nhưng tự nhả</td><td class="cause">Có thể do dòng base, nguồn cuộn, tiếp điểm hoặc tải</td><td>Đối chiếu dòng cuộn và V_CE với datasheet đúng part</td><td class="fix">Tính lại driver và giới hạn GPIO; không giảm R_B theo một quy tắc chung</td></tr>
+            <tr><td class="symptom">Transistor nóng khi relay ON</td><td class="cause">Có thể do tổn hao V_CE × I_C quá lớn</td><td>Tính tổn hao và kiểm V_CE theo dòng thực</td><td class="fix">Thiết kế lại driver trong giới hạn GPIO/transistor hoặc chọn phần tử phù hợp</td></tr>
             <tr><td class="symptom">Transistor hỏng ngay sau vài lần đóng relay</td><td class="cause">Không có diode freewheeling — back-EMF phá transistor</td><td>Kiểm tra có diode không và chiều diode</td><td class="fix">Lắp 1N4007 đúng chiều, thay transistor mới</td></tr>
             <tr><td class="symptom">Relay ON cả khi GPIO = LOW</td><td class="cause">GPIO floating (không kéo về GND rõ ràng) hoặc R_B bị bypass</td><td>Đo V_Base khi GPIO=LOW: phải &lt; 0,4V</td><td class="fix">Thêm pull-down 10kΩ từ Base xuống GND</td></tr>
           </tbody>
@@ -182,7 +182,7 @@
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
-            <p><strong>1:</strong> I_relay = 12/120 = <strong>100mA</strong>. I_B = 100mA/(100/10) = 10mA. R_B = (5–0,7)/0,010 = 4,3/0,01 = <strong>430Ω → chọn 390Ω hoặc 470Ω</strong>.</p>
+            <p><strong>1:</strong> I_relay danh định ≈ 12/120 = <strong>100 mA</strong>. Nếu giả định hệ số cưỡng bức I_C/I_B=10, cần I_B≈10 mA và R_B lý tưởng ≈(5−0,7)/0,010=<strong>430 Ω</strong>. Đây chỉ là phép tính mẫu: kiểm dòng GPIO, V_BE/V_CE ở dòng thực, dung sai và dòng khởi động theo đúng part trước khi chọn R_B.</p>
             <p><strong>2:</strong> Mỗi relay cần 1 transistor driver riêng. GPIO1 → R_B1 → Q1(BC337) → Relay1+Diode1. GPIO2 → R_B2 → Q2(BC337) → Relay2+Diode2. Dùng nguồn 12V chung cho cả 2 cuộn relay, GND chung với ESP32.</p>
             <p><strong>3:</strong> Pull-down 10kΩ từ Base → GND không ảnh hưởng nhiều khi GPIO=HIGH: I_Base = (V_GPIO–V_BE)/R_B >> I_pulldown. Nhưng khi GPIO floating hoặc HIGH-Z (ví dụ: ESP32 đang boot/reset), pull-down kéo V_Base xuống 0V → transistor tắt chắc chắn → relay không tự bật ngẫu nhiên khi reset. Đây là biện pháp an toàn quan trọng.</p>
           </div>
@@ -192,8 +192,8 @@
       <div class="checklist">
         <div class="checklist-title">✅ Checklist Bài 16</div>
         <div class="checklist-item"><input type="checkbox" id="c1b16"><label for="c1b16">Tôi tính được R_B cho relay driver từ thông số relay và transistor</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c2b16"><label for="c2b16">Tôi lắp mạch relay với diode freewheeling đúng chiều</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c3b16"><label for="c3b16">Tôi nghe tiếng click relay và đo V_CE để xác nhận bão hòa</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b16"><label for="c2b16">Tôi vẽ đúng chiều diode hồi dòng và nêu điều kiện phải kiểm trước khi lắp</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b16"><label for="c3b16">Tôi dự đoán V_CE khi ON/OFF và ghi rõ chưa đo trên relay thật</label></div>
         <div class="checklist-item"><input type="checkbox" id="c4b16"><label for="c4b16">Tôi biết debug 4 lỗi phổ biến của mạch relay driver</label></div>
       </div>
 

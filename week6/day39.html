@@ -76,6 +76,7 @@
 
       <p>Theo <a href="https://www.st.com/resource/en/datasheet/l298.pdf" target="_blank" rel="noopener">bảng điều khiển L298 của ST</a>, khi ENA=HIGH và IN1=IN2 thì hãm nhanh; khi ENA=LOW thì ngõ ra thả trôi. Kiểm tra module thực tế có diode hồi dòng cho tải cảm và nguồn logic/motor phù hợp.</p>
 
+      <p>Đoạn mã dưới đây minh họa bảng trạng thái trên Arduino Uno hoặc mô phỏng logic; chưa có mã/revision module L298N, motor và nguồn để chạy trên robot thật. Trước khi lắp cần kiểm pinout module, diode hồi dòng, dòng kẹt trục, sụt áp/nhiệt, dòng nguồn và hành vi an toàn khi reset.</p>
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
 <pre style="margin:0;white-space:pre-wrap;">// Robot 2 bánh — ví dụ chân và analogWrite cho Arduino Uno
 // Kết nối: Motor A: IN1=5, IN2=4, ENA=3(PWM)
@@ -159,7 +160,7 @@ void loop() {
       <div class="checklist">
         <div class="checklist-title">✅ Checklist Bài 39</div>
         <div class="checklist-item"><input type="checkbox" id="c1b39"><label for="c1b39">Tôi hiểu H-Bridge và bảng điều khiển IN1/IN2/ENA</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c2b39"><label for="c2b39">Tôi lắp L298N và điều khiển 2 motor forward/backward/turn</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b39"><label for="c2b39">Tôi mô phỏng bảng trạng thái forward/backward/turn và ghi điều kiện cần kiểm trước khi lắp motor thật</label></div>
         <div class="checklist-item"><input type="checkbox" id="c3b39"><label for="c3b39">Tôi biết tại sao L298N nóng và khi nào chuyển TB6612FNG</label></div>
         <div class="checklist-item"><input type="checkbox" id="c4b39"><label for="c4b39">Tôi viết được hàm ramp tăng giảm tốc mượt mà</label></div>
       </div>

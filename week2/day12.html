@@ -32,7 +32,7 @@
           <li>Hiểu tại sao Zener hoạt động ở phân cực nghịch (ngược với diode thường)</li>
           <li>Hiểu điện áp Zener V_Z và cách chọn đúng giá trị</li>
           <li>Tính điện trở hạn dòng cho mạch ổn áp Zener</li>
-          <li>Lắp và đo kiểm mạch ổn áp Zener thực tế</li>
+          <li>Phân tích và mô phỏng mạch ổn áp Zener; chỉ lắp và đo khi đã xác minh linh kiện, nguồn và an toàn</li>
           <li>Hiểu giới hạn công suất của Zener (P_max = V_Z × I_Z)</li>
           <li>Ứng dụng: tạo điện áp tham chiếu 3,3V từ nguồn 5V</li>
           <li>Ứng dụng: bảo vệ quá áp (overvoltage protection)</li>
@@ -58,7 +58,7 @@
           <tbody>
             <tr><td>Diode Zener 5,1V/0,5W</td><td>BZX79-C5V1 hoặc tương đương</td><td>2</td></tr>
             <tr><td>Diode Zener 3,3V/0,5W</td><td>BZX79-C3V3</td><td>1</td></tr>
-            <tr><td>Điện trở 220Ω, 330Ω, 470Ω, 1kΩ</td><td>¼W; 220Ω dùng cho mạch thực hành Zener 9V</td><td>2 mỗi loại</td></tr>
+            <tr><td>Điện trở 220Ω, 330Ω, 470Ω, 1kΩ</td><td>¼W cho ví dụ 9V; nếu khảo sát 12V với 220Ω, tính lại dung sai/nhiệt và chọn điện trở ít nhất 0,5W phù hợp</td><td>2 mỗi loại</td></tr>
             <tr><td>Nguồn 9V hoặc 12V</td><td>Adapter DC</td><td>1</td></tr>
             <tr><td>Tải test: LED + R hoặc điện trở 1kΩ</td><td>—</td><td>1</td></tr>
             <tr><td>Breadboard + multimeter</td><td>—</td><td>1 bộ</td></tr>
@@ -151,16 +151,16 @@
       </div>
 
       <!-- THỰC HÀNH -->
-      <h2>4. Thực hành: Lắp và đo mạch ổn áp Zener</h2>
+      <h2>4. Phân tích mạch Zener; thực hành có điều kiện</h2>
 
       <div class="callout callout-practice">
-        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Mạch ổn áp Zener 5,1V</div>
+        <div class="callout-header"><span class="callout-icon">🔬</span> Phân tích mạch ổn áp Zener 5,1V</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Lắp mạch: nguồn 9V → R_s(220Ω) → điểm nối → GND (Zener 5,1V đặt ở điểm nối, cathode lên, anode xuống GND).</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Đo V_out tại điểm nối so với GND: kỳ vọng ≈ 5,0–5,2V (V_Z).</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Thêm tải R_load=1kΩ song song với Zener. Đo lại V_out. Có thay đổi không?</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Thay nguồn 9V bằng 12V. Đo V_out. Zener có giữ ổn định không?</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Thử V_in = 4V (thấp hơn V_Z). V_out = ? Giải thích kết quả.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Vẽ nhánh 9V → R_s 220Ω → nút V_out; Zener 5,1V mắc từ V_out về GND (cathode tại V_out). Tính dòng và công suất của Zener, điện trở ở cả trạng thái không tải và có tải trước khi chọn linh kiện thật.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Dự đoán V_out khi Zener ở vùng ổn áp. Với BZX79-C5V1, datasheet quy định V_Z=4,8–5,4V tại I_Z=5mA; đây là dải theo điều kiện thử đó, không phải điện áp bảo đảm ở mọi dòng và nhiệt độ. Tra đặc tính và điều kiện làm việc của đúng linh kiện trước khi dự đoán giá trị thực.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Thêm tải R_load=1kΩ song song với Zener trong phép tính hoặc trình mô phỏng. Tính lại dòng Zener và V_out; xác định mạch còn ở vùng ổn áp không.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Với V_in=12V, không thay nguồn trên mạch 220Ω/¼W: ở V_Z=5,1V danh định, điện trở tiêu tán (12−5,1)²/220≈0,216W, sát mức 0,25W trước dung sai và nhiệt. Phân tích trường hợp xấu nhất; nếu đo thật, chọn điện trở tối thiểu 0,5W và kiểm định mức Zener, nguồn cùng tản nhiệt theo linh kiện cụ thể. <a href="https://assets.nexperia.com/documents/data-sheet/BZX79.pdf" target="_blank" rel="noopener">Datasheet BZX79 của Nexperia</a> nêu điều kiện công suất và dung sai của họ Zener này.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Phân tích V_in=4V, thấp hơn V_Z: Zener không giữ 5,1V; giải thích V_out theo trạng thái có tải và không tải. Chỉ lắp, cấp nguồn và đo khi mã linh kiện, cực tính, công suất ở các trường hợp đã được xác minh.</p></div></li>
         </ol>
       </div>
 
@@ -202,7 +202,7 @@
         <div class="checklist-title">✅ Checklist Bài 12</div>
         <div class="checklist-item"><input type="checkbox" id="c1b12"><label for="c1b12">Tôi hiểu Zener hoạt động ngược so với diode thường</label></div>
         <div class="checklist-item"><input type="checkbox" id="c2b12"><label for="c2b12">Tôi tính được R_s cho mạch ổn áp Zener</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c3b12"><label for="c3b12">Tôi lắp và đo mạch ổn áp thực tế — xác nhận V_out ≈ V_Z</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b12"><label for="c3b12">Tôi đã tính dòng và công suất Zener/điện trở ở 9V và 12V; đo thật chỉ khi linh kiện đã được xác minh</label></div>
         <div class="checklist-item"><input type="checkbox" id="c4b12"><label for="c4b12">Tôi biết ứng dụng Zener bảo vệ GPIO và giới hạn của nó</label></div>
         <div class="checklist-item"><input type="checkbox" id="c5b12"><label for="c5b12">Tôi biết khi nào nên dùng IC LDO thay vì Zener</label></div>
       </div>

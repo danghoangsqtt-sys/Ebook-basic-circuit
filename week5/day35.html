@@ -22,7 +22,7 @@
       <div class="lesson-header">
         <div class="lesson-meta"><span class="tag tag-week">Tuần 5</span><span class="tag tag-day">Ngày 35</span><span class="tag tag-difficulty-advanced">Ôn tập + Project</span></div>
         <h1 class="lesson-title">Ôn Tập Tuần 5 & Mini Project: PCB Buck Converter</h1>
-        <p class="lesson-subtitle">Tổng hợp mô phỏng, oscilloscope, bộ lọc, nguồn switching và KiCad — thiết kế PCB Buck 12V→5V hoàn chỉnh.</p>
+        <p class="lesson-subtitle">Tổng hợp mô phỏng, oscilloscope, bộ lọc, nguồn switching và KiCad — lập thiết kế PCB Buck 12V→5V để rà bằng ERC/DRC trước khi chế tạo.</p>
         <div class="lesson-stats">
           <span class="lesson-stat">⏱ Ôn tập: ~20 phút</span>
           <span class="lesson-stat">💻 Project KiCad: 120 phút</span>
@@ -31,10 +31,10 @@
 
       <!-- LESSON VISUALS START day35 -->
       <div class="figure figure--overview">
-        <img src="../assets/images/lessons/day35-overview.svg" width="560" height="1114" loading="lazy" decoding="async" alt="PCB nguồn buck mini. Mạch nguyên lý: Theo đúng datasheet IC, diode, L và tụ.; Vòng dòng nhanh: Đặt switch, diode và tụ đầu vào sát nhau.; Layout + kiểm: Đường nguồn đủ rộng; FB tránh nút nhiễu.; Cấp nguồn thử: Giới hạn dòng, đo Vout không tải rồi có tải.">
+        <img src="../assets/images/lessons/day35-overview.svg" width="560" height="1114" loading="lazy" decoding="async" alt="Quy trình thiết kế PCB buck mini: đối chiếu datasheet IC, diode, L và tụ; thu nhỏ vòng dòng nhanh, tính đường nguồn và giữ FB xa nút nhiễu. Bước cấp nguồn/đo Vout chỉ dành cho PCB đã được duyệt phần cứng.">
         <div class="figure-caption">
           <div class="figure-number">Sơ đồ tổng quan Bài 35</div>
-          <div class="figure-text">PCB nguồn buck mini. Kiểm nhiệt và ripple trên mạch thật.</div>
+          <div class="figure-text">PCB nguồn buck mini. Thiết kế số trước; kiểm nhiệt và ripple chỉ sau khi có mạch thật được duyệt.</div>
           <div class="figure-source">Nguồn: tự vẽ cho giáo trình; nội dung đối chiếu với bài học.</div>
         </div>
       </div>
@@ -50,9 +50,9 @@
             <tr><td>Oscilloscope: Volt/div=500mV, 6 ô dọc → Vpp = ?</td><td>6 × 500mV = 3Vpp</td></tr>
             <tr><td>RC LPF: R=22kΩ, C=47nF → f_c = ?</td><td>1/(2π×22000×47×10⁻⁹) = 153,7Hz</td></tr>
             <tr><td>Buck converter: V_in=9V, V_out=3,3V → D = ?</td><td>D = 3,3/9 = 36,7%</td></tr>
-            <tr><td>Tại sao freewheeling diode phải là Schottky?</td><td>t_rr ngắn (ns) — diode thường 1N4007 quá chậm cho f &gt;100kHz</td></tr>
-            <tr><td>Track width tối thiểu cho dòng 1A trên PCB?</td><td>~0,8–1mm (1oz copper)</td></tr>
-            <tr><td>Kiểm tra PCB: GND↔VCC đo được 5Ω → làm gì?</td><td>KHÔNG cấp nguồn. Tìm và sửa short circuit trước.</td></tr>
+            <tr><td>Chọn diode hồi dòng cho buck không đồng bộ như thế nào?</td><td>Dựa vào V_R, I_F, dòng đỉnh, tổn hao và tốc độ chuyển mạch của thiết kế; Schottky thường phù hợp, không dùng 1N4007 chung cho mạch tần số cao.</td></tr>
+            <tr><td>Track width cho 1A trên PCB được xác định thế nào?</td><td>Tính theo lớp đồng, độ dày, chiều dài, độ tăng nhiệt và quy tắc nhà sản xuất; không có một bề rộng tối thiểu đúng cho mọi board.</td></tr>
+            <tr><td>Kiểm tra PCB: GND↔VCC đo được 5Ω → làm gì?</td><td>Chưa cấp nguồn; so số đo với schematic/BOM và tải dự kiến, kiểm cực tính/cầu hàn. Không kết luận short chỉ từ một ngưỡng điện trở chung.</td></tr>
           </tbody>
         </table>
       </div>
@@ -130,16 +130,16 @@
 
       <div class="callout callout-tip">
         <div class="callout-header"><span class="callout-icon">🚀</span> Chuẩn bị Tuần 6 — Dự Án Thực Tế</div>
-        <p>Tuần 6 bắt đầu xây dựng các <strong>dự án thực tế hoàn chỉnh</strong>: từ ý tưởng → thiết kế mạch → firmware → PCB → test. Chuẩn bị ESP32, màn hình OLED, cảm biến và nguồn pin LiPo nếu có. Đây là tuần học thực hành nhiều nhất trong toàn khóa.</p>
+        <p>Tuần 6 bắt đầu các dự án tích hợp: từ yêu cầu → sơ đồ khối → mạch → firmware → kiểm thử. Khi chưa có đúng model/revision và người duyệt phần nguồn, motor hoặc pin, hãy hoàn thành nhánh phân tích, mô phỏng và thiết kế số; chỉ chuyển sang lắp, hàn và cấp nguồn sau khi các thông số điện/nhiệt đã được kiểm.</p>
       </div>
 
       <div class="checklist">
         <div class="checklist-title">✅ Checklist hoàn thành Tuần 5</div>
-        <div class="checklist-item"><input type="checkbox" id="wk5c1"><label for="wk5c1">Tôi mô phỏng mạch được trong Falstad và LTSpice</label></div>
-        <div class="checklist-item"><input type="checkbox" id="wk5c2"><label for="wk5c2">Tôi sử dụng oscilloscope để đo PWM và ripple nguồn</label></div>
-        <div class="checklist-item"><input type="checkbox" id="wk5c3"><label for="wk5c3">Tôi thiết kế và xuất PCB trong KiCad</label></div>
-        <div class="checklist-item"><input type="checkbox" id="wk5c4"><label for="wk5c4">Tôi hàn SMD và kiểm tra PCB thành công</label></div>
-        <div class="checklist-item"><input type="checkbox" id="wk5c5"><label for="wk5c5">Tôi hoàn thiện PCB Buck Converter với layout chuẩn</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk5c1"><label for="wk5c1">Tôi giải thích được phép tính nguồn buck và, nếu có công cụ, lưu kết quả mô phỏng với giả định rõ ràng</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk5c2"><label for="wk5c2">Tôi phân biệt được phép đo PWM/ripple thật với dạng sóng mô phỏng hoặc tính toán</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk5c3"><label for="wk5c3">Tôi biết lập schematic, chạy ERC/DRC và kiểm Gerber trong KiCad trước khi đặt PCB</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk5c4"><label for="wk5c4">Tôi đã ghi rõ việc hàn, cấp nguồn và đo trên PCB thật là chưa xác minh nếu chưa có phần cứng được duyệt</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk5c5"><label for="wk5c5">Tôi kiểm được pin, diode, cuộn cảm, tụ và ngân sách nhiệt cho đúng mã LM2596 trước khi coi thiết kế đủ điều kiện chế tạo</label></div>
       </div>
 
       <section class="lesson-summary" aria-labelledby="summary-day35">

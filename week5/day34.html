@@ -118,10 +118,10 @@
         <div class="callout-header"><span class="callout-icon">✅</span> 5 bước kiểm tra PCB</div>
         <ol class="step-list">
           <li class="step-item"><div class="step-content"><p><strong>Visual Inspection:</strong> Nhìn bằng mắt/kính lúp — kiểm tra cold joint, bridge, linh kiện đặt ngược.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Continuity Test (không cấp nguồn):</strong> Multimeter mode Ω/Beep. Test từng net quan trọng: GND liên thông, VCC liên thông. Test không có bridge: VCC↔GND phải > 100kΩ.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Short Circuit Check:</strong> Đo điện trở GND→VCC trước khi cấp nguồn. Kỳ vọng &gt;10kΩ. Nếu &lt;100Ω → có bridge/short, tìm và sửa trước.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Current Limited Power-on:</strong> Dùng nguồn có giới hạn dòng (current limit 50–100mA). Cấp nguồn từ từ. Quan sát: nóng bất thường, khói, mùi. Đo V_VCC tại nhiều điểm trên board.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Functional Test:</strong> Kiểm tra từng chức năng: LED sáng, sensor đọc đúng, UART giao tiếp được.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Continuity Test (không cấp nguồn):</strong> Dùng Ω/Beep kiểm từng net quan trọng và tìm cầu hàn. Điện trở VCC↔GND của board đã gắn linh kiện phụ thuộc mạch; không dùng một ngưỡng 10kΩ hay 100kΩ chung để kết luận an toàn.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Short Circuit Check:</strong> So kết quả đo VCC↔GND với sơ đồ, tụ đầu vào và mạch tương tự đã biết. Điện trở gần 0Ω không giải thích được phải được tìm và sửa trước khi cấp điện; điện trở lớn không chứng minh pinout hay cực tính đúng.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Current Limited Power-on:</strong> Chỉ thực hiện sau khi xác minh đúng PCB/revision, cực tính, nguồn và tính ngân sách dòng lúc khởi động/nhàn rỗi. Đặt giới hạn dòng theo mạch cụ thể, tăng điện áp có kiểm soát và đo từng rail; ngắt ngay khi có nóng, mùi hoặc dòng bất thường. Nếu chưa có hồ sơ này, dừng ở rà schematic/PCB không cấp nguồn.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Functional Test:</strong> Sau khi cổng cấp nguồn đạt, kiểm từng chức năng so với test plan. Với bài học chưa có board xác định, lập test plan và giá trị kỳ vọng thay cho tuyên bố đã thử trên PCB.</p></div></li>
         </ol>
       </div>
 
@@ -146,14 +146,14 @@
         <div class="exercise-title">📝 Bài tập Bài 34</div>
         <div class="exercise-part">
           <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Mối hàn tốt và mối hàn cold joint khác nhau như thế nào về ngoại quan? Cách phân biệt bằng mắt?</div></div>
-          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">PCB power-on lần đầu: đo GND↔VCC = 15Ω. Vấn đề gì? Bước tiếp theo?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Trước khi cấp nguồn một PCB chưa biết, đo GND↔VCC = 15Ω. Có thể kết luận ngắn mạch từ số này không? Cần kiểm những gì trước khi thử điện?</div></div>
           <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Hàn IC SOIC-8: sau khi drag soldering, chân 3 và 4 bị bridge. Quy trình sửa từng bước.</div></div>
         </div>
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
             <p><strong>1:</strong> <strong>Mối hàn tốt:</strong> sáng bóng, hình nón concave (lõm) nhỏ gọn, bám đều vào pad và chân linh kiện. <strong>Cold joint:</strong> mờ đục, xám, hình dạng không đều (lồi hoặc gồ lên), có thể thấy hạt nhỏ trong thiếc — thiếc không chảy hoàn toàn → mối nối điện trở cao và dễ nứt cơ học.</p>
-            <p><strong>2:</strong> 15Ω giữa GND↔VCC = <strong>short circuit nghiêm trọng</strong>. Bước tiếp theo: (a) KHÔNG cấp nguồn tiếp; (b) Dùng kính lúp kiểm tra từng IC, connector xem có bridge không; (c) Tháo lần lượt các IC nghi ngờ và đo lại — IC nào khi tháo ra mà R tăng lên = IC đó bị lỗi hoặc có bridge dưới nó.</p>
+            <p><strong>2:</strong> Không thể kết luận chỉ từ 15Ω: điện trở tĩnh phụ thuộc tải và đường mạch, còn tụ có thể làm số đo thay đổi theo thời gian. Tạm chưa cấp nguồn; đối chiếu schematic/BOM, tính dòng kỳ vọng của rail, đo lại theo từng chiều que và kiểm cầu hàn/cực tính. Nếu giá trị trái với thiết kế, cô lập các nhánh theo quy trình sửa có kiểm soát; không tháo IC hoặc cấp điện chỉ dựa vào một ngưỡng chung.</p>
             <p><strong>3:</strong> (a) Thoa flux gel lên chân 3–4; (b) Đặt braid/wick lên chân bị bridge; (c) Đặt mỏ hàn lên braid (không trực tiếp lên chân IC) — nhiệt truyền qua braid → thiếc chảy vào braid; (d) Nhấc braid lên trong khi còn nóng (không nhấc khi đã nguội); (e) Kiểm tra lại bằng kính lúp. Lặp lại nếu cần.</p>
           </div>
         </div>
@@ -161,10 +161,10 @@
 
       <div class="checklist">
         <div class="checklist-title">✅ Checklist Bài 34</div>
-        <div class="checklist-item"><input type="checkbox" id="c1b34"><label for="c1b34">Tôi hàn thành công linh kiện SMD 0805 và SOIC-8</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c1b34"><label for="c1b34">Tôi biết trình tự hàn SMD 0805/SOIC-8; kết quả hàn thật chỉ ghi khi đã thực hành trên board xác định</label></div>
         <div class="checklist-item"><input type="checkbox" id="c2b34"><label for="c2b34">Tôi nhận biết cold joint, bridge, tombstoning và biết sửa</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c3b34"><label for="c3b34">Tôi kiểm tra PCB đầy đủ 5 bước trước khi power-on</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c4b34"><label for="c4b34">Tôi biết dùng current-limited power supply khi test lần đầu</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b34"><label for="c3b34">Tôi lập bảng kiểm PCB theo schematic; cổng cấp nguồn còn chờ nếu chưa có board và thông số dòng</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b34"><label for="c4b34">Tôi biết chọn giới hạn dòng từ ngân sách của board thay vì dùng ngưỡng cố định</label></div>
       </div>
 
       <div class="lesson-nav">

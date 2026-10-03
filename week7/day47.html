@@ -51,6 +51,7 @@
       <!-- LESSON VISUALS END day47 -->
 
       <h2>1. Test Plan — Từ SRS đến bảng test</h2>
+      <p>Bảng dưới là kế hoạch đo trên thiết bị đã xác minh, không phải kết quả đã chạy. Nếu chưa có board, dùng dữ liệu giả lập có đầu vào và đầu ra kỳ vọng được lưu lại để thử logic, đánh dấu các hàng đo cảm biến/pin/độ bền là <strong>chưa xác minh phần cứng</strong>; không ghi PASS vật lý từ dữ liệu mô phỏng.</p>
 
       <div class="table-wrap">
         <table class="result-table">
@@ -69,7 +70,8 @@
 
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
 <pre style="margin:0;white-space:pre-wrap;">// Calibration offset — so sánh với chuẩn
-// Đo cùng lúc với nhiệt kế thủy ngân/digital chuẩn
+// Với phần cứng: đo cùng lúc với nhiệt kế tham chiếu đã biết độ chính xác
+// Với dữ liệu giả lập: dùng cặp mẫu đã công bố, không gọi là hiệu chuẩn cảm biến thật
 
 float TEMP_OFFSET = -1.5;  // Điều chỉnh sau khi đo
 
@@ -85,15 +87,15 @@ float getCalibratedTemp() {
 // OFFSET_AVERAGE = (T_error_20 + T_error_25 + T_error_30) / 3</pre>
       </div>
 
-      <h2>3. Stability Test — Chạy 24 giờ liên tục</h2>
+      <h2>3. Stability Test — kế hoạch chạy 24 giờ</h2>
 
       <div class="callout callout-practice">
-        <div class="callout-header"><span class="callout-icon">⏱</span> Quy trình Stability Test</div>
+        <div class="callout-header"><span class="callout-icon">⏱</span> Phân tích log; đo bền thật khi có thiết bị được duyệt</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Enable Serial log mỗi 60 giây: timestamp, sensor values, heap free, WiFi RSSI.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Chạy liên tục 24h. Ghi log vào SD card hoặc terminal logging tool (CoolTerm, PuTTY).</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Kiểm tra log: có khoảng trống không? (= ESP reset). Heap có giảm? WiFi RSSI có dao động lớn?</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Nếu có reset: xem reset reason bằng <code>esp_reset_reason()</code> — WDT, panic, brownout?</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Định nghĩa bản ghi mỗi 60 giây: timestamp, giá trị cảm biến, heap free, WiFi RSSI và trạng thái reset. Với nhánh mô phỏng, tạo chuỗi mẫu t=0, 60, 120 giây và nhiệt độ 25, 36, 25°C; xác nhận logic cảnh báo chỉ bật ở mẫu vượt 35°C rồi lưu input/output dự kiến.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Kiểm tra bộ phân tích log bằng cách bỏ mẫu t=60 giây: chương trình phải báo thiếu mẫu; thêm cờ reset tại t=120 giây: phải phân loại sự kiện reset. Đây là kiểm logic phân tích log, không chứng minh chạy bền 24 giờ.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nếu có board đã được kiểm nguồn và pin, chạy liên tục 24 giờ và lưu log thực; so sánh khoảng trống, heap, RSSI, dòng và nhiệt với NFR của chính đồ án. Giới hạn dòng/nguồn và người giám sát phải theo hồ sơ phần cứng.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Khi log thật có reset, ghi <code>esp_reset_reason()</code> để phân biệt WDT, panic hay brownout. Chỉ kết luận Stability PASS khi có log thực đủ thời lượng và tiêu chí đạt.</p></div></li>
         </ol>
       </div>
 
@@ -102,8 +104,8 @@ float getCalibratedTemp() {
       <div class="exercise-section">
         <div class="exercise-title">📝 Bài tập Bài 47</div>
         <div class="exercise-part">
-          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Chạy toàn bộ Test Plan — điền kết quả vào bảng. Bao nhiêu test case pass? Fail case nào? Kế hoạch sửa?</div></div>
-          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Calibrate cảm biến nhiệt độ: so với nhiệt kế thủy ngân tại 25°C. Tính và lưu TEMP_OFFSET vào EEPROM.</div></div>
+          <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Điền bảng Test Plan theo bằng chứng hiện có. Hàng nào thử logic bằng dữ liệu giả lập, hàng nào cần đo thật? Không gộp kết quả hai loại thành cùng một PASS.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Từ cặp mẫu giả lập nhiệt kế tham chiếu 25,0°C và cảm biến 26,5°C, tính TEMP_OFFSET; nêu vì sao giá trị này chưa chứng minh độ chính xác của cảm biến thật hoặc toàn dải đo.</div></div>
         </div>
         <div class="answer-section">
           <button class="answer-toggle">👁 Gợi ý xử lý kết quả test</button>
@@ -115,10 +117,10 @@ float getCalibratedTemp() {
 
       <div class="checklist">
         <div class="checklist-title">✅ Checklist Bài 47</div>
-        <div class="checklist-item"><input type="checkbox" id="c1b47"><label for="c1b47">Tất cả test case trong Test Plan đã được chạy</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c2b47"><label for="c2b47">Cảm biến đã được calibration — sai số trong NFR</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c3b47"><label for="c3b47">Stability test 24h không có crash bất thường</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c4b47"><label for="c4b47">Tất cả FR trong SRS đều pass</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c1b47"><label for="c1b47">Mỗi test case có input, output kỳ vọng, bằng chứng và nhãn mô phỏng hoặc đo thật</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b47"><label for="c2b47">Tôi tính được offset từ dữ liệu mẫu và ghi rõ chưa hiệu chuẩn phần cứng nếu chưa đo chuẩn</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b47"><label for="c3b47">Tôi đã thử logic phát hiện thiếu mẫu/reset; chạy bền 24 giờ thật được ghi riêng là chờ kiểm nếu chưa có log</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b47"><label for="c4b47">FR được phân loại: đạt bằng thử logic, chưa thử phần cứng hoặc lỗi cần sửa</label></div>
       </div>
 
       <div class="lesson-nav">

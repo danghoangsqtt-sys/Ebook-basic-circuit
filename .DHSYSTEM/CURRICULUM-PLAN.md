@@ -2,7 +2,7 @@
 
 - Ngày lập: 2026-10-03
 - Nguồn: `docs/brainstorm/session-2026-10-03-curriculum-rebuild.md` và sáu ảnh người dùng gửi
-- Trạng thái: **kế hoạch, chưa triển khai**; Phase 1–6 trong `ROADMAP.md` giữ trạng thái hoàn tất của đợt trước
+- Trạng thái: **Phase 7 đang triển khai**; Phase 1–6 trong `ROADMAP.md` giữ trạng thái hoàn tất của đợt trước
 - Giả định để lập kế hoạch: giữ 56 bài hiện có làm tuyến nhập môn; dự kiến thêm **32 bài chuyên sâu** cho người mới hướng tới thực hành kỹ sư. Số bài, độ khó toán và board chưa được người dùng xác nhận; P7-01 chốt lại trước khi viết A01–A32.
 - Không tạo giấy phép mới: giáo trình giữ bản quyền riêng; ảnh ngoài chỉ CC0/miền công cộng kiểm theo từng tệp hoặc hình tự tạo.
 
@@ -23,6 +23,12 @@
 2. **Độc giả/mức toán:** baseline là người mới hướng tới thực hành. Bài nhập môn dùng đại số và trực quan; bài nâng cao có phụ lục giải tích/số phức rõ điều kiện tiên quyết. Không gắn nhãn “không cần kiến thức đầu vào” cho phần chuyên sâu.
 3. **Phần cứng:** chưa biết board và dụng cụ sẵn có. Các bài lý thuyết dùng ví dụ datasheet có mã/revision; lab có nhánh mô phỏng cho tới khi có board cụ thể. Nếu có board, chốt mã/revision và điện áp chân trước khi xuất sơ đồ đấu dây.
 4. **Duyệt kỹ thuật:** cần người có chuyên môn xác nhận mạch cấp nguồn, LiPo, motor/relay, chuyển mức và nội dung gần điện lưới. Chưa có người duyệt thì ghi trạng thái `chưa xác minh phần cứng`, không tuyên bố bài thực hành đã an toàn/đúng trên thiết bị thật.
+
+### Phạm vi tác nghiệp khi chưa có thiết bị (làm rõ 2026-10-03)
+
+Người dùng yêu cầu thực hiện liên tục Phase 7–10 và chưa cung cấp board/module hay người duyệt phần cứng. Nhánh tác nghiệp là **nội dung số, bài tính và mô phỏng có điều kiện**. Các tiêu chí hình, nguồn, lời giải, điều hướng và 0 lỗi kỹ thuật/an toàn P0/P1 trong **phạm vi công bố** vẫn bắt buộc. Chỉ dẫn lắp, cấp điện, đo và checklist cho mạch rủi ro phải được chuyển thành kế hoạch thử có điều kiện cho tới khi đúng part/package/module/revision, BOM, giới hạn nguồn và reviewer được xác nhận. Ghi kết quả task là `PASS — phạm vi mô phỏng` chỉ khi audit thật đạt; nhãn đó không phải PASS phần cứng.
+
+Các điều kiện nghiệm thu **phần cứng thật** trong P7-04, P8–P10 không bị xóa hay coi là đã kiểm. Chúng được theo dõi riêng tại `docs/qa/curriculum-hardware-pending.md`. Đường phụ thuộc P7-06 → P8-01 và các Phase sau dùng kết quả phạm vi mô phỏng để viết tiếp; khi phần cứng được cung cấp, mở lại đúng bài và chỉ công bố hướng dẫn lắp sau khi kiểm/duyệt. Không báo cáo ERC, mô phỏng mạch, biên dịch target hoặc phép đo là đã thực hiện nếu thiếu tệp kết quả.
 
 ## Bản đồ bài mới dự kiến
 

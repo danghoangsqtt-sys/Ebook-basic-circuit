@@ -68,7 +68,7 @@
           <li><strong>Log dữ liệu:</strong> SD card SPI — ghi mỗi 10 giây: timestamp,temp,humi</li>
           <li><strong>Cảnh báo:</strong> LED đỏ + buzzer khi nhiệt độ &gt; 35°C</li>
           <li><strong>Nút nhấn:</strong> 1 nút (interrupt) để export summary qua Serial</li>
-          <li><strong>Nguồn:</strong> USB 5V → AMS1117-3.3 → toàn bộ mạch</li>
+          <li><strong>Nguồn dự kiến:</strong> USB 5 V → rail 3,3 V cho các tải tương thích; chỉ chọn AMS1117-3.3 sau khi cộng dòng đỉnh của ESP32/OLED/SD/cảm biến, kiểm dropout tại chân IN, tụ và nhiệt theo đúng part/PCB. Buzzer và module SD phải kiểm riêng điện áp, dòng và mạch chuyển mức; chưa có BOM/revision thì chỉ lập ngân sách nguồn.</li>
         </ul>
       </div>
 
@@ -104,6 +104,7 @@ Adafruit_SSD1306 oled(128, 64, &Wire, -1);
 volatile bool btnFlag = false;
 unsigned long lastSensor = 0, lastLog = 0;
 float temp = 0, humi = 0;
+bool sensorValid = false;  // Chỉ dùng dữ liệu của lần đọc DHT thành công gần nhất
 
 void IRAM_ATTR onBtn() { btnFlag = true; }
 
@@ -127,18 +128,24 @@ void loop() {
     lastSensor = now;
     float t = dht.readTemperature();
     float h = dht.readHumidity();
-    if (!isnan(t) && !isnan(h)) { temp = t; humi = h; }
+    sensorValid = !isnan(t) && !isnan(h);
+    if (sensorValid) { temp = t; humi = h; }
+    else { Serial.println("DHT read failed; suppress display/log/alert"); }
     
     // Update OLED
     oled.clearDisplay();
     oled.setTextSize(2); oled.setCursor(0,0);
-    oled.printf("%.1fC", temp);
-    oled.setTextSize(1); oled.setCursor(0,35);
-    oled.printf("Humi: %.1f%%", humi);
+    if (sensorValid) {
+      oled.printf("%.1fC", temp);
+      oled.setTextSize(1); oled.setCursor(0,35);
+      oled.printf("Humi: %.1f%%", humi);
+    } else {
+      oled.print("DHT error");
+    }
     oled.display();
     
     // Cảnh báo nhiệt
-    bool hot = (temp &gt; 35.0);
+    bool hot = sensorValid && (temp &gt; 35.0);
     digitalWrite(LED_PIN, hot);
     if (hot) { tone(BUZZER, 1000, 200); }
   }
@@ -146,14 +153,17 @@ void loop() {
   // Log SD mỗi 10s
   if (now - lastLog &gt;= 10000) {
     lastLog = now;
-    File f = SD.open("/log.csv", FILE_APPEND);
-    if (f) { f.printf("%lu,%.2f,%.2f\n", now, temp, humi); f.close(); }
+    if (sensorValid) {
+      File f = SD.open("/log.csv", FILE_APPEND);
+      if (f) { f.printf("%lu,%.2f,%.2f\n", now, temp, humi); f.close(); }
+    } else { Serial.println("Skip SD log: no valid DHT sample"); }
   }
   
   // Nút nhấn summary
   if (btnFlag) {
     btnFlag = false;
-    Serial.printf("SUMMARY — Temp: %.1fC  Humi: %.1f%%\n", temp, humi);
+    if (sensorValid) Serial.printf("SUMMARY — Temp: %.1fC  Humi: %.1f%%\n", temp, humi);
+    else Serial.println("SUMMARY — DHT sample invalid");
   }
 }</pre>
       </div>
@@ -164,11 +174,11 @@ void loop() {
         <table class="result-table">
           <thead><tr><th>Tính năng</th><th>Kỳ vọng</th><th>Kết quả</th><th>P/F</th></tr></thead>
           <tbody>
-            <tr><td>OLED hiển thị nhiệt độ</td><td>Giá trị thực ±0,5°C</td><td>_____</td><td>_____</td></tr>
-            <tr><td>OLED hiển thị độ ẩm</td><td>Giá trị thực ±2%</td><td>_____</td><td>_____</td></tr>
+            <tr><td>OLED hiển thị nhiệt độ</td><td>Hiển thị mẫu hợp lệ; nếu cần đánh giá sai số, dùng nhiệt kế tham chiếu và điều kiện datasheet đúng DHT22</td><td>_____</td><td>_____</td></tr>
+            <tr><td>OLED hiển thị độ ẩm</td><td>Hiển thị mẫu hợp lệ; nếu cần đánh giá sai số, dùng ẩm kế tham chiếu và điều kiện datasheet đúng DHT22</td><td>_____</td><td>_____</td></tr>
             <tr><td>SD card ghi file log.csv</td><td>File tồn tại, đọc được trên PC</td><td>_____</td><td>_____</td></tr>
-            <tr><td>LED cảnh báo khi temp &gt; 35°C</td><td>LED ON khi hà hơi vào DHT22</td><td>_____</td><td>_____</td></tr>
-            <tr><td>Nút nhấn in summary qua Serial</td><td>Print khi nhấn, không bỏ lỡ</td><td>_____</td><td>_____</td></tr>
+            <tr><td>LED cảnh báo khi temp &gt; 35°C</td><td>Trong mô phỏng hoặc kiểm logic bằng giá trị test 36 °C hợp lệ: LED ON; dữ liệu lỗi: LED OFF</td><td>_____</td><td>_____</td></tr>
+            <tr><td>Nút nhấn in summary qua Serial</td><td>Một lần nhấn ổn định đặt cờ và in summary; cờ bool có thể gộp nhiều cạnh liên tiếp, cần debounce nếu dùng thật</td><td>_____</td><td>_____</td></tr>
           </tbody>
         </table>
       </div>

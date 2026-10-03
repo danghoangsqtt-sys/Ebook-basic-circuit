@@ -49,8 +49,8 @@
             <tr><td>43</td><td>SRS + Block Diagram + BOM</td><td>☐ Xong / ☐ Cần hoàn thiện</td></tr>
             <tr><td>44</td><td>Schematic KiCad + Firmware Skeleton</td><td>☐ Xong / ☐ Cần hoàn thiện</td></tr>
             <tr><td>45</td><td>Firmware đầy đủ + Unit test từng module</td><td>☐ Xong / ☐ Cần hoàn thiện</td></tr>
-            <tr><td>46</td><td>PCB Layout + Assembly + Power-on test</td><td>☐ Xong / ☐ Cần hoàn thiện</td></tr>
-            <tr><td>47</td><td>Integration test pass + Calibration</td><td>☐ Xong / ☐ Cần hoàn thiện</td></tr>
+            <tr><td>46</td><td>PCB Layout + kế hoạch assembly/power-on; phần cứng kiểm riêng</td><td>☐ Thiết kế xong / ☐ Chờ xác minh vật lý</td></tr>
+            <tr><td>47</td><td>Test logic + kế hoạch hiệu chuẩn; đo thật kiểm riêng</td><td>☐ Logic xong / ☐ Chờ đo thật</td></tr>
             <tr><td>48</td><td>README + Doxygen + GitHub</td><td>☐ Xong / ☐ Cần hoàn thiện</td></tr>
           </tbody>
         </table>
@@ -59,12 +59,12 @@
       <h2>2. Demo Preparation — Kịch bản trình bày 10 phút</h2>
 
       <div class="callout callout-practice">
-        <div class="callout-header"><span class="callout-icon">🎬</span> Kịch bản demo chuẩn (10 phút)</div>
+        <div class="callout-header"><span class="callout-icon">🎬</span> Kịch bản demo 10 phút: phần cứng đã duyệt hoặc mô phỏng có nhãn</div>
         <ol class="step-list">
           <li class="step-item"><div class="step-content"><p><strong>1 phút — Problem Statement:</strong> Vấn đề bạn đang giải quyết. "Nhà tôi không có cách theo dõi nhiệt độ từ xa..."</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>2 phút — Giới thiệu sản phẩm:</strong> Chức năng chính, block diagram trên slide. Chỉ vào linh kiện thực trên PCB.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>4 phút — Live Demo:</strong> Cấp nguồn → boot OLED → chạy chức năng chính → thay đổi điều kiện môi trường → xem phản ứng.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>2 phút — Kết quả & Test:</strong> Bảng test plan P/F. "Đạt 4/5 yêu cầu, chức năng X còn thiếu vì..."</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>2 phút — Kiến trúc:</strong> Chỉ khối nguồn, cảm biến, xử lý và đầu ra trên sơ đồ; nếu chưa có PCB thật, ghi rõ đây là thiết kế chưa chế tạo.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>4 phút — Demo:</strong> Với board đã duyệt, cấp nguồn và chạy kịch bản thật. Khi thiếu phần cứng, phát trace/dữ liệu giả lập đã lưu (ví dụ 25→36→25°C cho trạng thái cảnh báo) và cho thấy đầu vào, đầu ra kỳ vọng; gắn nhãn "mô phỏng", không giới thiệu như phép đo thật.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>2 phút — Kết quả & Test:</strong> Trình bày riêng test logic đã chạy, đo phần cứng đã chạy và những mục chưa xác minh. Nêu lỗi còn mở cùng kế hoạch kiểm tiếp.</p></div></li>
           <li class="step-item"><div class="step-content"><p><strong>1 phút — Future Work:</strong> Những gì muốn cải thiện nếu có thêm thời gian.</p></div></li>
         </ol>
       </div>
@@ -73,13 +73,13 @@
 
       <div class="checklist">
         <div class="checklist-title">📋 Pre-Demo Checklist</div>
-        <div class="checklist-item"><input type="checkbox" id="pd1"><label for="pd1">Firmware v1.0 đã build thành công và nạp vào thiết bị</label></div>
-        <div class="checklist-item"><input type="checkbox" id="pd2"><label for="pd2">Pin đã được sạc đầy</label></div>
-        <div class="checklist-item"><input type="checkbox" id="pd3"><label for="pd3">WiFi SSID/password đúng cho location demo</label></div>
-        <div class="checklist-item"><input type="checkbox" id="pd4"><label for="pd4">Thiết bị khởi động thành công 3 lần liên tiếp không lỗi</label></div>
-        <div class="checklist-item"><input type="checkbox" id="pd5"><label for="pd5">Slide/README sẵn sàng, có ảnh chụp sản phẩm</label></div>
-        <div class="checklist-item"><input type="checkbox" id="pd6"><label for="pd6">GitHub repository public, code đã commit</label></div>
-        <div class="checklist-item"><input type="checkbox" id="pd7"><label for="pd7">Backup plan: nếu WiFi không có — chức năng gì vẫn demo được offline?</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd1"><label for="pd1">Firmware hoặc logic mô phỏng đã chạy; nạp lên thiết bị chỉ ghi nếu đã thử thật</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd2"><label for="pd2">Nguồn/pin thật chỉ dùng khi mã, mạch sạc/bảo vệ và ngân sách dòng đã được duyệt</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd3"><label for="pd3">Đầu vào demo đã chuẩn bị: WiFi thật hoặc dữ liệu giả lập có nhãn</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd4"><label for="pd4">Kết quả boot/độ bền phần cứng được để "chưa thử" nếu không có log thật</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd5"><label for="pd5">Slide/README ghi rõ thiết kế, kết quả mô phỏng và ảnh thiết bị thật nếu có</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd6"><label for="pd6">Mã và dữ liệu demo đã lưu phiên bản để người khác chạy lại</label></div>
+        <div class="checklist-item"><input type="checkbox" id="pd7"><label for="pd7">Có kịch bản dự phòng dùng trace/dữ liệu cục bộ khi WiFi hoặc phần cứng không sẵn</label></div>
       </div>
 
       <div class="callout callout-tip">

@@ -34,7 +34,7 @@
           <li>Tính điện áp trung bình từ duty cycle: V_avg = D × V_high</li>
           <li>Biết lựa chọn tần số PWM phù hợp: LED, motor, servo</li>
           <li>Thực hành: dimmer LED bằng Arduino/ESP32 analogWrite</li>
-          <li>Điều khiển tốc độ motor DC qua MOSFET IRLZ44N và PWM</li>
+          <li>Phân tích PWM motor DC và chọn MOSFET theo điện áp Gate, dòng tải cùng nhiệt của mạch thật</li>
           <li>Hiểu tại sao cần tần số PWM phù hợp với motor (không nghe tiếng kêu)</li>
           <li>Mô phỏng điện áp analog bằng PWM + RC filter</li>
         </ul>
@@ -152,12 +152,12 @@ void loop() {
       </div>
 
       <div class="callout callout-practice">
-        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành B: Điều khiển tốc độ motor DC qua MOSFET</div>
+        <div class="callout-header"><span class="callout-icon">🔬</span> Phân tích PWM motor DC qua MOSFET</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Lắp mạch IRLZ44N switch (như Bài 18) nhưng thêm GPIO PWM vào Gate qua R_G=100Ω.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Với Arduino Uno, dùng <code>analogWrite(PWM_PIN, 64/128/255)</code> tương ứng khoảng 25%/50%/100% <em>duty</em>. Đo tốc độ thực tế vì tốc độ motor không tỉ lệ tuyến tính chắc chắn với duty.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Quan sát tốc độ motor thay đổi. Nghe âm thanh: ở 490Hz motor thường phát tiếng kêu.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Nếu dùng Arduino-ESP32 core 3.x: thử <code>ledcAttach(PWM_PIN, 20000, 8)</code> rồi <code>ledcWrite(PWM_PIN, 128)</code> cho duty 50% ở 20kHz. So âm thanh motor với tần số thấp và kiểm tra giới hạn driver.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Trên sơ đồ của Bài 18, thay mức Gate cố định bằng PWM qua R_G=100Ω. IRLZ44N chỉ dùng để phân tích: <a href="https://www.infineon.com/assets/row/public/documents/24/49/infineon-irlz44n-datasheet-en.pdf" target="_blank" rel="noopener">datasheet Infineon IRLZ44N</a> không bảo đảm R_DS(on) tại V_GS=3,3V. Với mạch thật, chọn đúng MOSFET có R_DS(on) bảo đảm ở điện áp Gate thực tế hoặc driver Gate phù hợp; kiểm dòng kẹt trục, diode, nguồn và nhiệt trước khi cấp điện.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Với Arduino Uno, xét <code>analogWrite(PWM_PIN, 64/128/255)</code> tương ứng khoảng 25%/50%/100% <em>duty</em>. Dự đoán điện áp trung bình; tốc độ motor không nhất thiết tỉ lệ tuyến tính với duty.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Nếu có mô hình motor, so sánh đáp ứng ở PWM khoảng 490Hz và 20kHz; tiếng kêu và tốc độ thực tế chỉ được kết luận bằng phép đo trên motor đã xác định.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Ví dụ mã Arduino-ESP32 core 3.x: <code>ledcAttach(PWM_PIN, 20000, 8)</code> rồi <code>ledcWrite(PWM_PIN, 128)</code> cho duty khoảng 50%. Không nối IRLZ44N trực tiếp vào GPIO ESP32 3,3V chỉ vì mã PWM chạy được; thực hành phần cứng phải vượt điều kiện chọn Gate, dòng và nhiệt ở bước đầu.</p></div></li>
         </ol>
       </div>
 
@@ -169,15 +169,15 @@ void loop() {
           <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">PWM 5V, duty cycle 60%. V_avg = ? V_rms = ? (gợi ý: V_rms = V_high × √D)</div></div>
           <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Servo cần xung 1,5ms trong chu kỳ 20ms. Duty cycle là bao nhiêu %? Tần số PWM?</div></div>
           <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Thiết kế RC filter sau PWM 490Hz để lọc ra V_analog. Chọn R và C sao cho f_c &lt; 49Hz (1/10 của f_PWM).</div></div>
-          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Arduino analogWrite(pin, 200) với VCC=5V. V_avg = ? Tính cường độ LED nếu R=220Ω, V_LED=2V.</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Arduino analogWrite(pin, 200) với xung HIGH 5 V. Tính điện áp trung bình PWM và dòng LED khi sáng/trung bình nếu R=220 Ω, V_LED≈2 V ở dòng đang xét.</div></div>
         </div>
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
             <p><strong>1:</strong> D=0,6. V_avg = 0,6 × 5V = <strong>3V</strong>. V_rms = 5 × √0,6 = 5 × 0,775 = <strong>3,873V</strong></p>
             <p><strong>2:</strong> D = 1,5ms / 20ms = <strong>7,5%</strong>. f_PWM = 1/20ms = <strong>50Hz</strong></p>
-            <p><strong>3:</strong> Cần f_c &lt; 49Hz. Chọn C=1µF: R = 1/(2π×49×0,000001) = 1/0,000308 = 3,248Ω → <strong>R=3,3kΩ, C=1µF → f_c = 48,2Hz</strong> ✓</p>
-            <p><strong>4:</strong> D = 200/255 = 0,784. V_avg = 0,784 × 5V = <strong>3,92V</strong>. V_R = 3,92 – 2V = 1,92V. I_LED = 1,92/220 = <strong>8,7mA</strong>.</p>
+            <p><strong>3:</strong> Cần f_c &lt; 49 Hz. Chọn C=1 µF: R=1/(2π×49×0,000001)≈<strong>3,25 kΩ</strong>. Chọn 3,3 kΩ cho f_c≈48,2 Hz theo giá trị danh định; tính lại với dung sai R/C.</p>
+            <p><strong>4:</strong> D=200/255≈0,784 và điện áp trung bình của xung là 0,784×5≈<strong>3,92 V</strong>. LED là phần tử phi tuyến, nên không lấy 3,92 V trừ 2 V để tính dòng. Khi HIGH, I_on≈(5−2)/220=<strong>13,6 mA</strong>; khi LOW, gần 0; trung bình thời gian ≈D×I_on=<strong>10,7 mA</strong> trong mô hình V_LED≈2 V. Kiểm dòng đỉnh, giới hạn chân và LED trên board thật.</p>
           </div>
         </div>
       </div>
@@ -186,7 +186,7 @@ void loop() {
         <div class="checklist-title">✅ Checklist Bài 19</div>
         <div class="checklist-item"><input type="checkbox" id="c1b19"><label for="c1b19">Tôi tính được V_avg từ duty cycle và V_high</label></div>
         <div class="checklist-item"><input type="checkbox" id="c2b19"><label for="c2b19">Tôi biết chọn tần số PWM phù hợp cho LED, motor, servo</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c3b19"><label for="c3b19">Tôi thực hành dimmer LED và điều khiển tốc độ motor bằng PWM</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b19"><label for="c3b19">Tôi thử dimmer LED và phân tích PWM motor; chỉ lắp motor khi MOSFET/driver được định mức đúng điện áp Gate và dòng tải</label></div>
         <div class="checklist-item"><input type="checkbox" id="c4b19"><label for="c4b19">Tôi thiết kế được RC filter để chuyển PWM thành V_analog</label></div>
       </div>
 

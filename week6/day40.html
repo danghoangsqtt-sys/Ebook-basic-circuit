@@ -33,7 +33,7 @@
           <li>Kết nối và đọc HC-SR04 — TRIG/ECHO, tính khoảng cách từ thời gian</li>
           <li>Xử lý timeout khi không có vật thể — tránh treo chương trình</li>
           <li>Cảm biến IR SHARP GP2Y0A21 — analog output, phi tuyến, dùng lookup table</li>
-          <li>VL53L0X — ToF laser I2C — chính xác ±3mm đến 2m</li>
+          <li>VL53L0X — ToF laser I2C; tầm đo và sai số thay đổi theo mục tiêu, ánh sáng và chế độ</li>
           <li>So sánh: HC-SR04 vs IR analog vs VL53L0X — khi nào dùng</li>
           <li>Dự án robot tránh vật cản — HC-SR04 + L298N + servo quét góc</li>
           <li>Lọc nhiễu đọc khoảng cách: trung bình N mẫu, loại bỏ giá trị ngoại lệ</li>
@@ -59,7 +59,7 @@
       </figure>
       <details class="summary-transcript"><summary>Đọc mô tả sơ đồ D40-1 bằng chữ</summary><p>VCC của HC-SR04 ElecFreaks nhận 5 V và GND nối GND của MCU. MCU gửi xung TRIG mức cao ít nhất 10 µs; module phát tám xung 40 kHz rồi tạo xung ECHO có độ rộng tỷ lệ thời gian âm đi và về. ECHO loại 5 V không nối trực tiếp vào GPIO ESP32: mắc điện trở 10 kΩ từ ECHO đến GPIO, 15 kΩ từ GPIO xuống GND, cho khoảng 3 V khi ECHO ở 5 V. Khoảng cách bằng thời gian ECHO nhân tốc độ âm rồi chia hai; giá trị gần đúng bằng t (µs) chia 58 để ra cm khi lấy tốc độ âm 340 m/s. Đặt timeout để xử lý khi không có echo.</p></details>
 
-      <p>Khi dùng HC-SR04 loại cấp 5V với ESP32, chân ECHO có thể xuất mức 5V. Với rail 5V ổn áp trong khoảng 4,75–5,25V, nối <strong>ECHO → điện trở 10kΩ → GPIO19 → điện trở 15kΩ → GND</strong> để hạ còn khoảng 3,0V ở 5V; TRIG từ GPIO18 đi thẳng tới TRIG, và nối GND của cảm biến với GND ESP32. Kiểm tra mức logic của đúng module và rail thực tế trước khi lắp. <a href="https://learn.adafruit.com/ultrasonic-sonar-distance-sensors/pinouts" target="_blank" rel="noopener">Sơ đồ chân HC-SR04 của Adafruit</a>; <a href="https://documentation.espressif.com/esp32-wroom-32_datasheet_en.html" target="_blank" rel="noopener">datasheet ESP32-WROOM-32</a> ghi V<sub>IH</sub> tối thiểu 0,75×VDD.</p>
+      <p>Ví dụ phân tích cho <a href="https://www.elecfreaks.com/download/HC-SR04.pdf" target="_blank" rel="noopener">ElecFreaks HC-SR04</a> cấp 5 V và <a href="https://documentation.espressif.com/esp32-wroom-32_datasheet_en.html" target="_blank" rel="noopener">ESP32-WROOM-32 v3.8, bảng 13–14</a>: ECHO 5 V không vào thẳng GPIO. Với rail 5 V trong khoảng 4,75–5,25 V và điện trở sai số 5%, cấu hình <strong>ECHO → 10 kΩ → nút RX → 15 kΩ → GND</strong> cho khoảng 2,74–3,28 V không tải; nút RX dự kiến tới GPIO19, TRIG từ GPIO18, GND chung. Trước khi lắp thật phải xác nhận model/revision của cả sensor và board, nguồn GPIO thực, pinout, mức ECHO/TRIG, điện trở và ngưỡng V<sub>IH</sub>/V<sub>max</sub>; nếu thiếu, chỉ dùng sơ đồ để tính hoặc mô phỏng. <a href="https://docs.espressif.com/projects/esp-faq/en/latest/hardware-related/hardware-design.html" target="_blank" rel="noopener">Espressif giới hạn GPIO 3,6 V</a>.</p>
 
       <div style="background:var(--clr-bg-elevated);border-radius:var(--radius-md);padding:var(--space-4);margin:var(--space-4) 0;font-family:var(--font-mono);font-size:var(--text-sm);">
 <pre style="margin:0;white-space:pre-wrap;">// HC-SR04 với ESP32 — ECHO qua cầu chia áp 10kΩ/15kΩ
@@ -114,9 +114,9 @@ void loop() {
         <table>
           <thead><tr><th>Loại</th><th>Dải đo</th><th>Độ chính xác</th><th>Giao tiếp</th><th>Nhược điểm</th></tr></thead>
           <tbody>
-            <tr><td>HC-SR04 (siêu âm)</td><td>2–400cm</td><td>±3mm</td><td>TRIG/ECHO digital</td><td>Không đo mặt mềm/góc lớn, nhiễu echo</td></tr>
+            <tr><td>HC-SR04 (siêu âm)</td><td>2–400cm theo tài liệu module</td><td>Có thể đạt 3 mm trong điều kiện phù hợp; không bảo đảm trên toàn dải</td><td>TRIG/ECHO digital</td><td>Không đo mặt mềm/góc lớn, nhiễu echo; xem <a href="https://www.elecfreaks.com/download/HC-SR04.pdf" target="_blank" rel="noopener">ElecFreaks HC-SR04</a></td></tr>
             <tr><td>SHARP GP2Y (IR analog)</td><td>10–80cm</td><td>±5%</td><td>Analog ADC</td><td>Phi tuyến, bị ảnh hưởng bởi màu vật</td></tr>
-            <tr><td>VL53L0X (laser ToF)</td><td>3–200cm</td><td>±3mm</td><td>I2C</td><td>Giá cao hơn, bị ảnh hưởng ánh sáng mạnh</td></tr>
+            <tr><td>VL53L0X (laser ToF)</td><td>Đến khoảng 2 m trong điều kiện mục tiêu/chế độ phù hợp</td><td>Không có một mức ±3 mm cho toàn dải; ST nêu sai số theo % và điều kiện đo</td><td>I2C</td><td>Kiểm độ phản xạ mục tiêu, ánh sáng môi trường và timing budget theo <a href="https://www.st.com/resource/datasheet/vl53l0x.pdf" target="_blank" rel="noopener">ST DS11555 v6.0, §6.2–6.3</a></td></tr>
             <tr><td>GP2Y0D21 (IR digital)</td><td>Fixed 10/20cm</td><td>ON/OFF</td><td>Digital</td><td>Chỉ phát hiện, không đo khoảng cách</td></tr>
           </tbody>
         </table>
@@ -157,9 +157,9 @@ void loop() {
       <div class="checklist">
         <div class="checklist-title">✅ Checklist Bài 40</div>
         <div class="checklist-item"><input type="checkbox" id="c1b40"><label for="c1b40">Tôi đọc HC-SR04 với timeout và lọc nhiễu trung bình</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c2b40"><label for="c2b40">Tôi tính khoảng cách chính xác từ thời gian ECHO</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b40"><label for="c2b40">Tôi tính khoảng cách gần đúng từ thời gian ECHO và nêu sai số môi trường</label></div>
         <div class="checklist-item"><input type="checkbox" id="c3b40"><label for="c3b40">Tôi biết chọn cảm biến khoảng cách phù hợp ứng dụng</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c4b40"><label for="c4b40">Tôi xây dựng robot tránh vật cản cơ bản</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b40"><label for="c4b40">Tôi viết và kiểm logic robot tránh vật cản bằng mô phỏng; mạch thật cần duyệt board/module</label></div>
       </div>
 
       <div class="lesson-nav">

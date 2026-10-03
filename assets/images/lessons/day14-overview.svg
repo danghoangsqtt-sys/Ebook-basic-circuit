@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="560" height="1114" viewBox="0 0 560 1114" role="img" aria-labelledby="title desc">
-<title id="title">Lắp và kiểm nguồn hai rail — Bài 14</title>
-<desc id="desc">GND chung, tránh đảo cực nguồn</desc>
+<title id="title">Phân tích nguồn hai rail — Bài 14</title>
+<desc id="desc">Chỉ lắp và đo khi part, nguồn, tải và mạch đã được xác minh</desc>
 <rect width="560" height="1114" rx="24" fill="#101b2d"/>
 <rect x="28" y="26" width="96" height="42" rx="21" fill="#25415b"/>
 <text x="47" y="55" fill="#f8fafc" font-size="24" font-weight="700" font-family="Arial, sans-serif">BÀI 14</text>
 <text x="400" y="55" fill="#9ebbd0" font-size="20" font-weight="700" font-family="Arial, sans-serif">QUY TRÌNH</text>
-<text x="32" y="113" fill="#f8fafc" font-size="36" font-weight="700" font-family="Arial, sans-serif">Lắp và kiểm nguồn hai rail</text>
+<text x="32" y="113" fill="#f8fafc" font-size="36" font-weight="700" font-family="Arial, sans-serif">Phân tích nguồn hai rail</text>
 <rect x="29" y="174" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
 <rect x="29" y="174" width="7" height="200" rx="3" fill="#54d6c9"/>
 <circle cx="77" cy="221" r="24" fill="#54d6c9"/>
@@ -37,9 +37,9 @@
 <rect x="29" y="822" width="7" height="200" rx="3" fill="#e7a2cb"/>
 <circle cx="77" cy="869" r="24" fill="#e7a2cb"/>
 <text x="66" y="878" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">4</text>
-<text x="116" y="879" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">Đo từng rail</text>
-<text x="56" y="926" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Kiểm 5 V, 3,3 V và nhiệt độ</text>
-<text x="56" y="964" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">trước khi gắn tải.</text>
+<text x="116" y="879" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">Lập kế hoạch đo</text>
+<text x="56" y="926" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Kiểm rail và nhiệt chỉ sau khi</text>
+<text x="56" y="964" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">đã duyệt phần cứng thật.</text>
 <rect x="29" y="1040" width="502" height="54" rx="16" fill="#25415b"/>
-<text x="47" y="1076" fill="#f8fafc" font-size="27" font-weight="700" font-family="Arial, sans-serif">GND chung, tránh đảo cực nguồn</text>
+<text x="47" y="1076" fill="#f8fafc" font-size="27" font-weight="700" font-family="Arial, sans-serif">Chỉ lắp sau khi duyệt mạch</text>
 </svg>

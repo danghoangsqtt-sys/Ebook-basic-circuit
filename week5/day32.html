@@ -22,8 +22,8 @@
       <div class="lesson-header">
         <div class="lesson-meta"><span class="tag tag-week">Tuần 5</span><span class="tag tag-day">Ngày 32</span><span class="tag tag-difficulty-advanced">Nguồn điện</span></div>
         <h1 class="lesson-title">Nguồn Switching — Buck, Boost, Buck-Boost</h1>
-        <p class="lesson-subtitle">DC-DC converter hiệu suất cao — giảm áp, tăng áp hay đảo cực với hiệu suất 85–95%, thay thế linear regulator trong hầu hết ứng dụng.</p>
-        <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~45 phút</span><span class="lesson-stat">🔬 Thực hành module: 40 phút</span></div>
+        <p class="lesson-subtitle">DC-DC converter giảm áp, tăng áp hoặc đảo cực; hiệu suất và nhiệt phụ thuộc mạch, linh kiện và tải cụ thể.</p>
+        <div class="lesson-stats"><span class="lesson-stat">⏱ Lý thuyết: ~45 phút</span><span class="lesson-stat">🔬 Bài tính/mô phỏng: 40 phút</span></div>
       </div>
 
       <div class="objectives-box">
@@ -31,10 +31,10 @@
         <ul class="objectives-list">
           <li>Hiểu nguyên lý Buck converter — giảm áp bằng PWM + cuộn cảm + tụ</li>
           <li>Hiểu nguyên lý Boost converter — tăng áp nhờ năng lượng tích trữ trong L</li>
-          <li>Tính hiệu suất và so sánh với Linear Regulator (LDO)</li>
-          <li>Tính Duty Cycle: D = V_out/V_in (Buck), D = 1 – V_in/V_out (Boost)</li>
-          <li>Chọn và sử dụng module LM2596 (Buck) và MT3608 (Boost)</li>
-          <li>Đo và điều chỉnh điện áp đầu ra bằng biến trở</li>
+          <li>Tính hiệu suất và so sánh với ổn áp tuyến tính ở điều kiện đầu vào/tải đã nêu</li>
+          <li>Tính duty gần đúng cho buck/boost lý tưởng ở chế độ dòng liên tục và nêu giới hạn mô hình</li>
+          <li>Phân tích module LM2596 (buck) và MT3608 (boost); chỉ dùng đúng module/revision đã xác minh</li>
+          <li>Lập kế hoạch đo và điều chỉnh điện áp đầu ra trước khi nối tải</li>
           <li>Hiểu tại sao cần freewheeling diode Schottky (không dùng 1N4007)</li>
           <li>Đo ripple điện áp đầu ra và cách giảm ripple</li>
         </ul>
@@ -66,7 +66,7 @@
         <div class="formula-main">D = V_out / V_in &nbsp;&nbsp;(Buck — lý tưởng)</div>
         <div class="formula-vars">
           <span class="formula-var">Ví dụ: V_in=12V, V_out=5V → D = 5/12 = 0,417 = 41,7%</span>
-          <span class="formula-var">Hiệu suất lý tưởng = 100%. Thực tế = 85–95%</span>
+          <span class="formula-var">Hiệu suất lý tưởng = 100%; mạch thật phải tính/đo theo V_in, V_out, BOM và tải</span>
         </div>
       </div>
 
@@ -82,19 +82,19 @@
         </div>
       </div>
 
-      <!-- PHẦN 3 — SO SÁNH LDO vs BUCK -->
-      <h2>3. LDO vs Buck Converter — Chọn cái nào?</h2>
+      <!-- PHẦN 3 — SO SÁNH ỔN ÁP TUYẾN TÍNH vs BUCK -->
+      <h2>3. Ổn áp tuyến tính vs Buck Converter — Chọn cái nào?</h2>
 
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Tiêu chí</th><th>LDO (AMS1117, LM7805)</th><th>Buck Converter (LM2596)</th></tr></thead>
+          <thead><tr><th>Tiêu chí</th><th>Tuyến tính: AMS1117 là LDO; LM7805 không phải LDO</th><th>Buck: LM2596</th></tr></thead>
           <tbody>
-            <tr><td>Hiệu suất</td><td>η = V_out/V_in × 100%. Ví dụ 5V→3,3V: 66%</td><td>85–93% (không phụ thuộc V_in nhiều)</td></tr>
-            <tr><td>Nhiệt sinh ra</td><td>P_heat = (V_in – V_out) × I_out</td><td>Rất nhỏ — ít cần tản nhiệt</td></tr>
-            <tr><td>Ripple đầu ra</td><td>Rất thấp (µV–mV)</td><td>Trung bình (mV–100mV)</td></tr>
-            <tr><td>Mạch ngoài</td><td>Đơn giản (1–3 linh kiện)</td><td>Phức tạp hơn (L, D, C, R_fb)</td></tr>
-            <tr><td>EMI phát sinh</td><td>Không đáng kể</td><td>Nhiều hơn do switching tần số cao</td></tr>
-            <tr><td>Dùng khi</td><td>Dòng thấp, cần ripple nhỏ, không chênh lệch áp nhiều</td><td>Dòng lớn (&gt;0,5A), chênh lệch V_in–V_out lớn</td></tr>
+            <tr><td>Hiệu suất</td><td>Xấp xỉ V_out/V_in khi bỏ qua dòng tĩnh; ví dụ 5 V→3,3 V cho khoảng 66%</td><td>Phụ thuộc V_in, V_out, dòng tải, diode/cuộn cảm và layout; đọc đường hiệu suất của đúng mạch</td></tr>
+            <tr><td>Nhiệt sinh ra</td><td>P_heat ≈ (V_in − V_out) × I_out, cộng ảnh hưởng dòng tĩnh</td><td>Tổn hao chuyển mạch và dẫn điện vẫn gây nóng; tính/đo theo BOM và tải</td></tr>
+            <tr><td>Ripple đầu ra</td><td>Phụ thuộc ripple đầu vào, PSRR, tải, tụ và băng thông đo</td><td>Phụ thuộc topology, layout, ESR/tụ, tải và băng thông đo</td></tr>
+            <tr><td>Mạch ngoài</td><td>Tụ/ESR và bảo vệ theo datasheet đúng part</td><td>Cuộn cảm, diode, tụ, hồi tiếp và layout theo datasheet đúng part</td></tr>
+            <tr><td>EMI phát sinh</td><td>Không có cạnh switch nội tại; vẫn có thể nhận/truyền nhiễu từ hệ thống</td><td>Cạnh switch cần kiểm vòng dòng, layout và nhiễu theo điều kiện dùng</td></tr>
+            <tr><td>Dùng khi</td><td>Kiểm headroom và nhiệt theo tải/PCB; phù hợp khi các điều kiện đó đạt</td><td>Cân nhắc khi tổn hao tuyến tính lớn hoặc cần hiệu suất; kiểm dải tải và nhiễu</td></tr>
           </tbody>
         </table>
       </div>
@@ -110,13 +110,14 @@
       <p>LM2596 là họ IC Buck 150 kHz có bản đầu ra cố định và bản điều chỉnh; module có biến trở thường dùng bản LM2596-ADJ. Theo <a href="https://www.ti.com/product/LM2596" target="_blank" rel="noopener">TI</a>, IC có dải V_in 4,5–40 V và dòng đầu ra danh định tối đa 3 A trong điều kiện thiết kế phù hợp; giới hạn thực của module phụ thuộc tản nhiệt, diode, cuộn cảm và PCB. Điện áp đầu ra bản ADJ phải được đặt và đo trước khi nối tải nhạy cảm.</p>
 
       <div class="callout callout-practice">
-        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Đo và điều chỉnh LM2596 module</div>
+        <div class="callout-header"><span class="callout-icon">🔬</span> Phân tích/kiểm trước khi đo module LM2596</div>
+        <p>Module và revision PCB chưa được xác minh. Các phép đo dưới đây là kế hoạch thử sau khi kiểm đúng chân, diode/cuộn cảm, dải điện áp, tản nhiệt và được duyệt. Trước mắt tính trên giấy hoặc mô phỏng; không nối tải trước khi đặt và đo V_out không tải.</p>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Kết nối: V_in(+) và V_in(–) vào nguồn 12V. Nối tải (điện trở 10Ω/5W hoặc LED dây) vào V_out(+) và V_out(–).</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Đo V_out bằng multimeter. Xoay biến trở (CW/CCW) để điều chỉnh V_out.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Đặt V_out = 5V. Đo I_out: I = V_out / R_load. Tính hiệu suất: η = (V_out × I_out) / (V_in × I_in) × 100%.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Dùng oscilloscope AC coupling đo ripple V_out: kỳ vọng &lt;50mV ở I_out thấp.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Thêm tụ 100µF ESR thấp song song với đầu ra → đo lại ripple → giảm được không?</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Vẽ sơ đồ nguồn 12 V vào VIN+/VIN− và voltmeter ở VOUT+/VOUT−; chưa nối tải. Kiểm đầu vào/đầu ra theo đúng nhãn PCB và sơ đồ module.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Trong kế hoạch đo phần cứng đã duyệt, cấp nguồn có giới hạn dòng, đo V_out không tải rồi chỉnh về 5 V theo hướng dẫn module. Không suy chiều xoay CW/CCW là chung cho mọi biến trở.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Tại 5 V, tải 10 Ω tiêu tán P=V²/R=2,5 W, I=0,5 A. Nếu đầu ra còn 12 V, P=14,4 W, vượt điện trở 5 W; vì vậy chỉ xét nối tải sau khi V_out đã đo đúng và kiểm công suất/dung sai tải. Tính hiệu suất η=(V_out I_out)/(V_in I_in) khi có dữ liệu đo hợp lệ.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Lập bảng đo ripple gồm tải, băng thông, cách nối probe và giá trị đỉnh-đỉnh; chưa có phép đo thực để khẳng định một mức ripple cố định.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Trong mô phỏng, so điện áp/ripple có và không có tụ đầu ra phù hợp; không tự thêm tụ vào module thật trước khi kiểm ổn định và ESR theo tài liệu module.</p></div></li>
         </ol>
       </div>
 
@@ -141,14 +142,14 @@
         <div class="exercise-title">📝 Bài tập Bài 32</div>
         <div class="exercise-part">
           <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Buck converter: V_in=24V, V_out=5V, I_out=2A, η=88%. Tính: D, P_in, P_loss.</div></div>
-          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">LDO 7805: V_in=12V, I_out=500mA. Tính P_heat. So sánh với Buck 88% cùng điều kiện.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Ổn áp tuyến tính LM7805: V_in=12 V, I_out=500 mA. Tính P_heat xấp xỉ và so với buck có hiệu suất giả định 88% cùng điều kiện.</div></div>
           <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Boost MT3608: V_in=3,7V (LiPo), cần V_out=12V cho relay. D = ? Tần số switching 1,2MHz.</div></div>
         </div>
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
             <p><strong>1:</strong> D = 5/24 = <strong>0,208 = 20,8%</strong>. P_out = 5×2 = 10W. P_in = P_out/η = 10/0,88 = <strong>11,36W</strong>. P_loss = 11,36 – 10 = <strong>1,36W</strong>.</p>
-            <p><strong>2:</strong> P_heat(LDO) = (V_in – V_out) × I = (12–5) × 0,5 = 7 × 0,5 = <strong>3,5W</strong>. Cần tản nhiệt lớn. P_loss(Buck 88%) = P_out/0,88 – P_out = (5×0,5)/0,88 – 2,5 = 2,84 – 2,5 = <strong>0,34W</strong>. Buck tiêu tán ít hơn 10× — không cần tản nhiệt.</p>
+            <p><strong>2:</strong> P_heat(LM7805) ≈ (12−5)×0,5 = <strong>3,5 W</strong>, chưa tính dòng tĩnh. P_loss(buck, giả định η=88%) = 2,5/0,88 − 2,5 ≈ <strong>0,34 W</strong>. Ở giả định này buck ít tổn hao hơn khoảng 10 lần; cả hai vẫn phải kiểm nhiệt theo đúng package, PCB, tải và nhiệt độ môi trường. Không suy buck luôn không cần tản nhiệt.</p>
             <p><strong>3:</strong> D = 1 – V_in/V_out = 1 – 3,7/12 = 1 – 0,308 = <strong>0,692 = 69,2%</strong>. Lưu ý: D cao (>80%) làm hiệu suất giảm và dòng cuộn cảm rất cao — cần thiết kế cẩn thận.</p>
           </div>
         </div>
@@ -158,7 +159,7 @@
         <div class="checklist-title">✅ Checklist Bài 32</div>
         <div class="checklist-item"><input type="checkbox" id="c1b32"><label for="c1b32">Tôi hiểu nguyên lý Buck và Boost — tính D từ V_in/V_out</label></div>
         <div class="checklist-item"><input type="checkbox" id="c2b32"><label for="c2b32">Tôi biết chọn LDO hay Buck tùy trường hợp</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c3b32"><label for="c3b32">Tôi điều chỉnh module LM2596 và đo hiệu suất thực tế</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b32"><label for="c3b32">Tôi tính công suất tải 10 Ω và lập kế hoạch đo hiệu suất; chưa nhận là đã thử module thật</label></div>
         <div class="checklist-item"><input type="checkbox" id="c4b32"><label for="c4b32">Tôi hiểu tại sao phải dùng Schottky cho freewheeling diode</label></div>
       </div>
 

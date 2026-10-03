@@ -79,17 +79,17 @@
         </ol>
       </div>
 
-      <h2>3. Assembly Checklist — Hàn theo thứ tự</h2>
+      <h2>3. Assembly Checklist — chỉ áp dụng sau khi duyệt phần cứng</h2>
 
       <div class="callout callout-practice">
-        <div class="callout-header"><span class="callout-icon">🔧</span> Thứ tự assembly đúng chuẩn</div>
+        <div class="callout-header"><span class="callout-icon">🔧</span> Quy trình dự kiến; khi thiếu board, dùng để rà thiết kế</div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p><strong>Kiểm tra PCB lần cuối:</strong> Đúng orientation (mặt trước/sau), kiểm tra Gerber viewer, tất cả text đọc được.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Hàn theo thứ tự:</strong> Thấp → Cao. Điện trở và tụ SMD nhỏ trước → IC SMD → Connector → Linh kiện THT → Header pin.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Visual inspection:</strong> Kính lúp — kiểm tra từng mối hàn. Đặc biệt IC chân nhỏ.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Continuity test:</strong> GND↔GND liên thông. GND↔VCC &gt;10kΩ (không short).</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Current-limited power-on:</strong> Set I_limit = 100mA. Cấp nguồn. Xem I &lt;50mA ở trạng thái idle. Không có linh kiện nóng bất thường.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Functional test:</strong> Nạp firmware → Serial debug → test từng tính năng theo SRS.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Kiểm tra thiết kế:</strong> Đối chiếu schematic, BOM, package, cực tính, Gerber và test point của đúng revision. Khi chưa có board được duyệt, lập bảng kiểm trên tài liệu và dừng tại đây.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Nếu được duyệt chế tạo:</strong> Hàn từ linh kiện thấp đến cao: điện trở/tụ SMD → IC → connector → THT → header, theo hướng dẫn của part cụ thể.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Visual inspection:</strong> Dùng kính lúp kiểm mối hàn, cầu hàn và chiều linh kiện; ghi ảnh lỗi và cách sửa trước khi thử điện.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Continuity test:</strong> Kiểm GND và các net theo schematic. Điện trở GND↔VCC phụ thuộc tải/tụ trên board, nên không kết luận bằng ngưỡng &gt;10kΩ cố định; mọi giá trị gần ngắn mạch không giải thích được phải xử lý trước cấp nguồn.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Current-limited power-on:</strong> Chỉ cấp nguồn khi điện áp, cực tính, dòng khởi động và dòng chờ dự kiến đã tính cho đúng board. Đặt giới hạn theo ngân sách đó, theo dõi từng rail và ngắt nếu vượt giới hạn hoặc nóng bất thường; không mặc định 100mA hay I_idle&lt;50mA.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Functional test:</strong> Nếu cổng nguồn đạt, nạp firmware và kiểm từng yêu cầu SRS; với nhánh không có board, kiểm logic bằng test case/trace mô phỏng và ghi rõ chưa đo thật.</p></div></li>
         </ol>
       </div>
 
@@ -112,12 +112,12 @@
         <div class="exercise-title">📝 Bài tập Bài 46</div>
         <div class="exercise-part">
           <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Hoàn thiện PCB đồ án: DRC pass, thêm test points tại VCC/GND/SDA/SCL, via stitching, xuất Gerber.</div></div>
-          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Làm prototype trên PCB prototype pad (hoặc đặt in JLCPCB). Hàn theo thứ tự assembly chuẩn. Ghi lại I_idle sau power-on.</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Lập kế hoạch assembly và tính khoảng dòng chờ/khởi động từ datasheet từng linh kiện. Nếu có prototype đã được duyệt, hàn và ghi I_idle thực tế; nếu chưa, ghi trạng thái chờ đo.</div></div>
         </div>
         <div class="answer-section">
           <button class="answer-toggle">👁 Gợi ý kiểm tra</button>
           <div class="answer-content">
-            <p>Sau power-on test, I_idle điển hình: ESP32 (WiFi off) ≈ 30–80mA, thêm OLED ≈ 10–20mA, BME280 ≈ 1mA. Tổng I_idle ≈ 50–100mA là bình thường. Nếu I_idle &gt;500mA: có short circuit hoặc linh kiện lắp ngược cực (LED, diode, tụ điện phân). Nếu &lt;10mA: MCU chưa chạy được (VCC không đủ, quartz hỏng, nạp firmware chưa thành công).</p>
+            <p>I_idle không có dải "bình thường" chung cho mọi đồ án: ESP32 đổi dòng theo chế độ ngủ/WiFi, OLED đổi theo nội dung hiển thị, cảm biến và regulator có dòng riêng. Cộng mức tối thiểu/điển hình/tối đa theo đúng mã, trạng thái hoạt động và nguồn để lập khoảng kỳ vọng; so phép đo thật với khoảng đó. Nếu chênh lệch, kiểm rail và chức năng trước khi kết luận có short hay MCU không chạy.</p>
           </div>
         </div>
       </div>
@@ -126,8 +126,8 @@
         <div class="checklist-title">✅ Checklist Bài 46</div>
         <div class="checklist-item"><input type="checkbox" id="c1b46"><label for="c1b46">PCB layout hoàn chỉnh — DRC pass, có test points</label></div>
         <div class="checklist-item"><input type="checkbox" id="c2b46"><label for="c2b46">Gerber đã xuất và kiểm tra trong Gerber viewer</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c3b46"><label for="c3b46">Prototype hàn thành công — I_idle trong range bình thường</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c4b46"><label for="c4b46">Firmware nạp và chạy trên prototype PCB</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3b46"><label for="c3b46">Tôi có ngân sách nguồn và kế hoạch đo I_idle; prototype chưa chế tạo được ghi chờ xác minh</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b46"><label for="c4b46">Tôi kiểm logic firmware; chỉ ghi đã nạp/chạy trên PCB khi có log đo thật</label></div>
       </div>
 
       <div class="lesson-nav">

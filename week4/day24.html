@@ -114,12 +114,13 @@
             <tbody>
               <tr><td>Số dây</td><td>2 (SDA + SCL)</td><td>4+ (MOSI, MISO, SCK, CS×N)</td></tr>
               <tr><td>Tốc độ</td><td>100k–3,4MHz</td><td>1MHz–80MHz+</td></tr>
-              <tr><td>Số thiết bị</td><td>127 (qua địa chỉ)</td><td>Không giới hạn (mỗi thiết bị 1 CS pin)</td></tr>
+              <tr><td>Số thiết bị</td><td>112 địa chỉ 7-bit thông thường theo NXP UM10204; số module thực tế còn tùy địa chỉ và tải bus</td><td>Mỗi thiết bị cần CS riêng hoặc bộ giải mã; số lượng còn bị giới hạn bởi chân, tải và timing</td></tr>
               <tr><td>Full-duplex</td><td>Không</td><td>Có</td></tr>
               <tr><td>Dùng khi</td><td>Cảm biến chậm, nhiều thiết bị, ít pin</td><td>Màn hình, SD card, flash, ADC nhanh</td></tr>
             </tbody>
           </table>
         </div>
+        <p>Địa chỉ dành riêng theo <a href="https://www.nxp.com/docs/en/user-guide/UM10204.pdf" target="_blank" rel="noopener">NXP UM10204 Rev. 7, §3.1.12 và bảng 4</a>. Không dùng số địa chỉ như giới hạn tải điện cho một bus cụ thể.</p>
       </div>
 
       <!-- PHẦN 2 — SPI PINS ARDUINO/ESP32 -->
@@ -183,7 +184,7 @@ void setup() {
 void loop() {}</pre>
         </div>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p>Format thẻ SD FAT32. Chỉ với breakout đã xác minh chịu logic Uno 5V và có ổn áp/chuyển mức phù hợp: cấp VCC theo nhãn module, nối GND chung, rồi MOSI=D11, MISO=D12, SCK=D13, CS=D10. Không nối đầu vào thẻ/module 3,3V trần trực tiếp với ngõ ra 5V Uno; nếu module chưa rõ mã/revision thì dừng bước đấu dây và dùng mô phỏng SPI.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Format thẻ SD FAT32. Chỉ với breakout đã xác minh chịu logic Uno 5 V và có ổn áp/chuyển mức phù hợp: cấp VCC theo nhãn module, nối GND chung, rồi MOSI=D11, MISO=D12, SCK=D13, CS=D10. Không nối đầu vào thẻ/module 3,3 V trần trực tiếp với ngõ ra 5 V Uno; nếu module chưa rõ mã/revision thì dừng bước đấu dây và dùng mô phỏng SPI. Ví dụ <a href="https://learn.adafruit.com/adafruit-microsd-spi-sdio/pinouts" target="_blank" rel="noopener">breakout Adafruit 3 V-only</a> khác với <a href="https://learn.adafruit.com/products/254/guides" target="_blank" rel="noopener">breakout Adafruit có regulator và level shifting</a>; không suy khả năng chịu 5 V chỉ từ tên “module SD”.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Upload code → Serial Monitor xem "SD OK" và "Ghi file xong".</p></div></li>
           <li class="step-item"><div class="step-content"><p>Rút thẻ SD, đọc trên máy tính: kiểm tra file "data.txt" có đúng nội dung không.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Thêm timestamp (millis()) vào mỗi dòng ghi. Thêm vòng lặp ghi mỗi 1 giây.</p></div></li>

@@ -49,7 +49,7 @@
             <tr><td>DS3231 ưu điểm so với DS1307?</td><td>TCXO bù nhiệt → ±2ppm (DS3231) vs ±20ppm (DS1307)</td></tr>
             <tr><td>ESP32 Web Server endpoint JSON API?</td><td>server.on("/api", handler); server.send(200,"application/json", jsonString);</td></tr>
             <tr><td>NEMA 17: 1/8 microstepping, quay 45°. Số microstep?</td><td>200×8 × (45/360) = 200 microsteps</td></tr>
-            <tr><td>L298N vs TB6612FNG — cái nào hiệu suất cao hơn?</td><td>TB6612FNG (MOSFET, V_drop &lt;0,5V vs L298N 2V)</td></tr>
+            <tr><td>L298N vs TB6612FNG — cái nào thường ít tổn hao dẫn hơn?</td><td>TB6612FNG thường ít sụt áp hơn tại cùng điều kiện. Theo Toshiba, tổng V_sat hai transistor điển hình 0,5 V, tối đa 0,7 V ở I_out=1 A, VCC=VM=5 V; L298 có sụt áp cao hơn nhưng phải so tại dòng/nhiệt cụ thể.</td></tr>
             <tr><td>HC-SR04: ECHO=870µs → khoảng cách = ?</td><td>870/58 = 15cm</td></tr>
             <tr><td>Pin LiPo một cell được sạc đầy ở điện áp nào?</td><td>4,20V danh định với cell loại 4,2V; IC sạc CC/CV kết thúc chu kỳ theo dòng sạc, còn ngưỡng bảo vệ tùy IC/board.</td></tr>
           </tbody>
@@ -137,8 +137,8 @@ void handleCtrl() {
         <div class="checklist-item"><input type="checkbox" id="wk6c1"><label for="wk6c1">Tôi kết nối và đọc thành công DS3231 I2C</label></div>
         <div class="checklist-item"><input type="checkbox" id="wk6c2"><label for="wk6c2">ESP32 tạo Web Server và điều khiển GPIO từ điện thoại</label></div>
         <div class="checklist-item"><input type="checkbox" id="wk6c3"><label for="wk6c3">Tôi điều khiển stepper và servo chính xác</label></div>
-        <div class="checklist-item"><input type="checkbox" id="wk6c4"><label for="wk6c4">Robot 2 bánh TB6612FNG + HC-SR04 hoạt động tránh vật cản; ECHO đã hạ mức cho ESP32</label></div>
-        <div class="checklist-item"><input type="checkbox" id="wk6c5"><label for="wk6c5">Nguồn một cell LiPo + TP4056 + IC bảo vệ riêng + boost 5V đã kiểm tra dòng đỉnh</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk6c4"><label for="wk6c4">Tôi mô phỏng trạng thái robot TB6612FNG + HC-SR04 và tính mạch hạ mức ECHO</label></div>
+        <div class="checklist-item"><input type="checkbox" id="wk6c5"><label for="wk6c5">Tôi lập ngân sách dòng đỉnh nguồn LiPo/boost trên giấy và ghi phần cứng chưa xác minh</label></div>
         <div class="checklist-item"><input type="checkbox" id="wk6c6"><label for="wk6c6">Tôi đã xác định ý tưởng cho Đồ Án Tốt Nghiệp</label></div>
       </div>
 

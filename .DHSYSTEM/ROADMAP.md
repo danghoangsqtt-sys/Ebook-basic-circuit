@@ -2,7 +2,7 @@
 
 Ngày chốt: 2026-10-02. Nguồn phạm vi: `docs/brainstorm/session-2026-10-02.md`. Hướng màn hình: `.DHSYSTEM/ui-direction/2026-10-02/`.
 
-Trạng thái 2026-10-03: Phase 1–6 đã hoàn tất và qua audit/debug; Phase 7 đang triển khai (P7-01–P7-03, P7-05 PASS; P7-04 đang rà kỹ thuật; P7-06 chưa mở). Phase 8–10 chưa triển khai theo cổng phụ thuộc trong `CURRICULUM-PLAN.md`.
+Trạng thái 2026-10-03: Phase 1–6 đã hoàn tất; Phase 7 qua audit/debug trong phạm vi nội dung số/phân tích và mô phỏng có điều kiện. Cổng phần cứng thật vẫn chờ đúng part/module/revision, ERC/đo và người duyệt ở `docs/qa/curriculum-hardware-pending.md`. Phase 8 P8-01 đang triển khai theo phụ lục phạm vi số trong `CURRICULUM-PLAN.md`; Phase 9–10 chưa mở.
 
 ## Nguyên tắc thực hiện
 

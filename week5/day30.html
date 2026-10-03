@@ -70,7 +70,7 @@
           <thead><tr><th>Thông số</th><th>Multimeter</th><th>Oscilloscope</th></tr></thead>
           <tbody>
             <tr><td>Đo DC</td><td>✓ Chính xác cao</td><td>✓ (dùng DC coupling)</td></tr>
-            <tr><td>Đo AC (RMS)</td><td>✓ (giá trị RMS)</td><td>✓ (đo Vpp → tính Vrms)</td></tr>
+            <tr><td>Đo AC (RMS)</td><td>Đọc RMS trong dải đo của đồng hồ</td><td>Dùng chức năng RMS của máy, hoặc suy từ Vpp chỉ khi biết dạng sóng và giả định phù hợp</td></tr>
             <tr><td>Dạng sóng theo thời gian</td><td>✗ Không thể</td><td>✓ Trực quan</td></tr>
             <tr><td>Tần số</td><td>Giới hạn (một số model)</td><td>✓ Chính xác cao</td></tr>
             <tr><td>Xung ngắn / Glitch</td><td>✗ Không thể</td><td>✓ (nếu đủ sample rate)</td></tr>
@@ -117,11 +117,16 @@
       <!-- PHẦN 3 — THỰC HÀNH -->
       <h2>3. Thực hành đo PWM và ripple nguồn</h2>
 
+      <div class="callout callout-warning">
+        <div class="callout-header"><span class="callout-icon">⚠️</span> Xác minh điểm kẹp GND trước khi đo thật</div>
+        <p>Với oscilloscope bàn nối đất bảo vệ, vỏ BNC và kẹp GND của probe nối với đất bảo vệ. Chỉ kẹp vào điểm GND của mạch thấp áp đã xác nhận an toàn để nối đất; không kẹp vào dây đang mang điện, nút switching hoặc đầu ra nguồn chưa rõ cách ly. Không tháo dây đất bảo vệ của máy để “thả nổi” đầu đo. Nếu chưa xác nhận loại máy, nguồn và điểm tham chiếu, chỉ phân tích dạng sóng mô phỏng. Xem <a href="https://download.tek.com/document/ABCs%20of%20Probes%2060W-6053-15.pdf" target="_blank" rel="noopener">Tektronix, <em>ABCs of Probes</em>, mục Use Proper Grounding Procedures</a>; máy có đầu vào cách ly phải tuân theo hướng dẫn và định mức của chính máy đó.</p>
+      </div>
+
       <div class="callout callout-practice">
         <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành A: Đo PWM từ Arduino</div>
         <ol class="step-list">
           <li class="step-item"><div class="step-content"><p>Cấu hình Arduino: <code>analogWrite(9, 128)</code> — 50% duty cycle, ~490Hz.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Nối probe CH1 vào pin 9, GND probe vào GND Arduino.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Trên mô phỏng, đặt đầu đo tại D9 so với GND. Chỉ khi đã xác minh board, nguồn thấp áp và điểm GND theo cảnh báo trên, mới nối thật đầu CH1 vào D9 và kẹp GND probe vào GND Arduino.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Điều chỉnh Time/div để thấy 2–3 chu kỳ hoàn chỉnh.</p></div></li>
           <li class="step-item"><div class="step-content"><p>Đo: (a) Tần số — xác nhận ~490Hz; (b) Duty cycle = T_on/T × 100% — xác nhận ~50%; (c) Vpp — xác nhận ~5V (hoặc 3,3V với ESP32).</p></div></li>
           <li class="step-item"><div class="step-content"><p>Thay analogWrite thành 64 → đo lại duty cycle. Kỳ vọng ~25%.</p></div></li>
@@ -133,8 +138,8 @@
         <ol class="step-list">
           <li class="step-item"><div class="step-content"><p>Chuyển coupling sang <strong>AC</strong> (lọc thành phần DC, chỉ xem AC ripple).</p></div></li>
           <li class="step-item"><div class="step-content"><p>Tăng Volt/div nhỏ xuống (10mV/div hoặc 20mV/div).</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Đo ripple của nguồn 5V tốt: kỳ vọng &lt;50mV ripple. Đo adapter rẻ: có thể 100–200mV.</p></div></li>
-          <li class="step-item"><div class="step-content"><p>Thêm tụ 100µF song song với nguồn → đo lại ripple → xác nhận giảm.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Với nguồn thấp áp đã xác minh an toàn để kẹp GND probe, ghi Vpp, băng thông/giới hạn băng thông của máy, tỷ lệ probe, coupling, tải và vị trí đo. So với yêu cầu của đúng nguồn; không dùng ngưỡng &lt;50 mV hoặc 100–200 mV làm chuẩn chung cho mọi adapter.</p></div></li>
+          <li class="step-item"><div class="step-content"><p>Trong mô phỏng, thay đổi điện dung đầu ra và so sánh ripple, dòng nạp ban đầu, đáp ứng tải. Với nguồn thật, chỉ thêm tụ sau khi đối chiếu datasheet nguồn về điện dung tải, ESR, inrush và ổn định; không dự đoán ripple chắc chắn giảm.</p></div></li>
         </ol>
       </div>
 
@@ -159,14 +164,14 @@
         <div class="exercise-title">📝 Bài tập Bài 30</div>
         <div class="exercise-part">
           <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Oscilloscope hiển thị: Volt/div=2V, waveform cao 3 ô đỉnh-đỉnh. Time/div=500µs, 1 chu kỳ = 4 ô. Tính Vpp, Vrms (sine), tần số.</div></div>
-          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Bạn đo nguồn 5V bằng oscilloscope AC coupling thấy sóng hình sin 120Hz. Nguồn này là loại gì? Tần số 120Hz từ đâu?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Trong ví dụ nguồn 5 V cách ly, oscilloscope AC coupling cho thành phần 120 Hz. Nêu một nguồn gốc khả dĩ và thông tin cần thêm trước khi kết luận loại nguồn hoặc chất lượng.</div></div>
           <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Tại sao phải dùng GND probe nối sát với điểm đo khi đo tín hiệu tần số cao (>100kHz)?</div></div>
         </div>
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
             <p><strong>1:</strong> Vpp = 3 × 2V = <strong>6V</strong>. Vrms(sine) = Vpp/(2√2) = 6/2,828 = <strong>2,12V</strong>. T = 4 × 500µs = 2ms. f = 1/2ms = <strong>500Hz</strong>.</p>
-            <p><strong>2:</strong> Đây là nguồn điện từ transformer tuyến tính (không có PFC) chỉnh lưu từ điện lưới 60Hz. Cầu chỉnh lưu 4 diode biến 60Hz thành ripple 120Hz (2 lần tần số lưới). Ripple lớn → nguồn chất lượng thấp, tụ lọc nhỏ hoặc hỏng.</p>
+            <p><strong>2:</strong> Thành phần 120 Hz <em>có thể</em> bắt nguồn từ chỉnh lưu toàn sóng điện lưới 60 Hz (2×60 Hz), nhưng một tần số đo được không xác định duy nhất cấu trúc nguồn: adapter chuyển mạch cũng có thể truyền thành phần gợn ở 120 Hz. Cần ghi biên độ, tải, băng thông/coupling và xem schematic hoặc thông số đúng adapter trước khi kết luận chất lượng hay nguyên nhân.</p>
             <p><strong>3:</strong> Dây GND probe dài (ngay cả 5cm) có inductance ký sinh. Ở tần số cao, X_L = 2πfL tăng → tạo vòng lặp khuếch đại nhiễu (ground loop) → waveform bị biến dạng, nhiễu cao tần xuất hiện. Giải pháp: dùng "ground spring" hoặc nối GND probe trực tiếp vào chân GND sát nhất.</p>
           </div>
         </div>
@@ -177,7 +182,7 @@
         <div class="checklist-item"><input type="checkbox" id="c1b30"><label for="c1b30">Tôi biết điều chỉnh Volt/div, Time/div và Trigger</label></div>
         <div class="checklist-item"><input type="checkbox" id="c2b30"><label for="c2b30">Tôi đọc được Vpp, tần số và duty cycle từ màn hình oscilloscope</label></div>
         <div class="checklist-item"><input type="checkbox" id="c3b30"><label for="c3b30">Tôi calibrate probe và biết tại sao cần thiết</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c4b30"><label for="c4b30">Tôi đo ripple nguồn bằng AC coupling</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b30"><label for="c4b30">Tôi biết cấu hình AC coupling và điều kiện an toàn trước khi đo ripple thật</label></div>
       </div>
 
       <div class="lesson-nav">

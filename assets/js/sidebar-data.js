@@ -31,7 +31,7 @@ const CURRICULUM = {
         { day: 10, title: 'Cuộn Cảm & Mạch RL', file: '../week2/day10.html' },
         { day: 11, title: 'Diode — Nguyên Lý & Ứng Dụng', file: '../week2/day11.html' },
         { day: 12, title: 'Diode Zener & Mạch Ổn Áp', file: '../week2/day12.html' },
-        { day: 13, title: 'Nguồn DC & IC Ổn Áp LDO', file: '../week2/day13.html' },
+        { day: 13, title: 'Nguồn DC & IC Ổn Áp Tuyến Tính', file: '../week2/day13.html' },
         { day: 14, title: 'Ôn Tập Tuần 2 & Mini Project: Mạch Nguồn DC Hoàn Chỉnh', file: '../week2/day14.html' },
       ]
     },

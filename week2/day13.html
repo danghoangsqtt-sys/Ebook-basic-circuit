@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bài 13: Nguồn DC & IC Ổn Áp LDO — Giáo Trình Điện Tử Thực Hành</title>
-  <meta name="description" content="Bài 13: IC ổn áp tuyến tính LDO — LM7805, AMS1117, LM3940. Thiết kế mạch nguồn DC ổn định cho các dự án điện tử.">
+  <title>Bài 13: Nguồn DC & IC Ổn Áp Tuyến Tính — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Bài 13: IC ổn áp tuyến tính LM7805 và LDO AMS1117; đọc datasheet, tính dropout và nhiệt trước khi thiết kế nguồn DC.">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
@@ -21,8 +21,8 @@
 
       <div class="lesson-header">
         <div class="lesson-meta"><span class="tag tag-week">Tuần 2</span><span class="tag tag-day">Ngày 13</span><span class="tag tag-difficulty-beginner">Thiết kế nguồn</span></div>
-        <h1 class="lesson-title">Nguồn DC & IC Ổn Áp LDO</h1>
-        <p class="lesson-subtitle">Từ adapter thô đến nguồn DC chuẩn — thiết kế mạch nguồn với IC LDO cho mọi dự án vi điều khiển.</p>
+        <h1 class="lesson-title">Nguồn DC & IC Ổn Áp Tuyến Tính</h1>
+        <p class="lesson-subtitle">Từ adapter đến hai rail DC — chọn ổn áp tuyến tính theo điện áp, tải, tụ và nhiệt của đúng linh kiện.</p>
         <div class="lesson-stats"><span class="lesson-stat">⏱ Đọc: ~40 phút</span><span class="lesson-stat">🔬 Thực hành: 45 phút</span></div>
       </div>
 
@@ -30,12 +30,12 @@
         <div class="objectives-title">🎯 Mục tiêu bài học</div>
         <ul class="objectives-list">
           <li>Hiểu tại sao cần IC ổn áp — adapter không phải nguồn DC lý tưởng</li>
-          <li>Phân biệt ổn áp tuyến tính (LDO) và ổn áp chuyển mạch (switching)</li>
+          <li>Phân biệt ổn áp tuyến tính thường, LDO và ổn áp chuyển mạch</li>
           <li>Đọc và hiểu datasheet IC LM7805 và AMS1117-3.3</li>
           <li>Thiết kế mạch nguồn 5V và 3,3V theo datasheet</li>
           <li>Hiểu dropout voltage và tại sao LDO quan trọng với nguồn pin</li>
           <li>Tính công suất tiêu tán nhiệt của IC LDO</li>
-          <li>Lắp mạch nguồn 5V và 3,3V thực tế, đo kiểm chất lượng</li>
+          <li>Lập sơ đồ và kế hoạch đo nguồn 5 V/3,3 V; chỉ lắp khi đã chốt part/package và duyệt mạch</li>
           <li>So sánh hiệu suất LDO vs buck converter</li>
         </ul>
       </div>
@@ -56,7 +56,7 @@
         <table>
           <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
           <tbody>
-            <tr><td>IC LM7805</td><td>TO-220, ổn áp 5V/1A (input 7–35V)</td><td>1</td></tr>
+            <tr><td>IC LM7805</td><td>Ví dụ TI TO-220, đầu ra 5 V; dải đầu vào/dòng cho phép phụ thuộc tải và tản nhiệt theo datasheet</td><td>1</td></tr>
             <tr><td>IC AMS1117-3.3</td><td>SOT-223 hoặc TO-252, LDO 3,3V/800mA</td><td>1</td></tr>
             <tr><td>Tụ điện 100µF/25V (electrolytic)</td><td>Tụ lọc đầu vào và đầu ra</td><td>4</td></tr>
             <tr><td>Tụ gốm 100nF</td><td>Decoupling</td><td>4</td></tr>
@@ -75,24 +75,24 @@
       <p>IC ổn áp (voltage regulator) nhận điện áp vào thô và xuất ra điện áp chính xác, ổn định, ít ripple hơn nhiều. Đây là khối thiết kế cơ bản trong mọi thiết bị điện tử.</p>
 
       <!-- PHẦN 2 — LDO vs SWITCHING -->
-      <h2>2. LDO vs Switching Regulator</h2>
+      <h2>2. Ổn áp tuyến tính và nguồn chuyển mạch</h2>
 
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Đặc tính</th><th>LDO (tuyến tính)</th><th>Buck Converter (chuyển mạch)</th></tr></thead>
+          <thead><tr><th>Đặc tính</th><th>Ổn áp tuyến tính (có nhóm LDO)</th><th>Buck Converter (chuyển mạch)</th></tr></thead>
           <tbody>
             <tr><td>Nguyên lý</td><td>Tiêu tán phần thừa thành nhiệt</td><td>Chuyển đổi năng lượng qua L, C</td></tr>
-            <tr><td>Hiệu suất</td><td>Thấp: η = V_out/V_in (ví dụ: 5V từ 12V = 42%)</td><td>Cao: 80–95%</td></tr>
-            <tr><td>Ripple đầu ra</td><td>Rất thấp (µV)</td><td>Cao hơn (mV–10s mV)</td></tr>
-            <tr><td>Độ phức tạp</td><td>Đơn giản — 3 chân + 2 tụ</td><td>Phức tạp hơn — cần L, C, feedback</td></tr>
-            <tr><td>Nhiệt lượng</td><td>Nóng khi V_in–V_out lớn hoặc dòng lớn</td><td>Ít nóng hơn</td></tr>
-            <tr><td>Dùng khi</td><td>Dòng &lt; 1A, V_in–V_out nhỏ, cần nhiễu thấp</td><td>Dòng lớn, V_in–V_out lớn, pin</td></tr>
+            <tr><td>Hiệu suất</td><td>Trong mô hình bỏ qua dòng tĩnh, η≈V_out/V_in (5 V từ 12 V ≈42%); thực tế thấp hơn</td><td>Phụ thuộc IC, tải, cuộn cảm, diode/MOSFET và PCB; đọc đường hiệu suất của đúng thiết kế</td></tr>
+            <tr><td>Ripple đầu ra</td><td>Phụ thuộc nhiễu nguồn, tải, tụ và dải đo; không có một mức µV chung</td><td>Phụ thuộc tần số chuyển mạch, lọc, layout và cách đo; không có một mức mV chung</td></tr>
+            <tr><td>Độ phức tạp</td><td>Ít linh kiện hơn ở ví dụ LM7805; tụ OUT không bắt buộc cho ổn định theo TI</td><td>Cần chọn L, C, diode/MOSFET, hồi tiếp và bố trí vòng dòng theo datasheet</td></tr>
+            <tr><td>Nhiệt lượng</td><td>P≈(V_in−V_out)I_out, cộng dòng tĩnh; kiểm T_j theo package/PCB</td><td>Tổn hao dẫn và chuyển mạch cũng sinh nhiệt; kiểm ở dòng và nhiệt độ thực</td></tr>
+            <tr><td>Dùng khi</td><td>Chọn khi dropout, công suất nhiệt, dòng và nhiễu đều đạt yêu cầu</td><td>Chọn khi cần giảm tổn hao hoặc tỉ lệ điện áp lớn, sau khi kiểm BOM/EMI/layout</td></tr>
           </tbody>
         </table>
       </div>
 
       <!-- PHẦN 3 — LM7805 -->
-      <h2>3. IC LM7805 — Ổn áp 5V cổ điển</h2>
+      <h2>3. IC LM7805 — Ổn áp tuyến tính 5V, không phải LDO</h2>
 
       <figure class="figure figure--overview">
         <img src="../assets/images/lessons/d13-1.svg" width="390" height="505" loading="lazy" decoding="async" alt="Nhìn mặt chữ TO-220 NDE của TI: chân 1 IN, chân 2 GND, chân 3 OUT; tab GND. Tụ mắc song song rail.">
@@ -106,7 +106,7 @@
           <table>
             <thead><tr><th>Thông số</th><th>Giá trị</th><th>Ý nghĩa</th></tr></thead>
             <tbody>
-              <tr><td>V_in tối thiểu</td><td>7V</td><td>Cần ít nhất 7V để ổn định ra 5V</td></tr>
+              <tr><td>V_in cho line regulation</td><td>Ít nhất 7,5 V</td><td>Điều kiện TI Rev. L: T_j=25 °C, I_out≤1 A; kiểm lại theo tải/nhiệt thực</td></tr>
               <tr><td>V_in tối đa</td><td>35V</td><td>Không vượt quá 35V</td></tr>
               <tr><td>Dropout voltage</td><td>2V</td><td>V_in phải lớn hơn V_out ít nhất 2V</td></tr>
               <tr><td>I_out tối đa</td><td>1A (1,5A peak)</td><td>Cần tản nhiệt nếu dùng gần giới hạn</td></tr>
@@ -134,13 +134,13 @@
 
       <figure class="figure figure--overview">
         <img src="../assets/images/lessons/d13-2.svg" width="390" height="405" loading="lazy" decoding="async" alt="Riêng AMS1117-3.3 của Advanced Monolithic Systems: nhìn mặt chữ, 1 GND, 2 OUT, 3 IN; tab OUT.">
-        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D13-2 — Chân AMS1117-3.3 SOT-223</div><div class="figure-text">Riêng AMS1117-3.3 của Advanced Monolithic Systems: nhìn mặt chữ, 1 GND, 2 OUT, 3 IN; tab OUT.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://datasheet.lcsc.com/lcsc/1811142212_Advanced-Monolithic-Systems-AMS1117-3-3_C6186.pdf" target="_blank" rel="noopener">datasheet do AMS lập</a>. <a href="../assets/images/lessons/d13-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
+        <figcaption class="figure-caption"><div class="figure-number">Sơ đồ D13-2 — Chân AMS1117-3.3 SOT-223</div><div class="figure-text">Riêng AMS1117-3.3 của Advanced Monolithic Systems: nhìn mặt chữ, 1 GND, 2 OUT, 3 IN; tab OUT.</div><div class="figure-source">Sơ đồ tự vẽ; đối chiếu <a href="https://datasheet.lcsc.com/datasheet/pdf/e6935943fc6b1bbf350a1a0f3e90dc4a.pdf?productCode=C6186" target="_blank" rel="noopener">datasheet do AMS lập</a>. <a href="../assets/images/lessons/d13-2.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption>
       </figure>
       <details class="summary-transcript"><summary>Đọc mô tả D13-2</summary><p>Áp dụng AMS1117-3.3 SOT-223 của Advanced Monolithic Systems, không suy rộng mọi IC chữ 1117. Nhìn mặt chữ với ba chân hướng xuống: trái 1 GND, giữa 2 OUT, phải 3 IN; tab nối OUT. IN nhận 5 V, OUT cấp 3,3 V. Bản AMS tham chiếu dùng 22 µF tantalum từ OUT về GND; kiểm tra đúng mã và package trước khi cấp nguồn.</p></details>
 
       <div class="callout callout-tip">
-        <div class="callout-header"><span class="callout-icon">💡</span> Tại sao AMS1117 phổ biến hơn LM3940?</div>
-        <p>AMS1117-3.3 có thể chạy từ 4,5V input → rất phù hợp với USB 5V (thực tế 4,7–5,2V). Dropout chỉ 1,2V → chỉ cần 4,5V là đủ ra 3,3V. LM7805 cần 7V để ra 5V → không dùng được với USB. AMS1117 được dùng trong hầu hết board ESP32, Arduino có chân 3,3V.</p>
+        <div class="callout-header"><span class="callout-icon">💡</span> Kiểm độ dự trữ điện áp cho 3,3 V</div>
+        <p>Với AMS1117-3.3 đúng mã của Advanced Monolithic Systems, datasheet cho dropout tối đa 1,3 V ở 0,8 A. Phép cộng 3,3 + 1,3 = 4,6 V chỉ là kiểm headroom tối thiểu danh định tại chân IN; bảng điện áp đầu ra của hãng dùng V<sub>in</sub>=4,8 V và còn có dung sai đầu ra. Vì vậy không khẳng định 4,6 V bảo đảm đúng 3,3 V trên mọi tải/nhiệt; phải thêm dự phòng sụt áp dây/USB, kiểm đúng part và đo rail tại tải dự kiến. Với LM7805 của TI, điều kiện line regulation ở tải tới 1 A dùng V<sub>in</sub> từ 7,5 V trở lên tại 25 °C; không dùng trực tiếp từ USB 5 V. <a href="https://www.ti.com/lit/ds/symlink/lm7800.pdf" target="_blank" rel="noopener">TI LM7805 Rev. L</a>; <a href="https://datasheet.lcsc.com/datasheet/pdf/e6935943fc6b1bbf350a1a0f3e90dc4a.pdf?productCode=C6186" target="_blank" rel="noopener">AMS1117 datasheet do hãng lập</a>.</p>
       </div>
 
       <!-- VIDEO -->
@@ -159,16 +159,17 @@
       </div>
 
       <!-- THỰC HÀNH -->
-      <h2>5. Thực hành: Lắp mạch nguồn 5V và 3,3V</h2>
+      <h2>5. Bài phân tích: Nguồn 5V và 3,3V</h2>
 
       <div class="callout callout-practice">
-        <div class="callout-header"><span class="callout-icon">🔬</span> Thực hành: Mạch nguồn đôi 5V + 3,3V</div>
+        <div class="callout-header"><span class="callout-icon">🔬</span> Phân tích/mô phỏng mạch nguồn đôi 5V + 3,3V</div>
+        <p>Chưa có mã và package IC, nguồn, tải và người duyệt phần cứng của người học. Các bước sau là checklist thiết kế trên giấy hoặc trong mô phỏng, không phải chỉ dẫn cấp điện. Chỉ lắp sau khi đối chiếu pinout, tụ ổn định, công suất nhiệt và giới hạn theo đúng datasheet part/package đang dùng.</p>
         <ol class="step-list">
-          <li class="step-item"><div class="step-content"><p><strong>Mạch 5V (LM7805):</strong> Khi chưa cấp điện, nối 9 V vào chân 1=IN, chân 2=GND, lấy 5 V ở chân 3=OUT. C_in (100µF và 100nF song song) nối giữa IN–GND; C_out nối giữa OUT–GND, đúng cực tụ hóa. Đo OUT so với GND.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Mạch 3,3V (AMS1117):</strong> Nối rail 5 V vào chân 3=IN; chân 1=GND; lấy 3,3 V ở chân 2/tab=OUT. C_in nối IN–GND; với IC AMS1117 của Advanced Monolithic Systems, dùng C_out 22 µF tantalum OUT–GND sát IC theo datasheet. Nếu dùng mã khác, tra lại loại tụ và giá trị của chính mã đó. Không đặt tụ nối tiếp rail.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Test tải nhẹ:</strong> Nối LED và điện trở riêng vào từng đầu ra. Đo điện áp không tải và có tải, ghi lại độ lệch; đối chiếu giới hạn datasheet thay vì mặc định một ngưỡng chung.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Đo ripple (nếu có oscilloscope):</strong> Dùng đầu dò và dây GND ngắn, ghi biên độ gợn thực tế ở tải đang thử; phụ thuộc nguồn, tụ, tải và cách đo.</p></div></li>
-          <li class="step-item"><div class="step-content"><p><strong>Kiểm tra nhiệt:</strong> Chỉ tăng tải sau khi tính công suất và chọn tản nhiệt. Dùng nhiệt kế để đo thân/tản nhiệt, ngắt nguồn trước khi thay tải; không chạm tay vào IC đang hoạt động vì có thể bỏng.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Mạch 5V (LM7805):</strong> Trên schematic ví dụ, đặt nguồn 9 V vào IN, GND làm mốc và lấy 5 V ở OUT; thêm C_in giữa IN–GND và C_out giữa OUT–GND. Pin số chỉ hợp lệ sau khi chọn đúng mã/package và đối chiếu datasheet. Tính công suất nhiệt trước khi chọn tải.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Mạch 3,3V (AMS1117):</strong> Trên schematic ví dụ, rail 5 V vào IN, GND làm mốc, 3,3 V ở OUT; C_in nối IN–GND. Với AMS1117 của Advanced Monolithic Systems, xét C_out 22 µF tantalum OUT–GND theo datasheet; mã/package khác phải tra lại pin và tụ ổn định. Không đặt tụ nối tiếp rail.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>So sánh tải nhẹ:</strong> Tính dòng qua LED và điện trở giả định ở từng đầu ra; trong mô phỏng, ghi điện áp không tải/có tải và đối chiếu giới hạn datasheet.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Gợn nguồn:</strong> Dự đoán ảnh hưởng của tụ và tải; chỉ khi có mạch đã được duyệt mới dùng oscilloscope với đầu dò/dây GND phù hợp để đo và ghi điều kiện đo.</p></div></li>
+          <li class="step-item"><div class="step-content"><p><strong>Nhiệt:</strong> Tính P=(V_in−V_out)I và T_j theo điện trở nhiệt đúng package/PCB. Nếu sau này đo trên mạch đã duyệt, ngắt nguồn trước khi thay tải và không chạm IC đang hoạt động.</p></div></li>
         </ol>
       </div>
 
@@ -179,17 +180,17 @@
         <div class="exercise-part">
           <div class="exercise-part-title">IC LDO và thiết kế nguồn (4 câu)</div>
           <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">LM7805, V_in=9V, I_out=300mA. Tính P_heat và nhiệt độ IC (R_θJA=50°C/W không tản nhiệt). Có cần tản nhiệt không?</div></div>
-          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">AMS1117-3.3, V_in=5V USB, I_out=500mA. Tính P_heat. Tại sao AMS1117 ít cần tản nhiệt hơn LM7805 trong trường hợp này?</div></div>
+          <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">AMS1117-3.3, V_in=5 V tại chân IC, I_out=500 mA. Tính P_heat; vì sao chưa thể kết luận cần hay không cần tản nhiệt chỉ từ công suất?</div></div>
           <div class="exercise-item"><span class="exercise-num">3</span><div class="exercise-text">Bạn cần 3,3V/2A cho board ESP32 nhiều ngoại vi. LDO hay buck converter? Giải thích.</div></div>
-          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Tại sao phải đặt tụ decoupling 100nF sát chân V_out của LM7805 thay vì chỉ có tụ lọc 100µF?</div></div>
+          <div class="exercise-item"><span class="exercise-num">4</span><div class="exercise-text">Theo datasheet TI LM7805, tụ đầu ra có bắt buộc cho ổn định không? Khi nào tụ gốm nhỏ sát OUT có ích?</div></div>
         </div>
         <div class="answer-section">
           <button class="answer-toggle">👁 Xem đáp án</button>
           <div class="answer-content">
-            <p><strong>1:</strong> P_heat = (9–5)×0,3 = <strong>1,2W</strong>. T_IC = 25 + 1,2×50 = 25+60 = <strong>85°C</strong>. Gần giới hạn an toàn (125°C max) — <strong>nên thêm tản nhiệt nhỏ</strong> để dự phòng.</p>
+            <p><strong>1:</strong> P_heat ≈ (9−5)×0,3 = <strong>1,2 W</strong>. Với R_θJA giả định 50 °C/W và môi trường 25 °C, T_j≈25+1,2×50=<strong>85 °C</strong>. Đây là ước lượng dưới giới hạn 125 °C ở giả định đã cho; kiểm lại nhiệt độ môi trường, package/PCB và dòng thực trước khi quyết định tản nhiệt.</p>
             <p><strong>2:</strong> P_heat ≈ (5–3,3)×0,5 = <strong>0,85 W</strong>. Đây là sụt áp trên IC, không phải “dropout”; dropout tối thiểu là thông số khác. SOT-223 vẫn có thể rất nóng ở 0,85 W: kiểm tra R_θJA theo diện tích đồng PCB, nhiệt độ môi trường và giới hạn T_j trước khi quyết định có cần tản nhiệt hoặc giảm tải.</p>
-            <p><strong>3:</strong> 3,3V/2A = 6,6W tải. Nếu V_in=5V: P_heat = (5–3,3)×2 = 3,4W → IC nóng, cần tản nhiệt lớn. <strong>Dùng buck converter</strong> (MP2307, AP62150...) — hiệu suất 90%+, ít nhiệt, phù hợp 2A.</p>
-            <p><strong>4:</strong> Tụ 100µF phản ứng chậm với dòng đột ngột (tần số cao). Tụ 100nF gốm phản ứng rất nhanh với transient tần số cao (MHz). Cả hai cùng nhau: 100µF xử lý ripple thấp tần, 100nF lọc nhiễu cao tần → điện áp ra sạch ở mọi tần số.</p>
+            <p><strong>3:</strong> 3,3 V/2 A = 6,6 W tải. Nếu V_in=5 V: tổn hao LDO lý tưởng hóa (5−3,3)×2=<strong>3,4 W</strong>, chưa kể dòng tĩnh; cần xét giải pháp buck có định mức, hiệu suất và tản nhiệt được kiểm ở điều kiện dùng thật, không chọn chỉ theo dòng quảng cáo.</p>
+            <p><strong>4:</strong> <a href="https://www.ti.com/lit/ds/symlink/lm7800.pdf" target="_blank" rel="noopener">TI LM7805 Rev. L</a> nói tụ đầu ra không bắt buộc cho ổn định, nhưng có thể cải thiện đáp ứng khi tải thay đổi; hình ứng dụng gợi ý 0,1 µF gốm nếu cần. Tụ 100 µF và 100 nF có ESR/ESL và dải trở kháng khác nhau; không thể kết luận ghép chúng làm đầu ra “sạch ở mọi tần số”.</p>
           </div>
         </div>
       </div>
@@ -197,9 +198,9 @@
       <div class="checklist">
         <div class="checklist-title">✅ Checklist Bài 13</div>
         <div class="checklist-item"><input type="checkbox" id="c1b13"><label for="c1b13">Tôi biết sự khác biệt giữa LDO và buck converter</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c2b13"><label for="c2b13">Tôi biết cách lắp mạch LM7805 và AMS1117 theo datasheet</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2b13"><label for="c2b13">Tôi biết phải kiểm pinout, tụ và giới hạn nhiệt theo đúng mã/package trước khi lắp</label></div>
         <div class="checklist-item"><input type="checkbox" id="c3b13"><label for="c3b13">Tôi tính được P_heat của IC LDO</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c4b13"><label for="c4b13">Tôi đã lắp mạch nguồn 5V và 3,3V thực tế — đo kiểm xong</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4b13"><label for="c4b13">Tôi đã giải bài tính nguồn 5 V/3,3 V và ghi phần chưa xác minh bằng phần cứng</label></div>
         <div class="checklist-item"><input type="checkbox" id="c5b13"><label for="c5b13">Tôi biết chọn LDO hay buck converter cho từng ứng dụng</label></div>
       </div>
 
