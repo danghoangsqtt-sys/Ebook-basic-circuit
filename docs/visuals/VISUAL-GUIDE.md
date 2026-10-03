@@ -40,3 +40,17 @@
 1. Đối chiếu hình với nội dung và nguồn kỹ thuật, sau đó cập nhật văn bản nếu hình phơi bày lỗi bài giảng.
 2. Chạy `python tools/check_visuals.py --require-all`, `python tools/check_links.py`, `python tools/build_search_index.py --check` sau khi tạo lại chỉ mục từ HTML đã sửa.
 3. Chạy `python tools/qa_lesson_visuals.py` và `python tools/qa_summary_visuals.py`; xem thêm hình ở điện thoại và desktop, kiểm tra chữ trong hình, caption, đường dẫn ảnh và không tràn ngang. Ghi kết quả trong tài liệu QA của tuần/Phase.
+
+## Rubric thay 80 khối ASCII — Phase 7
+
+Sổ kiểm hiện hành là `docs/curriculum/diagram-register.csv`; phát biểu cần nguồn là `docs/curriculum/technical-claims.csv`. ID cũ chỉ dùng để truy vết vị trí. Mức ưu tiên trong audit Phase 4 là dữ liệu lịch sử, không phải kết luận lỗi của HTML hiện tại.
+
+| Dạng | Cổng kỹ thuật trước xuất bản | Cổng hiển thị và bản chữ |
+| --- | --- | --- |
+| Schematic/ký hiệu | Mọi dây nối có nút rõ; ký hiệu chuẩn, cực tính, giá trị, rail nguồn và đường hồi; đối chiếu netlist với lời và datasheet đúng part/package | SVG nét rõ ở 320 px, không phụ thuộc màu; caption mô tả dòng đi và giới hạn mô hình |
+| Waveform/timing | Trục có biến/đơn vị, mức 0, biên độ/tần số/chu kỳ có điều kiện; các cạnh và thời điểm nhất quán với lời | Chữ và mốc thời gian đọc được khi phóng to; bản chữ nêu từng pha |
+| Breadboard/pinout/vật lý | Tách kết nối a–e/f–j, rãnh và rail; pinout ghi hướng nhìn, part/module và revision; rail thực đo thông mạch | Hình có chú thích chân và mô tả vị trí theo hàng/cột, không chỉ theo màu dây |
+| Luồng/hệ thống | Mũi tên phân biệt nguồn, dữ liệu, điều khiển và phản hồi; thứ tự có điều kiện rõ | Nội dung các khối có thể đọc theo văn bản tuyến tính bằng trình đọc màn hình |
+| Bảng tra/công thức văn bản | Ưu tiên HTML/table thay ảnh; đơn vị, ký hiệu và phép tính kiểm độc lập | Cho phép chọn chữ, đổi cỡ chữ và tìm kiếm nội dung |
+
+Một sơ đồ chỉ được đánh `verified` sau khi so với đoạn giảng, phép tính hoặc mô phỏng liên quan, nguồn kỹ thuật khi cần, và kiểm ở màn 320 px. Nếu thiếu model/revision, ghi `needs_exact_part` hoặc `needs_exact_module`, dùng ví dụ mô phỏng và không hướng dẫn cắm chân trên phần cứng chưa xác định. Các hình thử nghiệm phải giữ nguồn SVG chỉnh sửa được và bản chữ tương đương.

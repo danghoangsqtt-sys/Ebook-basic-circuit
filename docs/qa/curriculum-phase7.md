@@ -50,3 +50,29 @@ print('P7-01 inventory OK: 56 lessons, 80 ASCII blocks, 32 advanced codes')
 '@ | python -
 git diff --check
 ```
+
+## P7-02 — Sổ 80 sơ đồ và claim kỹ thuật (2026-10-03)
+
+### Phương pháp
+
+- Lấy ID từ danh mục kiểm Phase 4 như khóa truy vết rồi xác định lại từng `.circuit-ascii` trên HTML hiện tại; vị trí dòng cũ không được dùng làm vị trí hiện hành. `diagram-register.csv` lưu loại hình, rủi ro đọc/lắp và quyết định xử lý. `technical-claims.csv` lưu 17 phát biểu đầu tiên cần nguồn hoặc xác minh part/revision.
+- Một nhãn ưu tiên lịch sử chỉ giúp chọn thứ tự duyệt. Không tự động biến nó thành lỗi đang tồn tại. `visual_unresolved` nghĩa là khối ASCII vẫn chưa chuyển thành hình rõ ràng; nó không xác nhận mạch đã sai. `needs_revision` ở sổ claim là câu hiện tại cần sửa sau khi so với nguồn.
+- Đối chiếu tự động: 80 ID duy nhất, mọi `path:line` trỏ đúng dòng mở `.circuit-ascii`; gồm 48 schematic/ký hiệu, 4 waveform/timing, 12 breadboard/pinout/vật lý, 10 luồng/hệ thống, 6 bảng tra văn bản. Sổ claim có 17 ID duy nhất, tất cả tham chiếu ID sơ đồ có thật, URL có nguồn đều là HTTPS.
+- Kiểm tra mẫu hiện hành: sáu ví dụ trong ảnh người dùng vẫn là ASCII tại D01-1…D01-4, D02-1, D03-1. Các chú thích cực/nút ở D01-1 và rail D02-1 đã được bổ sung sau audit cũ, nhưng bố cục ký tự vẫn khó đọc trên điện thoại. Ký hiệu diode `▷|` còn ở D04-1/D11-1…D11-3, cần chuẩn hóa trong lượt vẽ lại.
+
+### Phát hiện ưu tiên
+
+| Vị trí | Phát hiện hiện tại | Hành động |
+| --- | --- | --- |
+| `week1/day01.html:334` | Chú thích Power/Signal GND có thể bị hiểu là phải tách ground trên mọi mạch ESP32; tài liệu TI không cho phép suy ra quy tắc chung đó. | P7-03 sửa ví dụ GND và giải thích đường hồi dòng theo mạch cụ thể. |
+| `week1/day01.html:347,355` | Câu điện áp thấp DC “không gây điện giật nguy hiểm” và ngưỡng 50 mA/điện trở cơ thể cố định quá tuyệt đối. OSHA mô tả nguy cơ phụ thuộc điều kiện, đường đi và thời gian tiếp xúc. | P7-03/P7-05 sửa lời an toàn; dùng thực hành nguồn thấp áp cách ly, hạn dòng, tránh điện lưới. |
+| `week1/day03.html:91` | Câu zigzag “phổ biến hơn trong tài liệu kỹ thuật” không có phạm vi/nguồn. | P7-03/P7-05 bỏ nhận xét phổ biến; minh họa cả hai quy ước. |
+| D11-3, D14-1, D15-2, D16-1, D17-1, D23-1, D24-1, D32-1, D35-1, D38-1 | Sơ đồ mạch/bus/nguồn rủi ro cao chủ yếu đang trình bày bằng ký tự và danh sách nối dây. Chưa xác nhận lỗi điện hiện tại. | P7-04 đối chiếu datasheet đúng model và netlist, vẽ lại hoặc ghi lý do giữ; khóa hướng dẫn lắp phần cứng nếu chưa kiểm. |
+
+### Nguồn dùng để mở hồ sơ claim
+
+- [OSHA Basic Electricity Safety](https://www.osha.gov/sites/default/files/2019-04/Basic_Electricity_Materials.pdf) và [OSHA 1910.269 Appendix C](https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.269AppC): điều kiện điện giật không thể gói thành một ngưỡng cố định phổ quát.
+- [Texas Instruments, Grounding in mixed-signal systems, Part 1](https://www.ti.com/lit/an/slyt499/slyt499.pdf): tên chân AGND/DGND không tự quyết định bố trí ground bên ngoài.
+- [Adafruit, Breadboard Tips & Tricks](https://learn.adafruit.com/breadboards-for-beginners/breadboard-tips-and-tricks): rail nguồn có thể bị ngắt; cần kiểm trên board thực.
+
+Các nguồn trên xác minh nguyên tắc, không chứng thực pinout của một module không rõ mã và revision. Các claim chưa có nguồn chính xác giữ trạng thái `needs_source`/`needs_exact_part`/`needs_exact_module`. Không có thử nghiệm phần cứng trong P7-02.
