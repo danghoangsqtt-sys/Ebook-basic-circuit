@@ -1,13 +1,14 @@
 """Check locally stored lesson illustrations and their source records.
 
 Usage: python tools/check_visuals.py [--require-all] [--json] [--root PATH]
-The default permits lessons that are still awaiting illustrations in Phase 4/5.
+--require-all also enforces the planned 56 overviews and 12 summary diagrams.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import re
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -16,6 +17,7 @@ from xml.etree import ElementTree
 
 LESSON_COUNT = 56
 MAX_RASTER_BYTES = 800_000
+SUMMARY_DAYS = {7, 14, 21, 28, 35, 42, 43, 48, 49, 50, 55, 56}
 
 
 class Images(HTMLParser):
@@ -70,6 +72,15 @@ def check(root: Path, require_all: bool) -> dict[str, object]:
     source_file = root / "assets/images/lessons/SOURCES.md"
     source_text = source_file.read_text(encoding="utf-8") if source_file.exists() else ""
     errors: list[str] = []
+    source_rows: dict[str, list[str]] = {}
+    for line in source_text.splitlines():
+        found = re.match(r"^\|\s*`([^`]+)`\s*\|", line)
+        if not found:
+            continue
+        name = found.group(1)
+        if name in source_rows:
+            errors.append(f"SOURCES.md: duplicate source record: {name}")
+        source_rows[name] = [part.strip() for part in line.split("|")]
     page_counts: dict[str, int] = {}
     assets: set[Path] = set()
     ascii_count = 0
@@ -84,8 +95,17 @@ def check(root: Path, require_all: bool) -> dict[str, object]:
         parser.feed(page.read_text(encoding="utf-8"))
         ascii_count += parser.ascii_count
         page_counts[rel.as_posix()] = sum(tag == "img" for _, tag, _ in parser.items)
+        names = [Path(urlsplit(attrs.get("src", "")).path).name
+                 for _, tag, attrs in parser.items if tag == "img"]
         if require_all and page_counts[rel.as_posix()] == 0:
             errors.append(f"{rel}: no lesson illustration")
+        if require_all:
+            overview = f"day{day:02d}-overview.svg"
+            if names.count(overview) != 1:
+                errors.append(f"{rel}: expected exactly one {overview}")
+            summary = f"day{day:02d}-summary.svg"
+            if names.count(summary) != (1 if day in SUMMARY_DAYS else 0):
+                errors.append(f"{rel}: unexpected or missing {summary}")
         for line, tag, attrs in parser.items:
             raw = attrs.get("src") if tag == "img" else attrs.get("srcset", "").split(",")[0].strip().split(" ")[0]
             path = target(root, page, raw or "")
@@ -100,8 +120,18 @@ def check(root: Path, require_all: bool) -> dict[str, object]:
                 errors.append(f"{where}: illustration outside lesson assets: {raw}")
                 continue
             assets.add(path)
-            if path.name not in source_text:
+            row = source_rows.get(path.name)
+            if not row:
                 errors.append(f"{where}: {path.name} has no source entry")
+            else:
+                origin = row[3] if len(row) > 3 else ""
+                licence = row[4] if len(row) > 4 else ""
+                if path.suffix.lower() == ".svg":
+                    if "Tự vẽ" not in origin or "Nội dung dự án" not in licence:
+                        errors.append(f"{where}: SVG provenance is incomplete: {path.name}")
+                elif not ("commons.wikimedia.org/wiki/File:" in origin
+                          and ("CC0" in licence or "Miền công cộng" in licence)):
+                    errors.append(f"{where}: raster source/licence is not verified CC0/public domain: {path.name}")
             if not is_valid_asset(path):
                 errors.append(f"{where}: invalid or unsupported image: {path.name}")
             if path.suffix.lower() != ".svg" and path.stat().st_size > MAX_RASTER_BYTES:

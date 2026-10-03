@@ -26,6 +26,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--start", type=int, default=1)
     parser.add_argument("--end", type=int, default=56)
+    parser.add_argument("--widths", nargs="+", type=int, default=[320, 360, 390, 430, 1280])
     args = parser.parse_args()
     if not 1 <= args.start <= args.end <= 56:
         raise ValueError("Invalid lesson range")
@@ -37,7 +38,7 @@ def main() -> int:
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch()
             try:
-                for width in (320, 390, 1280):
+                for width in args.widths:
                     page = browser.new_page(viewport={"width": width, "height": 900})
                     errors: list[str] = []
                     page.on("pageerror", lambda error: errors.append(str(error)))
@@ -56,6 +57,10 @@ def main() -> int:
                             scroll: document.documentElement.scrollWidth,
                             overview: Boolean(image),
                             expected: image?.getAttribute('src').split('/').at(-1),
+                            captions: [...document.querySelectorAll('.content-area .figure')].
+                              filter(fig => fig.querySelector('img')).
+                              every(fig => fig.querySelector('.figure-caption') &&
+                                fig.querySelector('.figure-source')?.textContent.trim()),
                             images: all.map(img => ({src: img.getAttribute('src'),
                               loaded: img.complete && img.naturalWidth > 0,
                               alt: Boolean(img.alt.trim()),
@@ -64,6 +69,7 @@ def main() -> int:
                           };
                         }""")
                         assert state["overview"], f"{path}: no overview image"
+                        assert state["captions"], f"{path}: missing figure caption/source"
                         assert state["expected"] == f"day{day:02}-overview.svg", f"{path}: wrong image"
                         assert state["scroll"] <= state["viewport"] + 1, f"{path} {width}px: horizontal overflow"
                         for image in state["images"]:
@@ -73,7 +79,7 @@ def main() -> int:
                         assert not errors, f"{path}: JavaScript error: {errors}"
                         cases += 1
                     page.close()
-                print(f"PASS {cases} lesson/viewport checks; days {args.start:02}–{args.end:02}; widths 320/390/1280px")
+                print(f"PASS {cases} lesson/viewport checks; days {args.start:02}–{args.end:02}; widths {'/'.join(map(str,args.widths))}px")
             finally:
                 browser.close()
     finally:

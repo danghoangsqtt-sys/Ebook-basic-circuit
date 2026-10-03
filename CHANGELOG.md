@@ -10,6 +10,8 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 - Thêm 14 sơ đồ Bài 15–28 và ba ảnh CC0 cho BJT, MOSFET, DHT22; chú thích rõ giới hạn suy luận từ ảnh linh kiện.
 - Thêm 14 sơ đồ Bài 29–42 và ba ảnh CC0 cho máy hiện sóng, PCB, cell Li-ion; sửa minh họa robot dùng đúng driver TB6612FNG.
 - Hoàn tất sơ đồ Bài 43–56 và ảnh ESP32 CC0; cả 56 bài đều có hình và qua 168 ca hiển thị mobile/desktop.
+- Thêm 12 sơ đồ tổng hợp cuối bài kèm bản diễn giải chữ cho các bài ôn tập, đồ án và định hướng; rà đúng năm hướng học tiếp ở Bài 55.
+- Nghiệm thu toàn bộ hình, nguồn CC0/miền công cộng, mô tả thay thế, chú thích và bố cục điện thoại ở 320/360/390/430 px.
 
 - Hoàn tất kiểm định Phase 4: phân loại 80 sơ đồ ký tự và sửa 31 nhóm lỗi kỹ thuật trong sơ đồ, lời giảng, bài thực hành trước đợt vẽ hình.
 

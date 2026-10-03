@@ -38,5 +38,5 @@
 ## Kiểm tra trước khi đưa vào bài
 
 1. Đối chiếu hình với nội dung và nguồn kỹ thuật, sau đó cập nhật văn bản nếu hình phơi bày lỗi bài giảng.
-2. Chạy `python tools/check_visuals.py`, `python tools/check_links.py`, `python tools/build_search_index.py --check` sau khi tạo lại chỉ mục từ HTML đã sửa.
-3. Xem hình ở điện thoại và desktop; kiểm tra chữ trong hình, caption, đường dẫn ảnh và không tràn ngang. Ghi kết quả trong tài liệu QA của tuần/Phase.
+2. Chạy `python tools/check_visuals.py --require-all`, `python tools/check_links.py`, `python tools/build_search_index.py --check` sau khi tạo lại chỉ mục từ HTML đã sửa.
+3. Chạy `python tools/qa_lesson_visuals.py` và `python tools/qa_summary_visuals.py`; xem thêm hình ở điện thoại và desktop, kiểm tra chữ trong hình, caption, đường dẫn ảnh và không tràn ngang. Ghi kết quả trong tài liệu QA của tuần/Phase.

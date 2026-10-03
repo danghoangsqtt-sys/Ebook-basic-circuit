@@ -6,7 +6,7 @@ import argparse
 import json
 import re
 import textwrap
-from html import escape
+from html import escape, unescape
 from pathlib import Path
 
 
@@ -134,8 +134,10 @@ def main() -> int:
         spec = data[f'{day:02d}']
         page = ROOT / f'week{(day-1)//7+1}/day{day:02d}.html'
         html = page.read_text(encoding='utf-8')
+        headings = [unescape(re.sub(r'<[^>]+>', ' ', value)).strip()
+                    for value in re.findall(r'<h[23]\b[^>]*>(.*?)</h[23]>', html, re.S | re.I)]
         for node in spec['nodes']:
-            if node['section'] not in html:
+            if not any(node['section'].casefold() in heading.casefold() for heading in headings):
                 raise ValueError(f'Day {day}: missing section {node["section"]!r}')
         asset = ASSETS / f'day{day:02d}-summary.svg'
         svg = render(day, spec)

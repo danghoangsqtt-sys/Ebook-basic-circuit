@@ -1,0 +1,29 @@
+{
+  "id": "visual-phase6-mobile",
+  "status": "resolved",
+  "created_at": "2026-10-03T14:00:00+07:00",
+  "updated_at": "2026-10-03T14:00:00+07:00",
+  "problem": {
+    "description": "QA P6-02 thấy Bài 7 tràn ngang ở 320 px khi tăng cỡ chữ lên 24 px và mở bản diễn giải sơ đồ.",
+    "symptoms": ["documentElement.scrollWidth = 377 px trên viewport 320 px ở Chromium và WebKit"],
+    "error_messages": ["week1/day07.html 320px: overflow"],
+    "affected_files": ["week1/day07.html", "assets/css/style.css", "tools/qa_summary_visuals.py"]
+  },
+  "investigation": {
+    "hypotheses": [
+      {"id": 1, "description": "SVG tổng hợp hoặc bản chữ vượt khung", "status": "rejected"},
+      {"id": 2, "description": "Chuỗi mã màu trong .exercise-text không được ngắt khi cỡ chữ 24 px", "status": "confirmed"}
+    ],
+    "tests_run": [
+      {"command": "python tools/qa_summary_visuals.py", "output": "Bài 7 tràn 377/320 px; vùng exercise-text có scrollWidth 287/clientWidth 180", "timestamp": "2026-10-03T14:00:00+07:00"},
+      {"command": "python tools/qa_summary_visuals.py && python tools/qa_summary_visuals.py --browser webkit", "output": "Chromium và WebKit đều PASS: 12 SVG bounds, 36 ca viewport ở cỡ chữ 24 px mỗi trình duyệt", "timestamp": "2026-10-03T14:00:00+07:00"}
+    ],
+    "findings": ["SVG và bản chữ không gây tràn; câu bài tập mã màu dài gây tăng scrollWidth qua vùng exercise-text", "Tất cả 12 bài sơ đồ tổng hợp qua thử ở 320/390/1280 px sau sửa"]
+  },
+  "resolution": {
+    "root_cause": "Quy tắc overflow-wrap:anywhere ở mobile chưa áp dụng cho .exercise-text, nên chuỗi mã màu nối bằng dấu chấm giữa không ngắt khi chữ 24 px.",
+    "fix_applied": "Cho .exercise-text ngắt dòng tại ký tự bất kỳ khi cần; giữ nội dung đọc đầy đủ trong thẻ bài tập.",
+    "files_changed": ["assets/css/style.css", "tools/qa_summary_visuals.py"],
+    "verification": "Chromium và WebKit PASS 36 bài/viewport mỗi trình duyệt ở cỡ chữ 24 px với bản diễn giải mở; 12 SVG không cắt chữ."
+  }
+}

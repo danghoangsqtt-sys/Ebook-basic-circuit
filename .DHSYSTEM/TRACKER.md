@@ -3,7 +3,7 @@
 - Cập nhật: 2026-10-03
 - Trạng thái: Phase 1–5 hoàn tất; Phase 6 hình tổng hợp đang triển khai
 - Phase hiện tại: Phase 6
-- Việc kế tiếp: P6-02
+- Việc kế tiếp: Audit Phase 6
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -15,7 +15,7 @@
 | Phase 3 | 2 | 2 | Hoàn tất; audit/debug PASS |
 | Phase 4 | 4 | 4 | Hoàn tất; audit/debug PASS |
 | Phase 5 | 4 | 4 | Hoàn tất; audit/debug PASS |
-| Phase 6 | 2 | 1 | Đang triển khai |
+| Phase 6 | 2 | 2 | Chờ audit Phase 6 |
 
 ## Phase 1
 
@@ -103,7 +103,7 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 | P5-03 | PASS | 14 SVG và ba ảnh CC0; `docs/qa/visual-week5-6.md`; 42 ca viewport và cổng link/asset/index PASS |
 | P5-04 | PASS | 14 SVG, ảnh ESP32 CC0; `docs/qa/visual-week7-8.md`; 56/56 bài và 168 ca viewport PASS |
 | P6-01 | PASS | 12 SVG, bản diễn giải chữ; `docs/qa/visual-summaries.md`; 36 ca viewport và 12 SVG bounds PASS |
-| P6-02 | IN_PROGRESS | Rà nguồn, độ phủ, nội dung và trình duyệt toàn giáo trình |
+| P6-02 | PASS | `docs/qa/visual-final.md`; 56/56 bài, 280 ca viewport, Chromium/WebKit 24 px PASS |
 
 2026-10-02 P4-01: `python tools/check_visuals.py` 0 lỗi; fixture thiếu alt, ảnh, nguồn đều trả exit 1. Baseline `docs/qa/visual-baseline.md`.
 
@@ -124,3 +124,5 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 2026-10-03 Audit Phase 5: Tier 1 và Tier 3 PASS; Tier 2 phát hiện README/kiến trúc cũ, `dh-debug` đã sửa và lưu phiên. 56 SVG đúng spec, 56/56 bài có hình, 168 ca viewport PASS, 0 link/asset hỏng; xem `.DHSYSTEM/audit-report.md`. Phase 5 hoàn tất; chuyển P6-01.
 
 2026-10-03 P6-01: thêm 12 sơ đồ tổng hợp cuối bài kèm bản chữ, ánh xạ từng nhánh/khối tới đề mục. Sửa tổng quan Bài 55 để bốn nhóm bao phủ đúng năm hướng học trong bài. 12 SVG không cắt chữ; 36 ca viewport PASS; 56/56 bài có hình, 82 phần tử ảnh/83 tài sản, 59 trang/569 tham chiếu 0 hỏng, index và Chromium quick PASS. Chi tiết `docs/qa/visual-summaries.md`.
+
+2026-10-03 P6-02: nghiệm thu 56/56 bài, 83 tài sản/83 bản ghi nguồn, 280 ca viewport; Chromium/WebKit mỗi loại 36 ca sơ đồ tại 24 px với bản chữ mở đều PASS. `dh-debug` sửa tràn Bài 7 ở 320 px do chuỗi mã màu không ngắt; tăng tương phản nguồn ảnh. Chromium toàn bộ luồng và WebKit mẫu PASS, 569 liên kết 0 hỏng, chỉ mục hiện hành. Chi tiết `docs/qa/visual-final.md`. Chờ audit Phase 6.
