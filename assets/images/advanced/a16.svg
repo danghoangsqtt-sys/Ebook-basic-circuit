@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" viewBox="0 0 900 480" role="img" aria-labelledby="title desc">
+  <title id="title">A16: Hai đường đi và hồi dòng tạo hai diện tích vòng khác nhau</title>
+  <desc id="desc">Hai sơ đồ khép kín độc lập, mỗi sơ đồ có nguồn DC thấp áp ở trái và tải ở phải. Dòng tham chiếu đi từ cực dương nguồn dọc nhánh trên sang tải, xuống tải rồi theo nhánh dưới về cực âm nguồn. Chiều đi vòng nhìn trên trang là chiều kim đồng hồ, pháp tuyến thuận theo quy tắc tay phải hướng vào trang. Mạch trái dài 100 milimét, khoảng cách đi-hồi 10 milimét, diện tích vòng lý tưởng 0,001 mét vuông. Mạch phải cũng dài 100 milimét, khoảng cách 2 milimét, diện tích 0,0002 mét vuông. Các dấu nhân biểu thị từ trường ngoài hướng vào trang; hình không theo tỷ lệ và không phải PCB đã đo.</desc>
+  <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ffca80"/></marker></defs>
+  <rect width="900" height="480" rx="18" fill="#101827"/>
+  <g font-family="Arial,sans-serif" fill="#eaf4ff">
+    <text x="26" y="43" font-size="24" font-weight="700">Đường đi + đường hồi = một vòng kín</text>
+    <text x="26" y="72" font-size="17" fill="#bcd4e0">Chiều đi vòng: kim đồng hồ → pháp tuyến n hướng vào trang; hình không theo tỷ lệ</text>
+    <rect x="28" y="98" width="408" height="295" rx="13" fill="#183046" stroke="#6b8fa4"/>
+    <rect x="464" y="98" width="408" height="295" rx="13" fill="#183046" stroke="#6b8fa4"/>
+    <text x="48" y="129" font-size="20" font-weight="700">Vòng rộng: d = 10 mm</text>
+    <text x="484" y="129" font-size="20" font-weight="700">Vòng hẹp: d = 2 mm</text>
+    <g stroke="#a6d4e4" stroke-width="3" fill="none" stroke-linecap="round">
+      <path d="M88 186 H351 V204 M351 261 V310 H88 V261 M88 217 V186"/>
+      <circle cx="88" cy="239" r="22"/>
+      <rect x="326" y="204" width="50" height="57" rx="5"/>
+      <path d="M524 186 H787 V204 M787 261 V281 H524 V261 M524 217 V186"/>
+      <circle cx="524" cy="239" r="22"/>
+      <rect x="762" y="204" width="50" height="57" rx="5"/>
+    </g>
+    <text x="82" y="235" font-size="15">+</text><text x="83" y="254" font-size="15">−</text>
+    <text x="518" y="235" font-size="15">+</text><text x="519" y="254" font-size="15">−</text>
+    <text x="333" y="239" font-size="16">Tải</text><text x="769" y="239" font-size="16">Tải</text>
+    <path d="M160 171 H244 M281 325 H181 M596 171 H680 M717 296 H617" stroke="#ffca80" stroke-width="3" marker-end="url(#arr)"/>
+    <text x="155" y="160" font-size="15" fill="#ffca80">dòng đi →</text><text x="190" y="349" font-size="15" fill="#ffca80">← dòng hồi</text>
+    <text x="591" y="160" font-size="15" fill="#ffca80">dòng đi →</text><text x="626" y="319" font-size="15" fill="#ffca80">← dòng hồi</text>
+    <text x="202" y="252" font-size="31" fill="#76d6c1">×</text><text x="221" y="252" font-size="31" fill="#76d6c1">×</text>
+    <text x="638" y="244" font-size="31" fill="#76d6c1">×</text><text x="657" y="244" font-size="31" fill="#76d6c1">×</text>
+    <text x="135" y="377" font-size="17">A ≈ 0,001 m²</text><text x="572" y="377" font-size="17">A ≈ 0,0002 m²</text>
+    <rect x="28" y="410" width="844" height="49" rx="9" fill="#20354a" stroke="#76d6c1"/>
+    <text x="45" y="441" font-size="17">Nếu |dB/dt| = 0,1 T/s và vuông góc: |emf| ≈ 0,1 mV → 0,02 mV</text>
+  </g>
+</svg>

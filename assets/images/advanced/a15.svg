@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420" role="img" aria-labelledby="title desc">
+  <title id="title">A15: Nguồn 5 volt đặt trên hai bản cực song song</title>
+  <desc id="desc">Nguồn DC lý tưởng 5 volt ở bên trái, cực dương nối bản trên diện tích A bằng 0,01 mét vuông, cực âm nối bản dưới. Hai bản cách nhau d bằng 1 milimét, không chạm nhau. Mũi tên điện trường E chỉ từ bản dương xuống bản âm. Dây ngoài nguồn và hai bản là vòng cấp điện tích; không có dòng DC ổn định xuyên điện môi lý tưởng. Mô hình tính C xấp xỉ 88,5 picofarad, E xấp xỉ 5 kilovolt mỗi mét.</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#ffce88"/></marker></defs>
+  <rect width="760" height="420" rx="18" fill="#101827"/>
+  <g font-family="Arial,sans-serif" fill="#ecf7ff">
+    <text x="28" y="42" font-size="23" font-weight="700">Hai bản cực · giữ V = 5 V</text>
+    <text x="28" y="73" font-size="17" fill="#bdd5e4">Không khí ≈ chân không; bỏ qua trường rìa</text>
+    <g stroke="#9ac9d8" stroke-width="4" fill="none" stroke-linecap="round">
+      <path d="M80 182 V138 H345"/>
+      <path d="M80 238 V286 H345"/>
+      <circle cx="80" cy="210" r="28"/>
+      <path d="M345 138 H600 M345 286 H600" stroke-width="10"/>
+    </g>
+    <text x="71" y="203" font-size="20">+</text><text x="73" y="226" font-size="20">−</text>
+    <text x="24" y="315" font-size="18">Nguồn 5 V</text>
+    <text x="353" y="119" font-size="19" fill="#ffce88">+Q, bản trên</text>
+    <text x="353" y="319" font-size="19" fill="#ffce88">−Q, bản dưới</text>
+    <text x="605" y="164" font-size="18">A = 0,01 m²</text>
+    <g stroke="#ffce88" stroke-width="3" marker-end="url(#arrow)">
+      <path d="M400 165 V257"/><path d="M475 165 V257"/><path d="M550 165 V257"/>
+    </g>
+    <text x="435" y="230" font-size="20" fill="#ffce88">E ↓</text>
+    <path d="M660 145 V279" stroke="#76d6c1" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text x="670" y="218" font-size="18" fill="#76d6c1">d = 1 mm</text>
+    <rect x="28" y="350" width="704" height="48" rx="9" fill="#20354a" stroke="#75c7b6"/>
+    <text x="43" y="381" font-size="18">C ≈ ε₀A/d ≈ 88,5 pF · E ≈ V/d = 5 kV/m</text>
+  </g>
+</svg>

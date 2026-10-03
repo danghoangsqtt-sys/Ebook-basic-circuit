@@ -146,6 +146,8 @@ const CURRICULUM = {
         { id: 'a12', number: 'A12', title: 'Thévenin & Norton', file: '../advanced/a12.html' },
         { id: 'a13', number: 'A13', title: 'Phân Tích Mạch RC/RL Quá Độ', file: '../advanced/a13.html' },
         { id: 'a14', number: 'A14', title: 'Mạch RLC & Cộng Hưởng', file: '../advanced/a14.html' },
+        { id: 'a15', number: 'A15', title: 'Điện Trường Đến Điện Dung', file: '../advanced/a15.html' },
+        { id: 'a16', number: 'A16', title: 'Từ Trường, Cảm Ứng & Đường Hồi Dòng', file: '../advanced/a16.html' },
       ]
     }
   ]

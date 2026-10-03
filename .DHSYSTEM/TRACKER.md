@@ -2,8 +2,8 @@
 
 - Cập nhật: 2026-10-03
 - Trạng thái: Phase 1–6 hoàn tất; Phase 7 PASS trong phạm vi nội dung số/phân tích và mô phỏng có điều kiện, phần cứng thật còn pending; Phase 8 đang triển khai, Phase 9–10 chưa mở
-- Phase hiện tại: Phase 8 — P8-01…P8-04 PASS trong phạm vi số; P8-05 kế tiếp; cổng phần cứng theo `docs/qa/curriculum-hardware-pending.md`
-- Việc kế tiếp: Viết A15–A16 về trường điện/từ và đường hồi dòng sau cổng P8-04; tiếp tục phân biệt mô hình với PCB/đo thật
+- Phase hiện tại: Phase 8 — P8-01…P8-05 PASS trong phạm vi số; P8-06 kế tiếp; cổng phần cứng theo `docs/qa/curriculum-hardware-pending.md`
+- Việc kế tiếp: Audit học thuật cuối Phase 8 trên 16 bài, lời giải, sơ đồ, nguồn, an toàn và phần cứng pending
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -17,7 +17,7 @@
 | Phase 5 | 4 | 4 | Hoàn tất; audit/debug PASS |
 | Phase 6 | 2 | 2 | Hoàn tất; audit/debug PASS |
 | Phase 7 | 6 | 6 số / 4 đầy đủ | P7-04/P7-06 PASS nội dung số; phần cứng thật còn chờ |
-| Phase 8 | 6 | 4 | P8-01…P8-04 PASS nội dung số; P8-05/P8-06 TODO |
+| Phase 8 | 6 | 5 | P8-01…P8-05 PASS nội dung số; P8-06 TODO |
 | Phase 9 | 5 | 0 | Kế hoạch; phụ thuộc Phase 8 |
 | Phase 10 | 4 | 0 | Kế hoạch; phụ thuộc Phase 9 |
 
@@ -141,7 +141,7 @@ Nguồn task và tiêu chí: `.DHSYSTEM/CURRICULUM-PLAN.md`. Chưa có bài mớ
 | Phase | Task | Trạng thái |
 | --- | --- | --- |
 | 7 | P7-01–P7-03/P7-05 PASS; P7-04/P7-06 PASS nội dung số, phần cứng pending | Qua cổng số, chưa nghiệm thu thiết bị thật |
-| 8 | P8-01…P8-04 PASS; P8-05/P8-06 TODO | Đang làm trên nhánh nội dung số |
+| 8 | P8-01…P8-05 PASS; P8-06 TODO | Đang làm trên nhánh nội dung số |
 | 9 | P9-01, P9-02, P9-03, P9-04, P9-05 | TODO |
 | 10 | P10-01, P10-02, P10-03, P10-04 | TODO |
 
@@ -166,3 +166,5 @@ Mỗi P7-06/P8-06/P9-05/P10-04 là cổng `dh-audit` và `dh-debug`; chỉ chuy�
 2026-10-03 P8-03: A05–A08 và bốn SVG tự vẽ xuất bản; đối chiếu diode/LED/TVS Vishay/Nexperia/Littelfuse, Würth/ADI inductor/bead, MEAN WELL adapter, TI LM7805/LM2596 và Murata đúng mã tụ. Audit độc lập không thấy P0/P1; hai P2 điều hướng/trạng thái được sửa trong `session-phase8-p8-03-audit.json`. Chỉ phép tính giấy/bảng tính; chưa có ERC/SPICE/đo thật. Bằng chứng `docs/qa/curriculum-phase8.md`.
 
 2026-10-03 P8-04: A09–A14 có sáu sơ đồ tự vẽ, ví dụ, hoạt động bảng tính và đáp án; OpenStax/MIT chứng minh phương pháp, ADI có mạch lab tham khảo. `verify_phase8_numeric.py` kiểm độc lập nghiệm DC, RC/RL và RLC; 73 trang/868 link 0 hỏng, menu 56+14, search 70, checker 14/14. Chromium full 189 ca bài/viewport và WebKit quick 136 ca cùng reader/library/backup PASS. Rà chéo không thấy P0/P1; hai P2 hình A09/A10 đã sửa và xác minh 320 px trong `session-phase8-p8-04-audit.json`. Không có SPICE/đo/PCB thật; xem `docs/qa/curriculum-phase8.md`.
+
+2026-10-04 P8-05: A15–A16 và hai SVG tự vẽ đã xuất bản theo OpenStax §8.1/8.3/13.1 và TI SCAA082A §1.6; bảng tính trường/điện dung/đường hồi có `verify_phase8_fields.py` kiểm độc lập. Rà `dh-audit` phát hiện và `dh-debug` sửa điều kiện góc trường xoay so với cố định. 16/16 trang nâng cao, 75 trang/890 link 0 hỏng, menu 56+16, search 72; Chromium full 205 ca bài/viewport PASS, WebKit riêng A15/A16 320 px/24 px PASS. Chưa FEM/PCB/EMC đo, P8-06 chưa audit cuối; xem `docs/qa/curriculum-phase8.md`.

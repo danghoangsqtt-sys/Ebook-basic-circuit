@@ -1,0 +1,30 @@
+{
+  "id": "phase8-p8-05-audit",
+  "status": "resolved",
+  "created_at": "2026-10-04",
+  "updated_at": "2026-10-04",
+  "problem": {
+    "description": "dh-audit of A15–A16 found an ambiguous Faraday-law exercise condition.",
+    "symptoms": [
+      "A16 originally asked what happens when the field rotates to 90 degrees, but a field rotating during the observation can itself induce emf even if its final angle to the loop normal is 90 degrees"
+    ],
+    "affected_files": ["advanced/a16.html"]
+  },
+  "investigation": {
+    "root_cause": "The exercise conflated a fixed 90-degree field orientation with the transient rotation process; the derivative of flux must include changes in both field magnitude and angle.",
+    "tests_run": [
+      {"command": "primary-source comparison with OpenStax University Physics 2 §13.1", "output": "Faraday emf is negative time derivative of flux; orientation changes can induce emf"},
+      {"command": "python tools/verify_phase8_fields.py", "output": "A15 electric-field and A16 fixed-angle magnetic examples match independent numeric calculations"},
+      {"command": "python tools/check_advanced.py", "output": "16 advanced pages, no structural errors"},
+      {"command": "python tools/check_links.py", "output": "75 pages, 890 references, no broken local targets"},
+      {"command": "targeted WebKit 320px/24px A15–A16", "output": "No page overflow; figure regions preserve native 760/900px widths and scroll"}
+    ]
+  },
+  "resolution": {
+    "changes": [
+      "Specified that the 90-degree field direction is fixed while only its magnitude changes",
+      "Explained that emf may arise during the rotation and that zero flux at a final instant alone does not imply zero emf"
+    ],
+    "remaining": "Ideal uniform-field model only; no FEM, PCB EMC measurement, physical part validation or reviewer sign-off is claimed."
+  }
+}
