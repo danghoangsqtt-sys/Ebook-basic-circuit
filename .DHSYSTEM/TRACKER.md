@@ -2,8 +2,8 @@
 
 - Cập nhật: 2026-10-03
 - Trạng thái: Phase 1–6 hoàn tất; Phase 7–10 đã lập kế hoạch, chưa triển khai
-- Phase hiện tại: Phase 7 — chờ thực hiện P7-01
-- Việc kế tiếp: P7-01 lập ma trận 56 bài và xác nhận phạm vi/độc giả/board trước khi viết bài mới
+- Phase hiện tại: Phase 7 — P7-01 in_progress
+- Việc kế tiếp: Hoàn tất ma trận 56 bài và syllabus baseline trước P7-02
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -16,7 +16,7 @@
 | Phase 4 | 4 | 4 | Hoàn tất; audit/debug PASS |
 | Phase 5 | 4 | 4 | Hoàn tất; audit/debug PASS |
 | Phase 6 | 2 | 2 | Hoàn tất; audit/debug PASS |
-| Phase 7 | 6 | 0 | Kế hoạch; chưa triển khai |
+| Phase 7 | 6 | 0 | Đang làm P7-01 |
 | Phase 8 | 6 | 0 | Kế hoạch; phụ thuộc Phase 7 |
 | Phase 9 | 5 | 0 | Kế hoạch; phụ thuộc Phase 8 |
 | Phase 10 | 4 | 0 | Kế hoạch; phụ thuộc Phase 9 |
@@ -140,7 +140,7 @@ Nguồn task và tiêu chí: `.DHSYSTEM/CURRICULUM-PLAN.md`. Chưa có bài mớ
 
 | Phase | Task | Trạng thái |
 | --- | --- | --- |
-| 7 | P7-01, P7-02, P7-03, P7-04, P7-05, P7-06 | TODO |
+| 7 | P7-01 in_progress; P7-02 đến P7-06 TODO | Đang làm |
 | 8 | P8-01, P8-02, P8-03, P8-04, P8-05, P8-06 | TODO |
 | 9 | P9-01, P9-02, P9-03, P9-04, P9-05 | TODO |
 | 10 | P10-01, P10-02, P10-03, P10-04 | TODO |
