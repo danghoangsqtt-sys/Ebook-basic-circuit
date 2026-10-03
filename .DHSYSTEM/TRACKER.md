@@ -103,7 +103,7 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 | P5-03 | PASS | 14 SVG và ba ảnh CC0; `docs/qa/visual-week5-6.md`; 42 ca viewport và cổng link/asset/index PASS |
 | P5-04 | PASS | 14 SVG, ảnh ESP32 CC0; `docs/qa/visual-week7-8.md`; 56/56 bài và 168 ca viewport PASS |
 | P6-01 | PASS | 12 SVG, bản diễn giải chữ; `docs/qa/visual-summaries.md`; 36 ca viewport và 12 SVG bounds PASS |
-| P6-02 | PLANNED | — |
+| P6-02 | IN_PROGRESS | Rà nguồn, độ phủ, nội dung và trình duyệt toàn giáo trình |
 
 2026-10-02 P4-01: `python tools/check_visuals.py` 0 lỗi; fixture thiếu alt, ảnh, nguồn đều trả exit 1. Baseline `docs/qa/visual-baseline.md`.
 
