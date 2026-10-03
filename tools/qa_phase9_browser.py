@@ -1,4 +1,4 @@
-"""Targeted Phase 9 mobile/zoom/browser check for published A17–A24."""
+"""Targeted Phase 9 mobile/zoom/browser check for published A17–A28."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from playwright.sync_api import sync_playwright
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PAGES = [f"a{number:02}.html" for number in range(17, 25)]
+PAGES = [f"a{number:02}.html" for number in range(17, 29)]
 
 
 class QuietHandler(SimpleHTTPRequestHandler):

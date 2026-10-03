@@ -105,7 +105,7 @@ def render(lesson: dict[str, object], index: int) -> str:
     title = str(lesson["title"])
     prev_id = f"a{21 + index:02}"
     prev_title = "FSM, Clock & Kiểm Timing" if index == 0 else str(LESSONS[index - 1]["title"])
-    next_nav = (f'<a href="a{23 + index:02}.html" class="lesson-nav-btn"><div><div class="nav-label">Bài tiếp →</div><div class="nav-title">A{23 + index:02}: {escape(str(LESSONS[index + 1]["title"]))}</div></div></a>' if index < 2 else "")
+    next_nav = (f'<a href="a{23 + index:02}.html" class="lesson-nav-btn"><div><div class="nav-label">Bài tiếp →</div><div class="nav-title">A{23 + index:02}: {escape(str(LESSONS[index + 1]["title"]))}</div></div></a>' if index < len(LESSONS) - 1 else "")
     objectives = "".join(f"<li>{item}</li>" for item in lesson["objectives"])
     checks = "".join(f'<div class="checklist-item"><input type="checkbox" id="{lesson_id}c{i}"><label for="{lesson_id}c{i}">{escape(item)}</label></div>' for i, item in enumerate(lesson["checks"], 1))
     return f'''<!DOCTYPE html>

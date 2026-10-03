@@ -156,6 +156,10 @@ const CURRICULUM = {
         { id: 'a22', number: 'A22', title: 'CPU, Bộ Nhớ, Bus & Hệ Xử Lý', file: '../advanced/a22.html' },
         { id: 'a23', number: 'A23', title: 'Ngoại Vi MCU & Lab GPIO Pico', file: '../advanced/a23.html' },
         { id: 'a24', number: 'A24', title: 'So Board Theo Mã & Revision', file: '../advanced/a24.html' },
+        { id: 'a25', number: 'A25', title: 'Bản Đồ Cảm Biến Theo Đại Lượng', file: '../advanced/a25.html' },
+        { id: 'a26', number: 'A26', title: 'Cảm Biến Nhiệt, Ánh Sáng & Từ', file: '../advanced/a26.html' },
+        { id: 'a27', number: 'A27', title: 'Áp Suất, Chuyển Động & Khoảng Cách', file: '../advanced/a27.html' },
+        { id: 'a28', number: 'A28', title: 'Sai Số, Hiệu Chuẩn & Lọc Cảm Biến', file: '../advanced/a28.html' },
       ]
     }
   ]

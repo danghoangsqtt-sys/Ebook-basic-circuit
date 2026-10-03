@@ -247,6 +247,7 @@ def check_reader_data_flow(browser, server: ThreadingHTTPServer) -> None:
     page.locator(".a11y-btn-theme").click()
     page.locator(".reader-data-link").click()
     check(page.url.endswith("reader-data.html"), "Lesson backup link failed")
+    page.wait_for_function("typeof ReaderData !== 'undefined'", timeout=5000)
     page.evaluate("""() => {
       localStorage.removeItem('ebook-fontsize-px');
       localStorage.setItem('ebook-fontsize', '4');

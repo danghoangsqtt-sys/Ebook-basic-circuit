@@ -5,7 +5,7 @@
   "project": "Giao trinh Ky thuat Dien tu Co ban",
   "status": "in_progress",
   "current_phase": "Phase 9",
-  "next_task": "P9-03",
+  "next_task": "P9-04",
   "phase_inventory": [
     {
       "id": "Phase 1",
@@ -117,5 +117,5 @@
   "curriculum_source_session": "docs/brainstorm/session-2026-10-03-curriculum-rebuild.md",
   "curriculum_plan": ".DHSYSTEM/CURRICULUM-PLAN.md",
   "curriculum_stakeholder_review_complete": true,
-  "curriculum_scope_assumption": "56 foundation lessons plus 32 planned advanced articles; Phase 7 and Phase 8 A01-A16 PASS digital/analytic scope, Phase 9 P9-01/P9-02 A17-A24 PASS digital/table/host-GPIO-schedule scope, physical board/hardware gates pending; next P9-03 A25-A28"
+  "curriculum_scope_assumption": "56 foundation lessons plus 32 planned advanced articles; Phase 7 and Phase 8 A01-A16 PASS digital/analytic scope, Phase 9 P9-01/P9-02/P9-03 A17-A28 PASS digital/table/host scope, physical board/sensor hardware gates pending; next P9-04 integrated lab"
 }

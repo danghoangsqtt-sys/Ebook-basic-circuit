@@ -1,0 +1,27 @@
+{
+  "id": "phase9-p9-03-audit",
+  "status": "resolved",
+  "created_at": "2026-10-04",
+  "updated_at": "2026-10-04",
+  "problem": {
+    "description": "P9-03 dh-audit đối chiếu datasheet và hình render; dh-debug sửa claim BMP280, đồ thị A28 và race trong QA Chromium.",
+    "symptoms": [
+      "Bản nháp A25/A27 ghi BMP280 resolution 0,01 hPa theo trang tổng quan trong khi datasheet Rev. 1.26 Table 2 ghi output resolution 0,0016 hPa ở mode ultra-high-resolution; ±1 hPa cần nêu typical và điều kiện",
+      "Đường danh định trên SVG A28 nằm sai phía đường fit, nhãn sai số chồng lên nét vẽ",
+      "QA toàn site có lần đọc ReaderData ngay khi reader-data.html vừa điều hướng xong, trước khi script của trang sẵn sàng"
+    ],
+    "affected_files": ["tools/build_phase9_sensor_lessons.py", "advanced/a25.html", "advanced/a27.html", "assets/images/advanced/a28.svg", "docs/curriculum/advanced-phase9-source-ledger.md", "docs/curriculum/advanced-coverage-matrix.csv", "tools/qa_browser.py"]
+  },
+  "investigation": {
+    "root_cause": "Số resolution của trang sản phẩm bị chuyển thành claim datasheet không kèm mode; SVG hai đường không được đối chiếu tọa độ với phương trình; QA dùng URL thay cho điều kiện script đã tải.",
+    "sources_checked": ["Bosch BMP280 DS001 Rev. 1.26 Table 2 và Table 13", "ADI TMP36 Rev. H", "ST VL53L1X Rev. 8 Table 13 và mục 7.3", "TI DRV5032 Rev. H Table 4-1"]
+  },
+  "resolution": {
+    "changes": [
+      "Đổi BMP280 thành output resolution 0,0016 hPa chỉ ở ultra-high-resolution; ±1 hPa accuracy typical ở 950–1050 hPa và 0–40 °C; 5,5 ms typical ở preset ultra-low-power",
+      "Vẽ lại A28: đường danh định thấp hơn đường fit, nhãn nằm ngoài nét; render và kiểm bằng mắt",
+      "QA chờ typeof ReaderData !== undefined trước khi đọc trạng thái; Chromium toàn site chạy lại PASS"
+    ],
+    "remaining": "Không có sensor/breakout, chuẩn đo, board hoặc log phần cứng; chưa xác nhận accuracy/đáp ứng thực. Không còn P0/P1 được xác nhận trong phạm vi nội dung số P9-03."
+  }
+}
