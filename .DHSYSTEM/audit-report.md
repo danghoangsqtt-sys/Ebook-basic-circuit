@@ -266,6 +266,10 @@ Audit P10-03 phát hiện thiếu skip link ở trang bài, và JS cuộn mượ
 
 P10-04 đạt audit/debug cuối **cho nội dung số và mô hình**. Không đóng nghiệm thu phần cứng của Phase 7–10: cần mã/revision thiết bị thật, CAD/ERC/DRC, nạp target, đo và reviewer ký theo `docs/qa/curriculum-hardware-pending.md`. Mô hình ADC/nguồn và net bằng chữ không được trình bày là SPICE, schematic CAD hoặc PCB sản xuất.
 
+## Cổng lưu Git
+
+Sau commit `428056a` và push lên `origin/main`, kiểm `git status --porcelain` rỗng, upstream là `origin/main`, `git rev-list --count @{u}..HEAD` bằng `0`. Đợt này có một mốc commit cuối; các tag task/phase lịch sử còn thiếu như ghi ở Tier 1.
+
 ## Tier 4
 
 Không áp dụng: đây là kho giáo trình, không phải framework DHSYSTEM.
