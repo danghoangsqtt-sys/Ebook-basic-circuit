@@ -100,7 +100,7 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 | P4-04 | PASS | 31/31 nhóm lỗi đã sửa; `docs/qa/visual-technical-fixes.md`; QA Chromium và cổng link/asset/index đạt |
 | P5-01 | PASS | 14 SVG và 4 ảnh thật đã kiểm giấy phép; `docs/qa/visual-week1-2.md`; 42 ca mobile/desktop, link/asset/index PASS |
 | P5-02 | PASS | 14 SVG, ba ảnh CC0; `docs/qa/visual-week3-4.md`; 42 ca viewport và cổng link/asset/index PASS |
-| P5-03 | PLANNED | — |
+| P5-03 | IN_PROGRESS | Đang biên tập sơ đồ Bài 29–42 |
 | P5-04 | PLANNED | — |
 | P6-01 | PLANNED | — |
 | P6-02 | PLANNED | — |
