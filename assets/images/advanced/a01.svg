@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="450" viewBox="0 0 880 450" role="img" aria-labelledby="title desc">
+  <title id="title">A01: kiểm công suất điện trở với điện áp và dung sai</title>
+  <desc id="desc">Nguồn một chiều 12 volt nối qua điện trở 1 kiloohm dung sai cộng trừ 5 phần trăm về cực âm. Biên điện trở nhỏ nhất là 950 ohm; công suất lớn nhất theo mô hình điện áp không đổi là 0,152 watt. Mũi tên thể hiện dòng từ cực dương qua điện trở về cực âm.</desc>
+  <rect width="880" height="450" rx="18" fill="#0d1b2a"/>
+  <text x="40" y="53" fill="#f8fafc" font-family="Arial,sans-serif" font-size="27" font-weight="700">Từ yêu cầu mạch đến biên công suất</text>
+  <text x="40" y="84" fill="#b7c9da" font-family="Arial,sans-serif" font-size="17">Mô hình DC lý tưởng · không thay cho kiểm tra datasheet và nhiệt độ PCB</text>
+  <rect x="45" y="116" width="470" height="278" rx="16" fill="#142b40" stroke="#5c7891" stroke-width="2"/>
+  <line x1="100" y1="170" x2="245" y2="170" stroke="#e7f0f8" stroke-width="4"/>
+  <line x1="335" y1="170" x2="455" y2="170" stroke="#e7f0f8" stroke-width="4"/>
+  <line x1="455" y1="170" x2="455" y2="340" stroke="#e7f0f8" stroke-width="4"/>
+  <line x1="455" y1="340" x2="100" y2="340" stroke="#e7f0f8" stroke-width="4"/>
+  <line x1="100" y1="170" x2="100" y2="230" stroke="#e7f0f8" stroke-width="4"/>
+  <line x1="100" y1="280" x2="100" y2="340" stroke="#e7f0f8" stroke-width="4"/>
+  <line x1="76" y1="232" x2="124" y2="232" stroke="#f8fafc" stroke-width="4"/>
+  <line x1="85" y1="257" x2="115" y2="257" stroke="#f8fafc" stroke-width="4"/>
+  <text x="50" y="239" fill="#f8fafc" font-family="Arial,sans-serif" font-size="18">+</text>
+  <text x="50" y="277" fill="#f8fafc" font-family="Arial,sans-serif" font-size="18">−</text>
+  <text x="120" y="260" fill="#f8fafc" font-family="Arial,sans-serif" font-size="18" font-weight="700">12 V DC</text>
+  <rect x="245" y="148" width="90" height="44" rx="5" fill="#e8f2fb" stroke="#e8f2fb"/>
+  <text x="260" y="175" fill="#102235" font-family="Arial,sans-serif" font-size="17" font-weight="700">R1</text>
+  <text x="222" y="220" fill="#f8fafc" font-family="Arial,sans-serif" font-size="19">1 kΩ ±5%</text>
+  <path d="M365 135h50m-12-10 12 10-12 10" fill="none" stroke="#43d9a3" stroke-width="3"/>
+  <text x="365" y="116" fill="#43d9a3" font-family="Arial,sans-serif" font-size="17">I</text>
+  <rect x="540" y="116" width="295" height="278" rx="16" fill="#173329" stroke="#43d9a3" stroke-width="2"/>
+  <text x="563" y="154" fill="#f8fafc" font-family="Arial,sans-serif" font-size="22" font-weight="700">Kiểm trường hợp xấu</text>
+  <text x="563" y="200" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="19">Rmin = 1000 × 0,95</text>
+  <text x="563" y="229" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="19">= 950 Ω</text>
+  <text x="563" y="275" fill="#e9f5ef" font-family="Arial,sans-serif" font-size="19">Pmax = 12² ÷ 950</text>
+  <text x="563" y="304" fill="#f8fafc" font-family="Arial,sans-serif" font-size="23" font-weight="700">≈ 0,152 W</text>
+  <text x="563" y="352" fill="#b6e9d2" font-family="Arial,sans-serif" font-size="17">Tiếp: so P, U, T, xung và package</text>
+  <text x="45" y="431" fill="#b7c9da" font-family="Arial,sans-serif" font-size="14">Sơ đồ tự vẽ; nguồn định luật và phép tính: P = V²/R. Không chỉ định part cho lắp thật.</text>
+</svg>

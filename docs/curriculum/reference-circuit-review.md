@@ -25,6 +25,16 @@ Ngày tra cứu: 2026-10-03. Mục đích: dùng sơ đồ ứng dụng của **
 
 ## Cách dùng sổ này
 
+## Mạch tham chiếu cho tuyến chuyên sâu A01–A04
+
+| Bài | Mạch/hình thật của hãng | Vai trò trong bài và giới hạn suy luận |
+| --- | --- | --- |
+| A01–A02 | [Analog Devices CN0560, sơ đồ chuỗi đo dòng và Fig. 9 layout](https://www.analog.com/en/resources/reference-designs/circuits-from-the-lab/CN0560.html): điện trở shunt bốn cực, sense Kelvin, analog front-end/ADC | Dùng làm ví dụ **mạch đo đã thiết kế** để giải thích vì sao đường dòng lớn tách khỏi đường sense. Các trị số và sai số chỉ áp dụng đúng dải đo, part và PCB của CN0560; bài A01/A02 không coi đây là mạch lắp mặc định. |
+| A03–A04 | [TI SCEA042, §2.4 và Fig. 10](https://www.ti.com/lit/an/scea042/scea042.pdf): tụ bypass nối các rail và chân nguồn của TWL1200, placement trên PCB | Dùng đối chiếu sơ đồ tụ bulk/bypass, vòng dòng và vị trí tụ gần IC. Giá trị trong note là thiết kế cho TWL1200 và rail tương ứng; không chuyển nguyên BOM sang một IC bất kỳ. |
+| A04 | [Murata, điều kiện đo MLCC và Fig. 3 DC-bias](https://ds.murata.com/simsurfing_data/pdf/en-us/mlcc/sim_mlcc_measuringcond_e.pdf) | Dùng làm chứng cứ C0G và X5R có hành vi theo DC bias khác nhau. Fig. 3 là ví dụ, không phải đường cong C–V của mã tụ trong bài toán; lấy Ceff từ dữ liệu đúng part trước khi thiết kế thật. |
+
+Mỗi bài A cần kèm sơ đồ tự vẽ, phép tính có giả định, và link ngay cạnh thông số của part. Mạch tham chiếu giúp kiểm topology và layout; kết luận phần cứng vẫn chờ board/revision, điều kiện tải và phép đo.
+
 1. Khi sửa một bài, mở đúng nguồn ghi ở hàng tương ứng và đối chiếu **tên part, package, hướng nhìn pin, cực tính, net, dải điện áp/dòng, nhiệt, dung sai và điều kiện thử**; ghi URL và ngày kiểm ngay cạnh claim quan trọng.
 2. Dùng mạch tham chiếu để **vẽ lại** hình của giáo trình và kiểm lời giải, không lấy ảnh PDF của hãng làm tài sản của dự án. Với module chưa có PCB/revision, chỉ giữ sơ đồ chức năng và bài tính/mô phỏng; chuyển bước cấp điện thành điều kiện chờ trong [sổ phần cứng](../qa/curriculum-hardware-pending.md).
 3. Một sơ đồ ứng dụng trong datasheet, ERC hoặc mô phỏng không thay phép đo trên board thật. Kết quả kiểm mã nguồn và trình duyệt nằm trong [QA Phase 7](../qa/curriculum-phase7.md).

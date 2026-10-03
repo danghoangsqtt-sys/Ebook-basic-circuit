@@ -7,7 +7,7 @@
   "properties": {
     "version": { "const": 1 },
     "id": { "type": "string", "minLength": 1, "maxLength": 128 },
-    "lessonId": { "type": "string", "pattern": "^day(0[1-9]|[1-4][0-9]|5[0-6])$" },
+    "lessonId": { "type": "string", "pattern": "^(day(0[1-9]|[1-4][0-9]|5[0-6])|a(0[1-9]|[12][0-9]|3[0-2]))$" },
     "quote": { "type": "string", "minLength": 1, "maxLength": 1000 },
     "anchor": {
       "type": "object",

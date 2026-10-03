@@ -5,7 +5,8 @@
   const STORAGE_KEY = 'ebook-highlights-v1';
   const root = new URL('../../', document.currentScript.src);
   const titleById = new Map(CURRICULUM.weeks.flatMap(week => week.lessons.map(lesson => [
-    `day${String(lesson.day).padStart(2, '0')}`, `Bài ${lesson.day}: ${lesson.title}`
+    lesson.id || `day${String(lesson.day).padStart(2, '0')}`,
+    `${lesson.number || `Bài ${lesson.day}`}: ${lesson.title}`
   ])));
   const query = document.querySelector('#highlight-query');
   const lessonFilter = document.querySelector('#highlight-lesson');
@@ -18,7 +19,7 @@
 
   function valid(record) {
     return record && record.version === 1 && typeof record.id === 'string' && record.id.length > 0
-      && /^day(0[1-9]|[1-4][0-9]|5[0-6])$/.test(record.lessonId)
+      && /^(?:day(?:0[1-9]|[1-4][0-9]|5[0-6])|a(?:0[1-9]|[12][0-9]|3[0-2]))$/.test(record.lessonId)
       && typeof record.quote === 'string' && record.quote.length > 0 && record.quote.length <= 1000
       && record.anchor && typeof record.anchor.prefix === 'string' && record.anchor.prefix.length <= 120
       && typeof record.anchor.suffix === 'string' && record.anchor.suffix.length <= 120
@@ -44,6 +45,7 @@
   }
 
   function lessonUrl(id) {
+    if (id.startsWith('a')) return new URL(`advanced/${id}.html`, root);
     const day = Number(id.slice(3));
     return new URL(`week${Math.ceil(day / 7)}/day${String(day).padStart(2, '0')}.html`, root);
   }

@@ -18,7 +18,11 @@ from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parent.parent
 LESSONS = [f"week{(day - 1) // 7 + 1}/day{day:02}.html" for day in range(1, 57)]
-SAMPLES = ["week1/day01.html", "week4/day28.html", "week8/day56.html"]
+ADVANCED = [f"advanced/{path.name}" for path in sorted((ROOT / "advanced").glob("a[0-9][0-9].html"))]
+LESSONS.extend(ADVANCED)
+SAMPLES = ["week1/day01.html", "week4/day28.html", "week8/day56.html", *ADVANCED]
+TOTAL_LESSONS = len(LESSONS)
+TOTAL_GROUPS = 8 + int(bool(ADVANCED))
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
@@ -57,10 +61,10 @@ def check_home(browser, server: ThreadingHTTPServer) -> int:
         page.goto(page_url(server, "index.html"))
         page.locator("#full-catalog a").first.wait_for(state="attached")
         check(page.evaluate("document.documentElement.scrollWidth <= innerWidth"), f"Home overflows at {width}")
-        check(page.locator(".roadmap article").count() == 8, "Home must show 8 weeks")
+        check(page.locator(".roadmap article").count() == TOTAL_GROUPS, "Home roadmap group count mismatch")
         links = page.locator("#full-catalog a")
-        check(links.count() == 56, "Home must expose 56 lessons")
-        check(len(set(links.evaluate_all("nodes => nodes.map(node => node.pathname)"))) == 56,
+        check(links.count() == TOTAL_LESSONS, "Home lesson count mismatch")
+        check(len(set(links.evaluate_all("nodes => nodes.map(node => node.pathname)"))) == TOTAL_LESSONS,
               "Home lesson URLs must be unique")
         check(page.locator("h1").count() == 1, "Home must have one h1")
     check(not errors, f"Home JavaScript errors: {errors}")
@@ -79,14 +83,14 @@ def check_layout(browser, server: ThreadingHTTPServer, quick: bool) -> int:
         page.locator(".ebook-search-trigger").wait_for()
         width = page.evaluate("document.documentElement.scrollWidth")
         check(width <= 320, f"{path} overflows at 320px: {width}px")
-        check(page.locator(".sidebar-lesson").count() == 56, f"{path} sidebar has != 56 lessons")
+        check(page.locator(".sidebar-lesson").count() == TOTAL_LESSONS, f"{path} sidebar lesson count mismatch")
         if path in SAMPLES:
-            for query, expected in (("điện áp", "day01"), ("dien ap", "day01"),
-                                    ("voltage", "day01"), ("resistor", "day03"),
-                                    ("capacitor", "day08"), ("sensor", "day27"),
-                                    ("pcb", "day33")):
+            for query, expected in (("điện áp", {"day01"}), ("dien ap", {"day01"}),
+                                    ("voltage", {"day01"}), ("resistor", {"day03", "a01", "a02"}),
+                                    ("capacitor", {"day08", "a03", "a04"}), ("sensor", {"day27"}),
+                                    ("pcb", {"day33"})):
                 first = page.evaluate("q => EbookSearch.search(q)[0]", query)
-                check(first and first["id"] == expected and first["snippet"] and first["heading"],
+                check(first and first["id"] in expected and first["snippet"] and first["heading"],
                       f"Search quality failed for {query} on {path}: {first}")
         count += 1
     for path in SAMPLES:
@@ -128,7 +132,8 @@ def check_reader_flow(browser, server: ThreadingHTTPServer) -> None:
     page.locator(".reader-font-controls button").click()
     check(page.locator("#reader-font-size").input_value() == "16", "Font reset failed")
 
-    check(page.locator(".progress-label").inner_text().startswith("1/56"), "Visit progress not recorded")
+    progress_label = page.locator(".progress-label").inner_text()
+    check(progress_label.startswith(f"1/{TOTAL_LESSONS}"), f"Visit progress not recorded: {progress_label}")
     checklist = page.locator('.checklist-item input[type="checkbox"]').first
     checklist.check()
     page.reload()
@@ -340,9 +345,38 @@ def check_reader_data_flow(browser, server: ThreadingHTTPServer) -> None:
     page.close()
 
 
+def check_advanced_reader_flow(browser, server: ThreadingHTTPServer) -> None:
+    if not ADVANCED:
+        return
+    page = browser.new_page(viewport={"width": 390, "height": 800}, accept_downloads=True)
+    errors: list[str] = []
+    page.on("pageerror", lambda error: errors.append(str(error)))
+    page.goto(page_url(server, ADVANCED[0]))
+    page.locator("[data-action=highlight]").wait_for(state="attached")
+    check(page.locator(".progress-label").inner_text().startswith(f"1/{TOTAL_LESSONS}"),
+          "Advanced visit progress not recorded")
+    page.locator(".checklist-item input[type=checkbox]").first.check()
+    select_prose(page)
+    page.locator(".ebook-selection-trigger").click()
+    page.locator("[data-action=highlight]").click()
+    check(page.evaluate("EbookHighlights.getAll()[0]?.lessonId") == "a01", "Advanced highlight ID mismatch")
+    page.goto(page_url(server, "highlights.html"))
+    page.locator(".highlight-state[data-state=anchored]").first.wait_for()
+    check(page.locator(".highlight-item").count() == 1, "Advanced highlight missing from library")
+    check("advanced/a01.html" in page.locator(".highlight-item a").first.get_attribute("href"),
+          "Advanced highlight link points to wrong page")
+    page.goto(page_url(server, "reader-data.html"))
+    current = page.evaluate("ReaderData.readCurrent()")
+    check(current["progress"].get("a01") is True, "Advanced progress missing from backup")
+    check(current["checklists"].get("a01", {}).get("0") is True, "Advanced checklist missing from backup")
+    check(current["highlights"][0]["lessonId"] == "a01", "Advanced highlight missing from backup")
+    check(not errors, f"Advanced reader JavaScript errors: {errors[:3]}")
+    page.close()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--quick", action="store_true", help="scan 3 lessons instead of all 56")
+    parser.add_argument("--quick", action="store_true", help="scan foundation samples and published advanced lessons")
     parser.add_argument("--browser", choices=("chromium", "webkit"), default="chromium")
     args = parser.parse_args()
     server = ThreadingHTTPServer(("127.0.0.1", 0), partial(QuietHandler, directory=str(ROOT)))
@@ -357,6 +391,7 @@ def main() -> int:
                 check_reader_flow(browser, server)
                 check_library_flow(browser, server)
                 check_reader_data_flow(browser, server)
+                check_advanced_reader_flow(browser, server)
             finally:
                 browser.close()
     finally:

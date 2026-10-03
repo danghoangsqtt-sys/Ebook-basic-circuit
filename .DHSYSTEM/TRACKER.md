@@ -2,8 +2,8 @@
 
 - Cập nhật: 2026-10-03
 - Trạng thái: Phase 1–6 hoàn tất; Phase 7 PASS trong phạm vi nội dung số/phân tích và mô phỏng có điều kiện, phần cứng thật còn pending; Phase 8 đang triển khai, Phase 9–10 chưa mở
-- Phase hiện tại: Phase 8 — P8-01 PASS, P8-02 kế tiếp; cổng phần cứng Phase 7 theo `docs/qa/curriculum-hardware-pending.md`
-- Việc kế tiếp: Viết A01–A04 theo spec và nguồn hãng; không công bố hướng dẫn lắp mạch rủi ro trước khi có part/module/revision và người duyệt
+- Phase hiện tại: Phase 8 — P8-01/P8-02 PASS, P8-03 kế tiếp; cổng phần cứng Phase 7 theo `docs/qa/curriculum-hardware-pending.md`
+- Việc kế tiếp: Viết A05–A08 theo sổ nguồn hãng, giữ giới hạn nguồn thấp áp cách ly và chưa duyệt phần cứng trước khi có part/module/revision
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -17,7 +17,7 @@
 | Phase 5 | 4 | 4 | Hoàn tất; audit/debug PASS |
 | Phase 6 | 2 | 2 | Hoàn tất; audit/debug PASS |
 | Phase 7 | 6 | 6 số / 4 đầy đủ | P7-04/P7-06 PASS nội dung số; phần cứng thật còn chờ |
-| Phase 8 | 6 | 1 | P8-01 PASS đặc tả nội dung số; P8-02 kế tiếp |
+| Phase 8 | 6 | 1 | P8-01 PASS đặc tả nội dung số; P8-02 in_progress |
 | Phase 9 | 5 | 0 | Kế hoạch; phụ thuộc Phase 8 |
 | Phase 10 | 4 | 0 | Kế hoạch; phụ thuộc Phase 9 |
 
@@ -141,7 +141,7 @@ Nguồn task và tiêu chí: `.DHSYSTEM/CURRICULUM-PLAN.md`. Chưa có bài mớ
 | Phase | Task | Trạng thái |
 | --- | --- | --- |
 | 7 | P7-01–P7-03/P7-05 PASS; P7-04/P7-06 PASS nội dung số, phần cứng pending | Qua cổng số, chưa nghiệm thu thiết bị thật |
-| 8 | P8-01 PASS; P8-02–P8-06 TODO | Đang làm trên nhánh nội dung số |
+| 8 | P8-01/P8-02 PASS; P8-03–P8-06 TODO | Đang làm trên nhánh nội dung số |
 | 9 | P9-01, P9-02, P9-03, P9-04, P9-05 | TODO |
 | 10 | P10-01, P10-02, P10-03, P10-04 | TODO |
 
@@ -160,3 +160,5 @@ Mỗi P7-06/P8-06/P9-05/P10-04 là cổng `dh-audit` và `dh-debug`; chỉ chuy�
 2026-10-03 P7-04/P7-06 cổng nội dung số: đã đối chiếu sơ đồ ứng dụng và datasheet hãng ở `docs/curriculum/reference-circuit-review.md`, sửa thêm lỗi nguồn/giới hạn/tính toán tại D12/D13/D16/D19/D21/D23/D24/D30/D32/D36/D40/D42 và đồng bộ `coverage-matrix.csv`. Audit độc lập cuối không thấy P0/P1 trong vùng đã sửa; bốn lệch P2 đã sửa bằng `dh-debug`. 80 ID/17 claim locator, 56/56 ảnh, 709 link, 56 menu/search, 168 viewport 24 px, Chromium quick PASS. `docs/qa/curriculum-hardware-pending.md` giữ cổng part/module/revision, ERC/đo và người duyệt. Phase 8 được phép soạn nhánh số theo phụ lục `CURRICULUM-PLAN.md`, không được hiểu là Phase 7 đã chứng nhận mạch thật.
 
 2026-10-03 P8-01: `docs/curriculum/advanced-phase8-syllabus.md` khóa 16 mã A01–A16, từng bài có outcome, tiên quyết/toán, thời lượng, ví dụ giải, hoạt động số, bài tập/đáp án/rubric và nguồn gốc. Kiểm cấu trúc 16/16 đủ trường/URL HTTPS PASS; bằng chứng `docs/qa/curriculum-phase8.md`. Chưa có 16 trang A01–A16 hoặc phép mô phỏng/đo thật.
+
+2026-10-03 P8-02: A01–A04 và bốn SVG tự vẽ đã xuất bản; đối chiếu Vishay, TDK, Murata, Nichicon và mạch tham chiếu ADI/TI. Ma trận A01–A04, sổ nguồn hình và sổ mạch có giới hạn claim. 63 trang/754 liên kết 0 lỗi, menu 56+4, search 60, Chromium full 109 ca bài/viewport, WebKit quick và sao lưu/dấu A01 PASS. Audit `dh-audit` sửa ba lệch tài liệu qua `dh-debug`; không còn P0/P1 được xác nhận. Chưa có CSV SimSurfing, ERC hoặc đo mạch thật; xem `docs/qa/curriculum-phase8.md`.

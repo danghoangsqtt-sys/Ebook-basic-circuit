@@ -5,7 +5,7 @@
   const root = new URL('../../', document.currentScript.src);
   const STORAGE = { highlights: 'ebook-highlights-v1', progress: 'lessonProgress', font: 'ebook-fontsize-px', theme: 'ebook-theme', weeks: 'weekStates' };
   const maxFileBytes = 5 * 1024 * 1024;
-  const dayPattern = /^day(0[1-9]|[1-4][0-9]|5[0-6])$/;
+  const lessonPattern = /^(?:day(?:0[1-9]|[1-4][0-9]|5[0-6])|a(?:0[1-9]|[12][0-9]|3[0-2]))$/;
   const exportButton = document.querySelector('#export-button');
   const exportStatus = document.querySelector('#export-status');
   const fileInput = document.querySelector('#import-file');
@@ -38,7 +38,7 @@
     return keysAre(record, ['version', 'id', 'lessonId', 'quote', 'anchor', 'createdAt'],
       ['version', 'id', 'lessonId', 'quote', 'anchor', 'createdAt'])
       && record.version === 1 && typeof record.id === 'string' && record.id.length > 0 && record.id.length <= 128
-      && dayPattern.test(record.lessonId)
+      && lessonPattern.test(record.lessonId)
       && typeof record.quote === 'string' && record.quote.length > 0 && record.quote.length <= 1000
       && keysAre(record.anchor, ['prefix', 'suffix', 'occurrence', 'sectionId'], ['prefix', 'suffix', 'occurrence'])
       && typeof record.anchor.prefix === 'string' && record.anchor.prefix.length <= 120
@@ -49,10 +49,10 @@
   }
 
   function validDayMap(value) {
-    return plain(value) && Object.entries(value).every(([day, done]) => dayPattern.test(day) && typeof done === 'boolean');
+    return plain(value) && Object.entries(value).every(([day, done]) => lessonPattern.test(day) && typeof done === 'boolean');
   }
   function validChecklists(value) {
-    return plain(value) && Object.entries(value).every(([day, checks]) => dayPattern.test(day)
+    return plain(value) && Object.entries(value).every(([day, checks]) => lessonPattern.test(day)
       && plain(checks) && Object.entries(checks).every(([index, done]) => /^(0|[1-9][0-9]?)$/.test(index) && typeof done === 'boolean'));
   }
   function validWeeks(value) {
@@ -83,6 +83,7 @@
     return raw === null ? fallback : JSON.parse(raw);
   }
   function checklistKey(day) {
+    if (day.startsWith('a')) return `checklist_${new URL(`advanced/${day}.html`, root).pathname}`;
     const number = Number(day.slice(3));
     return `checklist_${new URL(`week${Math.ceil(number / 7)}/${day}.html`, root).pathname}`;
   }
@@ -93,8 +94,9 @@
       if (!key || !key.startsWith('checklist_')) continue;
       const path = key.slice('checklist_'.length);
       if (!path.startsWith(root.pathname)) continue;
-      const match = path.match(/\/week[1-8]\/(day\d\d)\.html$/);
-      if (match && dayPattern.test(match[1]) && key === checklistKey(match[1])) found.set(match[1], key);
+      const match = path.match(/\/(?:week[1-8]\/day\d\d|advanced\/a\d\d)\.html$/);
+      const lessonId = match?.[0].match(/(day\d\d|a\d\d)\.html$/)?.[1];
+      if (lessonId && lessonPattern.test(lessonId) && key === checklistKey(lessonId)) found.set(lessonId, key);
     }
     return found;
   }

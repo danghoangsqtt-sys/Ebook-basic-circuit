@@ -29,14 +29,14 @@
   }
 
   function currentLessonId() {
-    const match = window.location.pathname.match(/(?:^|\/)day(0[1-9]|[1-4][0-9]|5[0-6])\.html$/);
-    return match ? `day${match[1]}` : null;
+    const match = window.location.pathname.match(/\/(?:week[1-8]\/)?(day(?:0[1-9]|[1-4][0-9]|5[0-6])|a(?:0[1-9]|[12][0-9]|3[0-2]))\.html$/);
+    return match ? match[1] : null;
   }
 
   function validRecord(record) {
     return record && typeof record === 'object' && record.version === 1
       && typeof record.id === 'string' && record.id.length > 0
-      && /^day(0[1-9]|[1-4][0-9]|5[0-6])$/.test(record.lessonId)
+      && /^(?:day(?:0[1-9]|[1-4][0-9]|5[0-6])|a(?:0[1-9]|[12][0-9]|3[0-2]))$/.test(record.lessonId)
       && typeof record.quote === 'string' && record.quote.length > 0 && record.quote.length <= 1000
       && record.anchor && typeof record.anchor === 'object'
       && typeof record.anchor.prefix === 'string' && record.anchor.prefix.length <= 120
@@ -394,7 +394,7 @@
     const library = document.createElement('a');
     library.className = 'ebook-highlights-library-link';
     library.href = script?.src ? new URL('../../highlights.html', script.src).href : new URL('../highlights.html', document.baseURI).href;
-    library.textContent = 'Mở thư viện dấu của 56 bài →';
+    library.textContent = 'Mở thư viện dấu bài học →';
     panel.append(summary, status, privacy, library, list);
     const selectionStatus = content.querySelector('.ebook-selection-status');
     if (selectionStatus) selectionStatus.after(panel);

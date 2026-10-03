@@ -2,7 +2,7 @@
 
 ## Tổng quan
 
-Website là tập trang HTML tĩnh. Trang chủ là `index.html`; 56 bài nằm trong `week1/`–`week8/`. Mỗi bài dùng `assets/css/style.css`, `assets/js/main.js` và `assets/js/sidebar-data.js`. Phase 1 đã thêm công cụ đọc/tìm kiếm trong tài nguyên dùng chung.
+Website là tập trang HTML tĩnh. Trang chủ là `index.html`; 56 bài nền nằm trong `week1/`–`week8/`, các bài chuyên sâu đã xuất bản nằm trong `advanced/`. Mỗi bài dùng `assets/css/style.css`, `assets/js/main.js` và `assets/js/sidebar-data.js`. Phase 1 đã thêm công cụ đọc/tìm kiếm trong tài nguyên dùng chung.
 
 ## DHSYSTEM organization context
 
@@ -10,18 +10,18 @@ Không có `.DHSYSTEM/META.md` hoặc profile tổ chức. Dự án được x�
 
 ## Tuyến biên tập nội dung Phase 7–10 (đang triển khai)
 
-Đây là quy trình tạo/kiểm nội dung cho website tĩnh hiện có, không thêm backend. Nguồn chính là HTML 56 bài và bài chuyên sâu dự kiến; ma trận bao phủ, sổ sơ đồ và sổ claim làm hồ sơ duyệt. P7-05 đã đồng bộ 56 nhãn menu trong `assets/js/sidebar-data.js` với tiêu đề thật, giữ nguyên URL; trang đầu đọc chung dữ liệu `CURRICULUM`, còn `assets/js/search-index.js` được sinh từ HTML bằng `tools/build_search_index.py`. `tools/check_navigation.py` kiểm tra độ khớp sau mỗi lần sửa bài.
+Đây là quy trình tạo/kiểm nội dung cho website tĩnh hiện có, không thêm backend. Nguồn chính là HTML 56 bài nền và bốn bài chuyên sâu A01–A04 đã có; ma trận bao phủ, sổ sơ đồ và sổ claim làm hồ sơ duyệt. P7-05 đã đồng bộ 56 nhãn menu nền trong `assets/js/sidebar-data.js` với tiêu đề thật, giữ nguyên URL; trang đầu đọc chung dữ liệu `CURRICULUM`, còn `assets/js/search-index.js` được sinh từ tất cả bài đã xuất bản bằng `tools/build_search_index.py`. `tools/check_navigation.py` kiểm tra độ khớp sau mỗi lần sửa bài.
 
 Luồng duyệt: kiểm bài hiện hành → ghi claim/diagram và mức rủi ro → đối chiếu tài liệu hãng đúng part/revision → tính tay/mô phỏng/ERC khi áp dụng → reviewer xem net, cực tính, lời bài và đáp án → xuất SVG/HTML kèm mô tả chữ → kiểm 320 px và chỉ mục/link. Không xem kết quả ERC hay hiển thị là chứng nhận mạch đã hoạt động trên phần cứng thật. Chỉ ghi `verified_hardware` khi có nhật ký đo với model và điều kiện thử.
 
-P7-03/P7-04 hiện dùng SVG tự vẽ có `title`/`desc` và bản chữ cạnh hình; `tools/check_diagram_register.py` theo dõi 80 ID. KiCad `.kicad_sch` vẫn là ứng viên cho sơ đồ điện cần ERC ở các bài chuyên sâu, chưa dùng để chứng nhận SVG hiện tại. Bài mới dự kiến `advanced/a01.html`–`advanced/a32.html` là baseline tác nghiệp của P7-01, chưa phải xác nhận board hoặc thiết bị người học. Sơ đồ kiến trúc hệ thống hiện có vẫn mô tả ứng dụng đọc; chưa cần sidecar Mermaid mới cho quy trình biên tập.
+P7-03/P7-04 hiện dùng SVG tự vẽ có `title`/`desc` và bản chữ cạnh hình; `tools/check_diagram_register.py` theo dõi 80 ID. KiCad `.kicad_sch` vẫn là ứng viên cho sơ đồ điện cần ERC ở các bài chuyên sâu, chưa dùng để chứng nhận SVG hiện tại. A01–A04 là bốn bài đầu của tuyến dự kiến `advanced/a01.html`–`advanced/a32.html`; sơ đồ và phép tính chưa xác nhận board hoặc thiết bị người học. `tools/check_advanced.py` kiểm hình, nguồn, mục tiêu và bài tập của các trang A đã xuất bản. Sơ đồ kiến trúc hệ thống hiện có vẫn mô tả ứng dụng đọc; chưa cần sidecar Mermaid mới cho quy trình biên tập.
 
 ## Quyết định công nghệ
 
 | Quyết định | Lý do | Giới hạn |
 | --- | --- | --- |
 | HTML/CSS/JavaScript thuần | Phù hợp kho mã hiện tại, không cần hạ tầng mới cho các tính năng đã chốt | Cần kỷ luật tách module dùng chung |
-| Chỉ mục tìm kiếm tĩnh tạo từ 56 bài | Tìm nội bộ nhanh và nhất quán với nội dung gốc | Cần chạy lại bộ tạo chỉ mục khi biên tập bài |
+| Chỉ mục tìm kiếm tĩnh tạo từ mọi bài đã xuất bản | Tìm nội bộ nhanh và nhất quán với nội dung gốc | Cần chạy lại bộ tạo chỉ mục khi biên tập bài |
 | `localStorage` cho dữ liệu đọc | Không cần tài khoản để dùng công cụ đọc | Theo origin/thiết bị, có thể bị chặn; cần xuất JSON để có bản sao lưu |
 | JSON version 1 để xuất/nhập | Người đọc chủ động chuyển dữ liệu, xem trước xung đột trước khi ghi | Không đồng bộ tự động; rollback nhiều khóa phụ thuộc quyền lưu trữ của trình duyệt |
 | Selection/Range + neo bằng đoạn trích/ngữ cảnh | Phục hồi dấu sau khi tải lại, chịu được một phần thay đổi HTML | Không tô nếu quote/ngữ cảnh không khớp chắc chắn |
@@ -32,11 +32,11 @@ P7-03/P7-04 hiện dùng SVG tự vẽ có `title`/`desc` và bản chữ cạnh
 | Module | Trách nhiệm | Nguồn/đích |
 | --- | --- | --- |
 | Landing | Giới thiệu, lộ trình, lối vào bài | `index.html`, `assets/css/home.css`, `assets/js/home.js` |
-| Lesson shell | Header, menu tuần/bài, vùng đọc | 56 tệp `week*/day*.html` + `sidebar-data.js` |
+| Lesson shell | Header, menu tuần/bài, vùng đọc | 56 tệp `week*/day*.html`, các tệp `advanced/a*.html` đã xuất bản + `sidebar-data.js` |
 | Reader settings | Thanh kéo, khôi phục cỡ chữ, chế độ lưu thất bại | `assets/js/main.js` |
 | Selection actions | Xác thực đoạn chọn, menu desktop/mobile, URL Google/YouTube | `assets/js/selection-actions.js` |
 | Highlights | Tạo/xóa/khôi phục dấu, đối chiếu quote/ngữ cảnh | `assets/js/highlights.js` + `localStorage` |
-| Search index | Trích tiêu đề/đề mục/đoạn từ 56 bài | Script tạo chỉ mục, `assets/js/search-index.js` |
+| Search index | Trích tiêu đề/đề mục/đoạn từ mọi bài đã xuất bản | Script tạo chỉ mục, `assets/js/search-index.js` |
 | Search UI | Xếp hạng tiêu đề/đề mục/nội dung, từ đồng nghĩa Anh–Việt và đoạn trích khớp | `assets/js/search.js`, `assets/css/search.css` |
 | Highlight library | Tìm/lọc dấu xuyên bài, đối chiếu neo với HTML bài, mở/xóa từng dấu | `highlights.html`, `assets/js/highlight-library.js`, `assets/css/highlight-library.css` |
 | Reader data | Xuất/nhập JSON, xác thực toàn bộ tệp, xem trước, gộp/thay thế và cố khôi phục khi ghi lỗi | `reader-data.html`, `assets/js/reader-data.js`, `assets/css/reader-data.css`, `.DHSYSTEM/schemas/reader-export.schema.json` |
@@ -48,7 +48,7 @@ Chỉ mục `.js` được tạo bằng `tools/build_search_index.py`; sau khi b
 1. Mở trang bài → mã chung dựng điều hướng, tải cỡ chữ đã lưu và dấu của bài.
 2. Chọn một đoạn trong vùng bài → kiểm tra đoạn chọn, hiển thị công cụ gần đoạn chọn.
 3. “Đánh dấu” → lưu `lessonId`, quote, ngữ cảnh và vị trí; render dấu khi có thể xác minh.
-4. “Tìm bài liên quan” → tra chỉ mục 56 bài, ưu tiên tiêu đề/đề mục rồi nội dung; kết quả hiển thị ngay trên website.
+4. “Tìm bài liên quan” → tra chỉ mục của các bài đã xuất bản, ưu tiên tiêu đề/đề mục rồi nội dung; kết quả hiển thị ngay trên website.
 5. “Tìm giải thích trên Google” hoặc “Tìm video YouTube” → tạo URL truy vấn an toàn và mở tab mới sau thao tác của người dùng.
 6. Mở thư viện dấu → đọc bản ghi cục bộ, tải HTML của từng bài có dấu để xác thực neo; dấu còn neo mở bằng `?highlight=<id>`, dấu mất neo chỉ mở đầu bài.
 7. Xuất dữ liệu → đọc các khóa `localStorage` của bộ đọc, chuyển cỡ chữ phiên bản cũ nếu cần, xác thực và tải JSON. Nhập dữ liệu → kiểm tra tệp, xem trước số dấu/xung đột, chọn gộp/thay thế rồi mới ghi; khi ghi lỗi thì thử phục hồi các khóa cũ.

@@ -1,12 +1,12 @@
 # Giáo trình Kỹ thuật Điện tử Cơ bản
 
-Website tĩnh tiếng Việt gồm 56 bài tự học điện tử thực hành trong 8 tuần. Bắt đầu tại [trang mở đầu](index.html) hoặc [Bài 1](week1/day01.html).
+Website tĩnh tiếng Việt gồm 56 bài nền tảng trong 8 tuần và các bài chuyên sâu đang được biên soạn. Bắt đầu tại [trang mở đầu](index.html) hoặc [Bài 1](week1/day01.html).
 
 ## Xem tại máy
 
 Từ thư mục dự án, chạy `python -m http.server 8000`, rồi mở `http://localhost:8000/`. Dùng HTTP để lưu cỡ chữ, checklist và các đoạn đánh dấu trong trình duyệt; hành vi lưu trữ khi mở tệp `file:` có thể khác giữa trình duyệt.
 
-Trang đầu có lộ trình 8 tuần và danh sách 56 bài. Trong mỗi bài, bạn có thể chỉnh cỡ chữ, tìm trong toàn bộ giáo trình, chọn một đoạn để tra Google/YouTube/bài liên quan hoặc đánh dấu. Dấu đã lưu hiện trong danh sách của bài. Các chức năng lưu hiện dùng bộ nhớ của trình duyệt trên thiết bị đang đọc.
+Trang đầu có lộ trình 8 tuần, danh sách 56 bài nền tảng và các bài chuyên sâu đã xuất bản. Trong mỗi bài, bạn có thể chỉnh cỡ chữ, tìm trong toàn bộ giáo trình, chọn một đoạn để tra Google/YouTube/bài liên quan hoặc đánh dấu. Dấu đã lưu hiện trong danh sách của bài. Các chức năng lưu hiện dùng bộ nhớ của trình duyệt trên thiết bị đang đọc.
 
 [Thư viện dấu](highlights.html) tập hợp các đoạn đã lưu trong nhiều bài. Bạn có thể lọc theo bài hoặc trạng thái, tìm trong đoạn trích, mở lại bài và xóa từng dấu. Trạng thái vị trí được kiểm tra với nội dung bài khi trang thư viện tải.
 
@@ -34,7 +34,7 @@ Phase 1 đã triển khai trang đầu, giao diện đọc mobile, cỡ chữ, t
 
 Phase 4 đã kiểm và sửa 31 nhóm lỗi sơ đồ/nội dung kỹ thuật. Phase 5 đã minh họa đủ 56 bài; Phase 6 bổ sung 12 sơ đồ tổng hợp và hoàn tất kiểm tra hình toàn giáo trình.
 
-Phase 7 đang rà lại nội dung và sơ đồ: 80 khối ký tự đã được thay bằng 70 SVG và 10 bảng/đoạn HTML có thể đọc, menu 56 bài đã khớp tiêu đề. [Sổ kiểm Phase 7](docs/qa/curriculum-phase7.md) ghi các lỗi điện học đã sửa và phần cứng chưa được nghiệm thu. Các bài chuyên sâu Phase 8–10 chưa triển khai.
+Phase 7 đã qua cổng rà soát nội dung số: 80 khối ký tự đã được thay bằng 70 SVG và 10 bảng/đoạn HTML có thể đọc, menu 56 bài đã khớp tiêu đề. [Sổ kiểm Phase 7](docs/qa/curriculum-phase7.md) ghi các lỗi điện học đã sửa và phần cứng chưa được nghiệm thu. Phase 8 đã có [đặc tả A01–A16](docs/curriculum/advanced-phase8-syllabus.md) và bốn bài đầu [A01](advanced/a01.html), [A02](advanced/a02.html), [A03](advanced/a03.html), [A04](advanced/a04.html), cùng [sổ mạch/datasheet](docs/curriculum/reference-circuit-review.md). Các bài A05–A32 đang theo kế hoạch.
 
 ## Bản quyền
 

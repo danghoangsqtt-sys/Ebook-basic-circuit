@@ -14,11 +14,11 @@
       "required": ["highlights", "progress", "checklists", "settings"],
       "properties": {
         "highlights": { "type": "array", "maxItems": 2000, "items": { "$ref": "highlight-record.schema.json" }, "uniqueItems": true },
-        "progress": { "type": "object", "patternProperties": { "^day(0[1-9]|[1-4][0-9]|5[0-6])$": { "type": "boolean" } }, "additionalProperties": false },
+        "progress": { "type": "object", "patternProperties": { "^(day(0[1-9]|[1-4][0-9]|5[0-6])|a(0[1-9]|[12][0-9]|3[0-2]))$": { "type": "boolean" } }, "additionalProperties": false },
         "checklists": {
           "type": "object",
           "patternProperties": {
-            "^day(0[1-9]|[1-4][0-9]|5[0-6])$": {
+            "^(day(0[1-9]|[1-4][0-9]|5[0-6])|a(0[1-9]|[12][0-9]|3[0-2]))$": {
               "type": "object",
               "patternProperties": { "^(0|[1-9][0-9]?)$": { "type": "boolean" } },
               "additionalProperties": false

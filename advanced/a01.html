@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A01: Họ Điện Trở Cố Định — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="So sánh họ điện trở và chọn điện trở từ datasheet bằng công suất, dung sai, nhiệt độ, điện áp và xung.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Tuyến chuyên sâu</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="../week1/day03.html">Ôn điện trở cơ bản</a></nav>
+  <div class="header-progress"><span class="progress-label">Chuyên sâu · A01</span></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content"><article class="content-area">
+    <div class="lesson-header">
+      <div class="lesson-meta"><span class="tag tag-week">Phase 8</span><span class="tag tag-day">A01</span><span class="tag tag-difficulty-beginner">M0 · chuyên sâu</span></div>
+      <h1 class="lesson-title">Họ Điện Trở Cố Định</h1>
+      <p class="lesson-subtitle">Từ nhận dạng linh kiện đến quyết định chọn có kiểm tra dung sai, nhiệt và datasheet.</p>
+      <div class="lesson-stats"><span class="lesson-stat">⏱ 3 đơn vị × 45 phút</span><span class="lesson-stat">📐 Tiên quyết: <a href="../week1/day02.html">D02</a>, <a href="../week1/day03.html">D03</a></span><span class="lesson-stat">🔬 Giấy/bảng tính; phần cứng có điều kiện</span></div>
+    </div>
+
+    <div class="objectives-box"><div class="objectives-title">🎯 Sau bài này, bạn làm được gì?</div><ul class="objectives-list">
+      <li>So sánh film, wirewound, thick-film, thin-film SMD và shunt theo vai trò cùng thông số cần đọc.</li>
+      <li>Từ điện áp lớn nhất và dung sai, tính công suất ở trường hợp điện trở nhỏ nhất.</li>
+      <li>Đọc đúng dòng công suất, điện áp làm việc, TCR, nhiệt độ và điều kiện kiểm xung của một datasheet cụ thể.</li>
+      <li>Loại ứng viên không đạt và ghi điều kiện còn phải xác minh trước khi dùng trên PCB thật.</li>
+    </ul></div>
+
+    <p><strong>Điểm nối từ D03:</strong> D03 đã dạy mã màu, mã SMD và khoảng sai số. Ở A01, giá trị “1 kΩ” mới là điểm khởi đầu: cùng giá trị này có nhiều cấu trúc, package và định mức khác nhau. Câu hỏi kỹ thuật là <em>linh kiện nào chịu được nhiệm vụ đã nêu, dưới điều kiện nào?</em></p>
+
+    <h2>1. Cùng là điện trở, nhưng cơ chế hỏng và điểm mạnh khác nhau</h2>
+    <p>Điện trở cố định đổi năng lượng điện thành nhiệt. Họ vật liệu, kích thước và kết cấu làm thay đổi độ ổn định nhiệt, độ chính xác, khả năng tản nhiệt và đáp ứng với xung. Bảng này là bản đồ <strong>câu hỏi cần kiểm</strong>, không gán một dải định mức chung cho cả họ. <a href="https://www.vishay.com/docs/49873/49873_sg2113.pdf" target="_blank" rel="noopener">Vishay, <em>Resistors 101—Product Overview</em></a> so sánh các công nghệ thick film, thin film, wirewound và những dòng sản phẩm tương ứng; trị số chọn phải lấy từ datasheet của dòng và part cụ thể.</p>
+    <div class="table-wrap"><table><caption>So sánh chức năng, không thay thế datasheet của mã đặt hàng</caption><thead><tr><th scope="col">Họ</th><th scope="col">Điểm nhận dạng/chọn</th><th scope="col">Cần kiểm trước khi dùng</th></tr></thead><tbody>
+      <tr><td>Carbon/metal film chân cắm</td><td>Màng điện trở trên thân cách điện; tiện cho mạch học và sửa chữa.</td><td>Dung sai, TCR, công suất theo nhiệt độ, điện áp và xung của dòng cụ thể.</td></tr>
+      <tr><td>Wirewound</td><td>Dây điện trở quấn; có dòng phù hợp ứng dụng công suất.</td><td>Điện cảm ký sinh khi mạch có tần số cao; dạng cuộn, điện áp và tản nhiệt.</td></tr>
+      <tr><td>Thick-film SMD</td><td>Lớp điện trở in trên nền; nhiều kích thước/package cho PCB.</td><td>Công suất ở PCB và xung; không suy từ kích thước rằng mọi sản phẩm cùng định mức.</td></tr>
+      <tr><td>Thin-film SMD</td><td>Màng mỏng; có các dòng ưu tiên độ chính xác, TCR và ổn định.</td><td>Mã tolerance/TCR, nhiệt độ film, công suất theo mode và diện tích đồng.</td></tr>
+      <tr><td>Shunt đo dòng</td><td>Giá trị nhỏ để tạo sụt áp đo được; một số cấu trúc có đầu Kelvin.</td><td>Dải dòng, công suất, điện trở tiếp xúc và đường sense; không dùng nhãn “shunt” thay số liệu.</td></tr>
+    </tbody></table></div>
+    <p>Với xung, công suất trung bình nhỏ vẫn có thể đi cùng đỉnh công suất lớn. <a href="https://www.vishay.com/docs/48516/_ms9702509-2401-vishaychecklistpulseload.pdf" target="_blank" rel="noopener">Vishay, <em>12 Things to Know About Resistors in Pulse Load Applications</em>, mục 8</a> cho thấy độ chịu xung phụ thuộc vật liệu, hình cắt trim và diện tích màng. Đồ thị/xếp hạng của tài liệu đó <strong>không</strong> được dùng thay đường xung của mã điện trở đang chọn.</p>
+
+    <h2>2. Tính biên trước khi mở catalog</h2>
+    <figure class="figure"><img src="../assets/images/advanced/a01.svg" width="880" height="450" loading="lazy" decoding="async" alt="Nguồn 12 V DC nối tiếp điện trở R1 một kiloohm cộng trừ 5 phần trăm. Với R nhỏ nhất 950 ohm, công suất lớn nhất theo mô hình là khoảng 0,152 watt. Dòng đi từ cực dương qua R1 về cực âm."><figcaption class="figure-caption"><div class="figure-number">A01-1 · Mạch tính worst-case</div><div class="figure-text">R nhỏ đi thì dòng và công suất tăng khi điện áp giữ không đổi. Mạch này là bài toán lý tưởng.</div><div class="figure-source">Hình tự vẽ. <a href="../assets/images/advanced/a01.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption></figure>
+    <details class="summary-transcript"><summary>Mô tả sơ đồ bằng chữ</summary><p>Cực dương nguồn DC 12 V nối đến đầu trái R1. Đầu phải R1 về cực âm cùng nguồn. R1 danh định 1 kΩ, dung sai ±5%; không có nhánh khác. Dòng đi theo vòng kín từ cực dương qua R1 về cực âm. Ở biên nhỏ nhất R1 = 950 Ω, công suất theo mô hình DC không đổi đạt khoảng 0,152 W.</p></details>
+    <div class="callout callout-formula"><div class="callout-header"><span class="callout-icon">📐</span> Ví dụ giải từng bước</div><ol>
+      <li>Giả định 12 V không đổi đặt trực tiếp lên R1, không có xung và điện trở ở nhiệt độ tham chiếu. <code>Rmin = 1000 × (1 − 0,05) = 950 Ω</code>; <code>Rmax = 1050 Ω</code>.</li>
+      <li>Ở điện áp không đổi, <code>P = V²/R</code>, nên công suất lớn nhất theo dung sai là <code>144/950 = 0,15158 W ≈ 0,152 W</code>. Dòng khi ấy <code>12/950 ≈ 12,63 mA</code>.</li>
+      <li>Con số 0,152 W là <strong>yêu cầu tính toán</strong>, không phải kết luận part nào đã an toàn. Cần so với rated dissipation ở đúng mode, giới hạn điện áp, derating nhiệt và khả năng chịu xung; môi trường PCB làm thay đổi nhiệt film.</li>
+    </ol></div>
+
+    <h2>3. Sàng lọc hai ứng viên bằng datasheet gốc</h2>
+    <p>Ví dụ chọn sau dùng <a href="https://www.vishay.com/docs/28952/mcr0201at-mca1206at.pdf" target="_blank" rel="noopener">Vishay Beyschlag, <em>MCR 0201 AT to MCA 1206 AT</em>, Document 28952, Rev. 28-May-2026</a>. Đây là so sánh <strong>trên giấy</strong> cho biến thể 1 kΩ ±1% thuộc hai size, chế độ <em>general</em>. Trang 2, bảng <em>Maximum Resistance Change at Rated Dissipation</em>, ghi <code>P70</code> general: MCT 0603 AT = 0,110 W, MCA 1206 AT = 0,270 W; bảng <em>Temperature Coefficient and Resistance Range</em> cùng trang cho phép 1 kΩ ±1% ở cả hai. Trang 1, bảng <em>Technical Specifications</em>, ghi điện áp hoạt động DC/AC RMS tối đa lần lượt 100 V và 200 V theo đúng cột size. Các giới hạn áp này chưa thay thế phép kiểm điện áp liên tục, xung hay nhiệt cho ứng dụng thật.</p>
+    <div class="table-wrap"><table><caption>Sàng lọc theo <code>P70</code> general của datasheet; phép tính dùng dung sai ±1% của ứng viên</caption><thead><tr><th scope="col">Ứng viên dòng/size</th><th scope="col">Tính tại Rmin = 990 Ω</th><th scope="col">P70 general</th><th scope="col">Umax DC/AC RMS</th><th scope="col">Kết luận vòng 1</th></tr></thead><tbody>
+      <tr><td>MCT 0603 AT, 1 kΩ ±1%</td><td>144/990 ≈ 0,145 W</td><td>0,110 W</td><td>100 V</td><td>Loại: yêu cầu lớn hơn P70.</td></tr>
+      <tr><td>MCA 1206 AT, 1 kΩ ±1%</td><td>144/990 ≈ 0,145 W</td><td>0,270 W</td><td>200 V</td><td>Qua kiểm công suất và điện áp trên giấy; chưa duyệt lắp thật.</td></tr>
+    </tbody></table></div>
+    <p><strong>Vì sao chưa “chọn xong”?</strong> <code>P70</code> gắn với điều kiện nhiệt và cách gắn trên PCB; datasheet cảnh báo phải giữ nhiệt film trong giới hạn. Điện áp, độ ổn định mong muốn, tuổi thọ, xung khởi động, nhiệt môi trường và đồng tản nhiệt cần kiểm tiếp. Nếu các yêu cầu đó khác ví dụ, kết luận sẽ khác. Mã part/order đầy đủ được lập khi có BOM và điều kiện vận hành thật.</p>
+
+    <h2>4. Hoạt động trên giấy hoặc bảng tính: dựng vùng đạt</h2>
+    <div class="callout callout-practice"><div class="callout-header"><span class="callout-icon">🔬</span> Có thể lặp lại mà không cần cấp điện</div><ol class="step-list">
+      <li class="step-item"><div class="step-content"><p>Ghi đầu vào <code>Rnom=1000 Ω</code>, <code>tolerance=5%</code>, <code>V={5,9,12} V</code>; công thức cột: <code>Rmin=Rnom×(1−t)</code>, <code>Rmax=Rnom×(1+t)</code>, <code>Pmax=V²/Rmin</code>, <code>Imax=V/Rmin</code>. Nêu rõ nguồn DC và bỏ qua thay đổi theo nhiệt.</p></div></li>
+      <li class="step-item"><div class="step-content"><p>Đối chiếu bảng kỳ vọng dưới đây bằng máy tính tay hoặc bảng tính. Nếu khác hơn sai số làm tròn, kiểm lại đơn vị Ω/V/W.</p></div></li>
+      <li class="step-item"><div class="step-content"><p>Mở datasheet Vishay Doc. 28952, ghi trang, revision, size, mode, <code>P70</code>, <code>Umax</code>, TCR và đường/ghi chú nhiệt. Đánh dấu “thiếu dữ liệu” cho mọi điều kiện chưa được mô hình kiểm.</p></div></li>
+    </ol></div>
+    <div class="table-wrap"><table><caption>Dữ liệu kỳ vọng cho 1 kΩ ±5%, Rmin = 950 Ω</caption><thead><tr><th scope="col">V DC</th><th scope="col">Imax</th><th scope="col">Pmax</th></tr></thead><tbody><tr><td>5 V</td><td>5,263 mA</td><td>0,0263 W</td></tr><tr><td>9 V</td><td>9,474 mA</td><td>0,0853 W</td></tr><tr><td>12 V</td><td>12,632 mA</td><td>0,1516 W</td></tr></tbody></table></div>
+    <p>Nhánh đo thật chỉ mở sau khi đã chốt mã đặt hàng, nguồn thấp áp cách ly, giới hạn dòng, bố trí PCB và người duyệt. Đo R bằng đồng hồ khi <strong>mạch đã ngắt điện</strong>, ghi nhiệt độ và sai số của đồng hồ; số đo đơn lẻ không chứng minh chịu công suất/xung.</p>
+
+    <div class="section-divider"><span class="section-divider-label">Tự kiểm</span></div>
+    <div class="exercise-section"><div class="exercise-title">📝 Bài tập A01 — Dung sai và công suất</div>
+      <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Điện trở giả định 680 Ω ±10% chịu 9 V DC không đổi. Tính Rmin, Rmax, Imax và Pmax. Vì sao chưa thể kết luận một part “0,125 W” dùng được hay không nếu chỉ nhìn nhãn?</div></div>
+      <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Khi mạch có xung ngắn, nêu ba thông tin phải bổ sung vào yêu cầu trước khi đối chiếu datasheet.</div></div>
+      <div class="answer-section"><button class="answer-toggle">👁 Xem lời giải và rubric</button><div class="answer-content">
+        <p><strong>1.</strong> <code>Rmin=680×0,9=612 Ω</code>; <code>Rmax=748 Ω</code>; <code>Imax=9/612≈14,71 mA</code>; <code>Pmax=81/612≈0,13235 W</code>. Nhãn 0,125 W không nói rõ nhiệt độ, cách lắp và derating; trong điều kiện mô hình này 0,132 W còn vượt 0,125 W, nên không qua sàng lọc nếu 0,125 W là giới hạn áp dụng. Không suy ngược về mọi part hay xung.</p>
+        <p><strong>2.</strong> Cần biên độ/đỉnh áp hoặc dòng, độ rộng xung, chu kỳ hoặc số xung; thêm nhiệt độ nền và profile công suất nếu có.</p>
+        <p><strong>Rubric 4 điểm:</strong> 1 điểm mô hình DC và Rmin/Rmax; 1 điểm công thức/đơn vị I, P; 1 điểm bốn kết quả số và phép kiểm biên; 1 điểm giải thích derating cùng dữ liệu xung còn thiếu.</p>
+      </div></div>
+    </div>
+    <div class="checklist"><div class="checklist-title">✅ Tự kiểm A01</div>
+      <div class="checklist-item"><input type="checkbox" id="a01-c1"><label for="a01-c1">Tôi phân biệt chức năng và giới hạn cần tra của film, wirewound, thick/thin-film và shunt.</label></div>
+      <div class="checklist-item"><input type="checkbox" id="a01-c2"><label for="a01-c2">Tôi tính P lớn nhất từ điện áp lớn nhất và điện trở nhỏ nhất trong dải dung sai.</label></div>
+      <div class="checklist-item"><input type="checkbox" id="a01-c3"><label for="a01-c3">Tôi ghi được mã dòng, revision, trang/bảng và điều kiện P70 của datasheet.</label></div>
+      <div class="checklist-item"><input type="checkbox" id="a01-c4"><label for="a01-c4">Tôi chưa xem phép tính lý tưởng là bằng chứng nhiệt, xung hay PCB thật đã đạt.</label></div>
+    </div>
+    <div class="lesson-nav"><a href="../week1/day03.html" class="lesson-nav-btn"><div><div class="nav-label">← Nền tảng</div><div class="nav-title">D03: Điện Trở &amp; Mã Màu</div></div></a><a href="a02.html" class="lesson-nav-btn next"><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">A02: Điện Trở Chức Năng &amp; Phép Đo</div></div></a></div>
+  </article></main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script><script src="../assets/js/main.js"></script><script>renderSidebar('a01.html');</script>
+</body>
+</html>

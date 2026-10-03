@@ -1,4 +1,4 @@
-"""Check that the 56 sidebar entries match the current lesson headings.
+"""Check sidebar entries against foundation and advanced lesson headings.
 
 Use --fix after editing a lesson heading to refresh sidebar labels. URLs remain
 stable; the homepage reads the same CURRICULUM data.
@@ -16,6 +16,9 @@ ROOT = Path(__file__).resolve().parents[1]
 SIDEBAR = ROOT / "assets/js/sidebar-data.js"
 ENTRY = re.compile(
     r"(\{\s*day:\s*(\d+),\s*title:\s*')([^']+)(',\s*file:\s*')([^']+)('\s*\})"
+)
+ADV_ENTRY = re.compile(
+    r"\{\s*id:\s*'(a\d{2})',\s*number:\s*'(A\d{2})',\s*title:\s*'([^']+)',\s*file:\s*'([^']+)'\s*\}"
 )
 
 
@@ -81,6 +84,24 @@ def main() -> int:
         return match.group(1) + title + match.group(4) + match.group(5) + match.group(6)
 
     updated = ENTRY.sub(replace, source)
+    advanced_files = sorted((ROOT / "advanced").glob("a[0-9][0-9].html"))
+    advanced_matches = list(ADV_ENTRY.finditer(source))
+    if [match.group(1) for match in advanced_matches] != [path.stem for path in advanced_files]:
+        mismatches.append("Advanced menu entries must match published aNN pages in order")
+    for match in advanced_matches:
+        lesson_id, number, title, url = match.groups()
+        expected_path = f"../advanced/{lesson_id}.html"
+        if number != lesson_id.upper() or url != expected_path:
+            mismatches.append(f"{lesson_id}: bad number or URL")
+            continue
+        lesson = ROOT / "advanced" / f"{lesson_id}.html"
+        if not lesson.is_file():
+            mismatches.append(f"{lesson_id}: missing lesson")
+            continue
+        heading = Heading()
+        heading.feed(lesson.read_text(encoding="utf-8"))
+        if heading.headings != [title]:
+            mismatches.append(f"{lesson_id}: sidebar title does not match h1")
     if args.fix and not any("bad URL" in item or "missing lesson" in item or "expected one" in item for item in mismatches):
         SIDEBAR.write_text(updated, encoding="utf-8", newline="\n")
         print(f"Updated {len(mismatches)} title(s); 56 URLs preserved")
@@ -88,7 +109,7 @@ def main() -> int:
     if mismatches:
         print("\n".join(mismatches))
         return 1
-    print("Navigation matches all 56 lesson headings and URLs")
+    print(f"Navigation matches 56 foundation and {len(advanced_matches)} advanced lesson headings and URLs")
     return 0
 
 

@@ -1,0 +1,31 @@
+{
+  "id": "phase8-p8-02-audit",
+  "status": "resolved",
+  "created_at": "2026-10-03",
+  "updated_at": "2026-10-03",
+  "problem": {
+    "description": "Independent P8-02 audit found documentation drift while A01–A04 were integrated.",
+    "symptoms": [
+      "ROADMAP still called P8-01 in progress although P8-01 had passed",
+      "Advanced SVG source manifest described elements that were not drawn in a02/a03/a04"
+    ],
+    "affected_files": [".DHSYSTEM/ROADMAP.md", "assets/images/advanced/SOURCES.md"]
+  },
+  "investigation": {
+    "root_cause": "Status and figure provenance text had not been reconciled with the published pages and SVG geometry.",
+    "tests_run": [
+      {"command": "independent read-only dh-audit P8-02", "output": "0 confirmed P0/P1; three P2 documentation drifts localized"},
+      {"command": "python tools/check_advanced.py", "output": "4 advanced pages, 0 errors"},
+      {"command": "python tools/check_links.py", "output": "63 pages, 754 references, 0 broken"},
+      {"command": "python tools/qa_browser.py --quick", "output": "Chromium PASS, including advanced reader, highlights, backup"},
+      {"command": "python tools/qa_browser.py --quick --browser webkit", "output": "WebKit PASS"}
+    ]
+  },
+  "resolution": {
+    "changes": [
+      "Aligned ROADMAP with P8-01 PASS and P8-02 work",
+      "Described a02 as divider without drawn meter load, a03 as choice flowchart, and a04 as ideal RC without drawn ESR/leakage"
+    ],
+    "remaining": "Part-specific C–V CSV, physical build, target measurements and reviewer remain pending; no hardware sign-off is claimed."
+  }
+}

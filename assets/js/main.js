@@ -159,7 +159,9 @@ class SidebarController {
 class ProgressTracker {
   constructor() {
     this.storageKey = 'lessonProgress';
-    this.totalLessons = 56;
+    this.lessonIds = new Set((typeof CURRICULUM === 'undefined' ? [] : CURRICULUM.weeks.flatMap(group => group.lessons))
+      .map(lesson => lesson.id || `day${String(lesson.day).padStart(2, '0')}`));
+    this.totalLessons = this.lessonIds.size || 56;
     this.init();
   }
 
@@ -195,13 +197,13 @@ class ProgressTracker {
 
   getCurrentLessonId() {
     const path = window.location.pathname;
-    const match = path.match(/day(\d+)\.html/);
-    return match ? `day${match[1]}` : null;
+    const match = path.match(/(?:day(\d+)|(a\d{2}))\.html/);
+    return match ? (match[2] || `day${match[1]}`) : null;
   }
 
   updateProgressBar() {
     const progress = this.getProgress();
-    const completed = Object.values(progress).filter(Boolean).length;
+    const completed = [...this.lessonIds].filter(id => progress[id]).length;
     const percentage = Math.round((completed / this.totalLessons) * 100);
 
     const fill = document.querySelector('.progress-bar-fill');
@@ -214,9 +216,9 @@ class ProgressTracker {
     const progress = this.getProgress();
     document.querySelectorAll('.sidebar-lesson').forEach(link => {
       const href = link.getAttribute('href') || '';
-      const match = href.match(/day(\d+)\.html/);
+      const match = href.match(/(?:day(\d+)|(a\d{2}))\.html/);
       if (match) {
-        const lessonId = `day${match[1]}`;
+        const lessonId = match[2] || `day${match[1]}`;
         const check = link.querySelector('.lesson-check');
         if (check) {
           check.textContent = progress[lessonId] ? '✓' : '';

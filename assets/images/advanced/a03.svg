@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="420" viewBox="0 0 560 420" role="img" aria-labelledby="title desc">
+  <title id="title">A03: Chọn họ tụ theo chức năng và cực tính</title>
+  <desc id="desc">Ba nhánh từ yêu cầu mạch: định thời chính xác xem C0G hoặc film; lọc nguồn DC xem X5R hoặc X7R và bulk điện phân; dự phòng năng lượng xem supercap. Tụ điện phân và supercap có dấu dương âm phải đối chiếu datasheet.</desc>
+  <rect width="560" height="420" rx="18" fill="#101827"/>
+  <g font-family="Arial, sans-serif" fill="#eaf3ff">
+    <text x="28" y="42" font-size="22" font-weight="700">Chọn tụ theo nhiệm vụ, không chỉ theo µF</text>
+    <rect x="24" y="70" width="512" height="55" rx="10" fill="#1b3048" stroke="#52c7b8"/>
+    <text x="42" y="104" font-size="18">Yêu cầu: tín hiệu, nguồn DC hay dự phòng?</text>
+    <path d="M280 125 V150 M95 150 H465 M95 150 V171 M280 150 V171 M465 150 V171" fill="none" stroke="#83a5ba" stroke-width="2"/>
+    <rect x="24" y="171" width="143" height="146" rx="10" fill="#243352" stroke="#8cb8ff"/>
+    <text x="38" y="202" font-size="17" font-weight="700">Định thời / lọc</text>
+    <text x="38" y="230" font-size="15">C0G hoặc film</text>
+    <text x="38" y="256" font-size="14">Ưu tiên C ổn định</text>
+    <text x="38" y="279" font-size="14">theo nhiệt, bias</text>
+    <rect x="209" y="171" width="143" height="146" rx="10" fill="#243b42" stroke="#52c7b8"/>
+    <text x="223" y="202" font-size="17" font-weight="700">Bulk nguồn</text>
+    <text x="223" y="230" font-size="15">MLCC + điện phân</text>
+    <text x="223" y="256" font-size="14">Xem Ceff, ESR,</text>
+    <text x="223" y="279" font-size="14">ripple, cực tính</text>
+    <rect x="394" y="171" width="143" height="146" rx="10" fill="#423441" stroke="#ffb67d"/>
+    <text x="408" y="202" font-size="17" font-weight="700">Dự phòng</text>
+    <text x="408" y="230" font-size="15">Supercap</text>
+    <text x="408" y="256" font-size="14">Xem mức áp,</text>
+    <text x="408" y="279" font-size="14">rò, xả, cực tính</text>
+    <rect x="24" y="340" width="512" height="56" rx="10" fill="#302f3a" stroke="#ffcf7c"/>
+    <text x="42" y="364" font-size="15" font-weight="700">Cổng chọn part thật:</text>
+    <text x="42" y="386" font-size="14">đúng mã + điện áp + nhiệt + thông số tại điều kiện dùng</text>
+  </g>
+</svg>

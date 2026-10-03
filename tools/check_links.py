@@ -49,7 +49,8 @@ def pages(root: Path) -> list[Path]:
     if not (root / "index.html").is_file():
         raise ValueError("Missing index.html")
     other_pages = sorted(path for path in root.glob("*.html") if path.name != "index.html")
-    return [root / "index.html", *other_pages, *lessons]
+    advanced = sorted(root.glob("advanced/a[0-9][0-9].html"))
+    return [root / "index.html", *other_pages, *lessons, *advanced]
 
 
 def local_target(root: Path, source: Path, value: str) -> Path | None:

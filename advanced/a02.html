@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A02: Điện Trở Chức Năng &amp; Phép Đo — Giáo Trình Điện Tử Thực Hành</title>
+  <meta name="description" content="Điện trở biến thiên, NTC, PTC, LDR và shunt: đọc đường đặc tính, tính cầu chia áp, hiểu tự nung nóng và tải của dụng cụ đo.">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="logo"><div class="logo-icon">⚡</div><div><div class="logo-text">Điện Tử Thực Hành</div><div class="logo-sub">Tuyến chuyên sâu</div></div></a>
+  <button class="btn-menu" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  <nav class="header-nav"><a href="../index.html">Trang chủ</a><a href="a01.html">A01: Điện trở cố định</a></nav>
+  <div class="header-progress"><span class="progress-label">Chuyên sâu · A02</span></div>
+</header>
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="main-content"><article class="content-area">
+    <div class="lesson-header">
+      <div class="lesson-meta"><span class="tag tag-week">Phase 8</span><span class="tag tag-day">A02</span><span class="tag tag-difficulty-beginner">M0 · M1 tùy chọn</span></div>
+      <h1 class="lesson-title">Điện Trở Chức Năng &amp; Phép Đo</h1>
+      <p class="lesson-subtitle">Biến nhiệt, ánh sáng và dòng điện thành tín hiệu có thể tính, kiểm và hiệu chuẩn.</p>
+      <div class="lesson-stats"><span class="lesson-stat">⏱ 3 đơn vị × 45 phút</span><span class="lesson-stat">📐 Tiên quyết: <a href="a01.html">A01</a>, <a href="../week1/day06.html">D06</a></span><span class="lesson-stat">🔬 Giấy/bảng tính; phép đo thật có điều kiện</span></div>
+    </div>
+
+    <div class="objectives-box"><div class="objectives-title">🎯 Sau bài này, bạn làm được gì?</div><ul class="objectives-list">
+      <li>Phân biệt biến trở, NTC, PTC, LDR và shunt theo đại lượng kích thích, chiều thay đổi R và giới hạn đo.</li>
+      <li>Đọc bảng R/T của đúng mã NTC để tính điện áp chia áp tại ba nhiệt độ.</li>
+      <li>Lập phép kiểm hai điểm có đầu vào, công thức, giá trị kỳ vọng và mục sai số cần ghi.</li>
+      <li>Giải thích vì sao tự nung nóng NTC, điện trở đầu vào của thiết bị đo và sai số ADC có thể làm lệch kết quả.</li>
+    </ul></div>
+
+    <p><strong>Điểm nối từ D06 và D25:</strong> các bài trước đã giới thiệu phép đo và cảm biến nhiệt. A02 đi sâu vào việc dùng <em>đường đặc tính của đúng part</em>, chuyển R thành V, rồi tách sai số cảm biến khỏi sai số mạch đo. “Điện trở thay đổi” không tự động là cảm biến đã hiệu chuẩn.</p>
+
+    <h2>1. Chọn cơ chế biến đổi trước khi tính mạch</h2>
+    <div class="table-wrap"><table><caption>Bản đồ chức năng: chiều biến đổi là đặc tính của loại/part trong điều kiện nêu, không phải mọi module</caption><thead><tr><th scope="col">Phần tử</th><th scope="col">Đại lượng tác động</th><th scope="col">Đọc gì trong tài liệu gốc?</th><th scope="col">Dùng để làm gì?</th></tr></thead><tbody>
+      <tr><td>Biến trở/chiết áp</td><td>Vị trí cơ học của cần gạt</td><td>Tổng R, luật tuyến tính/log, công suất trên track/wiper, số chu kỳ.</td><td>Tạo điểm đặt hoặc chia áp điều chỉnh; wiper hở phải được tính trong thiết kế thật.</td></tr>
+      <tr><td>NTC</td><td>Nhiệt độ tăng → R giảm trong miền đặc tính của part.</td><td>R25, dung sai, bảng R/T, hệ số B hoặc bảng nội suy, công suất đo, thời hằng nhiệt.</td><td>Ước lượng nhiệt độ hoặc bù nhiệt.</td></tr>
+      <tr><td>PTC</td><td>Nhiệt tăng có thể làm R tăng mạnh quanh vùng chuyển.</td><td>Đường R/T, điện áp/dòng cho chế độ cảm biến hay bảo vệ; không tráo hai mục đích.</td><td>Báo quá nhiệt hoặc bảo vệ theo dòng được thiết kế.</td></tr>
+      <tr><td>LDR/quang trở</td><td>Chiếu sáng làm đổi R theo phổ, độ rọi và lịch sử ánh sáng.</td><td>Đường R–độ rọi, đáp ứng phổ, thời gian tăng/giảm, nhiệt.</td><td>Phát hiện mức sáng khi độ chính xác và tốc độ phù hợp.</td></tr>
+      <tr><td>Shunt</td><td>Dòng qua R tạo sụt áp <code>V=IR</code>.</td><td>R, dung sai/TCR, công suất, kết nối Kelvin và điện áp common-mode của mạch đo.</td><td>Đo dòng; chọn điện áp rơi đủ đo nhưng không phá ngân sách nguồn.</td></tr>
+    </tbody></table></div>
+    <p><a href="https://www.tdk-electronics.tdk.com/inf/50/db/ntc/NTC_Leaded_disks_M891.pdf" target="_blank" rel="noopener">TDK/EPCOS B57891M, Jan 2018, tr. 2–3 và tr. 8</a> cung cấp R25, B25/100 và bảng R/T của NTC được dùng dưới đây. <a href="https://www.tdk-electronics.tdk.com/download/539366/728d0d379187d1dfa0831555b8c93202/pdf-general-technical-information.pdf" target="_blank" rel="noopener">TDK, <em>PTC Thermistors—General Technical Information</em></a> giải thích đường R/T và điều kiện công suất đo của PTC; <a href="https://www.vishay.com/en/landingpage/sampleboard/smd/index.html" target="_blank" rel="noopener">Vishay, thông tin current-sense/Kelvin</a> cho lý do dùng bốn cực ở điện trở nhỏ. <a href="https://www.advancedphotonix.com/storage/ds_nsl-rhs99_series.pdf" target="_blank" rel="noopener">Advanced Photonix NSL-RHS99 Series, Rev. A, bảng Typical Electro-Optical Specifications</a> minh họa rằng R khi sáng phải gắn độ rọi, nhiệt độ màu và trạng thái thích nghi sáng của <em>đúng họ LDR đó</em>; không dùng các trị số ấy cho LDR vô danh. Các nguồn này <strong>không</strong> cấp pinout cho bất kỳ module bán lẻ nào.</p>
+
+    <h2>2. Ví dụ có mã part: NTC thành điện áp</h2>
+    <p>Chọn <strong>TDK/EPCOS B57891M0104J000</strong>, họ B57891M chân cắm, <code>R25 = 100 kΩ</code>, dung sai R25 <code>±5%</code>, đường R/T số <strong>4003</strong>, <code>B25/100 = 4450 K</code> theo bảng đặt hàng tr. 3. Số 100 kΩ ở 25 °C là danh định; đường R/T tr. 8 là đường tỷ số dùng cho tính kỳ vọng, không thay cho sai số cá thể. Không có module hay board nào được chọn trong bài.</p>
+    <figure class="figure"><img src="../assets/images/advanced/a02.svg" width="880" height="490" loading="lazy" decoding="async" alt="Cầu chia áp: nguồn 3,3 volt qua R1 100 kiloohm đến nút Vout, rồi qua NTC TDK 100 kiloohm danh định xuống ground. Vout từ 1,650 volt ở 25 độ C giảm khoảng 1,268 volt ở 35 độ C và 0,947 volt ở 45 độ C theo bảng R/T 4003."><figcaption class="figure-caption"><div class="figure-number">A02-1 · Cầu chia áp NTC, mô hình lý tưởng</div><div class="figure-text">Đầu trên R1 vào +3,3 V; đầu dưới NTC về 0 V; Vout đo ở nút giữa so với 0 V. Nhiệt tăng, RNTC giảm, Vout giảm.</div><div class="figure-source">Hình tự vẽ theo <a href="https://www.tdk-electronics.tdk.com/inf/50/db/ntc/NTC_Leaded_disks_M891.pdf" target="_blank" rel="noopener">TDK B57891M, bảng R/T 4003 tr. 8</a>. <a href="../assets/images/advanced/a02.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div></figcaption></figure>
+    <details class="summary-transcript"><summary>Mô tả đầy đủ bằng chữ</summary><p>Nguồn lý tưởng 3,3 V nối qua R1 cố định 100 kΩ đến nút Vout. Từ Vout, NTC B57891M0104J000 nối về GND 0 V. Đồng hồ hoặc ADC nếu dùng sẽ đo Vout so với GND, và có thể tải nút này. Ở 25 °C, RNTC danh định 100 kΩ nên Vout 1,65 V. Ở 35 °C RNTC 62,372 kΩ nên Vout xấp xỉ 1,268 V; ở 45 °C RNTC 40,218 kΩ nên Vout xấp xỉ 0,947 V.</p></details>
+    <div class="callout callout-formula"><div class="callout-header"><span class="callout-icon">📐</span> Ví dụ giải</div><ol>
+      <li>Datasheet ghi tại 25/35/45 °C, tỷ số <code>R(T)/R25</code> lần lượt <code>1,00000 / 0,62372 / 0,40218</code> (bảng R/T số 4003, tr. 8). Nhân với 100 kΩ thu <code>RNTC = 100 / 62,372 / 40,218 kΩ</code>.</li>
+      <li>Với R1 ở phía trên và NTC ở phía dưới, <code>Vout = 3,3 × RNTC/(100 + RNTC)</code> nếu R tính bằng kΩ. Tại 25 °C: <code>3,3×100/200 = 1,650 V</code>. Tại 35 °C: <code>3,3×62,372/162,372 ≈ 1,268 V</code>. Tại 45 °C: <code>3,3×40,218/140,218 ≈ 0,947 V</code>.</li>
+      <li>Đây là điện áp **kỳ vọng danh định**, không là sai số nhiệt độ cuối cùng. Cần xét sai số R25 ±5%, R1, điện áp nguồn, nhiệt tự nung, tiếp xúc nhiệt, trở kháng đo và chuyển đổi ADC.</li>
+    </ol></div>
+    <div class="table-wrap"><table><caption>Bảng kỳ vọng danh định; nguồn tỷ số R/R25: TDK B57891M, R/T 4003 tr. 8</caption><thead><tr><th scope="col">Nhiệt độ</th><th scope="col">R/R25</th><th scope="col">RNTC danh định</th><th scope="col">Vout lý tưởng</th></tr></thead><tbody><tr><td>25 °C</td><td>1,00000</td><td>100,000 kΩ</td><td>1,650 V</td></tr><tr><td>35 °C</td><td>0,62372</td><td>62,372 kΩ</td><td>1,268 V</td></tr><tr><td>45 °C</td><td>0,40218</td><td>40,218 kΩ</td><td>0,947 V</td></tr></tbody></table></div>
+
+    <h2>3. Vì sao đồng hồ hoặc ADC có thể đổi chính Vout?</h2>
+    <p>Thiết bị đo có trở kháng đầu vào hữu hạn, nên trở thành một nhánh tải từ Vout xuống GND. Khi đó điện trở nhánh dưới là <code>Rduoi = RNTC || Rdo</code>; phải dùng <code>Vout = 3,3 × Rduoi/(R1 + Rduoi)</code>. <a href="https://openstax.org/books/college-physics/pages/21-5-null-measurements" target="_blank" rel="noopener">OpenStax College Physics §21.5</a> giải thích đồng hồ đo áp lấy dòng và làm thay đổi mạch đang đo. Chưa chọn đồng hồ hoặc board, bài không gán một trở kháng ADC chung cho mọi MCU.</p>
+    <p>Ví dụ <strong>giả định riêng</strong> một voltmeter có <code>Rdo=1 MΩ</code>: tại 25 °C, <code>Rduoi=100k||1M≈90,91 kΩ</code> và <code>Vout≈1,571 V</code>, thấp hơn <code>1,650 V</code> lý tưởng khoảng <code>0,079 V</code>. Đây không phải đặc tính của một đồng hồ hay ADC cụ thể. Với ADC thực còn phải xem thời gian lấy mẫu, tụ sample-and-hold, điện áp chuẩn và độ chính xác; một trở kháng DC không tự chứng minh phép đọc ADC đã chính xác.</p>
+    <p>NTC cũng tự nóng khi có dòng qua nó. Datasheet B57891M tr. 2 nêu hệ số tản nhiệt trong không khí <em>xấp xỉ</em> và công suất cực đại tại 25 °C; những số đó tùy điều kiện môi trường. Ở điểm 25 °C của mô hình, dòng <code>3,3/200k=16,5 µA</code>, công suất trên NTC <code>I²×100k≈27,2 µW</code>. Công suất nhỏ không bảo đảm sai số tự nung bằng không trong mọi chất lỏng, vỏ hộp hay luồng gió; cần xác nhận môi trường và cách đặt cảm biến.</p>
+
+    <h2>4. Hoạt động tái lập và kế hoạch hiệu chuẩn</h2>
+    <div class="callout callout-practice"><div class="callout-header"><span class="callout-icon">🔬</span> Bảng tính hoặc mô phỏng DC, không cần board</div><ol class="step-list">
+      <li class="step-item"><div class="step-content"><p>Mở datasheet TDK B57891M, ghi mã <code>B57891M0104J000</code>, revision Jan 2018, R25, dung sai, số đường 4003 và ba hàng 25/35/45 °C. Đừng lấy bảng của mã 10 kΩ hoặc số R/T khác.</p></div></li>
+      <li class="step-item"><div class="step-content"><p>Tạo cột <code>T</code>, <code>r=R/R25</code>, <code>R=100000×r</code>, <code>Vout=3,3R/(100000+R)</code>. So bảng ở trên; sai số làm tròn của Vout nên dưới 0,002 V. Có thể thay bảng tính bằng DC sweep dùng điện trở tham số đúng ba giá trị và nguồn 3,3 V lý tưởng; lưu netlist/model nếu thực sự chạy.</p></div></li>
+      <li class="step-item"><div class="step-content"><p>Thêm cột với tải đo giả định <code>Rdo=1 MΩ</code>; dùng <code>Rduoi=R×Rdo/(R+Rdo)</code> rồi tính Vout tải. Ghi chênh lệch và giải thích chiều lệch. Sau đó dựng kế hoạch hiệu chuẩn hai điểm: nếu có hai môi trường tham chiếu đã được đo độc lập, lưu nhiệt độ tham chiếu, điện áp raw, điện áp nguồn, dụng cụ, thời gian ổn định và độ không chắc chắn. Không biến hai điểm kỳ vọng datasheet thành “đã hiệu chuẩn”.</p></div></li>
+    </ol></div>
+    <p><strong>Cổng phần cứng:</strong> trước khi nối vào MCU phải chốt mã/revision board, mức nguồn, chân ADC, giới hạn đầu vào, trở kháng nguồn cho thời gian sample, NTC/module đúng loại, R1, dụng cụ và người duyệt. Bài này không xác nhận dây nối, nhiệt kế chuẩn hay phép đo thật. Chỉ dùng nguồn thấp áp cách ly khi kế hoạch lắp được duyệt.</p>
+
+    <div class="section-divider"><span class="section-divider-label">Tự kiểm</span></div>
+    <div class="exercise-section"><div class="exercise-title">📝 Bài tập A02 — Từ R đến V và lỗi đo</div>
+      <div class="exercise-item"><span class="exercise-num">1</span><div class="exercise-text">Giữ nguồn 3,3 V và R1=100 kΩ. Một NTC <strong>giả định</strong> đang có R=50 kΩ. Tính Vout và cho biết nhiệt độ tăng hay giảm so với điểm R=100 kΩ của một NTC thông thường. Có được kết luận đó là bao nhiêu °C của TDK B57891M không?</div></div>
+      <div class="exercise-item"><span class="exercise-num">2</span><div class="exercise-text">Nếu đồng hồ giả định 1 MΩ mắc từ Vout xuống GND khi NTC đang 100 kΩ, tính điện trở nhánh dưới và Vout mới. Nêu một nguồn sai số khác chưa có trong phép tính này.</div></div>
+      <div class="answer-section"><button class="answer-toggle">👁 Xem lời giải và rubric</button><div class="answer-content">
+        <p><strong>1.</strong> <code>Vout=3,3×50/(100+50)=1,10 V</code>. Với NTC, R thấp hơn 100 kΩ nghĩa là nhiệt tăng so với điểm danh định 25 °C nếu đang ở cùng đường R/T. Không thể gán 50 kΩ cho một nhiệt độ chính xác nếu không tra/nội suy bảng của part, xét dung sai và điều kiện nhiệt.</p>
+        <p><strong>2.</strong> <code>Rduoi=(100k×1000k)/(100k+1000k)=90,91 kΩ</code>; <code>Vout=3,3×90,91/(100+90,91)≈1,571 V</code>. Một nguồn sai số hợp lệ: sai số R1, sai số R25, nguồn 3,3 V, nhiệt tự nung, hoặc ADC.</p>
+        <p><strong>Rubric 4 điểm:</strong> 1 điểm vẽ/hiểu đúng R1 trên–NTC dưới và tải đo song song; 1 điểm công thức và đơn vị; 1 điểm kết quả 1,10 V, 90,91 kΩ, 1,571 V; 1 điểm giới hạn suy nhiệt và ít nhất một sai số còn thiếu.</p>
+      </div></div>
+    </div>
+    <div class="checklist"><div class="checklist-title">✅ Tự kiểm A02</div>
+      <div class="checklist-item"><input type="checkbox" id="a02-c1"><label for="a02-c1">Tôi phân biệt biến trở, NTC, PTC, LDR và shunt theo đại lượng tác động.</label></div>
+      <div class="checklist-item"><input type="checkbox" id="a02-c2"><label for="a02-c2">Tôi lấy đúng bảng R/T số 4003 cho mã NTC B57891M0104J000.</label></div>
+      <div class="checklist-item"><input type="checkbox" id="a02-c3"><label for="a02-c3">Tôi tính Vout ở ba nhiệt độ và biết chiều thay đổi khi RNTC giảm.</label></div>
+      <div class="checklist-item"><input type="checkbox" id="a02-c4"><label for="a02-c4">Tôi biết tải đo, sai số R25 và tự nung nóng chưa được phép bỏ qua khi lập phép đo thật.</label></div>
+    </div>
+    <div class="lesson-nav"><a href="a01.html" class="lesson-nav-btn"><div><div class="nav-label">← Bài trước</div><div class="nav-title">A01: Họ Điện Trở Cố Định</div></div></a><a href="a03.html" class="lesson-nav-btn next"><div><div class="nav-label">Bài tiếp theo →</div><div class="nav-title">A03: Các Họ Tụ Điện</div></div></a></div>
+  </article></main>
+</div>
+<script src="../assets/js/sidebar-data.js"></script><script src="../assets/js/main.js"></script><script>renderSidebar('a02.html');</script>
+</body>
+</html>

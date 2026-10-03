@@ -1,5 +1,5 @@
 /**
- * sidebar-data.js — Dữ liệu navigation cho toàn bộ giáo trình 56 bài
+ * sidebar-data.js — Dữ liệu navigation cho 56 bài nền và các bài chuyên sâu đã xuất bản
  * Được include trong mỗi bài để render sidebar nhất quán
  */
 
@@ -124,6 +124,19 @@ const CURRICULUM = {
         { day: 55, title: 'Con Đường Tiếp Theo — Học Gì Sau Khóa Này?', file: '../week8/day55.html' },
         { day: 56, title: 'Chúc Mừng Hoàn Thành!', file: '../week8/day56.html' },
       ]
+    },
+    {
+      id: 'advanced-phase8',
+      label: 'Chuyên sâu',
+      title: 'Linh kiện và mạch',
+      badge: 'A',
+      color: '#14b8a6',
+      lessons: [
+        { id: 'a01', number: 'A01', title: 'Họ Điện Trở Cố Định', file: '../advanced/a01.html' },
+        { id: 'a02', number: 'A02', title: 'Điện Trở Chức Năng & Phép Đo', file: '../advanced/a02.html' },
+        { id: 'a03', number: 'A03', title: 'Các Họ Tụ Điện', file: '../advanced/a03.html' },
+        { id: 'a04', number: 'A04', title: 'Tụ Điện Trong Mạch Thực', file: '../advanced/a04.html' },
+      ]
     }
   ]
 };
@@ -149,7 +162,7 @@ function renderSidebar(activeFile, rootPrefix = '../') {
       <button class="sidebar-week-header" type="button" data-week="${week.id}"
         aria-controls="${week.id}-lessons" aria-expanded="true"
         aria-label="${week.label}: ${week.title}">
-        <div class="week-badge">${week.label.replace('Tuần ','')}</div>
+        <div class="week-badge">${week.badge || week.label.replace('Tuần ','')}</div>
         <span class="week-label">${week.title}</span>
         <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="6 9 12 15 18 9"></polyline>
@@ -158,13 +171,13 @@ function renderSidebar(activeFile, rootPrefix = '../') {
       <div class="sidebar-lessons" id="${week.id}-lessons">`;
 
     week.lessons.forEach(lesson => {
-      const lessonId = `day${lesson.day}`;
+      const lessonId = lesson.id || `day${String(lesson.day).padStart(2, '0')}`;
       const isActive = lesson.file.includes(activeFile);
       const isDone = progress[lessonId];
       const classes = ['sidebar-lesson', isActive ? 'active' : '', isDone && !isActive ? 'completed' : ''].filter(Boolean).join(' ');
       html += `
         <a class="${classes}" href="${lesson.file}"${isActive ? ' aria-current="page"' : ''}>
-          <span class="lesson-num">N${lesson.day}</span>
+          <span class="lesson-num">${lesson.number || `N${lesson.day}`}</span>
           <span>${lesson.title}</span>
           <span class="lesson-check">${isDone ? '✓' : ''}</span>
         </a>`;

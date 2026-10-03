@@ -8,7 +8,7 @@
 
   const lessonPath = (file) => {
     const path = String(file || '').replace(/^\.\.\//, '');
-    return /^week[1-8]\/day\d{2}\.html$/.test(path) ? path : null;
+    return /^(?:week[1-8]\/day\d{2}|advanced\/a\d{2})\.html$/.test(path) ? path : null;
   };
 
   roadmap.replaceChildren();
@@ -24,7 +24,9 @@
     const title = document.createElement('h3');
     title.textContent = week.title;
     const count = document.createElement('p');
-    count.textContent = `Bài ${lessons[0].day}–${lessons[lessons.length - 1].day} · ${lessons.length} bài học`;
+    count.textContent = lessons[0].number
+      ? `${lessons[0].number}–${lessons[lessons.length - 1].number} · ${lessons.length} bài học`
+      : `Bài ${lessons[0].day}–${lessons[lessons.length - 1].day} · ${lessons.length} bài học`;
     const weekLink = document.createElement('a');
     weekLink.href = `#catalog-week-${index + 1}`;
     weekLink.textContent = `Xem bài học ${week.label.toLowerCase()} →`;
@@ -40,7 +42,7 @@
     lessons.forEach((lesson) => {
       const link = document.createElement('a');
       link.href = lessonPath(lesson.file);
-      link.textContent = `Bài ${lesson.day} · ${lesson.title}`;
+      link.textContent = `${lesson.number || `Bài ${lesson.day}`} · ${lesson.title}`;
       links.appendChild(link);
     });
     group.append(heading, links);

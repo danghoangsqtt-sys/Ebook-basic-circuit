@@ -1,4 +1,4 @@
-/* Local search for the generated 56-lesson index. No network requests. */
+/* Local search for the generated lesson index. No network requests. */
 (function () {
   'use strict';
 
@@ -111,7 +111,7 @@
     const query = input.value.trim();
     results.replaceChildren();
     if (!query) {
-      status.textContent = 'Nhập từ khóa hoặc một câu ngắn để tìm trong 56 bài.';
+      status.textContent = `Nhập từ khóa hoặc một câu ngắn để tìm trong ${window.EbookSearchIndex?.lessons?.length || 56} bài.`;
       return;
     }
     if (!getIndex().length) {
@@ -170,7 +170,7 @@
     const content = document.querySelector('.content-area');
     if (!content) return false;
     loadCss();
-    trigger = element('button', 'ebook-search-trigger', '🔎 Tìm trong 56 bài');
+    trigger = element('button', 'ebook-search-trigger', `🔎 Tìm trong ${window.EbookSearchIndex?.lessons?.length || 56} bài`);
     trigger.type = 'button';
     trigger.addEventListener('click', () => open());
     content.prepend(trigger);
@@ -182,7 +182,7 @@
     dialog.setAttribute('aria-modal', 'true');
     dialog.setAttribute('aria-labelledby', 'ebook-search-title');
     const header = element('div', 'ebook-search-header');
-    const title = element('h2', '', 'Tìm trong 56 bài học');
+    const title = element('h2', '', `Tìm trong ${window.EbookSearchIndex?.lessons?.length || 56} bài học`);
     title.id = 'ebook-search-title';
     const closeButton = element('button', 'ebook-search-close', 'Đóng');
     closeButton.type = 'button';
