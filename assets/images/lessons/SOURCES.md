@@ -26,5 +26,22 @@ Giáo trình giữ bản quyền riêng. Ảnh bên ngoài chỉ được đưa 
 | `led-on-board-public-domain.webp` | Bài 4 | Leon Brooks — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Green_light_emitting_diode_led_on_circuit_board.jpg) | Miền công cộng toàn cầu, kiểm tra 2026-10-03 | Ảnh gốc 2560 × 1920; thu về 1200 × 900, WebP. Ảnh nhận dạng LED; không suy cực hay điện trở từ ảnh. |
 | `electrolytic-capacitors-cc0.webp` | Bài 8 | Elcap — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Electrolytic_capacitors-P1090328.JPG) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 1158 × 674; chuyển WebP. Gồm tụ điện phân nhôm và tantalum nhiều dạng. |
 | `axial-inductors-cc0.webp` | Bài 10 | Retired electrician — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:EC24_miniature_axial_inductors.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 2696 × 2696; thu về 1200 × 1200, WebP. Cuộn cảm EC24 dạng trục. |
+| `day15-overview.svg` | Bài 15 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | BJT NPN dùng làm công tắc. |
+| `day16-overview.svg` | Bài 16 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Driver relay và diode flyback. |
+| `day17-overview.svg` | Bài 17 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Các phần tử tầng common emitter. |
+| `day18-overview.svg` | Bài 18 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Chọn NMOS và mắc tải DC. |
+| `day19-overview.svg` | Bài 19 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | PWM, duty cycle, giá trị trung bình và lọc RC. |
+| `day20-overview.svg` | Bài 20 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | So sánh bốn cấu hình op-amp. |
+| `day21-overview.svg` | Bài 21 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Luồng NTC → comparator → driver → báo nhiệt. |
+| `day22-overview.svg` | Bài 22 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Các phần của khung UART. |
+| `day23-overview.svg` | Bài 23 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bản đồ bus I2C và pull-up. |
+| `day24-overview.svg` | Bài 24 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Chức năng bốn đường SPI. |
+| `day25-overview.svg` | Bài 25 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Chuỗi lấy mẫu và lượng tử hóa ADC. |
+| `day26-overview.svg` | Bài 26 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Luồng ISR và vòng chính. |
+| `day27-overview.svg` | Bài 27 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | So sánh DHT22, DS18B20, PIR. |
+| `day28-overview.svg` | Bài 28 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Khối trạm đo, OLED và log SD. |
+| `bjt-2n2222a-cc0.webp` | Bài 15 | MarkMossGH — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Generic_2N2222A.jpeg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 713 × 1553; thu về 551 × 1200, WebP. Mã ảnh 2N2222A, không gán pinout cho BC337. |
+| `mosfet-irfibc30-cc0.webp` | Bài 18 | Retired electrician — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:IRFIBC30_MOS_transistor_01.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 1062 × 1570; thu về 812 × 1200, WebP. Mã IRFIBC30 chỉ minh họa vỏ, không gợi ý dùng với GPIO 3,3 V. |
+| `dht22-sensor-cc0.webp` | Bài 27 | Ubahnverleih — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:DHT22-Temperatur-Sensor.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 2706 × 2303; thu về 1200 × 1021, WebP. Cảm biến AM2302/DHT22 rời. |
 
 Khi thêm ảnh mới, ghi lại trang tệp cụ thể, tác giả, giấy phép, ngày kiểm tra, mọi biến đổi và vị trí sử dụng. Không suy giấy phép của ảnh từ giấy phép của cả website chứa ảnh.

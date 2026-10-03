@@ -22,6 +22,9 @@ PHOTOS = {
     "File:Green light emitting diode led on circuit board.jpg": ("led-on-board-public-domain.webp", "Public domain"),
     "File:Electrolytic capacitors-P1090328.JPG": ("electrolytic-capacitors-cc0.webp", "CC0"),
     "File:EC24 miniature axial inductors.jpg": ("axial-inductors-cc0.webp", "CC0"),
+    "File:Generic 2N2222A.jpeg": ("bjt-2n2222a-cc0.webp", "CC0"),
+    "File:IRFIBC30 MOS transistor 01.jpg": ("mosfet-irfibc30-cc0.webp", "CC0"),
+    "File:DHT22-Temperatur-Sensor.jpg": ("dht22-sensor-cc0.webp", "CC0"),
 }
 HEADERS = {"User-Agent": "ElectricBasicCourse/1.0 (educational media import; Wikimedia Commons API)"}
 

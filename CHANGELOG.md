@@ -7,6 +7,7 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 ### Tài liệu
 
 - Thêm 14 sơ đồ tổng quan theo nội dung Bài 1–14 và bốn ảnh linh kiện CC0/miền công cộng có ghi nguồn; kiểm tra 320/390/1280 px.
+- Thêm 14 sơ đồ Bài 15–28 và ba ảnh CC0 cho BJT, MOSFET, DHT22; chú thích rõ giới hạn suy luận từ ảnh linh kiện.
 
 - Hoàn tất kiểm định Phase 4: phân loại 80 sơ đồ ký tự và sửa 31 nhóm lỗi kỹ thuật trong sơ đồ, lời giảng, bài thực hành trước đợt vẽ hình.
 

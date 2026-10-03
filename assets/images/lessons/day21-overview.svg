@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="1114" viewBox="0 0 560 1114" role="img" aria-labelledby="title desc">
+<title id="title">Báo nhiệt với NTC — Bài 21</title>
+<desc id="desc">Cực tính đáp ứng phụ thuộc vị trí NTC</desc>
+<rect width="560" height="1114" rx="24" fill="#101b2d"/>
+<rect x="28" y="26" width="96" height="42" rx="21" fill="#25415b"/>
+<text x="47" y="55" fill="#f8fafc" font-size="24" font-weight="700" font-family="Arial, sans-serif">BÀI 21</text>
+<text x="400" y="55" fill="#9ebbd0" font-size="20" font-weight="700" font-family="Arial, sans-serif">QUY TRÌNH</text>
+<text x="32" y="113" fill="#f8fafc" font-size="36" font-weight="700" font-family="Arial, sans-serif">Báo nhiệt với NTC</text>
+<rect x="29" y="174" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
+<rect x="29" y="174" width="7" height="200" rx="3" fill="#54d6c9"/>
+<circle cx="77" cy="221" r="24" fill="#54d6c9"/>
+<text x="66" y="230" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">1</text>
+<text x="116" y="231" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">NTC + điện trở</text>
+<text x="56" y="278" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Cầu chia áp đổi nhiệt độ</text>
+<text x="56" y="316" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">thành mức điện áp.</text>
+<path d="M 280 375 v 12" stroke="#78e6da" stroke-width="4" stroke-linecap="round"/>
+<path d="M 272 383 l 8 8 8 -8" fill="none" stroke="#78e6da" stroke-width="4"/>
+<rect x="29" y="390" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
+<rect x="29" y="390" width="7" height="200" rx="3" fill="#f5bd6a"/>
+<circle cx="77" cy="437" r="24" fill="#f5bd6a"/>
+<text x="66" y="446" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">2</text>
+<text x="116" y="447" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">So ngưỡng</text>
+<text x="56" y="494" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Comparator so mức đo với</text>
+<text x="56" y="532" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">điện áp tham chiếu.</text>
+<path d="M 280 591 v 12" stroke="#78e6da" stroke-width="4" stroke-linecap="round"/>
+<path d="M 272 599 l 8 8 8 -8" fill="none" stroke="#78e6da" stroke-width="4"/>
+<rect x="29" y="606" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
+<rect x="29" y="606" width="7" height="200" rx="3" fill="#9cb7ff"/>
+<circle cx="77" cy="653" r="24" fill="#9cb7ff"/>
+<text x="66" y="662" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">3</text>
+<text x="116" y="663" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">Driver đầu ra</text>
+<text x="56" y="710" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">BJT hoặc MOSFET cấp dòng</text>
+<text x="56" y="748" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">cho buzzer/relay.</text>
+<path d="M 280 807 v 12" stroke="#78e6da" stroke-width="4" stroke-linecap="round"/>
+<path d="M 272 815 l 8 8 8 -8" fill="none" stroke="#78e6da" stroke-width="4"/>
+<rect x="29" y="822" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
+<rect x="29" y="822" width="7" height="200" rx="3" fill="#e7a2cb"/>
+<circle cx="77" cy="869" r="24" fill="#e7a2cb"/>
+<text x="66" y="878" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">4</text>
+<text x="116" y="879" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">Thử hai phía</text>
+<text x="56" y="926" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Đo dưới và trên ngưỡng;</text>
+<text x="56" y="964" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">kiểm trạng thái an toàn.</text>
+<rect x="29" y="1025" width="502" height="74" rx="16" fill="#25415b"/>
+<text x="47" y="1057" fill="#f8fafc" font-size="26" font-weight="700" font-family="Arial, sans-serif">Cực tính đáp ứng phụ thuộc vị trí</text>
+<text x="47" y="1090" fill="#f8fafc" font-size="26" font-weight="700" font-family="Arial, sans-serif">NTC</text>
+</svg>

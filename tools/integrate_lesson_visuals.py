@@ -20,6 +20,9 @@ PHOTOS = {
     4: ("led-on-board-public-domain.webp", "Leon Brooks", "Public domain", "Green light emitting diode led on circuit board.jpg", "LED màu xanh lục gắn trên một mạch in nhỏ, có hai chân đi xuống PCB.", "LED gắn trên PCB. Ảnh giúp nhận dạng vỏ linh kiện, không đủ để suy chân anode/cathode hoặc điện trở hạn dòng của mạch."),
     8: ("electrolytic-capacitors-cc0.webp", "Elcap", "CC0 1.0", "Electrolytic capacitors-P1090328.JPG", "Nhiều kiểu tụ điện phân, dạng trụ xuyên lỗ và dạng dán bề mặt, có kích thước khác nhau.", "Các kiểu tụ điện phân bằng nhôm và tantalum; cần đọc dấu cực và điện áp định mức trên đúng linh kiện trước khi lắp."),
     10: ("axial-inductors-cc0.webp", "Retired electrician", "CC0 1.0", "EC24 miniature axial inductors.jpg", "Mười cuộn cảm nhỏ dạng trục màu xanh đặt song song trên băng giấy.", "Cuộn cảm EC24 dạng trục trông gần giống điện trở; tra ký hiệu và đo kiểm trước khi lắp."),
+    15: ("bjt-2n2222a-cc0.webp", "MarkMossGH", "CC0 1.0", "Generic 2N2222A.jpeg", "Transistor lưỡng cực 2N2222A vỏ TO-92 nhìn từ phía mặt phẳng và ba chân kim loại.", "Ví dụ transistor BJT 2N2222A vỏ TO-92. Bài thực hành có thể dùng BC337; ảnh không xác định thứ tự chân của linh kiện bạn cầm, hãy tra datasheet đúng mã."),
+    18: ("mosfet-irfibc30-cc0.webp", "Retired electrician", "CC0 1.0", "IRFIBC30 MOS transistor 01.jpg", "Các MOSFET IRFIBC30 trong vỏ TO-220 cách điện đặt cạnh nhau.", "Ngoại hình MOSFET IRFIBC30 vỏ TO-220 cách điện. Ảnh không ngụ ý mã này đóng cắt đủ ở GPIO 3,3 V; phải kiểm RDS(on) tại VGS dùng thật."),
+    27: ("dht22-sensor-cc0.webp", "Ubahnverleih", "CC0 1.0", "DHT22-Temperatur-Sensor.jpg", "Cảm biến nhiệt độ và độ ẩm DHT22 màu trắng, mặt trước có các lỗ thông khí.", "Cảm biến DHT22 rời. Không suy thứ tự chân hay điện trở kéo lên chỉ từ ảnh mặt trước; đối chiếu datasheet/module thực tế."),
 }
 
 

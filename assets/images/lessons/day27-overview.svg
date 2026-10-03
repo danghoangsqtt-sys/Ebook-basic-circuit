@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="1114" viewBox="0 0 560 1114" role="img" aria-labelledby="title desc">
+<title id="title">Ba cảm biến số phổ biến — Bài 27</title>
+<desc id="desc">Đọc giao thức trước khi nối GPIO</desc>
+<rect width="560" height="1114" rx="24" fill="#101b2d"/>
+<rect x="28" y="26" width="96" height="42" rx="21" fill="#25415b"/>
+<text x="47" y="55" fill="#f8fafc" font-size="24" font-weight="700" font-family="Arial, sans-serif">BÀI 27</text>
+<text x="405" y="55" fill="#9ebbd0" font-size="20" font-weight="700" font-family="Arial, sans-serif">SO SÁNH</text>
+<text x="32" y="113" fill="#f8fafc" font-size="36" font-weight="700" font-family="Arial, sans-serif">Ba cảm biến số phổ biến</text>
+<path d="M 23 184 H 16 V 580 H 23 M 23 616 H 16 V 1012 H 23" stroke="#9cb7ff" stroke-width="4" fill="none"/>
+<circle cx="16" cy="382" r="6" fill="#54d6c9"/>
+<circle cx="16" cy="814" r="6" fill="#9cb7ff"/>
+<rect x="29" y="174" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
+<rect x="29" y="174" width="7" height="200" rx="3" fill="#54d6c9"/>
+<circle cx="77" cy="221" r="24" fill="#54d6c9"/>
+<text x="66" y="230" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">1</text>
+<text x="116" y="231" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">DHT22</text>
+<text x="56" y="278" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Đo nhiệt độ/độ ẩm; kiểm</text>
+<text x="56" y="316" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">timeout và checksum.</text>
+<rect x="29" y="390" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
+<rect x="29" y="390" width="7" height="200" rx="3" fill="#54d6c9"/>
+<circle cx="77" cy="437" r="24" fill="#54d6c9"/>
+<text x="66" y="446" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">2</text>
+<text x="116" y="447" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">DS18B20</text>
+<text x="56" y="494" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Nhiệt độ qua 1-Wire; cần</text>
+<text x="56" y="532" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">điện trở pull-up.</text>
+<rect x="29" y="606" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
+<rect x="29" y="606" width="7" height="200" rx="3" fill="#9cb7ff"/>
+<circle cx="77" cy="653" r="24" fill="#9cb7ff"/>
+<text x="66" y="662" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">3</text>
+<text x="116" y="663" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">PIR HC-SR501</text>
+<text x="56" y="710" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Báo phát hiện chuyển động</text>
+<text x="56" y="748" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">bằng tín hiệu số.</text>
+<rect x="29" y="822" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
+<rect x="29" y="822" width="7" height="200" rx="3" fill="#9cb7ff"/>
+<circle cx="77" cy="869" r="24" fill="#9cb7ff"/>
+<text x="66" y="878" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">4</text>
+<text x="116" y="879" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">Điểm chung</text>
+<text x="56" y="926" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Nguồn và mức logic theo</text>
+<text x="56" y="964" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">module, GND chung.</text>
+<rect x="29" y="1040" width="502" height="54" rx="16" fill="#25415b"/>
+<text x="47" y="1076" fill="#f8fafc" font-size="27" font-weight="700" font-family="Arial, sans-serif">Đọc giao thức trước khi nối GPIO</text>
+</svg>

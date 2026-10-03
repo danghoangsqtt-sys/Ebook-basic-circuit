@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="1114" viewBox="0 0 560 1114" role="img" aria-labelledby="title desc">
+<title id="title">Bốn đường SPI cơ bản — Bài 24</title>
+<desc id="desc">Đối chiếu mode CPOL/CPHA</desc>
+<rect width="560" height="1114" rx="24" fill="#101b2d"/>
+<rect x="28" y="26" width="96" height="42" rx="21" fill="#25415b"/>
+<text x="47" y="55" fill="#f8fafc" font-size="24" font-weight="700" font-family="Arial, sans-serif">BÀI 24</text>
+<text x="425" y="55" fill="#9ebbd0" font-size="20" font-weight="700" font-family="Arial, sans-serif">SƠ ĐỒ</text>
+<text x="32" y="113" fill="#f8fafc" font-size="36" font-weight="700" font-family="Arial, sans-serif">Bốn đường SPI cơ bản</text>
+<path d="M 18 151 V 922" stroke="#54d6c9" stroke-width="4" opacity="0.8"/>
+<path d="M 18 274 H 29" stroke="#54d6c9" stroke-width="4"/>
+<circle cx="18" cy="274" r="7" fill="#54d6c9"/>
+<rect x="29" y="174" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
+<rect x="29" y="174" width="7" height="200" rx="3" fill="#54d6c9"/>
+<circle cx="77" cy="221" r="24" fill="#54d6c9"/>
+<text x="66" y="230" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">1</text>
+<text x="116" y="231" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">SCK</text>
+<text x="56" y="278" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Xung đồng hồ do controller</text>
+<text x="56" y="316" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">phát.</text>
+<path d="M 18 490 H 29" stroke="#54d6c9" stroke-width="4"/>
+<circle cx="18" cy="490" r="7" fill="#54d6c9"/>
+<rect x="29" y="390" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
+<rect x="29" y="390" width="7" height="200" rx="3" fill="#f5bd6a"/>
+<circle cx="77" cy="437" r="24" fill="#f5bd6a"/>
+<text x="66" y="446" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">2</text>
+<text x="116" y="447" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">MOSI</text>
+<text x="56" y="494" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Dữ liệu từ controller tới</text>
+<text x="56" y="532" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">ngoại vi.</text>
+<path d="M 18 706 H 29" stroke="#54d6c9" stroke-width="4"/>
+<circle cx="18" cy="706" r="7" fill="#54d6c9"/>
+<rect x="29" y="606" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
+<rect x="29" y="606" width="7" height="200" rx="3" fill="#9cb7ff"/>
+<circle cx="77" cy="653" r="24" fill="#9cb7ff"/>
+<text x="66" y="662" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">3</text>
+<text x="116" y="663" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">MISO</text>
+<text x="56" y="710" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Dữ liệu từ ngoại vi về</text>
+<text x="56" y="748" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">controller.</text>
+<path d="M 18 922 H 29" stroke="#54d6c9" stroke-width="4"/>
+<circle cx="18" cy="922" r="7" fill="#54d6c9"/>
+<rect x="29" y="822" width="502" height="200" rx="20" fill="#182a43" stroke="#42617e" stroke-width="2"/>
+<rect x="29" y="822" width="7" height="200" rx="3" fill="#e7a2cb"/>
+<circle cx="77" cy="869" r="24" fill="#e7a2cb"/>
+<text x="66" y="878" fill="#101b2d" font-size="29" font-weight="700" font-family="Arial, sans-serif">4</text>
+<text x="116" y="879" fill="#f8fafc" font-size="31" font-weight="700" font-family="Arial, sans-serif">CS</text>
+<text x="56" y="926" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">Chọn đúng một ngoại vi cho</text>
+<text x="56" y="964" fill="#dce9f3" font-size="29" font-weight="400" font-family="Arial, sans-serif">giao dịch.</text>
+<rect x="29" y="1040" width="502" height="54" rx="16" fill="#25415b"/>
+<text x="47" y="1076" fill="#f8fafc" font-size="27" font-weight="700" font-family="Arial, sans-serif">Đối chiếu mode CPOL/CPHA</text>
+</svg>
