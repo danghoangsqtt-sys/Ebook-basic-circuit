@@ -34,3 +34,7 @@ Chỉ đánh dấu nhiệm vụ hoàn tất trong `TRACKER.md` sau khi có bằn
 ## Đợt hình minh họa
 
 Đọc `../docs/brainstorm/session-2026-10-02-visuals.md`, `../docs/brainstorm/visual-inventory-2026-10-02.md`, `phases/phase-4/` đến `phase-6/` và `../assets/images/lessons/SOURCES.md` trước khi làm hình. Giữ bản quyền riêng, chỉ nhận ảnh CC0/miền công cộng đã xác minh trên trang tệp.
+
+## Đợt tái biên soạn Phase 7–10
+
+Đọc `../docs/brainstorm/session-2026-10-03-curriculum-rebuild.md`, `CURRICULUM-PLAN.md` và trạng thái `TRACKER.md`/`HANDOFF.json`. Phase 1–6 đã đóng; các task P7–P10 là kế hoạch mới, chưa được đánh dấu hoàn tất. Giả định 32 bài chuyên sâu và board thực hành phải được xác nhận ở P7-01. Sau mỗi Phase chạy `dh-audit`, dùng `dh-debug` khi có lỗi rồi mới tiến.

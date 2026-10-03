@@ -40,3 +40,12 @@
 ## Nguồn kỹ thuật
 
 Xem `.DHSYSTEM/STACKS.md` và cache `static-web` để biết thực hành, điểm cần tránh và nguồn chính thức.
+
+## Quy tắc biên tập kỹ thuật Phase 7–10
+
+- Không coi kết quả QA ảnh Phase 4–6 là xác nhận độ đúng sơ đồ. Tái kiểm từng ID trên HTML hiện hành trước khi sửa; lưu đường dẫn/dòng và trạng thái mới.
+- Mọi mạch đấu nối phải có cực tính, nhãn net, giá trị/đơn vị và điều kiện nguồn. So với datasheet đúng part, package và revision; thông số của IC không tự chứng minh chân của module bán sẵn.
+- Với claim quan trọng, lưu tên nguồn gốc, hãng, mã/revision, trang/bảng, ngày kiểm và phạm vi áp dụng. Không biến giá trị điển hình thành giới hạn chung.
+- ERC, mô phỏng và tính toán là bằng chứng từng phần. Không gọi mạch đã an toàn hoặc đã chạy trên phần cứng nếu chưa đo/duyệt.
+- Với nguồn, LiPo, motor/relay, chuyển mức và nội dung gần điện lưới: 0 lỗi P0 trước bài thực hành; ghi người duyệt kỹ thuật và phần chưa kiểm được. Không hướng dẫn thực hành điện lưới trực tiếp cho người mới.
+- Bài viết lại phải có mục tiêu, tiên quyết, lời giải, phương án mô phỏng khi thiếu dụng cụ, và đối chiếu dữ liệu menu/tìm kiếm. Sau sửa HTML, tạo lại chỉ mục rồi chạy `--check`.

@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "crystallize_version": "0.8.0",
-  "crystallized_at": "2026-10-02",
+  "crystallized_at": "2026-10-03",
   "project": "Giao trinh Ky thuat Dien tu Co ban",
-  "status": "complete",
-  "current_phase": "Phase 6",
-  "next_task": null,
+  "status": "planned",
+  "current_phase": "Phase 7",
+  "next_task": "P7-01",
   "phase_inventory": [
     {
       "id": "Phase 1",
@@ -59,6 +59,47 @@
         "P6-01",
         "P6-02"
       ]
+    },
+    {
+      "id": "Phase 7",
+      "task_ids": [
+        "P7-01",
+        "P7-02",
+        "P7-03",
+        "P7-04",
+        "P7-05",
+        "P7-06"
+      ]
+    },
+    {
+      "id": "Phase 8",
+      "task_ids": [
+        "P8-01",
+        "P8-02",
+        "P8-03",
+        "P8-04",
+        "P8-05",
+        "P8-06"
+      ]
+    },
+    {
+      "id": "Phase 9",
+      "task_ids": [
+        "P9-01",
+        "P9-02",
+        "P9-03",
+        "P9-04",
+        "P9-05"
+      ]
+    },
+    {
+      "id": "Phase 10",
+      "task_ids": [
+        "P10-01",
+        "P10-02",
+        "P10-03",
+        "P10-04"
+      ]
     }
   ],
   "ui_direction_read_complete": true,
@@ -71,6 +112,10 @@
   "architect_read_complete": null,
   "profile_resolved": "none",
   "license": "not selected; all rights reserved",
-  "application_code_changed": true,
-  "visual_source_session": "docs/brainstorm/session-2026-10-02-visuals.md"
+  "application_code_changed": false,
+  "visual_source_session": "docs/brainstorm/session-2026-10-02-visuals.md",
+  "curriculum_source_session": "docs/brainstorm/session-2026-10-03-curriculum-rebuild.md",
+  "curriculum_plan": ".DHSYSTEM/CURRICULUM-PLAN.md",
+  "curriculum_stakeholder_review_complete": true,
+  "curriculum_scope_assumption": "56 existing lessons plus approximately 32 advanced lessons; audience/board/math to confirm in P7-01"
 }

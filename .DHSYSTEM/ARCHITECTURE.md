@@ -8,6 +8,14 @@ Website là tập trang HTML tĩnh. Trang chủ là `index.html`; 56 bài nằm 
 
 Không có `.DHSYSTEM/META.md` hoặc profile tổ chức. Dự án được xử lý như giáo trình cá nhân; thông tin tổ chức không được suy đoán.
 
+## Tuyến biên tập nội dung Phase 7–10 (kế hoạch)
+
+Đây là quy trình tạo/kiểm nội dung cho website tĩnh hiện có, không thêm backend. Nguồn chính là HTML 56 bài và bài chuyên sâu dự kiến; ma trận bao phủ, sổ sơ đồ và sổ claim làm hồ sơ duyệt. Một nguồn dữ liệu mục lục phải cấp cùng nhãn cho trang đầu, sidebar và chỉ mục để tránh tình trạng Bài 10 hiện ghi diode trong menu nhưng trang thật là cuộn cảm. Tệp dữ liệu cụ thể được chốt ở P7-05 sau khi kiểm đường dẫn và tiến độ bài cũ.
+
+Luồng duyệt: kiểm bài hiện hành → ghi claim/diagram và mức rủi ro → đối chiếu tài liệu hãng đúng part/revision → tính tay/mô phỏng/ERC khi áp dụng → reviewer xem net, cực tính, lời bài và đáp án → xuất SVG/HTML kèm mô tả chữ → kiểm 320 px và chỉ mục/link. Không xem kết quả ERC hay hiển thị là chứng nhận mạch đã hoạt động trên phần cứng thật. Chỉ ghi `verified_hardware` khi có nhật ký đo với model và điều kiện thử.
+
+Nguồn sơ đồ điện ưu tiên KiCad `.kicad_sch` + SVG xuất ra; quyết định phiên bản và công cụ thực dùng ở P7-02. Bài mới dự kiến `advanced/a01.html`–`advanced/a32.html` là giả định của kế hoạch, xác nhận tại P7-01. Sơ đồ kiến trúc hệ thống hiện có vẫn mô tả ứng dụng đọc; chưa cần sidecar Mermaid mới cho quy trình biên tập.
+
 ## Quyết định công nghệ
 
 | Quyết định | Lý do | Giới hạn |

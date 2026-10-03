@@ -2,7 +2,7 @@
 
 Ngày chốt: 2026-10-02. Nguồn phạm vi: `docs/brainstorm/session-2026-10-02.md`. Hướng màn hình: `.DHSYSTEM/ui-direction/2026-10-02/`.
 
-Trạng thái 2026-10-03: Phase 1–6 đã hoàn tất và qua audit/debug; báo cáo cuối đợt hình tại `docs/qa/visual-final.md`.
+Trạng thái 2026-10-03: Phase 1–6 đã hoàn tất và qua audit/debug; Phase 7–10 là **kế hoạch tái biên soạn mới, chưa triển khai**. Chi tiết từng task, phụ thuộc và nghiệm thu ở `CURRICULUM-PLAN.md`.
 
 ## Nguyên tắc thực hiện
 
@@ -21,6 +21,10 @@ Trạng thái 2026-10-03: Phase 1–6 đã hoàn tất và qua audit/debug; báo
 | Phase 4 | Kiểm định hình và quy chuẩn | P4-01 đến P4-04 đạt nghiệm thu; P4-04 sửa lỗi HIGH từ audit |
 | Phase 5 | Minh họa sát nội dung cho 56 bài | P5-01 đến P5-04 đạt nghiệm thu |
 | Phase 6 | Sơ đồ tổng hợp và QA toàn bộ | P6-01 đến P6-02 đạt nghiệm thu |
+| Phase 7 | Kiểm định lại 56 bài, 80 ASCII, sơ đồ người dùng báo lỗi và mục lục | P7-01 đến P7-06 đạt nghiệm thu và audit/debug |
+| Phase 8 | Linh kiện, lý thuyết mạch và trường điện từ | P8-01 đến P8-06 đạt nghiệm thu và audit/debug |
+| Phase 9 | Điện tử số, MCU/MPU và cảm biến | P9-01 đến P9-05 đạt nghiệm thu và audit/debug |
+| Phase 10 | Thiết kế mạch, đồ án và nghiệm thu toàn sách | P10-01 đến P10-04 đạt nghiệm thu và audit/debug |
 
 ## Phase 1 — Đọc được và điều hướng đúng
 
@@ -147,3 +151,18 @@ Nguồn: `docs/brainstorm/session-2026-10-02-visuals.md` và `docs/brainstorm/vi
 | P6-02 | P6-01 | QA 56/56 bài, nguồn, mobile, alt/caption và nội dung |
 
 Chi tiết đường dẫn, kế hoạch từng tệp và lệnh nghiệm thu nằm trong `.DHSYSTEM/phases/phase-{4,5,6}/tasks/`. Sau mỗi Phase chạy `dh-audit`; phát hiện lỗi thì `dh-debug` và sửa trước Phase kế tiếp.
+
+## Milestone tái biên soạn — Phase 7–10
+
+Nguồn: `docs/brainstorm/session-2026-10-03-curriculum-rebuild.md`; kế hoạch thực thi: `.DHSYSTEM/CURRICULUM-PLAN.md`. Đợt này đánh số tiếp để giữ nguyên lịch sử Phase 1–6. Các kết quả hình Phase 4–6 là bằng chứng về tài sản/hiển thị trong phạm vi cũ, **không** là chứng nhận độ đúng hoặc độ đầy đủ kiến thức cho Phase 7–10.
+
+| Phase | Task theo thứ tự | Kết quả bắt buộc |
+| --- | --- | --- |
+| 7 | P7-01 → P7-02 → P7-03/P7-04 → P7-05 → P7-06 | Ma trận 56 bài, 80 quyết định sơ đồ, sáu ví dụ đã duyệt, 56 mục menu đúng, audit/debug |
+| 8 | P8-01 → P8-02/P8-03/P8-04 → P8-05 → P8-06 | Họ linh kiện, phân tích mạch và trường có ví dụ, đo/mô phỏng, lời giải, audit/debug |
+| 9 | P9-01 → P9-02 → P9-03/P9-04 → P9-05 | Logic/FSM, MCU/MPU, bản đồ cảm biến và lab, audit/debug |
+| 10 | P10-01 → P10-02/P10-03 → P10-04 | Đồ án, liên kết toàn sách, duyệt kỹ thuật, audit/debug cuối |
+
+**Giả định kế hoạch:** 56 bài cũ + tối đa 32 bài chuyên sâu cho người mới hướng tới thực hành. P7-01 xác nhận lại số bài, độc giả, toán và board/dụng cụ trước khi viết bài mới. Chưa có câu trả lời của người dùng cho hai lựa chọn đầu; xem đây là giả định có thể sửa, không phải quyết định đã chốt. Ảnh ngoài tiếp tục chỉ CC0/miền công cộng theo từng tệp hoặc hình tự tạo; không tạo `LICENSE`.
+
+Mỗi Phase chỉ kết thúc sau `dh-audit`, `dh-debug` nếu có lỗi, và bằng chứng ghi ở `TRACKER.md`/`HANDOFF.json`. Không đánh dấu PASS trước khi thực hiện.

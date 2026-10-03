@@ -1,9 +1,9 @@
 # Theo dõi tiến độ
 
 - Cập nhật: 2026-10-03
-- Trạng thái: Phase 1–6 hoàn tất; milestone hình minh họa đã audit/debug PASS
-- Phase hiện tại: Hoàn tất Phase 6
-- Việc kế tiếp: Không có trong kế hoạch đã chốt
+- Trạng thái: Phase 1–6 hoàn tất; Phase 7–10 đã lập kế hoạch, chưa triển khai
+- Phase hiện tại: Phase 7 — chờ thực hiện P7-01
+- Việc kế tiếp: P7-01 lập ma trận 56 bài và xác nhận phạm vi/độc giả/board trước khi viết bài mới
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -16,6 +16,10 @@
 | Phase 4 | 4 | 4 | Hoàn tất; audit/debug PASS |
 | Phase 5 | 4 | 4 | Hoàn tất; audit/debug PASS |
 | Phase 6 | 2 | 2 | Hoàn tất; audit/debug PASS |
+| Phase 7 | 6 | 0 | Kế hoạch; chưa triển khai |
+| Phase 8 | 6 | 0 | Kế hoạch; phụ thuộc Phase 7 |
+| Phase 9 | 5 | 0 | Kế hoạch; phụ thuộc Phase 8 |
+| Phase 10 | 4 | 0 | Kế hoạch; phụ thuộc Phase 9 |
 
 ## Phase 1
 
@@ -55,6 +59,7 @@
 | 2026-10-02 | Bản quyền riêng; chưa chọn giấy phép, chưa tạo LICENSE |
 | 2026-10-02 | Giữ bút đánh dấu một màu và schema v1; hoãn nhiều màu/ghi chú vì chưa có nhu cầu được xác nhận |
 | 2026-10-02 | Hoãn tài khoản/đồng bộ vì chưa xác nhận nhu cầu nhiều thiết bị hoặc điều kiện riêng tư/chi phí; dùng JSON để chuyển dữ liệu |
+| 2026-10-03 | Lập kế hoạch Phase 7–10 theo giả định 56 bài cũ + khoảng 32 bài mới; số bài/độc giả/board chưa phải quyết định người dùng và phải xác nhận ở P7-01 |
 
 ## Nhật ký kiểm tra
 
@@ -128,3 +133,16 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 2026-10-03 P6-02: nghiệm thu 56/56 bài, 83 tài sản/83 bản ghi nguồn, 280 ca viewport; Chromium/WebKit mỗi loại 36 ca sơ đồ tại 24 px với bản chữ mở đều PASS. `dh-debug` sửa tràn Bài 7 ở 320 px do chuỗi mã màu không ngắt; tăng tương phản nguồn ảnh. Chromium toàn bộ luồng và WebKit mẫu PASS, 569 liên kết 0 hỏng, chỉ mục hiện hành. Chi tiết `docs/qa/visual-final.md`.
 
 2026-10-03 Audit Phase 6: Tier 1 PASS; Tier 2 sửa số nhánh 49/49 trên 12 sơ đồ; Tier 3 thêm đối chiếu bài dùng ảnh trong manifest và fixture phát hiện sai bài. Các cổng asset/link/index/Chromium/WebKit PASS; xem `.DHSYSTEM/audit-report.md`. Phase 6 và milestone hình Phase 4–6 hoàn tất.
+
+## Phase 7–10 — Tái biên soạn giáo trình (chưa triển khai)
+
+Nguồn task và tiêu chí: `.DHSYSTEM/CURRICULUM-PLAN.md`. Chưa có bài mới, sơ đồ thay thế hay bằng chứng nghiệm thu từ đợt này. Báo cáo Phase 4–6 là kết quả trong phạm vi QA hình cũ.
+
+| Phase | Task | Trạng thái |
+| --- | --- | --- |
+| 7 | P7-01, P7-02, P7-03, P7-04, P7-05, P7-06 | TODO |
+| 8 | P8-01, P8-02, P8-03, P8-04, P8-05, P8-06 | TODO |
+| 9 | P9-01, P9-02, P9-03, P9-04, P9-05 | TODO |
+| 10 | P10-01, P10-02, P10-03, P10-04 | TODO |
+
+Mỗi P7-06/P8-06/P9-05/P10-04 là cổng `dh-audit` và `dh-debug`; chỉ chuyển Phase sau khi lỗi chặn đã được sửa và bằng chứng được điền. Các câu hỏi còn mở về phạm vi, độc giả, toán, board và người duyệt nằm ở `CURRICULUM-PLAN.md`.

@@ -68,3 +68,14 @@ Giúp người học đọc và thực hành trọn bộ 56 bài điện tử tr
 ## Milestone hình minh họa (Phase 4–6)
 
 Quyết định ngày 2026-10-02: biên tập hình cho 56 bài theo `docs/brainstorm/session-2026-10-02-visuals.md`. Đợt này cho phép sửa văn bản kỹ thuật gắn với hình, thay cho giới hạn không viết lại bài của Phase 1–3. Kết hợp ảnh thật CC0/miền công cộng được xác minh theo tệp với SVG tự tạo; mỗi bài có hình sát nội dung, caption/alt rõ và nguồn. Rà 80 sơ đồ ASCII, ưu tiên sơ đồ nguồn, pinout, tải cảm và pin LiPo. Thêm infographic, sơ đồ khối và sơ đồ tư duy cho bài phù hợp.
+
+## Milestone tái biên soạn nội dung (Phase 7–10)
+
+Nguồn `docs/brainstorm/session-2026-10-03-curriculum-rebuild.md`; kế hoạch `.DHSYSTEM/CURRICULUM-PLAN.md`. Phạm vi này cho phép viết lại bài và mở chương mới, khác với giới hạn giao diện Phase 1–3. Các kết quả Phase 4–6 về ảnh hiển thị và nguồn không xác nhận 80 sơ đồ ký tự đã đủ rõ hoặc toàn bộ nội dung đúng kỹ thuật.
+
+- **Người học giả định:** người mới hướng tới thực hành kỹ sư; có nhánh toán nâng cao và nhánh mô phỏng cho người thiếu dụng cụ. Chưa được người dùng chốt.
+- **Phạm vi giả định:** giữ 56 URL nhập môn, mở khoảng 32 bài A01–A32 theo tuyến linh kiện → lý thuyết mạch/trường → điện tử số/MCU → cảm biến/thiết kế. P7-01 xác nhận lại trước khi viết bài mới.
+- **Quy tắc nội dung:** mỗi sơ đồ kỹ thuật có nguồn sửa được, chú giải, bản chữ, đối chiếu claim/datasheet đúng part và điều kiện, phiếu duyệt khi rủi ro cao. Với bài thực hành, dự đoán–đo–giải thích sai khác là một chuỗi bắt buộc.
+- **An toàn:** không khẳng định “điện áp thấp an toàn” như quy tắc tuyệt đối; không đưa thao tác trực tiếp với điện lưới vào tuyến người mới. Mạch nguồn/pin/motor/chuyển mức cần xác minh riêng trước khi cho người học lắp.
+- **Bản quyền:** giữ bản quyền riêng, không tạo `LICENSE`; chỉ nhận ảnh CC0/miền công cộng đã kiểm trang tệp hoặc hình tự tạo.
+- **Đầu ra:** ma trận bài và tiên quyết, sổ 80 sơ đồ, sổ claim, bài/đáp án/lab, báo cáo QA và dấu duyệt kỹ thuật. Các Phase mới chỉ là kế hoạch cho đến khi tracker ghi bằng chứng.
