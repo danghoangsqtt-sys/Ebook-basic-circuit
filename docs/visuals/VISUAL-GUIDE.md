@@ -27,6 +27,7 @@
 - Thiết kế từ 320 px: nhãn trong hình cố gắng từ 15 px ở kích thước hiển thị; sơ đồ dày thông tin có bản SVG dọc qua `<picture>`. Không làm toàn trang cuộn ngang. Nếu vẫn quá rộng, cho cuộn trong riêng khung hình và ghi gợi ý cuộn.
 - Dùng màu như hỗ trợ, luôn có nhãn chữ/ký hiệu. Kiểm tra cả theme tối và sáng, bàn phím, mức chữ 24 px và viewport 320/360/390/430 px.
 - Ảnh raster được nén WebP phù hợp, mục tiêu dưới 800 KB. Giữ SVG là vector để đọc nét tại mức zoom cao.
+- Sơ đồ tổng hợp cuối bài có nhãn trong SVG, alt mô tả quan hệ và bản chữ mở được bằng bàn phím; kiểm tra biên chữ SVG bằng `tools/qa_summary_visuals.py`.
 
 ## Nguồn và lưu trữ
 

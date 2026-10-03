@@ -72,8 +72,27 @@ Giáo trình giữ bản quyền riêng. Ảnh bên ngoài chỉ được đưa 
 | `day52-overview.svg` | Bài 52 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Task đo → queue → xử lý → giao tiếp. |
 | `day53-overview.svg` | Bài 53 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | ESP32 BLE server, GATT, notify/write. |
 | `day54-overview.svg` | Bài 54 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bản đồ PCB chống nhiễu. |
-| `day55-overview.svg` | Bài 55 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bốn hướng học tiếp. |
+| `day55-overview.svg` | Bài 55 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bốn nhóm bao phủ năm hướng học tiếp trong bài. |
 | `day56-overview.svg` | Bài 56 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bản đồ năng lực sau khóa. |
 | `esp32-dev-board-cc0.webp` | Bài 53 | Ubahnverleih — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:ESP32_Espressif_ESP-WROOM-32_Dev_Board.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 4082 × 3134; thu về 1200 × 921, WebP. Bo phát triển ESP-WROOM-32; pinout chỉ của bo trong ảnh. |
 
 Khi thêm ảnh mới, ghi lại trang tệp cụ thể, tác giả, giấy phép, ngày kiểm tra, mọi biến đổi và vị trí sử dụng. Không suy giấy phép của ảnh từ giấy phép của cả website chứa ảnh.
+
+## Sơ đồ tổng hợp Phase 6
+
+Các SVG dưới đây do dự án tự vẽ từ `docs/visuals/summary-specs.json` bằng `tools/build_summary_visuals.py`. Đây là sơ đồ khái niệm, không phải hướng dẫn đấu dây độc lập; chi tiết và giới hạn nằm trong bài tương ứng. Không sử dụng ảnh từ bên ngoài.
+
+| Tệp | Bài | Nguồn | Quyền | Nội dung |
+| --- | --- | --- | --- | --- |
+| `day07-summary.svg` | 7 | Tự vẽ từ bài học | Nội dung dự án | Quy trình LED bốn màu: tính, lắp, kiểm và chạy. |
+| `day14-summary.svg` | 14 | Tự vẽ từ bài học | Nội dung dự án | Các khối thiết kế và kiểm nguồn hai rail. |
+| `day21-summary.svg` | 21 | Tự vẽ từ bài học | Nội dung dự án | Tín hiệu NTC qua ngưỡng đến driver tải. |
+| `day28-summary.svg` | 28 | Tự vẽ từ bài học | Nội dung dự án | Trạm đo: cảm biến, ESP32, hiển thị/log và kiểm. |
+| `day35-summary.svg` | 35 | Tự vẽ từ bài học | Nội dung dự án | PCB buck: schematic, KiCad, layout và thử nguồn. |
+| `day42-summary.svg` | 42 | Tự vẽ từ bài học | Nội dung dự án | Robot: khoảng cách, ESP32, TB6612FNG và nguồn. |
+| `day43-summary.svg` | 43 | Tự vẽ từ bài học | Nội dung dự án | Nhánh yêu cầu, kiến trúc, BOM và lịch đồ án. |
+| `day48-summary.svg` | 48 | Tự vẽ từ bài học | Nội dung dự án | README, manual, thiết kế và mã/test. |
+| `day49-summary.svg` | 49 | Tự vẽ từ bài học | Nội dung dự án | Tiến độ, kịch bản, kết quả và dự phòng demo. |
+| `day50-summary.svg` | 50 | Tự vẽ từ bài học | Nội dung dự án | Đánh giá chức năng, chất lượng, rút kinh nghiệm và portfolio. |
+| `day55-summary.svg` | 55 | Tự vẽ từ bài học | Nội dung dự án | Năm hướng học tiếp đúng danh sách trong bài. |
+| `day56-summary.svg` | 56 | Tự vẽ từ bài học | Nội dung dự án | Bốn nhóm năng lực sau tám tuần. |

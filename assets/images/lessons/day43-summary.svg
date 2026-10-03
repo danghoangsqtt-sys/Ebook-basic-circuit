@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="1067" viewBox="0 0 560 1067" role="img" aria-labelledby="title desc">
+<title id="title">Bản thiết kế đồ án — Bài 43</title>
+<desc id="desc">Ý tưởng dự án nhúng; Yêu cầu: Viết FR/NFR và cách kiểm.; Kiến trúc: Vẽ khối và giao tiếp thực.; Nguồn lực: Lập BOM và ngân sách.; Lịch làm: Chia thiết kế, lắp và thử.</desc>
+<rect width="560" height="1067" rx="24" fill="#102036"/>
+<rect x="24" y="22" width="154" height="42" rx="21" fill="#254761"/>
+<text x="43" y="52" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#e8f4fa">BÀI 43 · TỔNG KẾT</text>
+<text x="27" y="112" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#f7fbff">Bản thiết kế đồ án</text>
+<rect x="26" y="139" width="508" height="90" rx="22" fill="#226174" stroke="#76e3dc" stroke-width="3"/>
+<text x="49" y="193" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#ffffff">Ý tưởng dự án nhúng</text>
+<path d="M 65 229 V 929" stroke="#76e3dc" stroke-width="4" fill="none"/>
+<path d="M 65 340 H 91" stroke="#76e3dc" stroke-width="4"/>
+<circle cx="65" cy="340" r="8" fill="#63d8cc"/>
+<rect x="91" y="257" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
+<rect x="91" y="257" width="8" height="166" rx="4" fill="#63d8cc"/>
+<text x="118" y="316" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Yêu cầu</text>
+<text x="118" y="364" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Viết FR/NFR và cách kiểm.</text>
+<path d="M 65 535 H 91" stroke="#76e3dc" stroke-width="4"/>
+<circle cx="65" cy="535" r="8" fill="#f8c476"/>
+<rect x="91" y="452" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
+<rect x="91" y="452" width="8" height="166" rx="4" fill="#f8c476"/>
+<text x="118" y="511" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Kiến trúc</text>
+<text x="118" y="559" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Vẽ khối và giao tiếp thực.</text>
+<path d="M 65 730 H 91" stroke="#76e3dc" stroke-width="4"/>
+<circle cx="65" cy="730" r="8" fill="#aebdff"/>
+<rect x="91" y="647" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
+<rect x="91" y="647" width="8" height="166" rx="4" fill="#aebdff"/>
+<text x="118" y="706" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Nguồn lực</text>
+<text x="118" y="754" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Lập BOM và ngân sách.</text>
+<path d="M 65 925 H 91" stroke="#76e3dc" stroke-width="4"/>
+<circle cx="65" cy="925" r="8" fill="#edadd2"/>
+<rect x="91" y="842" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
+<rect x="91" y="842" width="8" height="166" rx="4" fill="#edadd2"/>
+<text x="118" y="901" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Lịch làm</text>
+<text x="118" y="949" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Chia thiết kế, lắp và thử.</text>
+</svg>

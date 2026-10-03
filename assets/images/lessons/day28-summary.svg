@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="1103" viewBox="0 0 560 1103" role="img" aria-labelledby="title desc">
+<title id="title">Trạm đo môi trường — Bài 28</title>
+<desc id="desc">Cảm biến → ESP32 → hiển thị/log; Đọc cảm biến: Nhận nhiệt, ẩm; kiểm dữ liệu.; ESP32 xử lý: Đọc định kỳ và phát hiện lỗi.; Hiển thị và ghi: OLED và SD theo bus phù hợp.; Đối chiếu số đo: Ghi bảng kiểm và sai lệch.</desc>
+<rect width="560" height="1103" rx="24" fill="#102036"/>
+<rect x="24" y="22" width="154" height="42" rx="21" fill="#254761"/>
+<text x="43" y="52" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#e8f4fa">BÀI 28 · TỔNG KẾT</text>
+<text x="27" y="112" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#f7fbff">Trạm đo môi trường</text>
+<rect x="26" y="139" width="508" height="126" rx="22" fill="#226174" stroke="#76e3dc" stroke-width="3"/>
+<text x="49" y="193" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#ffffff">Cảm biến → ESP32 → hiển</text>
+<text x="49" y="229" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#ffffff">thị/log</text>
+<path d="M 280 265 V 290" stroke="#76e3dc" stroke-width="4"/>
+<path d="M 271 280 l 9 10 9 -10" stroke="#76e3dc" stroke-width="4" fill="none"/>
+<rect x="26" y="293" width="508" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
+<rect x="26" y="293" width="8" height="166" rx="4" fill="#63d8cc"/>
+<text x="53" y="352" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Đọc cảm biến</text>
+<text x="53" y="400" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Nhận nhiệt, ẩm; kiểm dữ</text>
+<text x="53" y="434" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">liệu.</text>
+<path d="M 280 460 V 485" stroke="#76e3dc" stroke-width="4"/>
+<path d="M 271 475 l 9 10 9 -10" stroke="#76e3dc" stroke-width="4" fill="none"/>
+<rect x="26" y="488" width="508" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
+<rect x="26" y="488" width="8" height="166" rx="4" fill="#f8c476"/>
+<text x="53" y="547" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">ESP32 xử lý</text>
+<text x="53" y="595" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Đọc định kỳ và phát hiện</text>
+<text x="53" y="629" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">lỗi.</text>
+<path d="M 280 655 V 680" stroke="#76e3dc" stroke-width="4"/>
+<path d="M 271 670 l 9 10 9 -10" stroke="#76e3dc" stroke-width="4" fill="none"/>
+<rect x="26" y="683" width="508" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
+<rect x="26" y="683" width="8" height="166" rx="4" fill="#aebdff"/>
+<text x="53" y="742" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Hiển thị và ghi</text>
+<text x="53" y="790" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">OLED và SD theo bus phù</text>
+<text x="53" y="824" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">hợp.</text>
+<path d="M 280 850 V 875" stroke="#76e3dc" stroke-width="4"/>
+<path d="M 271 865 l 9 10 9 -10" stroke="#76e3dc" stroke-width="4" fill="none"/>
+<rect x="26" y="878" width="508" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
+<rect x="26" y="878" width="8" height="166" rx="4" fill="#edadd2"/>
+<text x="53" y="937" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Đối chiếu số đo</text>
+<text x="53" y="985" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Ghi bảng kiểm và sai lệch.</text>
+</svg>

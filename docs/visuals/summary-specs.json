@@ -1,0 +1,63 @@
+{
+  "07": {"mode":"block","title":"Từ tính toán đến LED chạy thật","hub":"Dự án LED bốn màu","nodes":[
+    {"heading":"Tính R từng nhánh","detail":"Chọn dòng và đo Vf từng màu.","section":"Tính toán R hạn dòng"},
+    {"heading":"Lắp bốn nhánh","detail":"Mỗi LED có R riêng; kiểm GND.","section":"Lắp mạch trên breadboard"},
+    {"heading":"Kiểm trước khi nạp","detail":"Đo thông mạch và tìm chập nguồn.","section":"Đo kiểm trước khi nạp code"},
+    {"heading":"Chạy và đo lại","detail":"Thử firmware, đo từng nhánh.","section":"Đo kiểm sau khi chạy code"}]},
+  "14": {"mode":"block","title":"Nguồn DC hai rail","hub":"9 V DC → 5 V + 3,3 V","nodes":[
+    {"heading":"Sơ đồ tổng thể","detail":"Bảo vệ, lọc, 7805, AMS1117.","section":"Sơ đồ mạch tổng thể"},
+    {"heading":"Chọn linh kiện","detail":"Tính dòng, tụ và công suất nhiệt.","section":"Tính toán linh kiện"},
+    {"heading":"Lắp an toàn","detail":"Kiểm cực và chập trước cấp nguồn.","section":"Quy trình lắp mạch an toàn"},
+    {"heading":"Đo hai rail","detail":"Đo 5 V, 3,3 V và nhiệt có tải.","section":"Bảng đo kiểm"}]},
+  "21": {"mode":"block","title":"Chuỗi xử lý báo nhiệt","hub":"NTC → so ngưỡng → tải","nodes":[
+    {"heading":"NTC đo nhiệt","detail":"Cầu chia áp đổi nhiệt thành áp.","section":"Nguyên lý NTC Thermistor"},
+    {"heading":"So ngưỡng","detail":"Comparator quyết định trạng thái.","section":"Sơ đồ khối hệ thống"},
+    {"heading":"Driver tải","detail":"Tầng transistor cấp dòng đầu ra.","section":"Sơ đồ khối hệ thống"},
+    {"heading":"Thử hai phía","detail":"Đo dưới và trên ngưỡng đặt.","section":"Bảng đo kiểm"}]},
+  "28": {"mode":"block","title":"Trạm đo môi trường","hub":"Cảm biến → ESP32 → hiển thị/log","nodes":[
+    {"heading":"Đọc cảm biến","detail":"Nhận nhiệt, ẩm; kiểm dữ liệu.","section":"Kiến trúc phần mềm"},
+    {"heading":"ESP32 xử lý","detail":"Đọc định kỳ và phát hiện lỗi.","section":"Code khung"},
+    {"heading":"Hiển thị và ghi","detail":"OLED và SD theo bus phù hợp.","section":"Kiến trúc phần mềm"},
+    {"heading":"Đối chiếu số đo","detail":"Ghi bảng kiểm và sai lệch.","section":"Bảng đo kiểm"}]},
+  "35": {"mode":"block","title":"PCB nguồn buck mini","hub":"12 V → LM2596S-5.0 → 5 V","nodes":[
+    {"heading":"Schematic","detail":"Đối chiếu IC, L, diode và tụ.","section":"Schematic LM2596S-5.0"},
+    {"heading":"Đưa vào KiCad","detail":"Ghép footprint rồi chạy ERC/DRC.","section":"Quy trình thiết kế PCB trong KiCad"},
+    {"heading":"Đặt vòng dòng nhanh","detail":"Tụ vào, switch và diode đặt gần.","section":"Điểm quan trọng về layout"},
+    {"heading":"Cấp điện thử","detail":"Giới hạn dòng; đo ra và ripple.","section":"Tổng kết Tuần 5"}]},
+  "42": {"mode":"mindmap","title":"Robot WiFi tránh vật cản","hub":"ESP32 điều phối robot hai bánh","nodes":[
+    {"heading":"Cảm biến khoảng cách","detail":"HC-SR04, ECHO hạ mức 3,3 V.","section":"Kiến trúc hệ thống"},
+    {"heading":"ESP32 quyết định","detail":"AUTO tránh vật hoặc nhận lệnh web.","section":"Chức năng Web Interface"},
+    {"heading":"TB6612FNG lái motor","detail":"Hai motor DC, nguồn đủ dòng đỉnh.","section":"Kiến trúc hệ thống"},
+    {"heading":"Nguồn LiPo bảo vệ","detail":"Sạc, bảo vệ và boost được kiểm.","section":"Capstone Project Tuần 6"}]},
+  "43": {"mode":"mindmap","title":"Bản thiết kế đồ án","hub":"Ý tưởng dự án nhúng","nodes":[
+    {"heading":"Yêu cầu","detail":"Viết FR/NFR và cách kiểm.","section":"SRS"},
+    {"heading":"Kiến trúc","detail":"Vẽ khối và giao tiếp thực.","section":"Block Diagram mẫu"},
+    {"heading":"Nguồn lực","detail":"Lập BOM và ngân sách.","section":"Block Diagram mẫu"},
+    {"heading":"Lịch làm","detail":"Chia thiết kế, lắp và thử.","section":"Quy trình thiết kế hệ thống nhúng"}]},
+  "48": {"mode":"mindmap","title":"Bộ tài liệu kỹ thuật","hub":"Dự án có thể bàn giao","nodes":[
+    {"heading":"README","detail":"Mục đích, cài đặt và ảnh demo.","section":"README.md"},
+    {"heading":"User Manual","detail":"Cách dùng và xử lý lỗi.","section":"Các loại tài liệu kỹ thuật"},
+    {"heading":"Thiết kế và BOM","detail":"Kiến trúc, mạch và linh kiện.","section":"Các loại tài liệu kỹ thuật"},
+    {"heading":"Mã và thử nghiệm","detail":"Doxygen, test report, version.","section":"Comment code"}]},
+  "49": {"mode":"mindmap","title":"Chuẩn bị demo mười phút","hub":"Demo có bằng chứng","nodes":[
+    {"heading":"Tiến độ","detail":"Rà SRS, mạch, mã, test và doc.","section":"Tiến độ Tuần 7"},
+    {"heading":"Kịch bản","detail":"Vấn đề → sản phẩm → chạy thật.","section":"Kịch bản trình bày 10 phút"},
+    {"heading":"Kết quả","detail":"Nêu yêu cầu đạt và chưa đạt.","section":"Kịch bản trình bày 10 phút"},
+    {"heading":"Dự phòng","detail":"Pin, WiFi và chức năng offline.","section":"Pre-Demo Checklist"}]},
+  "50": {"mode":"mindmap","title":"Đánh giá sau demo","hub":"Dự án và hành trình học","nodes":[
+    {"heading":"Chức năng","detail":"Đối chiếu yêu cầu SRS đã đạt.","section":"Bảng đánh giá đồ án"},
+    {"heading":"Chất lượng","detail":"Xem mạch, firmware và tài liệu.","section":"Bảng đánh giá đồ án"},
+    {"heading":"Nhìn lại","detail":"Tốt, khó, đã học, việc kế.","section":"Retrospective"},
+    {"heading":"Portfolio","detail":"Repo, ảnh và video demo.","section":"Portfolio"}]},
+  "55": {"mode":"mindmap","title":"Năm hướng học tiếp","hub":"Chọn hướng và dự án nhỏ","nodes":[
+    {"heading":"Firmware","detail":"STM32, RTOS và driver.","section":"Bản đồ các hướng chuyên sâu"},
+    {"heading":"Embedded Linux","detail":"Buildroot và kernel module.","section":"Bản đồ các hướng chuyên sâu"},
+    {"heading":"PCB phần cứng","detail":"Analog, RF và board nhiều lớp.","section":"Bản đồ các hướng chuyên sâu"},
+    {"heading":"IoT và cloud","detail":"MQTT, Matter và edge AI.","section":"Bản đồ các hướng chuyên sâu"},
+    {"heading":"Robotics","detail":"ROS2, thị giác và SLAM.","section":"Bản đồ các hướng chuyên sâu"}]},
+  "56": {"mode":"mindmap","title":"Năng lực sau tám tuần","hub":"Tiếp tục làm và đo","nodes":[
+    {"heading":"Mạch và nguồn","detail":"Đọc sơ đồ, đo, bảo vệ tải.","section":"Tổng kết kiến thức 8 tuần"},
+    {"heading":"Firmware và bus","detail":"GPIO, UART, I2C, SPI và WiFi.","section":"Tổng kết kiến thức 8 tuần"},
+    {"heading":"PCB và kiểm thử","detail":"Thiết kế, lắp, đo và debug.","section":"Bản đồ kỹ năng đạt được"},
+    {"heading":"Trình bày dự án","detail":"Tài liệu, demo và học tiếp.","section":"Bản đồ kỹ năng đạt được"}]}
+}
