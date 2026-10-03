@@ -1,7 +1,7 @@
 # Phase 6 — Sơ đồ tổng hợp và nghiệm thu
 
-- Trạng thái: awaiting_audit (2026-10-03)
-- Nhiệm vụ hiện tại: dh-audit Phase 6
+- Trạng thái: complete (2026-10-03)
+- Nhiệm vụ hiện tại: không có; audit/debug Phase 6 PASS
 
 | Task | Trạng thái | Bằng chứng |
 | --- | --- | --- |

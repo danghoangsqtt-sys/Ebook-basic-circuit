@@ -1,9 +1,9 @@
 # Theo dõi tiến độ
 
 - Cập nhật: 2026-10-03
-- Trạng thái: Phase 1–5 hoàn tất; Phase 6 hình tổng hợp đang triển khai
-- Phase hiện tại: Phase 6
-- Việc kế tiếp: Audit Phase 6
+- Trạng thái: Phase 1–6 hoàn tất; milestone hình minh họa đã audit/debug PASS
+- Phase hiện tại: Hoàn tất Phase 6
+- Việc kế tiếp: Không có trong kế hoạch đã chốt
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -15,7 +15,7 @@
 | Phase 3 | 2 | 2 | Hoàn tất; audit/debug PASS |
 | Phase 4 | 4 | 4 | Hoàn tất; audit/debug PASS |
 | Phase 5 | 4 | 4 | Hoàn tất; audit/debug PASS |
-| Phase 6 | 2 | 2 | Chờ audit Phase 6 |
+| Phase 6 | 2 | 2 | Hoàn tất; audit/debug PASS |
 
 ## Phase 1
 
@@ -125,4 +125,6 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 
 2026-10-03 P6-01: thêm 12 sơ đồ tổng hợp cuối bài kèm bản chữ, ánh xạ từng nhánh/khối tới đề mục. Sửa tổng quan Bài 55 để bốn nhóm bao phủ đúng năm hướng học trong bài. 12 SVG không cắt chữ; 36 ca viewport PASS; 56/56 bài có hình, 82 phần tử ảnh/83 tài sản, 59 trang/569 tham chiếu 0 hỏng, index và Chromium quick PASS. Chi tiết `docs/qa/visual-summaries.md`.
 
-2026-10-03 P6-02: nghiệm thu 56/56 bài, 83 tài sản/83 bản ghi nguồn, 280 ca viewport; Chromium/WebKit mỗi loại 36 ca sơ đồ tại 24 px với bản chữ mở đều PASS. `dh-debug` sửa tràn Bài 7 ở 320 px do chuỗi mã màu không ngắt; tăng tương phản nguồn ảnh. Chromium toàn bộ luồng và WebKit mẫu PASS, 569 liên kết 0 hỏng, chỉ mục hiện hành. Chi tiết `docs/qa/visual-final.md`. Chờ audit Phase 6.
+2026-10-03 P6-02: nghiệm thu 56/56 bài, 83 tài sản/83 bản ghi nguồn, 280 ca viewport; Chromium/WebKit mỗi loại 36 ca sơ đồ tại 24 px với bản chữ mở đều PASS. `dh-debug` sửa tràn Bài 7 ở 320 px do chuỗi mã màu không ngắt; tăng tương phản nguồn ảnh. Chromium toàn bộ luồng và WebKit mẫu PASS, 569 liên kết 0 hỏng, chỉ mục hiện hành. Chi tiết `docs/qa/visual-final.md`.
+
+2026-10-03 Audit Phase 6: Tier 1 PASS; Tier 2 sửa số nhánh 49/49 trên 12 sơ đồ; Tier 3 thêm đối chiếu bài dùng ảnh trong manifest và fixture phát hiện sai bài. Các cổng asset/link/index/Chromium/WebKit PASS; xem `.DHSYSTEM/audit-report.md`. Phase 6 và milestone hình Phase 4–6 hoàn tất.

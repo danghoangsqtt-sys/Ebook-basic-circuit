@@ -126,6 +126,12 @@ def check(root: Path, require_all: bool) -> dict[str, object]:
             else:
                 origin = row[3] if len(row) > 3 else ""
                 licence = row[4] if len(row) > 4 else ""
+                lesson_field = row[2] if len(row) > 2 else ""
+                recorded_days = {int(value) for value in re.findall(r"\bBài\s+(\d+)", lesson_field)}
+                if lesson_field.isdigit():
+                    recorded_days.add(int(lesson_field))
+                if day not in recorded_days:
+                    errors.append(f"{where}: {path.name} source entry names wrong lesson: {lesson_field}")
                 if path.suffix.lower() == ".svg":
                     if "Tự vẽ" not in origin or "Nội dung dự án" not in licence:
                         errors.append(f"{where}: SVG provenance is incomplete: {path.name}")

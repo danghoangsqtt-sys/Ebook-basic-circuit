@@ -132,3 +132,27 @@ README còn mô tả chỉ hai bài đầu có hình mẫu; kiến trúc chưa n
 ## Quyết định cổng
 
 Phase 5 đạt audit sau khi sửa lệch tài liệu; tiếp tục Phase 6 để thêm 12 sơ đồ tổng hợp và nghiệm thu toàn bộ.
+
+---
+
+# DH-AUDIT — Phase 6 — 2026-10-03
+
+## Tier 1 — Trạng thái DHSYSTEM: PASS trong giai đoạn audit
+
+P6-01/P6-02 có hợp đồng, báo cáo QA, checkpoint và tag nhiệm vụ. TRACKER, PHASE-STATE, HANDOFF cùng ghi hai nhiệm vụ PASS và Phase 6 đang audit; chưa có tag complete trước khi đóng lỗi. Git sạch, đã đẩy hết commit lên upstream.
+
+## Tier 2 — Tài liệu: LOW → RESOLVED
+
+`docs/qa/visual-final.md` ghi nhầm “12/12 nhánh”, trong khi `summary-specs.json` có 49 nhánh ở 12 sơ đồ. `dh-debug` sửa số liệu. README, CHANGELOG, VISUAL-GUIDE, kiến trúc, danh mục 83 nguồn và các báo cáo bài/tuần khớp hiện trạng; không thấy URL placeholder trong tài liệu đang dùng. Bốn sidecar Mermaid bắt buộc có tệp và nội dung, trạng thái N/A có lý do.
+
+## Tier 3 — Website tĩnh và tài sản: LOW → RESOLVED
+
+`check_visuals.py` kiểm tra tệp, alt, nguồn/giấy phép nhưng chưa đối chiếu cột “Bài” trong manifest với trang đang dùng. `dh-debug` bổ sung phép đối chiếu; fixture đổi Bài 7 thành 99 báo đúng một lỗi, còn 83/83 bản ghi nguồn và 56/56 bài thật PASS. Các cổng sau sửa: 56 SVG tổng quan và 12 SVG tổng hợp hiện hành; 280 ca hình ở 320/360/390/430/1280 px; Chromium/WebKit mỗi loại 36 ca sơ đồ ở cỡ chữ 24 px và bản chữ mở; 12 SVG không cắt chữ; 59 trang/569 tham chiếu 0 hỏng; chỉ mục 56 bài còn mới. Chromium toàn bộ luồng và WebKit mẫu PASS. Đã sửa lỗi tràn Bài 7 trong P6-02. Chưa có điện thoại vật lý, screen reader thật hoặc kiểm định mạch độc lập.
+
+## Tier 4 — Không áp dụng
+
+Đây là kho giáo trình, không phải kho framework DHSYSTEM.
+
+## Quyết định cổng
+
+Phase 6 đạt nghiệm thu sau khi sửa hai lệch audit; hoàn tất milestone hình minh họa Phase 4–6.

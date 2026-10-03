@@ -1,0 +1,29 @@
+{
+  "id": "visual-phase6-audit",
+  "status": "resolved",
+  "created_at": "2026-10-03T15:00:00+07:00",
+  "updated_at": "2026-10-03T15:00:00+07:00",
+  "problem": {
+    "description": "Audit Phase 6 thấy số nhánh trong báo cáo không khớp spec và bộ kiểm tra nguồn chưa đối chiếu số bài.",
+    "symptoms": ["Báo cáo ghi 12 nhánh thay vì 49", "Bản ghi nguồn có thể chỉ sai bài mà check_visuals vẫn PASS"],
+    "error_messages": [],
+    "affected_files": ["docs/qa/visual-final.md", "tools/check_visuals.py"]
+  },
+  "investigation": {
+    "hypotheses": [
+      {"id": 1, "description": "Nhầm số sơ đồ với tổng số nhánh khi viết báo cáo", "status": "confirmed"},
+      {"id": 2, "description": "Validator chỉ đọc tên tệp và giấy phép, bỏ qua cột Bài", "status": "confirmed"}
+    ],
+    "tests_run": [
+      {"command": "Đếm nodes trong docs/visuals/summary-specs.json", "output": "12 sơ đồ, 49 nhánh", "timestamp": "2026-10-03T15:00:00+07:00"},
+      {"command": "python tools/check_visuals.py --require-all", "output": "Sau khi đối chiếu cột Bài, 56/56 bài và 83 tài sản vẫn 0 lỗi", "timestamp": "2026-10-03T15:00:00+07:00"}
+    ],
+    "findings": ["Báo cáo đếm sai nhưng dữ liệu 49 nhánh vẫn đúng", "Manifest ghi đúng bài cho các tệp hiện dùng"]
+  },
+  "resolution": {
+    "root_cause": "Biên tập số liệu và validator nguồn chưa ràng buộc bài sử dụng.",
+    "fix_applied": "Sửa báo cáo thành 49/49 nhánh trên 12 sơ đồ; kiểm tra cột Bài của mỗi hàng manifest khớp trang HTML dùng tệp.",
+    "files_changed": ["docs/qa/visual-final.md", "tools/check_visuals.py"],
+    "verification": "check_visuals --require-all, check_links, search index và QA trình duyệt/hình đều đạt; fixture đổi Bài 7 thành 99 báo đúng một lỗi."
+  }
+}

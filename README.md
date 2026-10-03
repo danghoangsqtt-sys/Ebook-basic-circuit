@@ -32,6 +32,8 @@ Cả 56 bài đã có sơ đồ tổng quan riêng; 12 bài ôn tập/đồ án 
 
 Phase 1 đã triển khai trang đầu, giao diện đọc mobile, cỡ chữ, tìm kiếm, chọn chữ và đánh dấu. Phase 2 đã mở thư viện dấu và nâng tìm kiếm. Phase 3 đã bổ sung xuất/nhập dữ liệu đọc; tài khoản/đồng bộ hiện được hoãn theo quyết định trong tracker.
 
+Phase 4 đã kiểm và sửa 31 nhóm lỗi sơ đồ/nội dung kỹ thuật. Phase 5 đã minh họa đủ 56 bài; Phase 6 bổ sung 12 sơ đồ tổng hợp và hoàn tất kiểm tra hình toàn giáo trình.
+
 ## Bản quyền
 
 © 2026 Lê Bá Đăng Hoàng. Giữ bản quyền riêng; hiện chưa cấp giấy phép tái sử dụng mã hoặc nội dung. Chủ dự án sẽ chọn giấy phép nếu muốn công bố quyền sử dụng sau này.

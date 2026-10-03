@@ -6,8 +6,8 @@ Ngày kiểm: 2026-10-03. Phạm vi: 56 bài HTML, 56 sơ đồ tổng quan, 12 
 
 | Cổng | Kết quả |
 | --- | --- |
-| Độ phủ và nguồn | `check_visuals.py --require-all`: 56/56 bài có đúng một hình tổng quan, 12/12 bài dự kiến có hình tổng hợp; 82 phần tử ảnh, 83 tài sản dùng (có biến thể SVG mobile), 0 lỗi. Mỗi raster có bản ghi nguồn tệp và CC0/miền công cộng; mỗi SVG ghi tự vẽ/nội dung dự án. |
-| Tính hiện hành | `render_lesson_visuals.py --check`, `integrate_lesson_visuals.py --check` và `build_summary_visuals.py --check` đều PASS. 12/12 nhánh sơ đồ tổng hợp ánh xạ tới đề mục thật trong bài. |
+| Độ phủ và nguồn | `check_visuals.py --require-all`: 56/56 bài có đúng một hình tổng quan, 12/12 bài dự kiến có hình tổng hợp; 82 phần tử ảnh, 83 tài sản dùng (có biến thể SVG mobile), 0 lỗi. Mỗi raster có bản ghi nguồn tệp và CC0/miền công cộng; mỗi SVG ghi tự vẽ/nội dung dự án; cột “Bài” khớp trang dùng ảnh. Fixture đổi Bài 7 thành 99 báo đúng lỗi. |
+| Tính hiện hành | `render_lesson_visuals.py --check`, `integrate_lesson_visuals.py --check` và `build_summary_visuals.py --check` đều PASS. 49/49 nhánh trên 12 sơ đồ tổng hợp ánh xạ tới đề mục thật trong bài. |
 | Hiển thị toàn giáo trình | `qa_lesson_visuals.py`: 280 ca, 56 bài × 320/360/390/430/1280 px, ảnh tải được, có alt và chú thích/nguồn, không tràn ngang. |
 | Sơ đồ tổng hợp | `qa_summary_visuals.py` Chromium và WebKit: mỗi trình duyệt 12 SVG kiểm biên chữ + 36 ca bài/viewport ở 320/390/1280 px, cỡ chữ bài 24 px và bản diễn giải mở, không tràn. |
 | Luồng ứng dụng | `qa_browser.py` Chromium toàn bộ: 4 viewport trang đầu, 77 ca bài/viewport, thao tác đọc, dấu, thư viện, sao lưu PASS. WebKit quick: 4 viewport trang đầu, 24 ca bài/viewport và cùng luồng chính PASS. |
