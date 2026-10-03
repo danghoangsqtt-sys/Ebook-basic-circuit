@@ -140,7 +140,7 @@ Nguồn task và tiêu chí: `.DHSYSTEM/CURRICULUM-PLAN.md`. Chưa có bài mớ
 
 | Phase | Task | Trạng thái |
 | --- | --- | --- |
-| 7 | P7-01 PASS; P7-02 in_progress; P7-03 đến P7-06 TODO | Đang làm |
+| 7 | P7-01–P7-02 PASS; P7-03 in_progress; P7-04 đến P7-06 TODO | Đang làm |
 | 8 | P8-01, P8-02, P8-03, P8-04, P8-05, P8-06 | TODO |
 | 9 | P9-01, P9-02, P9-03, P9-04, P9-05 | TODO |
 | 10 | P10-01, P10-02, P10-03, P10-04 | TODO |
@@ -148,3 +148,5 @@ Nguồn task và tiêu chí: `.DHSYSTEM/CURRICULUM-PLAN.md`. Chưa có bài mớ
 Mỗi P7-06/P8-06/P9-05/P10-04 là cổng `dh-audit` và `dh-debug`; chỉ chuyển Phase sau khi lỗi chặn đã được sửa và bằng chứng được điền. Các câu hỏi còn mở về phạm vi, độc giả, toán, board và người duyệt nằm ở `CURRICULUM-PLAN.md`.
 
 2026-10-03 P7-01: ma trận 56 bài/80 khối ASCII, đề cương 32 bài A01–A32, kiểm tiêu đề và vị trí đạt; commit `dded216` đã push. `docs/qa/curriculum-phase7.md` ghi giới hạn kiểm kê; P7-02 sẽ xác minh kỹ thuật từng sơ đồ.
+
+2026-10-03 P7-02: đăng ký 80/80 khối hiện hành và 17 claim cần kiểm; 48 schematic, 4 waveform, 12 pinout/vật lý, 10 luồng, 6 văn bản tra. Sáu hình người dùng nêu còn lỗi đọc ASCII; lỗi điện học lịch sử không được tự coi là lỗi hiện hành. Commit `fe045a1` đã push, clean/0 ahead; xem `docs/qa/curriculum-phase7.md`.
