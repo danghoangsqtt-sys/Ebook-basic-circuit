@@ -1,0 +1,23 @@
+{
+  "id": "visual-phase5-docs",
+  "status": "resolved",
+  "created_at": "2026-10-03T13:00:00+07:00",
+  "updated_at": "2026-10-03T13:00:00+07:00",
+  "problem": {
+    "description": "Audit Phase 5 thấy tài liệu giới thiệu và kiến trúc không còn khớp độ phủ hình 56 bài.",
+    "symptoms": ["README nói chỉ hai bài đầu có hình mẫu", "Kiến trúc thiếu luồng dữ liệu sinh hình và QA mới"],
+    "error_messages": [],
+    "affected_files": ["README.md", ".DHSYSTEM/ARCHITECTURE.md"]
+  },
+  "investigation": {
+    "hypotheses": [{"id": 1, "description": "Tài liệu chưa được cập nhật sau P5-04", "status": "confirmed"}],
+    "tests_run": [{"command": "rg 'Hai bài đầu|overview-specs' README.md .DHSYSTEM/ARCHITECTURE.md", "output": "README còn mô tả giai đoạn mẫu; architecture chưa ghi renderer/spec/QA", "timestamp": "2026-10-03T13:00:00+07:00"}],
+    "findings": ["56 bài đã có dayXX-overview.svg", "Các báo cáo QA tuần 1–8 đã có"]
+  },
+  "resolution": {
+    "root_cause": "P5-01 đến P5-04 cập nhật HTML, tài sản và báo cáo theo đợt nhưng chưa sửa văn bản tổng quan sau khi hoàn tất 56 bài.",
+    "fix_applied": "Cập nhật README cho độ phủ hiện tại, lệnh kiểm thử và báo cáo; cập nhật ARCHITECTURE cho spec, renderer, importer và QA.",
+    "files_changed": ["README.md", ".DHSYSTEM/ARCHITECTURE.md"],
+    "verification": "Rà lại mô tả và chạy các cổng check_visuals, check_links, search index, browser QA."
+  }
+}

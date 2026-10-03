@@ -1,9 +1,9 @@
 # Theo dõi tiến độ
 
 - Cập nhật: 2026-10-03
-- Trạng thái: Phase 1–4 hoàn tất; Phase 5–6 hình minh họa đang triển khai
-- Phase hiện tại: Phase 5
-- Việc kế tiếp: Audit Phase 5, rồi P6-01
+- Trạng thái: Phase 1–5 hoàn tất; Phase 6 hình tổng hợp đang triển khai
+- Phase hiện tại: Phase 6
+- Việc kế tiếp: P6-01
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -14,7 +14,7 @@
 | Phase 2 | 3 | 3 | Hoàn tất; audit/debug PASS |
 | Phase 3 | 2 | 2 | Hoàn tất; audit/debug PASS |
 | Phase 4 | 4 | 4 | Hoàn tất; audit/debug PASS |
-| Phase 5 | 4 | 4 | Chờ audit Phase 5 |
+| Phase 5 | 4 | 4 | Hoàn tất; audit/debug PASS |
 | Phase 6 | 2 | 0 | Đã lên kế hoạch |
 
 ## Phase 1
@@ -119,4 +119,6 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 
 2026-10-03 P5-03: 14/14 bài tuần 5–6 có sơ đồ riêng, 3 ảnh Digimess/PCB/cell Li-ion CC0. Loại ảnh động cơ bước sai loại trước tích hợp; sửa sơ đồ Bài 42 về TB6612FNG. 42 ca viewport PASS; 59 trang/542 tham chiếu 0 hỏng; chỉ mục và Chromium quick PASS. Chi tiết `docs/qa/visual-week5-6.md`.
 
-2026-10-03 P5-04: 14/14 bài tuần 7–8 có sơ đồ riêng, ảnh bo ESP-WROOM-32 CC0. 56/56 bài có hình; 168 ca viewport 320/390/1280 px PASS, 59 trang/557 tham chiếu 0 hỏng, index và Chromium quick PASS. Chi tiết `docs/qa/visual-week7-8.md`. Chờ audit Phase 5.
+2026-10-03 P5-04: 14/14 bài tuần 7–8 có sơ đồ riêng, ảnh bo ESP-WROOM-32 CC0. 56/56 bài có hình; 168 ca viewport 320/390/1280 px PASS, 59 trang/557 tham chiếu 0 hỏng, index và Chromium quick PASS. Chi tiết `docs/qa/visual-week7-8.md`.
+
+2026-10-03 Audit Phase 5: Tier 1 và Tier 3 PASS; Tier 2 phát hiện README/kiến trúc cũ, `dh-debug` đã sửa và lưu phiên. 56 SVG đúng spec, 56/56 bài có hình, 168 ca viewport PASS, 0 link/asset hỏng; xem `.DHSYSTEM/audit-report.md`. Phase 5 hoàn tất; chuyển P6-01.

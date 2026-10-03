@@ -108,3 +108,27 @@ Audit đọc lại 34 bài đã sửa theo 31 nhóm, phát hiện thêm đáp á
 ## Quyết định cổng
 
 Phase 4 đạt nghiệm thu sau P4-04. Chuyển P5-01; tiếp tục audit/debug sau từng Phase 5 và 6 như đã định tuyến.
+
+---
+
+# DH-AUDIT — Phase 5 — 2026-10-03
+
+## Tier 1 — Trạng thái DHSYSTEM: PASS trong giai đoạn audit
+
+P5-01 đến P5-04 có hợp đồng nhiệm vụ, báo cáo QA và checkpoint Git. TRACKER, PHASE-STATE và HANDOFF cùng ghi bốn nhiệm vụ PASS, Phase 5 chờ audit; chưa tạo tag hoàn tất trước khi khép lỗi. Git đã đẩy hết commit nhiệm vụ.
+
+## Tier 2 — Tài liệu: LOW → RESOLVED
+
+README còn mô tả chỉ hai bài đầu có hình mẫu; kiến trúc chưa nêu nguồn JSON, renderer, importer và QA riêng cho hình. `dh-debug` đã cập nhật README/ARCHITECTURE và lưu `session-visual-phase5-docs.json`. Manifest nguồn ghi rõ từng hình tự tạo và từng trang tệp Commons; bốn báo cáo tuần 1–8 có ánh xạ bài–hình.
+
+## Tier 3 — Nội dung và website: PASS trong phạm vi kiểm tra
+
+56/56 SVG tổng quan được dựng từ dữ liệu riêng của bài và kiểm tra cập nhật. `check_visuals.py --require-all`: 56 bài có hình, 70 phần tử ảnh, 71 tài sản dùng, 80 sơ đồ ASCII, 0 lỗi. `check_links.py`: 59 trang/557 tham chiếu, 0 hỏng. Chỉ mục tìm kiếm 56 bài còn mới. QA hình ở 320/390/1280 px: 168 ca PASS; Chromium quick qua các luồng chính. Từng ảnh ngoài được chọn từ trang tệp CC0/miền công cộng và script nhập xác nhận giấy phép trước khi lưu. Chưa kiểm tra trên điện thoại thật hoặc với kỹ sư điện tử độc lập.
+
+## Tier 4 — Không áp dụng
+
+Đây là kho giáo trình, không phải kho framework DHSYSTEM.
+
+## Quyết định cổng
+
+Phase 5 đạt audit sau khi sửa lệch tài liệu; tiếp tục Phase 6 để thêm 12 sơ đồ tổng hợp và nghiệm thu toàn bộ.

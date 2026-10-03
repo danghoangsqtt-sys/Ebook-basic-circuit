@@ -20,7 +20,7 @@ Chưa có tài khoản hoặc đồng bộ tự động. Nếu chuyển thiết 
 
 Chạy `python tools/check_links.py` để kiểm tra link/fragment nội bộ và `python tools/build_search_index.py --check` để xác nhận chỉ mục tìm kiếm. Nếu đã cài Playwright Python và trình duyệt của nó, chạy `python tools/qa_browser.py`; thêm `--quick --browser webkit` để kiểm tra mẫu với WebKit. [Kết quả nghiệm thu Phase 1](docs/qa/phase1-results.md).
 
-Hình minh họa đang được nâng cấp theo từng đợt. Chạy `python tools/check_visuals.py` để kiểm tra ảnh hiện có, mô tả thay thế, tệp nguồn và ghi nguồn; báo cáo hiện trạng nằm tại [kiểm kê hình](docs/brainstorm/visual-inventory-2026-10-02.md). Hai bài đầu đã có hình mẫu; kế hoạch 56 bài và kết quả rà soát kỹ thuật sơ đồ nằm trong roadmap và [báo cáo audit](docs/qa/visual-technical-audit.md). Ảnh ngoài chỉ dùng nguồn CC0/miền công cộng đã xác minh hoặc hình tự tạo.
+Cả 56 bài đã có sơ đồ tổng quan riêng; ảnh chụp linh kiện được thêm ở những bài phù hợp. Chạy `python tools/check_visuals.py --require-all` để kiểm tra độ phủ, mô tả thay thế, tệp nguồn và ghi nguồn; chạy `python tools/qa_lesson_visuals.py` để kiểm tra hình ở 320/390/1280 px. [Danh mục nguồn hình](assets/images/lessons/SOURCES.md), [kiểm kê ban đầu](docs/brainstorm/visual-inventory-2026-10-02.md), [báo cáo rà kỹ thuật](docs/qa/visual-technical-audit.md) và các báo cáo [tuần 1–2](docs/qa/visual-week1-2.md), [3–4](docs/qa/visual-week3-4.md), [5–6](docs/qa/visual-week5-6.md), [7–8](docs/qa/visual-week7-8.md) ghi chi tiết. Ảnh ngoài chỉ dùng nguồn CC0/miền công cộng đã xác minh; sơ đồ do dự án tự tạo. Sơ đồ tư duy và sơ đồ khối tổng hợp của Phase 6 đang thực hiện.
 
 ## Kế hoạch nâng cấp
 
