@@ -173,7 +173,7 @@ TRACKER/ROADMAP còn gọi Phase 7 “chưa triển khai”; ARCHITECTURE còn n
 
 Kiểm tích hợp hiện đạt 80 ID (70 SVG/10 HTML), 56/56 bài có hình, 0 ASCII, 0 link/asset lỗi; Chromium toàn luồng và 168 ca 320/390/1280 px ở 24 px PASS. Audit độc lập đã phát hiện nhiều lỗi P1/P2 trong cực tính, net, sai số chia áp, BOM, chọn diode, module 3,3/5 V, sơ đồ/mã lệch nhau; các lỗi xác nhận đã được sửa hoặc khóa đường lắp chưa xác minh. Chi tiết theo ID và giới hạn nằm trong `docs/qa/curriculum-phase7.md` và `.DHSYSTEM/debug/session-phase7-audit-corrections.json`.
 
-Chưa có board/module/revision thật, người duyệt kỹ thuật, ERC và đo phần cứng cho mạch nguồn, LiPo, motor/relay, chuyển mức. `docs/curriculum/diagram-register.csv` cố ý vẫn ghi 74 trạng thái điện học chưa xác minh revision hiện hành; không coi kiểm màn hình là kiểm mạch. Arduino-ESP32 sketches chưa compile trên target vì môi trường không có `arduino-cli` và danh sách board/library được chốt.
+Chưa có board/module/revision thật, người duyệt kỹ thuật, ERC và đo phần cứng cho mạch nguồn, LiPo, motor/relay, chuyển mức. `docs/curriculum/diagram-register.csv` ghi rõ 64 hình được rà nguồn/hình học độc lập, 10 hình được rà biên tập và sáu hình P7-03 có kết luận riêng; không trạng thái nào là chứng nhận phần cứng revision hiện hành. Arduino-ESP32 sketches chưa compile trên target vì môi trường không có `arduino-cli` và danh sách board/library được chốt.
 
 ## Cổng tiếp theo
 

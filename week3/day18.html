@@ -65,7 +65,7 @@
         <table>
           <thead><tr><th>Tên</th><th>Thông số</th><th>SL</th></tr></thead>
           <tbody>
-            <tr><td>MOSFET NMOS IRLZ44N</td><td>TO-220; kiểm tra R_DS(on) ở V_GS thực tế, điện áp và tản nhiệt theo datasheet đúng hãng</td><td>2</td></tr>
+            <tr><td>IRLZ44N để phân tích; MOSFET khác cho bài GPIO 3,3V</td><td>IRLZ44N TO-220 không có R_DS(on) bảo đảm tại 3,3V trong datasheet đã dẫn. Chỉ chọn linh kiện thực hành khi có R_DS(on) bảo đảm ở mức Gate dùng thật, đủ dòng khởi động và công suất nhiệt.</td><td>1 mỗi loại nếu thực hành</td></tr>
             <tr><td>MOSFET NMOS 2N7002</td><td>SOT-23 cho tải tín hiệu nhỏ; không dùng thay transistor công suất lái motor</td><td>2</td></tr>
             <tr><td>Motor DC 5V nhỏ</td><td>Hoặc LED dây 12V làm tải thay thế</td><td>1</td></tr>
             <tr><td>Diode 1N4007</td><td>Freewheeling cho motor</td><td>2</td></tr>
