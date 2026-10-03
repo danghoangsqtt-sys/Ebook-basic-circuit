@@ -1,0 +1,13 @@
+# Đề cương Phase 9 — A17–A21 (P9-01)
+
+Ngày khóa phạm vi: 2026-10-04. Đơn vị (ĐV) như Phase 8: 1 ĐV ≈ 25 phút. Năm bài này là cầu từ mô hình Boolean sang IC thực; mọi con số điện chỉ gắn với part, VCC và điều kiện nêu rõ. Thực hành hiện tại là giấy/bảng tính, chưa có board hoặc IC được đo.
+
+| Bài | Mục tiêu đo được | Tiên quyết/toán | Ví dụ giải và hoạt động | Bài tập độc lập, đáp án/rubric | Nguồn/giới hạn |
+| --- | --- | --- | --- | --- | --- |
+| A17 Nhị phân và mức logic | Đổi 13₁₀↔1101₂; phân biệt bit với điện áp chân vào; phân loại 0/1/chưa bảo đảm và tính biên nhiễu có điều kiện | D01, D06; lũy thừa 2; 4 ĐV | 13=8+4+1; Vin 1,0/2,0/3,3 V và NMH/NML=1,25 V tại VCC=4,5 V, tải ±20 µA | Đổi 22₁₀↔10110₂; phân loại Vin 1,2/2,0/3,2 V; tính NMH=0,69 V tại IOH=−4 mA; rubric 5 điểm | TI SN74HC00 Rev. H §6.3/6.5, −40…85 °C; 2,0 V chưa bảo đảm, biên DC phụ thuộc tải |
+| A18 Boolean và cổng | Lập bảng chân trị AND/OR/NOT/NAND, áp De Morgan và đếm hàng | A17; 2 biến, 4 hàng; 4 ĐV | NAND A,B và ¬(A·B)=¬A+¬B, bảng 4 hàng | Rút gọn ¬(A+B); so từng hàng với ¬A·¬B; rubric 4 điểm | TI SN74HC00 §1, §8 xác nhận IC NAND thực; phép Boolean không tự xác nhận điện áp/timing |
+| A19 Mạch tổ hợp | Dựng mux 2:1 Y=¬S·A+S·B; liệt kê đủ 8 bộ S,A,B; xác định không lưu trạng thái | A18; 3 biến, 8 hàng; 4 ĐV | S=0 chọn A; S=1 chọn B, bảng đủ | Thiết kế F=¬S·A+S·¬B; bảng đủ 8 hàng; rubric 4 điểm | TI SN74HC151 là mux 8:1 thực nhưng hình 2:1 là mạch logic trừu tượng, không là pinout/SN74HC151 đã lắp |
+| A20 Latch, D flip-flop và bộ đếm | Phân biệt nhạy mức và lấy mẫu cạnh; điền bảng trạng thái DFF và mod-4 counter | A19; chuỗi bit; 4 ĐV | D trước 3 cạnh là 1,0,1 ⇒ Q sau cạnh 1,0,1; đếm 00→01→10→11→00 | D=0,1,1 trước 3 cạnh; Q ban đầu 0; tính Q và mod-4; rubric 4 điểm | TI SN74HC74 DFF cạnh lên, preset/clear bất đồng bộ; TI SN74HC161 bộ đếm 4 bit; không suy cấp nguồn/pin từ mô hình |
+| A21 FSM, clock và timing | Viết bảng chuyển trạng thái Moore 3 trạng thái; trace 5 cạnh; kiểm setup theo giả định delay; nhận diện async/metastability | A20; cộng thời gian ns; 5 ĐV | FSM đèn 3 màu G→Y→R→G, đầu vào `advance`; ví dụ T=100 ns, tCQ,max=20 ns, tcomb,max=30 ns, tsetup=15 ns ⇒ 65<100 ns | Trace `advance=1,0,1,1`; kiểm T=60 ns (không đạt vì 65>60); rubric 5 điểm | MIT 6.004 §5.1/6.1 cho đồng bộ/FSM/metastability; các delay 20/30/15 ns là giả định minh họa, không phải thông số IC |
+
+Điều kiện nghiệm thu P9-01: mỗi trang có mục tiêu, hình tự vẽ và bản chữ, nguồn/điều kiện, hoạt động có giá trị kỳ vọng, bài độc lập với đáp án/rubric; script kiểm bảng chân trị và trace; kiểm menu/search/link/mobile. Tài liệu nguồn chi tiết ở `advanced-phase9-source-ledger.md`.

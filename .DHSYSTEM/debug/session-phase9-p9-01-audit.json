@@ -1,0 +1,39 @@
+{
+  "id": "phase9-p9-01-audit",
+  "status": "resolved",
+  "created_at": "2026-10-04",
+  "updated_at": "2026-10-04",
+  "problem": {
+    "description": "P9-01 dh-audit of source claims, diagrams and syllabus alignment found three P2 teaching/documentation ambiguities.",
+    "symptoms": [
+      "A17 first draft gave input thresholds but omitted the source syllabus's noise-margin calculation",
+      "A21 FSM figure used lines without directional arrowheads",
+      "A20 fourth DFF edge had no specified D but the draft answer cell implied Q could be decided"
+    ],
+    "affected_files": [
+      "tools/build_phase9_logic_lessons.py",
+      "advanced/a17.html",
+      "advanced/a20.html",
+      "advanced/a21.html",
+      "assets/images/advanced/a21.svg"
+    ]
+  },
+  "investigation": {
+    "root_cause": "First authoring pass emphasized state tables and input thresholds; the syllabus required output-to-input margins and the visuals had to make transition direction explicit.",
+    "sources_checked": [
+      "TI SNx4HC00 Rev. H sections 6.3 and 6.5, VCC=4.5 V, SN74HC00 -40..85 C and stated output currents",
+      "TI SNx4HC151 Rev. F section 7.1, strobe G active low and Y/W behavior",
+      "TI SNx4HC74 Rev. F and SN74HC161 Rev. D for edge-triggered DFF and 4-bit synchronous counter",
+      "MIT 6.004 2017 sections 5.1 and 6.1 for setup/hold, FSM and metastability"
+    ]
+  },
+  "resolution": {
+    "changes": [
+      "Added guaranteed VOH/VOL-based DC noise margins to A17 with VCC, temperature and load conditions; updated independent exercise and source ledger",
+      "Added arrowheads to all three A21 advance=1 transitions and explained the separate hypothetical hold inequality without claiming hold signoff for the setup example",
+      "Changed A20 fourth-edge Q to undetermined because D was not given",
+      "Clarified SN74HC151 G low to enable and forced Y/W outputs when G is high"
+    ],
+    "remaining": "Physical IC/board design, gate-level timing, hold for the concrete path and asynchronous input synchronization remain pending. No confirmed P0/P1 in the published digital/table scope."
+  }
+}

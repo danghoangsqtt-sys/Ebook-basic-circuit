@@ -2,8 +2,8 @@
 
 - Cập nhật: 2026-10-03
 - Trạng thái: Phase 1–6 hoàn tất; Phase 7–8 PASS trong phạm vi nội dung số/phân tích và hoạt động giấy/bảng tính có điều kiện, phần cứng thật còn pending; Phase 9 kế tiếp, Phase 10 chưa mở
-- Phase hiện tại: Phase 8 đã PASS nội dung số P8-01…P8-06; Phase 9 P9-01 kế tiếp; cổng phần cứng theo `docs/qa/curriculum-hardware-pending.md`
-- Việc kế tiếp: Mở Phase 9 P9-01 theo kế hoạch và nguồn gốc logic số, không suy phần cứng đã nghiệm thu
+- Phase hiện tại: Phase 9 P9-01 PASS nội dung số; P9-02 kế tiếp; Phase 8 đã PASS nội dung số; cổng phần cứng theo `docs/qa/curriculum-hardware-pending.md`
+- Việc kế tiếp: Soạn A22–A24 theo đúng board/MCU và nguồn hãng, thiết kế lab ngoại vi có nhánh tái lập
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -18,7 +18,7 @@
 | Phase 6 | 2 | 2 | Hoàn tất; audit/debug PASS |
 | Phase 7 | 6 | 6 số / 4 đầy đủ | P7-04/P7-06 PASS nội dung số; phần cứng thật còn chờ |
 | Phase 8 | 6 | 6 số / 0 phần cứng | P8-01…P8-06 PASS nội dung số; phần cứng thật còn chờ |
-| Phase 9 | 5 | 0 | Kế hoạch; phụ thuộc Phase 8 |
+| Phase 9 | 5 | 1 số / 0 phần cứng | P9-01 PASS nội dung số; P9-02–P9-05 còn lại |
 | Phase 10 | 4 | 0 | Kế hoạch; phụ thuộc Phase 9 |
 
 ## Phase 1
@@ -134,15 +134,15 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 
 2026-10-03 Audit Phase 6: Tier 1 PASS; Tier 2 sửa số nhánh 49/49 trên 12 sơ đồ; Tier 3 thêm đối chiếu bài dùng ảnh trong manifest và fixture phát hiện sai bài. Các cổng asset/link/index/Chromium/WebKit PASS; xem `.DHSYSTEM/audit-report.md`. Phase 6 và milestone hình Phase 4–6 hoàn tất.
 
-## Phase 7–10 — Tái biên soạn giáo trình (Phase 7 đang triển khai)
+## Phase 7–10 — Tái biên soạn giáo trình (Phase 9 đang triển khai)
 
-Nguồn task và tiêu chí: `.DHSYSTEM/CURRICULUM-PLAN.md`. Chưa có bài mới, sơ đồ thay thế hay bằng chứng nghiệm thu từ đợt này. Báo cáo Phase 4–6 là kết quả trong phạm vi QA hình cũ.
+Nguồn task và tiêu chí: `.DHSYSTEM/CURRICULUM-PLAN.md`. Phase 7–8 đã có bằng chứng nội dung số; Phase 9 đang bổ sung logic/MCU/cảm biến. Báo cáo Phase 4–6 chỉ là kết quả QA hình cũ.
 
 | Phase | Task | Trạng thái |
 | --- | --- | --- |
 | 7 | P7-01–P7-03/P7-05 PASS; P7-04/P7-06 PASS nội dung số, phần cứng pending | Qua cổng số, chưa nghiệm thu thiết bị thật |
 | 8 | P8-01…P8-06 PASS nội dung số; phần cứng pending | `docs/qa/curriculum-phase8.md`; 16/16 bài, 75 trang/890 link, Chromium/WebKit, audit/debug |
-| 9 | P9-01, P9-02, P9-03, P9-04, P9-05 | TODO |
+| 9 | P9-01 PASS nội dung số; P9-02, P9-03, P9-04, P9-05 | Đang triển khai; `docs/qa/curriculum-phase9.md` |
 | 10 | P10-01, P10-02, P10-03, P10-04 | TODO |
 
 Mỗi P7-06/P8-06/P9-05/P10-04 là cổng `dh-audit` và `dh-debug`; chỉ chuyển Phase sau khi lỗi chặn đã được sửa và bằng chứng được điền. Các câu hỏi còn mở về phạm vi, độc giả, toán, board và người duyệt nằm ở `CURRICULUM-PLAN.md`.
@@ -170,3 +170,5 @@ Mỗi P7-06/P8-06/P9-05/P10-04 là cổng `dh-audit` và `dh-debug`; chỉ chuy�
 2026-10-04 P8-05: A15–A16 và hai SVG tự vẽ đã xuất bản theo OpenStax §8.1/8.3/13.1 và TI SCAA082A §1.6; bảng tính trường/điện dung/đường hồi có `verify_phase8_fields.py` kiểm độc lập. Rà `dh-audit` phát hiện và `dh-debug` sửa điều kiện góc trường xoay so với cố định. 16/16 trang nâng cao, 75 trang/890 link 0 hỏng, menu 56+16, search 72; Chromium full 205 ca bài/viewport PASS, WebKit riêng A15/A16 320 px/24 px PASS. Chưa FEM/PCB/EMC đo, P8-06 chưa audit cuối; xem `docs/qa/curriculum-phase8.md`.
 
 2026-10-04 P8-06 cổng Phase 8 số: đối chiếu 16 bài A01–A16 với syllabus/ma trận, mỗi bài có mục tiêu, hình/nguồn/mô tả, hoạt động số, bài tập và đáp án/rubric. Hai bộ tính độc lập cho mạch/trường PASS; 75 trang/890 link 0 hỏng, menu 56+16, search 72, 56 bài nền/80 ID, Chromium full 205 ca và WebKit 16 bài ở 320 px/24 px PASS. Audit `dh-audit` thấy README/ARCHITECTURE còn ghi 4 bài, `dh-debug` đã sửa; không còn P0/P1 xác nhận trong phạm vi số. Cổng phần cứng riêng vẫn pending, không có SPICE/FEM/ERC/đo thật; xem `docs/qa/curriculum-phase8.md`.
+
+2026-10-04 P9-01: xuất bản A17–A21, năm SVG tự vẽ, đề cương và sổ nguồn TI/MIT. Audit `dh-audit` thấy A17 thiếu tính biên nhiễu, A20 Q cạnh 4 chưa thể quyết định, A21 hình FSM thiếu hướng; `dh-debug` đã sửa và ghi `session-phase9-p9-01-audit.json`. Phép tính/logic độc lập PASS: bốn/tám hàng chân trị, DFF/mod-4, FSM và setup 65 ns, biên A17 theo tải. 21/21 trang nâng cao, menu 56+21, search 77, 80 trang/940 link cục bộ 0 hỏng, Chromium full 245 ca bài/viewport; sau sửa Chromium/WebKit A17–A21 mỗi loại 15 ca mobile/24 px PASS. Phần cứng IC và timing closure thật pending; xem `docs/qa/curriculum-phase9.md`.

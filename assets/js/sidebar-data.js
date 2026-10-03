@@ -148,6 +148,11 @@ const CURRICULUM = {
         { id: 'a14', number: 'A14', title: 'Mạch RLC & Cộng Hưởng', file: '../advanced/a14.html' },
         { id: 'a15', number: 'A15', title: 'Điện Trường Đến Điện Dung', file: '../advanced/a15.html' },
         { id: 'a16', number: 'A16', title: 'Từ Trường, Cảm Ứng & Đường Hồi Dòng', file: '../advanced/a16.html' },
+        { id: 'a17', number: 'A17', title: 'Nhị Phân & Mức Logic', file: '../advanced/a17.html' },
+        { id: 'a18', number: 'A18', title: 'Boolean & Cổng Logic', file: '../advanced/a18.html' },
+        { id: 'a19', number: 'A19', title: 'Mạch Tổ Hợp & Bộ Chọn Kênh', file: '../advanced/a19.html' },
+        { id: 'a20', number: 'A20', title: 'Latch, Flip-Flop & Bộ Đếm', file: '../advanced/a20.html' },
+        { id: 'a21', number: 'A21', title: 'FSM, Clock & Kiểm Timing', file: '../advanced/a21.html' },
       ]
     }
   ]

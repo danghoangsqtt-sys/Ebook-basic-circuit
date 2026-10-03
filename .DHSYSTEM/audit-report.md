@@ -178,3 +178,24 @@ Chưa có board/module/revision thật, người duyệt kỹ thuật, ERC và �
 ## Cổng tiếp theo
 
 Hoàn tất source/net/power/tolerance và ghi kết luận từng hình rủi ro P0/P1 theo part/module đúng revision; lấy người duyệt kỹ thuật ghi phần chưa thử. Sau đó mới đóng P7-04, chạy P7-06 `dh-audit`/`dh-debug` cuối Phase 7 và mở P8-01. Guardrail: với module chưa xác định, giữ bài lắp phần cứng ở chế độ mô phỏng/điều kiện; không suy pinout hay định mức từ module cùng tên.
+---
+
+# DH-AUDIT — Phase 9 P9-01 (kiểm tăng dần, chưa đóng Phase) — 2026-10-04
+
+## Tier 1 — Trạng thái: PASS task trong phạm vi số
+
+P8-06 đã cho phép mở nhánh số Phase 9; task P9-01 có năm bài A17–A21 và bằng chứng ở `docs/qa/curriculum-phase9.md`. P9-02–P9-05 vẫn TODO, Phase 9 chưa PASS. Cổng IC/board thật được giữ riêng trong `docs/qa/curriculum-hardware-pending.md`.
+
+## Tier 2 — Tài liệu: P2 → RESOLVED
+
+Đề cương nền yêu cầu noise margin ở A17; bản đầu chỉ có ngưỡng input. `dh-debug` đã thêm VOH/VOL, điều kiện VCC=4,5 V, tải ±20 µA/−4 mA và nhiệt −40…85 °C theo TI Rev. H, sửa syllabus/source ledger/matrix. README/ARCHITECTURE cập nhật số 21 bài, HANDOFF chuyển P9-02. Không nhận delay giả định A21 là thông số TI.
+
+## Tier 3 — Nội dung và website: P2 → RESOLVED, cổng số PASS
+
+Rà hình A21 thấy đường chuyển không có mũi tên, và A20 chưa có D cạnh 4 nhưng bảng cũ ngụ ý Q; `dh-debug` đã sửa. SN74HC151 strobe G thấp cho phép, G cao ép Y thấp/W cao được kiểm lại ở §7.1. `verify_phase9_logic.py` tính độc lập noise margin, hai bảng chân trị, DFF/mod-4 và FSM/setup. `check_advanced.py` 21/21, navigation 56+21, link 80 trang/940 tham chiếu 0 lỗi, search 77 bài, diagram register 80 ID, Chromium full 245 ca bài/viewport và các flow PASS. Sau sửa Chromium/WebKit kiểm riêng A17–A21 tại 320/390/430 px và 24 px, 15 ca mỗi engine PASS. Không có P0/P1 xác nhận trong phạm vi số; chưa có IC thật, timing closure hoặc reviewer phần cứng.
+
+## Tier 4 — Không áp dụng
+
+Đây là kho giáo trình, không phải mã nguồn framework DHSYSTEM.
+
+---

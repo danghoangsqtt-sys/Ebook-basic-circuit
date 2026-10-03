@@ -12,6 +12,7 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 - Phase 8 P8-04 xuất bản A09–A14 về phân tích DC, nguồn tương đương, RC/RL/RLC, nguồn OpenStax/MIT và kiểm phép tính độc lập; sơ đồ cuộn ngang trên mobile, có mô tả chữ và audit/debug.
 - Phase 8 P8-05 xuất bản A15–A16 về điện trường, điện dung, Faraday và đường hồi dòng; đối chiếu OpenStax/TI và sửa điều kiện góc trường trong bài tập.
 - Phase 8 P8-06 audit đủ 16 bài, lời giải, nguồn và cổng số; sửa README/ARCHITECTURE lệch số bài, giữ các cổng SPICE/ERC/đo phần cứng riêng.
+- Phase 9 P9-01 xuất bản A17–A21 về nhị phân/mức điện, Boolean, mux, DFF/counter và FSM/timing; đối chiếu TI/MIT, kiểm bảng chân trị và trace độc lập, giữ phần cứng/timing closure thật pending.
 - Thêm 14 sơ đồ tổng quan theo nội dung Bài 1–14 và bốn ảnh linh kiện CC0/miền công cộng có ghi nguồn; kiểm tra 320/390/1280 px.
 - Thêm 14 sơ đồ Bài 15–28 và ba ảnh CC0 cho BJT, MOSFET, DHT22; chú thích rõ giới hạn suy luận từ ảnh linh kiện.
 - Thêm 14 sơ đồ Bài 29–42 và ba ảnh CC0 cho máy hiện sóng, PCB, cell Li-ion; sửa minh họa robot dùng đúng driver TB6612FNG.
