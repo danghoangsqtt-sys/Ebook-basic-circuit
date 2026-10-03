@@ -23,6 +23,9 @@ PHOTOS = {
     15: ("bjt-2n2222a-cc0.webp", "MarkMossGH", "CC0 1.0", "Generic 2N2222A.jpeg", "Transistor lưỡng cực 2N2222A vỏ TO-92 nhìn từ phía mặt phẳng và ba chân kim loại.", "Ví dụ transistor BJT 2N2222A vỏ TO-92. Bài thực hành có thể dùng BC337; ảnh không xác định thứ tự chân của linh kiện bạn cầm, hãy tra datasheet đúng mã."),
     18: ("mosfet-irfibc30-cc0.webp", "Retired electrician", "CC0 1.0", "IRFIBC30 MOS transistor 01.jpg", "Các MOSFET IRFIBC30 trong vỏ TO-220 cách điện đặt cạnh nhau.", "Ngoại hình MOSFET IRFIBC30 vỏ TO-220 cách điện. Ảnh không ngụ ý mã này đóng cắt đủ ở GPIO 3,3 V; phải kiểm RDS(on) tại VGS dùng thật."),
     27: ("dht22-sensor-cc0.webp", "Ubahnverleih", "CC0 1.0", "DHT22-Temperatur-Sensor.jpg", "Cảm biến nhiệt độ và độ ẩm DHT22 màu trắng, mặt trước có các lỗ thông khí.", "Cảm biến DHT22 rời. Không suy thứ tự chân hay điện trở kéo lên chỉ từ ảnh mặt trước; đối chiếu datasheet/module thực tế."),
+    30: ("oscilloscope-digimess-cc0.webp", "Stablenode", "CC0 1.0", "Digimess oscilloscope.jpg", "Máy hiện sóng Digimess loại analog nhìn chính diện, có màn hình và nhiều núm chỉnh.", "Ví dụ máy hiện sóng analog Digimess; vị trí núm Volt/div, Time/div và Trigger thay đổi theo model. Ảnh không đại diện giao diện máy số hiện nay."),
+    33: ("assembled-pcb-cc0.webp", "Lenharth Systems", "CC0 1.0", "Computer Motherboard Closeup.jpg", "Cận cảnh bo mạch máy tính có linh kiện SMD, đầu nối, đường mạch và tụ điện.", "Ví dụ PCB đã lắp linh kiện ở mật độ cao. Đây là bo máy tính, không phải layout KiCad của bài; dùng ảnh để nhận diện lớp mạch, vị trí và linh kiện."),
+    41: ("li-ion-cells-cc0.webp", "Sevenethics", "CC0 1.0", "18650 and 21700 lithium ion battery cell.jpg", "Hai cell Li-ion hình trụ kích cỡ 18650 và 21700 đặt cạnh nhau.", "Hai cell Li-ion 18650 và 21700 để nhận diện kích cỡ. Ảnh không phải LiPo dạng túi, không cho biết dòng sạc/xả an toàn; đọc datasheet của cell dùng thật."),
 }
 
 

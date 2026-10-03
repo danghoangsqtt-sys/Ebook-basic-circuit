@@ -25,6 +25,9 @@ PHOTOS = {
     "File:Generic 2N2222A.jpeg": ("bjt-2n2222a-cc0.webp", "CC0"),
     "File:IRFIBC30 MOS transistor 01.jpg": ("mosfet-irfibc30-cc0.webp", "CC0"),
     "File:DHT22-Temperatur-Sensor.jpg": ("dht22-sensor-cc0.webp", "CC0"),
+    "File:Digimess oscilloscope.jpg": ("oscilloscope-digimess-cc0.webp", "CC0"),
+    "File:Computer Motherboard Closeup.jpg": ("assembled-pcb-cc0.webp", "CC0"),
+    "File:18650 and 21700 lithium ion battery cell.jpg": ("li-ion-cells-cc0.webp", "CC0"),
 }
 HEADERS = {"User-Agent": "ElectricBasicCourse/1.0 (educational media import; Wikimedia Commons API)"}
 

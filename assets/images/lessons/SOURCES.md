@@ -43,5 +43,22 @@ Giáo trình giữ bản quyền riêng. Ảnh bên ngoài chỉ được đưa 
 | `bjt-2n2222a-cc0.webp` | Bài 15 | MarkMossGH — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Generic_2N2222A.jpeg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 713 × 1553; thu về 551 × 1200, WebP. Mã ảnh 2N2222A, không gán pinout cho BC337. |
 | `mosfet-irfibc30-cc0.webp` | Bài 18 | Retired electrician — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:IRFIBC30_MOS_transistor_01.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 1062 × 1570; thu về 812 × 1200, WebP. Mã IRFIBC30 chỉ minh họa vỏ, không gợi ý dùng với GPIO 3,3 V. |
 | `dht22-sensor-cc0.webp` | Bài 27 | Ubahnverleih — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:DHT22-Temperatur-Sensor.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 2706 × 2303; thu về 1200 × 1021, WebP. Cảm biến AM2302/DHT22 rời. |
+| `day29-overview.svg` | Bài 29 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Chu trình mô phỏng và đối chiếu mạch thật. |
+| `day30-overview.svg` | Bài 30 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Đọc máy hiện sóng và dạng sóng. |
+| `day31-overview.svg` | Bài 31 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | So sánh lọc low/high/band-pass. |
+| `day32-overview.svg` | Bài 32 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Buck, boost, duty lý tưởng và tổn hao thật. |
+| `day33-overview.svg` | Bài 33 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Schematic → footprint → layout → Gerber. |
+| `day34-overview.svg` | Bài 34 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Quy trình hàn và kiểm PCB. |
+| `day35-overview.svg` | Bài 35 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Thiết kế, layout và thử nguồn buck. |
+| `day36-overview.svg` | Bài 36 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | RTC DS3231, pin dự phòng, I2C. |
+| `day37-overview.svg` | Bài 37 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | ESP32 Wi-Fi, HTTP/MQTT và ứng dụng. |
+| `day38-overview.svg` | Bài 38 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | So sánh stepper, microstep, servo và nguồn. |
+| `day39-overview.svg` | Bài 39 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Cầu H và điều khiển L298N. |
+| `day40-overview.svg` | Bài 40 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | HC-SR04, ECHO 5 V, timeout và phép tính khoảng cách. |
+| `day41-overview.svg` | Bài 41 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Một cell Li-ion, mạch sạc và bảo vệ. |
+| `day42-overview.svg` | Bài 42 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Sơ đồ khối robot Wi-Fi dùng một cell. |
+| `oscilloscope-digimess-cc0.webp` | Bài 30 | Stablenode — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Digimess_oscilloscope.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh hiện tại 2845 × 1525 do Stablenode chụp, Wikimedia đã crop/chỉnh màu; thu về 1200 × 643, WebP. Máy analog minh họa vị trí các núm. |
+| `assembled-pcb-cc0.webp` | Bài 33 | Lenharth Systems — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Computer_Motherboard_Closeup.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 4764 × 3156; thu về 1200 × 795, WebP. Bo máy tính đã lắp linh kiện, không phải layout KiCad của bài. |
+| `li-ion-cells-cc0.webp` | Bài 41 | Sevenethics — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:18650_and_21700_lithium_ion_battery_cell.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 2048 × 1536; thu về 1200 × 900, WebP. Hai cell 18650/21700, không phải LiPo dạng túi. |
 
 Khi thêm ảnh mới, ghi lại trang tệp cụ thể, tác giả, giấy phép, ngày kiểm tra, mọi biến đổi và vị trí sử dụng. Không suy giấy phép của ảnh từ giấy phép của cả website chứa ảnh.
