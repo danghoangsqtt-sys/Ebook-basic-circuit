@@ -34,7 +34,7 @@ Phase 1 đã triển khai trang đầu, giao diện đọc mobile, cỡ chữ, t
 
 Phase 4 đã kiểm và sửa 31 nhóm lỗi sơ đồ/nội dung kỹ thuật. Phase 5 đã minh họa đủ 56 bài; Phase 6 bổ sung 12 sơ đồ tổng hợp và hoàn tất kiểm tra hình toàn giáo trình.
 
-Phase 7 đã qua cổng rà soát nội dung số: 80 khối ký tự đã được thay bằng 70 SVG và 10 bảng/đoạn HTML có thể đọc, menu 56 bài đã khớp tiêu đề. [Sổ kiểm Phase 7](docs/qa/curriculum-phase7.md) ghi các lỗi điện học đã sửa và phần cứng chưa được nghiệm thu. Phase 8 đã có [đặc tả A01–A16](docs/curriculum/advanced-phase8-syllabus.md) và bốn bài đầu [A01](advanced/a01.html), [A02](advanced/a02.html), [A03](advanced/a03.html), [A04](advanced/a04.html), cùng [sổ mạch/datasheet](docs/curriculum/reference-circuit-review.md). Các bài A05–A32 đang theo kế hoạch.
+Phase 7 đã qua cổng rà soát nội dung số: 80 khối ký tự đã được thay bằng 70 SVG và 10 bảng/đoạn HTML có thể đọc, menu 56 bài đã khớp tiêu đề. [Sổ kiểm Phase 7](docs/qa/curriculum-phase7.md) ghi các lỗi điện học đã sửa và phần cứng chưa được nghiệm thu. Phase 8 đã xuất bản đủ A01–A16, bắt đầu từ [A01](advanced/a01.html), theo [đặc tả](docs/curriculum/advanced-phase8-syllabus.md), kèm SVG tự vẽ, bài tập/đáp án và [sổ QA/giới hạn kiểm](docs/qa/curriculum-phase8.md). Các claim linh kiện có nguồn hãng trong [sổ mạch/datasheet](docs/curriculum/reference-circuit-review.md) và ma trận nguồn của Phase 8; hoạt động trường/mạch lý tưởng chưa là đo phần cứng. A17–A32 thuộc kế hoạch Phase 9–10.
 
 ## Bản quyền
 

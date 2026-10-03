@@ -1,0 +1,33 @@
+{
+  "id": "phase8-p8-06-audit",
+  "status": "resolved",
+  "created_at": "2026-10-04",
+  "updated_at": "2026-10-04",
+  "problem": {
+    "description": "Final Phase 8 dh-audit found documentation drift after publishing all 16 advanced lessons.",
+    "symptoms": [
+      "README still described only A01–A04 as published and A05–A32 as planned",
+      "ARCHITECTURE still counted only four advanced lessons"
+    ],
+    "affected_files": ["README.md", ".DHSYSTEM/ARCHITECTURE.md"]
+  },
+  "investigation": {
+    "root_cause": "Project overview documents were not refreshed when P8-03 through P8-05 expanded the published curriculum.",
+    "tests_run": [
+      {"command": "Phase 8 syllabus and advanced coverage matrix cross-check", "output": "A01–A16 contiguous, 16 unique matrix rows; each HTML has objectives, figure transcript/source, exercise answer/rubric and at least one source link"},
+      {"command": "python tools/check_advanced.py", "output": "16 advanced lessons, 0 structural errors"},
+      {"command": "python tools/check_links.py", "output": "75 pages, 890 internal references, 0 broken"},
+      {"command": "python tools/check_navigation.py", "output": "56 foundation + 16 advanced titles and URLs match"},
+      {"command": "python tools/verify_phase8_numeric.py and verify_phase8_fields.py", "output": "Ideal circuit/field examples recalculated successfully"},
+      {"command": "python tools/qa_browser.py", "output": "Chromium full PASS, 205 lesson/viewport checks and reader/library/backup flows"}
+    ]
+  },
+  "resolution": {
+    "changes": [
+      "Updated README publication status to 16 Phase 8 lessons and A17–A32 as Phase 9–10 plan",
+      "Updated ARCHITECTURE inventory to 56 foundation and 16 advanced pages",
+      "Kept measured-hardware gates explicit in docs/qa/curriculum-hardware-pending.md"
+    ],
+    "remaining": "P8-06 publication review covers digital lessons and analytic/table activities only. No full SPICE/FEM, ERC, hardware, EMC measurement or specialist physical sign-off is claimed."
+  }
+}
