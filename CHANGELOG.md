@@ -6,6 +6,8 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 
 ### Tài liệu
 
+- Thêm 14 sơ đồ tổng quan theo nội dung Bài 1–14 và bốn ảnh linh kiện CC0/miền công cộng có ghi nguồn; kiểm tra 320/390/1280 px.
+
 - Hoàn tất kiểm định Phase 4: phân loại 80 sơ đồ ký tự và sửa 31 nhóm lỗi kỹ thuật trong sơ đồ, lời giảng, bài thực hành trước đợt vẽ hình.
 
 - Lập kế hoạch Phase 4–6 làm mới hình cho 56 bài; thêm baseline và cổng kiểm tra ảnh/nguồn.

@@ -3,7 +3,7 @@
 - Cập nhật: 2026-10-03
 - Trạng thái: Phase 1–4 hoàn tất; Phase 5–6 hình minh họa đang triển khai
 - Phase hiện tại: Phase 5
-- Việc kế tiếp: P5-01
+- Việc kế tiếp: P5-02
 - Phiên bản phát hành: chưa có
 
 ## Tổng quan
@@ -14,7 +14,7 @@
 | Phase 2 | 3 | 3 | Hoàn tất; audit/debug PASS |
 | Phase 3 | 2 | 2 | Hoàn tất; audit/debug PASS |
 | Phase 4 | 4 | 4 | Hoàn tất; audit/debug PASS |
-| Phase 5 | 4 | 0 | Đã lên kế hoạch |
+| Phase 5 | 4 | 1 | Đang triển khai |
 | Phase 6 | 2 | 0 | Đã lên kế hoạch |
 
 ## Phase 1
@@ -98,7 +98,7 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 | P4-02 | PASS | 80/80 sơ đồ phân loại; 31 nhóm phát hiện; `docs/qa/visual-technical-audit.md` |
 | P4-03 | PASS | `docs/qa/visual-prototype.md`; 8 mobile cases, caption 24px, QA Chromium |
 | P4-04 | PASS | 31/31 nhóm lỗi đã sửa; `docs/qa/visual-technical-fixes.md`; QA Chromium và cổng link/asset/index đạt |
-| P5-01 | IN_PROGRESS | 14 hình tổng quan và ảnh nguồn 4 loại linh kiện; chỉ dùng CC0/miền công cộng đã xác minh |
+| P5-01 | PASS | 14 SVG và 4 ảnh thật đã kiểm giấy phép; `docs/qa/visual-week1-2.md`; 42 ca mobile/desktop, link/asset/index PASS |
 | P5-02 | PLANNED | — |
 | P5-03 | PLANNED | — |
 | P5-04 | PLANNED | — |
@@ -112,3 +112,5 @@ Nguồn `docs/brainstorm/session-2026-10-02-visuals.md`; hai ảnh CC0 và hai S
 2026-10-02 P4-03: quy chuẩn `docs/visuals/VISUAL-GUIDE.md`; Bài 1–2 hiển thị tốt ở 320–430px/24px, 0 tràn, 0 asset hỏng, search index tạo lại.
 
 2026-10-03 P4-04: sửa 31 nhóm lỗi kỹ thuật trên 34 bài, kể cả đáp án Zener còn mâu thuẫn khi audit lại. 59 trang/490 liên kết nội bộ 0 hỏng; 56 bài/80 sơ đồ ASCII/4 tài sản ảnh 0 lỗi; search index 56 bài còn mới; Chromium quick PASS. Chi tiết `docs/qa/visual-technical-fixes.md`. Phase 4 audit/debug PASS trong phạm vi kiểm tra tài liệu, không thay thế thử phần cứng thật.
+
+2026-10-03 P5-01: 14/14 bài của tuần 1–2 có sơ đồ riêng, 4 ảnh thật đã kiểm CC0/miền công cộng trên trang tệp và lưu WebP. 42 ca Chromium 320/390/1280 px PASS; 59 trang/508 tham chiếu cục bộ 0 hỏng; chỉ mục mới, Chromium quick PASS. Chi tiết `docs/qa/visual-week1-2.md`.

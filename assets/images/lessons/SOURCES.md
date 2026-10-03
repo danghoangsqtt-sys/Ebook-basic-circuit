@@ -8,5 +8,23 @@ Giáo trình giữ bản quyền riêng. Ảnh bên ngoài chỉ được đưa 
 | `breadboard-400-cc0.webp` | Bài 2, hình 2.1 | Guhuru — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Breadboard.png) | CC0 1.0, kiểm tra 2026-10-02 | Ảnh gốc 1479 × 1089; thu về 1200 × 884 và chuyển WebP. Đây là loại **400 lỗ**, dùng để minh họa nguyên lý, không gọi là loại 830 lỗ. |
 | `charge-carriers.svg` | Bài 1, hình 1.1 | Tự vẽ cho giáo trình | Nội dung dự án | Sơ đồ khái niệm; không biểu diễn quỹ đạo hoặc tỉ lệ hạt thật. |
 | `charge-carriers-mobile.svg` | Bài 1, hình 1.1 ở màn hình hẹp | Tự vẽ cho giáo trình | Nội dung dự án | Cùng nội dung với bản ngang, bố cục dọc để đọc rõ trên điện thoại. |
+| `day01-overview.svg` | Bài 1 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bản đồ khái niệm điện áp, dòng điện, GND và phép đo. |
+| `day02-overview.svg` | Bài 2 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bản đồ kết nối breadboard và phép đo thông mạch. |
+| `day03-overview.svg` | Bài 3 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Quy trình đọc điện trở nâu–đen–đỏ–vàng kim. |
+| `day04-overview.svg` | Bài 4 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Chuỗi nguồn, điện trở, LED và tính dòng. |
+| `day05-overview.svg` | Bài 5 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | So sánh nối tiếp và song song. |
+| `day06-overview.svg` | Bài 6 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Cầu chia áp không tải và có tải. |
+| `day07-overview.svg` | Bài 7 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bốn nhánh LED độc lập và GND chung. |
+| `day08-overview.svg` | Bài 8 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | So sánh tụ gốm và tụ điện phân. |
+| `day09-overview.svg` | Bài 9 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Quy trình nạp, xả RC và hằng số thời gian. |
+| `day10-overview.svg` | Bài 10 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Bản đồ cuộn cảm, mạch RL và diode flyback. |
+| `day11-overview.svg` | Bài 11 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Diode thuận, nghịch và cầu chỉnh lưu. |
+| `day12-overview.svg` | Bài 12 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Điện trở nối tiếp, Zener shunt và tải. |
+| `day13-overview.svg` | Bài 13 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Hai tầng nguồn tuyến tính và kiểm tra nhiệt. |
+| `day14-overview.svg` | Bài 14 | Tự vẽ từ `docs/visuals/overview-specs.json` | Nội dung dự án | Lắp nguồn 9 V → 5 V → 3,3 V. |
+| `resistor-array-public-domain.webp` | Bài 3 | Evan-Amos — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Electronic-Axial-Lead-Resistors-Array.jpg) | Miền công cộng toàn cầu, kiểm tra 2026-10-03 | Ảnh gốc 3000 × 2100; thu về 1200 × 840, WebP. Sáu điện trở giá trị khác nhau, vạch vàng kim ±5%. |
+| `led-on-board-public-domain.webp` | Bài 4 | Leon Brooks — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Green_light_emitting_diode_led_on_circuit_board.jpg) | Miền công cộng toàn cầu, kiểm tra 2026-10-03 | Ảnh gốc 2560 × 1920; thu về 1200 × 900, WebP. Ảnh nhận dạng LED; không suy cực hay điện trở từ ảnh. |
+| `electrolytic-capacitors-cc0.webp` | Bài 8 | Elcap — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Electrolytic_capacitors-P1090328.JPG) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 1158 × 674; chuyển WebP. Gồm tụ điện phân nhôm và tantalum nhiều dạng. |
+| `axial-inductors-cc0.webp` | Bài 10 | Retired electrician — [trang tệp Wikimedia Commons](https://commons.wikimedia.org/wiki/File:EC24_miniature_axial_inductors.jpg) | CC0 1.0, kiểm tra 2026-10-03 | Ảnh gốc 2696 × 2696; thu về 1200 × 1200, WebP. Cuộn cảm EC24 dạng trục. |
 
 Khi thêm ảnh mới, ghi lại trang tệp cụ thể, tác giả, giấy phép, ngày kiểm tra, mọi biến đổi và vị trí sử dụng. Không suy giấy phép của ảnh từ giấy phép của cả website chứa ảnh.
