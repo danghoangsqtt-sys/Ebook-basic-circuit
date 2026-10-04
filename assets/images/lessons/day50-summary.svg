@@ -1,37 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="1067" viewBox="0 0 560 1067" role="img" aria-labelledby="title desc">
-<title id="title">Đánh giá sau demo — Bài 50</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="280" viewBox="0 0 960 280" role="img" aria-labelledby="title desc">
+<title id="title">Đánh giá nghiệm thu và xây dựng Portfolio kỹ thuật — Bài 50</title>
 <desc id="desc">Dự án và hành trình học; Chức năng: Đối chiếu yêu cầu SRS đã đạt.; Chất lượng: Xem mạch, firmware và tài liệu.; Nhìn lại: Tốt, khó, đã học, việc kế.; Portfolio: Repo, ảnh và video demo.</desc>
-<rect width="560" height="1067" rx="24" fill="#102036"/>
-<rect x="24" y="22" width="154" height="42" rx="21" fill="#254761"/>
-<text x="43" y="52" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#e8f4fa">BÀI 50 · TỔNG KẾT</text>
-<text x="27" y="112" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#f7fbff">Đánh giá sau demo</text>
-<rect x="26" y="139" width="508" height="90" rx="22" fill="#226174" stroke="#76e3dc" stroke-width="3"/>
-<text x="49" y="193" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#ffffff">Dự án và hành trình học</text>
-<path d="M 65 229 V 929" stroke="#76e3dc" stroke-width="4" fill="none"/>
-<path d="M 65 340 H 91" stroke="#76e3dc" stroke-width="4"/>
-<circle cx="65" cy="340" r="8" fill="#63d8cc"/>
-<rect x="91" y="257" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="91" y="257" width="8" height="166" rx="4" fill="#63d8cc"/>
-<text x="118" y="316" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Chức năng</text>
-<text x="118" y="364" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Đối chiếu yêu cầu SRS đã</text>
-<text x="118" y="398" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">đạt.</text>
-<path d="M 65 535 H 91" stroke="#76e3dc" stroke-width="4"/>
-<circle cx="65" cy="535" r="8" fill="#f8c476"/>
-<rect x="91" y="452" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="91" y="452" width="8" height="166" rx="4" fill="#f8c476"/>
-<text x="118" y="511" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Chất lượng</text>
-<text x="118" y="559" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Xem mạch, firmware và tài</text>
-<text x="118" y="593" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">liệu.</text>
-<path d="M 65 730 H 91" stroke="#76e3dc" stroke-width="4"/>
-<circle cx="65" cy="730" r="8" fill="#aebdff"/>
-<rect x="91" y="647" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="91" y="647" width="8" height="166" rx="4" fill="#aebdff"/>
-<text x="118" y="706" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Nhìn lại</text>
-<text x="118" y="754" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Tốt, khó, đã học, việc kế.</text>
-<path d="M 65 925 H 91" stroke="#76e3dc" stroke-width="4"/>
-<circle cx="65" cy="925" r="8" fill="#edadd2"/>
-<rect x="91" y="842" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="91" y="842" width="8" height="166" rx="4" fill="#edadd2"/>
-<text x="118" y="901" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Portfolio</text>
-<text x="118" y="949" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Repo, ảnh và video demo.</text>
+<rect width="960" height="280" rx="16" fill="#0d1829" stroke="#1e293b" stroke-width="1.5"/>
+<rect x="24" y="18" width="912" height="48" rx="8" fill="#14243b" stroke="#253a56" stroke-width="1"/>
+<rect x="34" y="26" width="180" height="32" rx="6" fill="#1e3a5f"/>
+<text x="124" y="47" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#38bdf8" text-anchor="middle" letter-spacing="0.5">BÀI 50 · ĐÁNH GIÁ ĐỒ ÁN</text>
+<text x="229" y="48" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#f8fafc">Đánh giá nghiệm thu và xây dựng Portfolio kỹ thuật</text>
+<rect x="24" y="85" width="208" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 25 91 Q 25 86 30 86 L 226 86 Q 231 86 231 91 L 231 91 L 25 91 Z" fill="#38bdf8"/>
+<rect x="36" y="99" width="28" height="20" rx="4" fill="#0284c7"/>
+<text x="50" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">01</text>
+<text x="70" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Đánh giá chức năng</text>
+<line x1="36" y1="127" x2="220" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="36" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Đối chiếu toàn bộ danh mục</text>
+<text x="36" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">yêu cầu SRS ban đầu: ghi rõ</text>
+<text x="36" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">mục đạt và chưa đạt.</text>
+<path d="M 237 172 L 251 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 247 168 L 252 172 L 247 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="258" y="85" width="208" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 259 91 Q 259 86 264 86 L 460 86 Q 465 86 465 91 L 465 91 L 259 91 Z" fill="#34d399"/>
+<rect x="270" y="99" width="28" height="20" rx="4" fill="#059669"/>
+<text x="284" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">02</text>
+<text x="304" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Kiểm định chất lượng</text>
+<line x1="270" y1="127" x2="454" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="270" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Rà soát độ tin cậy phần</text>
+<text x="270" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">cứng, tính an toàn điện,</text>
+<text x="270" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">chất lượng code và tính sẵn</text>
+<text x="270" y="207" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">sàng.</text>
+<path d="M 471 172 L 485 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 481 168 L 486 172 L 481 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="492" y="85" width="208" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 493 91 Q 493 86 498 86 L 694 86 Q 699 86 699 91 L 699 91 L 493 91 Z" fill="#fbbf24"/>
+<rect x="504" y="99" width="28" height="20" rx="4" fill="#d97706"/>
+<text x="518" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">03</text>
+<text x="538" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Đúc kết kinh nghiệm</text>
+<line x1="504" y1="127" x2="688" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="504" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Phân tích nguyên nhân lỗi</text>
+<text x="504" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">phát sinh, bài học khắc</text>
+<text x="504" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">phục và định hướng nâng</text>
+<text x="504" y="207" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">cấp.</text>
+<path d="M 705 172 L 719 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 715 168 L 720 172 L 715 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="726" y="85" width="208" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 727 91 Q 727 86 732 86 L 928 86 Q 933 86 933 91 L 933 91 L 727 91 Z" fill="#a78bfa"/>
+<rect x="738" y="99" width="28" height="20" rx="4" fill="#7c3aed"/>
+<text x="752" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">04</text>
+<text x="772" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Hoàn thiện Portfolio</text>
+<line x1="738" y1="127" x2="922" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="738" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Đóng gói mã nguồn GitHub</text>
+<text x="738" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">sạch sẽ, đính kèm video</text>
+<text x="738" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">demo, sơ đồ mạch và PDF báo</text>
+<text x="738" y="207" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">cáo.</text>
 </svg>

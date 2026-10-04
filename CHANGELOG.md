@@ -6,6 +6,7 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 
 ### Tài liệu
 
+- Nâng cấp tinh chỉnh sư phạm (/dh-evolve + /dh-auto): thiết kế lại 12 sơ đồ tổng kết tuần (`dayXX-summary.svg`) thành lưu đồ khối ngang kỹ thuật (960x280px / 1000x280px); bổ sung 9 sơ đồ khối kỹ thuật (`d25`, `d29`, `d34`, `d36`, `d44`, `d45`, `d46`, `d47`, `d52`) cho 9 bài còn thiếu; 56/56 bài nền tảng đạt 100% minh họa thực chất (105 hình); tái tạo search index 89 bài.
 - Tinh giản bố cục sư phạm (Phương án 1): gỡ bỏ hoàn toàn 56 áp phích dọc 560x1114px (`dayXX-overview.svg`) khỏi 56 bài nền tảng do chiếm diện tích vô ích (1–2 màn hình cuộn) và lặp lại nội dung; bảo tồn toàn bộ 11 ảnh linh kiện chụp thực tế CC0 (`figure--equipment`) tại các bài 3, 4, 8, 10, 15, 18, 27, 30, 33, 41, 53. Kiểm định 0 liên kết hỏng, 280 ca viewport và 288 ca browser QA PASS.
 - Phase 10 mở rộng: thêm A33 (tổng quan năm họ board MCU và chi tiết Arduino Uno R3 làm mẫu chuyển giao, tám câu hỏi áp cho board khác), `verify_phase10_uno_model.py`, nối menu/search/bản đồ tiên quyết 56+33. Chỉ là mô hình số; chưa có Uno thật, biên dịch sketch hay phép đo.
 - Chuẩn bị cổng phần cứng P10-04: phiếu bring-up Pico/TMP36, CSV đo trống và công cụ phân tích log có kiểm timestamp/index/hysteresis; audit/debug schema phát hiện và sửa nguy cơ ghép sai thời điểm hoặc bỏ mẫu. Chưa có bản ghi đo thật, CAD/ERC/DRC hay chữ ký reviewer.

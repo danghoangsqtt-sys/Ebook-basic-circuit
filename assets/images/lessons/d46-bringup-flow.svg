@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="280" viewBox="0 0 960 280" role="img" aria-labelledby="title desc">
+<title id="title">Quy trình Bring-Up an toàn khi cấp nguồn cho mạch mới lắp — Bài 46</title>
+<desc id="desc">Kiểm tra nguội không nguồn → Cấp nguồn hạn dòng → Đo kiểm rail điện áp → Nạp firmware tối thiểu → Thử nghiệm toàn phần</desc>
+<rect width="960" height="280" rx="16" fill="#0d1829" stroke="#1e293b" stroke-width="1.5"/>
+<rect x="24" y="18" width="912" height="48" rx="8" fill="#14243b" stroke="#253a56" stroke-width="1"/>
+<rect x="34" y="26" width="180" height="32" rx="6" fill="#1e3a5f"/>
+<text x="124" y="47" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#38bdf8" text-anchor="middle" letter-spacing="0.5">BÀI 46 · QUY TRÌNH BRING-UP</text>
+<text x="229" y="48" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#f8fafc">Quy trình Bring-Up an toàn khi cấp nguồn cho mạch mới lắp</text>
+<rect x="24" y="85" width="161" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 25 91 Q 25 86 30 86 L 179 86 Q 184 86 184 91 L 184 91 L 25 91 Z" fill="#38bdf8"/>
+<rect x="34" y="99" width="26" height="20" rx="4" fill="#0284c7"/>
+<text x="47" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">01</text>
+<text x="66" y="114" font-family="Arial,sans-serif" font-size="12.5" font-weight="700" fill="#f1f5f9">Kiểm tra nguội</text>
+<line x1="34" y1="127" x2="175" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="34" y="147" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">Đo điện trở giữa VCC</text>
+<text x="34" y="167" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">và GND khi chưa cắm</text>
+<text x="34" y="187" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">điện; xác nhận không</text>
+<text x="34" y="207" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">có ngắn mạch 0 Ohm.</text>
+<path d="M 190 172 L 204 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 200 168 L 205 172 L 200 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="211" y="85" width="161" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 212 91 Q 212 86 217 86 L 366 86 Q 371 86 371 91 L 371 91 L 212 91 Z" fill="#34d399"/>
+<rect x="221" y="99" width="26" height="20" rx="4" fill="#059669"/>
+<text x="234" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">02</text>
+<text x="253" y="114" font-family="Arial,sans-serif" font-size="12.5" font-weight="700" fill="#f1f5f9">Cấp nguồn hạn dòng</text>
+<line x1="221" y1="127" x2="362" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="221" y="147" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">Đặt nguồn DC với giới</text>
+<text x="221" y="167" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">hạn dòng 50-100 mA;</text>
+<text x="221" y="187" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">quan sát đồng hồ dòng</text>
+<text x="221" y="207" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">không vọt cao.</text>
+<path d="M 377 172 L 391 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 387 168 L 392 172 L 387 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="398" y="85" width="161" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 399 91 Q 399 86 404 86 L 553 86 Q 558 86 558 91 L 558 91 L 399 91 Z" fill="#fbbf24"/>
+<rect x="408" y="99" width="26" height="20" rx="4" fill="#d97706"/>
+<text x="421" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">03</text>
+<text x="440" y="114" font-family="Arial,sans-serif" font-size="12.5" font-weight="700" fill="#f1f5f9">Đo các rail điện áp</text>
+<line x1="408" y1="127" x2="549" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="408" y="147" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">Đo điện áp ngõ ra của</text>
+<text x="408" y="167" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">từng IC ổn áp: rail 5V</text>
+<text x="408" y="187" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">đạt 4.9-5.1V, rail</text>
+<text x="408" y="207" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">3.3V đạt 3.25-3.35V.</text>
+<path d="M 564 172 L 578 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 574 168 L 579 172 L 574 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="585" y="85" width="161" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 586 91 Q 586 86 591 86 L 740 86 Q 745 86 745 91 L 745 91 L 586 91 Z" fill="#a78bfa"/>
+<rect x="595" y="99" width="26" height="20" rx="4" fill="#7c3aed"/>
+<text x="608" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">04</text>
+<text x="627" y="114" font-family="Arial,sans-serif" font-size="12.5" font-weight="700" fill="#f1f5f9">Firmware tối thiểu</text>
+<line x1="595" y1="127" x2="736" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="595" y="147" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">Nạp sketch kiểm tra</text>
+<text x="595" y="167" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">cơ bản (Blink GPIO, in</text>
+<text x="595" y="187" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">Serial) xác nhận MCU</text>
+<text x="595" y="207" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">còn sống.</text>
+<path d="M 751 172 L 765 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 761 168 L 766 172 L 761 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="772" y="85" width="161" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 773 91 Q 773 86 778 86 L 927 86 Q 932 86 932 91 L 932 91 L 773 91 Z" fill="#f472b6"/>
+<rect x="782" y="99" width="26" height="20" rx="4" fill="#db2777"/>
+<text x="795" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">05</text>
+<text x="814" y="114" font-family="Arial,sans-serif" font-size="12.5" font-weight="700" fill="#f1f5f9">Kiểm thử đầy tải</text>
+<line x1="782" y1="127" x2="923" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="782" y="147" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">Nâng dần giới hạn</text>
+<text x="782" y="167" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">dòng, cắm các module</text>
+<text x="782" y="187" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">ngoại vi và rà nhiệt</text>
+<text x="782" y="207" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">độ bằng tay/camera</text>
+<text x="782" y="227" font-family="Arial,sans-serif" font-size="11" font-weight="400" fill="#94a3b8">nhiệt.</text>
+</svg>

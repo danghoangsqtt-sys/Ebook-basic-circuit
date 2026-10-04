@@ -53,6 +53,16 @@
             <tr><td>ESP32 lợi thế</td><td>Dùng 1 core</td><td>Phân task ra 2 core (Core 0 WiFi, Core 1 user)</td></tr>
           </tbody>
         </table>
+
+      <figure class="figure">
+        <img src="../assets/images/lessons/d52-freertos-queue.svg" width="960" height="280" loading="lazy" decoding="async" alt="Mô hình đa tác vụ và hàng đợi Queue trong FreeRTOS: task cảm biến producer, hàng đợi queue an toàn luồng, task hiển thị consumer, kernel và watchdog timer.">
+        <figcaption class="figure-caption">
+          <div class="figure-number">Sơ đồ D52-1 · Mô hình đa tác vụ và hàng đợi Queue trong FreeRTOS</div>
+          <div class="figure-text">Kiến trúc đa nhiệm thời gian thực: Tác vụ đọc cảm biến đóng gói dữ liệu đẩy vào Queue an toàn bộ nhớ (thread-safe), tác vụ hiển thị đọc từ Queue để cập nhật giao diện, dưới sự giám sát của bộ lập lịch Preemptive và Watchdog.</div>
+          <div class="figure-source">Nguồn: sơ đồ tự vẽ cho bài học. <a href="../assets/images/lessons/d52-freertos-queue.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div>
+        </figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Mô tả sơ đồ bằng chữ</summary><p>Sơ đồ 5 khối: 1. Task Đọc cảm biến chu kỳ ưu tiên cao sản xuất dữ liệu; 2. Hàng đợi FreeRTOS Queue lưu trữ trung gian an toàn luồng tránh xung đột bộ nhớ; 3. Task Hiển thị và Truyền thông ưu tiên thấp tiêu thụ dữ liệu vẽ màn hình; 4. Bộ lập lịch FreeRTOS Kernel phân bổ thời gian thực thi theo độ ưu tiên; 5. Cơ chế Watchdog Timer giám sát chống treo từng tác vụ riêng biệt.</p></details>
       </div>
 
       <h2>2. Task cơ bản trong FreeRTOS</h2>

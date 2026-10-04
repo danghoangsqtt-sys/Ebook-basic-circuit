@@ -1,42 +1,66 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="1262" viewBox="0 0 560 1262" role="img" aria-labelledby="title desc">
-<title id="title">Năm hướng học tiếp — Bài 55</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="280" viewBox="0 0 1000 280" role="img" aria-labelledby="title desc">
+<title id="title">Năm lộ trình phát triển chuyên sâu trong ngành kỹ thuật nhúng — Bài 55</title>
 <desc id="desc">Chọn hướng và dự án nhỏ; Firmware: STM32, RTOS và driver.; Embedded Linux: Buildroot và kernel module.; PCB phần cứng: Analog, RF và board nhiều lớp.; IoT và cloud: MQTT, Matter và edge AI.; Robotics: ROS2, thị giác và SLAM.</desc>
-<rect width="560" height="1262" rx="24" fill="#102036"/>
-<rect x="24" y="22" width="154" height="42" rx="21" fill="#254761"/>
-<text x="43" y="52" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#e8f4fa">BÀI 55 · TỔNG KẾT</text>
-<text x="27" y="112" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#f7fbff">Năm hướng học tiếp</text>
-<rect x="26" y="139" width="508" height="90" rx="22" fill="#226174" stroke="#76e3dc" stroke-width="3"/>
-<text x="49" y="193" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#ffffff">Chọn hướng và dự án nhỏ</text>
-<path d="M 65 229 V 1124" stroke="#76e3dc" stroke-width="4" fill="none"/>
-<path d="M 65 340 H 91" stroke="#76e3dc" stroke-width="4"/>
-<circle cx="65" cy="340" r="8" fill="#63d8cc"/>
-<rect x="91" y="257" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="91" y="257" width="8" height="166" rx="4" fill="#63d8cc"/>
-<text x="118" y="316" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Firmware</text>
-<text x="118" y="364" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">STM32, RTOS và driver.</text>
-<path d="M 65 535 H 91" stroke="#76e3dc" stroke-width="4"/>
-<circle cx="65" cy="535" r="8" fill="#f8c476"/>
-<rect x="91" y="452" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="91" y="452" width="8" height="166" rx="4" fill="#f8c476"/>
-<text x="118" y="511" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Embedded Linux</text>
-<text x="118" y="559" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Buildroot và kernel module.</text>
-<path d="M 65 730 H 91" stroke="#76e3dc" stroke-width="4"/>
-<circle cx="65" cy="730" r="8" fill="#aebdff"/>
-<rect x="91" y="647" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="91" y="647" width="8" height="166" rx="4" fill="#aebdff"/>
-<text x="118" y="706" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">PCB phần cứng</text>
-<text x="118" y="754" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Analog, RF và board nhiều</text>
-<text x="118" y="788" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">lớp.</text>
-<path d="M 65 925 H 91" stroke="#76e3dc" stroke-width="4"/>
-<circle cx="65" cy="925" r="8" fill="#edadd2"/>
-<rect x="91" y="842" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="91" y="842" width="8" height="166" rx="4" fill="#edadd2"/>
-<text x="118" y="901" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">IoT và cloud</text>
-<text x="118" y="949" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">MQTT, Matter và edge AI.</text>
-<path d="M 65 1120 H 91" stroke="#76e3dc" stroke-width="4"/>
-<circle cx="65" cy="1120" r="8" fill="#83d2ef"/>
-<rect x="91" y="1037" width="443" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="91" y="1037" width="8" height="166" rx="4" fill="#83d2ef"/>
-<text x="118" y="1096" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Robotics</text>
-<text x="118" y="1144" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">ROS2, thị giác và SLAM.</text>
+<rect width="1000" height="280" rx="16" fill="#0d1829" stroke="#1e293b" stroke-width="1.5"/>
+<rect x="24" y="18" width="952" height="48" rx="8" fill="#14243b" stroke="#253a56" stroke-width="1"/>
+<rect x="34" y="26" width="180" height="32" rx="6" fill="#1e3a5f"/>
+<text x="124" y="47" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#38bdf8" text-anchor="middle" letter-spacing="0.5">BÀI 55 · ĐỊNH HƯỚNG</text>
+<text x="229" y="48" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#f8fafc">Năm lộ trình phát triển chuyên sâu trong ngành kỹ thuật nhúng</text>
+<rect x="24" y="85" width="169" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 25 91 Q 25 86 30 86 L 187 86 Q 192 86 192 91 L 192 91 L 25 91 Z" fill="#38bdf8"/>
+<rect x="36" y="99" width="28" height="20" rx="4" fill="#0284c7"/>
+<text x="50" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">01</text>
+<text x="70" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Firmware MCU</text>
+<line x1="36" y1="127" x2="181" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="36" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">STM32, FreeRTOS, kiến</text>
+<text x="36" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">trúc low-level driver và</text>
+<text x="36" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">tối ưu thời gian thực.</text>
+<path d="M 198 172 L 212 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 208 168 L 213 172 L 208 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="219" y="85" width="169" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 220 91 Q 220 86 225 86 L 382 86 Q 387 86 387 91 L 387 91 L 220 91 Z" fill="#34d399"/>
+<rect x="231" y="99" width="28" height="20" rx="4" fill="#059669"/>
+<text x="245" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">02</text>
+<text x="265" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Embedded Linux</text>
+<line x1="231" y1="127" x2="376" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="231" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">SoC ARM,</text>
+<text x="231" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Yocto/Buildroot, lập</text>
+<text x="231" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">trình kernel driver và</text>
+<text x="231" y="207" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">hệ điều hành nhúng.</text>
+<path d="M 393 172 L 407 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 403 168 L 408 172 L 403 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="414" y="85" width="169" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 415 91 Q 415 86 420 86 L 577 86 Q 582 86 582 91 L 582 91 L 415 91 Z" fill="#fbbf24"/>
+<rect x="426" y="99" width="28" height="20" rx="4" fill="#d97706"/>
+<text x="440" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">03</text>
+<text x="460" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Thiết kế PCB</text>
+<line x1="426" y1="127" x2="571" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="426" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Mạch tương tự (Analog),</text>
+<text x="426" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">tín hiệu cao tần RF,</text>
+<text x="426" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">mạch nhiều lớp và tương</text>
+<text x="426" y="207" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">thích EMC.</text>
+<path d="M 588 172 L 602 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 598 168 L 603 172 L 598 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="609" y="85" width="169" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 610 91 Q 610 86 615 86 L 772 86 Q 777 86 777 91 L 777 91 L 610 91 Z" fill="#a78bfa"/>
+<rect x="621" y="99" width="28" height="20" rx="4" fill="#7c3aed"/>
+<text x="635" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">04</text>
+<text x="655" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">IoT &amp; Cloud</text>
+<line x1="621" y1="127" x2="766" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="621" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Giao thức MQTT, CoAP,</text>
+<text x="621" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">chuẩn Matter, bảo mật</text>
+<text x="621" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">kết nối và trí tuệ nhân</text>
+<text x="621" y="207" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">tạo biên (Edge AI).</text>
+<path d="M 783 172 L 797 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 793 168 L 798 172 L 793 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="804" y="85" width="169" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 805 91 Q 805 86 810 86 L 967 86 Q 972 86 972 91 L 972 91 L 805 91 Z" fill="#f472b6"/>
+<rect x="816" y="99" width="28" height="20" rx="4" fill="#db2777"/>
+<text x="830" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">05</text>
+<text x="850" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Robotics &amp; Tự động</text>
+<line x1="816" y1="127" x2="961" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="816" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Hệ điều hành ROS 2,</text>
+<text x="816" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">thuật toán định vị SLAM,</text>
+<text x="816" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">xử lý ảnh thị giác và</text>
+<text x="816" y="207" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">điều khiển chuyển động.</text>
 </svg>

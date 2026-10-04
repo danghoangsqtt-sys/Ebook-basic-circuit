@@ -1,38 +1,52 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="1067" viewBox="0 0 560 1067" role="img" aria-labelledby="title desc">
-<title id="title">PCB nguồn buck mini — Bài 35</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="280" viewBox="0 0 960 280" role="img" aria-labelledby="title desc">
+<title id="title">Quy trình thiết kế PCB nguồn Buck mini hoàn chỉnh — Bài 35</title>
 <desc id="desc">12 V → LM2596S-5.0 → 5 V; Schematic: Đối chiếu IC, L, diode và tụ.; Đưa vào KiCad: Ghép footprint rồi chạy ERC/DRC.; Đặt vòng dòng nhanh: Tụ vào, switch và diode đặt gần.; Cấp điện thử: Giới hạn dòng; đo ra và ripple.</desc>
-<rect width="560" height="1067" rx="24" fill="#102036"/>
-<rect x="24" y="22" width="154" height="42" rx="21" fill="#254761"/>
-<text x="43" y="52" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#e8f4fa">BÀI 35 · TỔNG KẾT</text>
-<text x="27" y="112" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#f7fbff">PCB nguồn buck mini</text>
-<rect x="26" y="139" width="508" height="90" rx="22" fill="#226174" stroke="#76e3dc" stroke-width="3"/>
-<text x="49" y="193" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#ffffff">12 V → LM2596S-5.0 → 5 V</text>
-<path d="M 280 229 V 254" stroke="#76e3dc" stroke-width="4"/>
-<path d="M 271 244 l 9 10 9 -10" stroke="#76e3dc" stroke-width="4" fill="none"/>
-<rect x="26" y="257" width="508" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="26" y="257" width="8" height="166" rx="4" fill="#63d8cc"/>
-<text x="53" y="316" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Schematic</text>
-<text x="53" y="364" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Đối chiếu IC, L, diode và</text>
-<text x="53" y="398" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">tụ.</text>
-<path d="M 280 424 V 449" stroke="#76e3dc" stroke-width="4"/>
-<path d="M 271 439 l 9 10 9 -10" stroke="#76e3dc" stroke-width="4" fill="none"/>
-<rect x="26" y="452" width="508" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="26" y="452" width="8" height="166" rx="4" fill="#f8c476"/>
-<text x="53" y="511" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Đưa vào KiCad</text>
-<text x="53" y="559" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Ghép footprint rồi chạy</text>
-<text x="53" y="593" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">ERC/DRC.</text>
-<path d="M 280 619 V 644" stroke="#76e3dc" stroke-width="4"/>
-<path d="M 271 634 l 9 10 9 -10" stroke="#76e3dc" stroke-width="4" fill="none"/>
-<rect x="26" y="647" width="508" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="26" y="647" width="8" height="166" rx="4" fill="#aebdff"/>
-<text x="53" y="706" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Đặt vòng dòng nhanh</text>
-<text x="53" y="754" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Tụ vào, switch và diode đặt</text>
-<text x="53" y="788" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">gần.</text>
-<path d="M 280 814 V 839" stroke="#76e3dc" stroke-width="4"/>
-<path d="M 271 829 l 9 10 9 -10" stroke="#76e3dc" stroke-width="4" fill="none"/>
-<rect x="26" y="842" width="508" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="26" y="842" width="8" height="166" rx="4" fill="#edadd2"/>
-<text x="53" y="901" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Cấp điện thử</text>
-<text x="53" y="949" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Giới hạn dòng; đo ra và</text>
-<text x="53" y="983" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">ripple.</text>
+<rect width="960" height="280" rx="16" fill="#0d1829" stroke="#1e293b" stroke-width="1.5"/>
+<rect x="24" y="18" width="912" height="48" rx="8" fill="#14243b" stroke="#253a56" stroke-width="1"/>
+<rect x="34" y="26" width="180" height="32" rx="6" fill="#1e3a5f"/>
+<text x="124" y="47" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#38bdf8" text-anchor="middle" letter-spacing="0.5">BÀI 35 · TỔNG KẾT TUẦN 5</text>
+<text x="229" y="48" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#f8fafc">Quy trình thiết kế PCB nguồn Buck mini hoàn chỉnh</text>
+<rect x="24" y="85" width="208" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 25 91 Q 25 86 30 86 L 226 86 Q 231 86 231 91 L 231 91 L 25 91 Z" fill="#38bdf8"/>
+<rect x="36" y="99" width="28" height="20" rx="4" fill="#0284c7"/>
+<text x="50" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">01</text>
+<text x="70" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Nguyên lý Schematic</text>
+<line x1="36" y1="127" x2="220" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="36" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Đối chiếu sơ đồ chuẩn</text>
+<text x="36" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">datasheet cho IC LM2596,</text>
+<text x="36" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">cuộn cảm, diode Schottky và</text>
+<text x="36" y="207" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">tụ.</text>
+<path d="M 237 172 L 251 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 247 168 L 252 172 L 247 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="258" y="85" width="208" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 259 91 Q 259 86 264 86 L 460 86 Q 465 86 465 91 L 465 91 L 259 91 Z" fill="#34d399"/>
+<rect x="270" y="99" width="28" height="20" rx="4" fill="#059669"/>
+<text x="284" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">02</text>
+<text x="304" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">KiCad ERC &amp; Footprint</text>
+<line x1="270" y1="127" x2="454" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="270" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Gán đúng kích thước chân</text>
+<text x="270" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">linh kiện và chạy ERC kiểm</text>
+<text x="270" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">tra lỗi kết nối mạch.</text>
+<path d="M 471 172 L 485 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 481 168 L 486 172 L 481 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="492" y="85" width="208" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 493 91 Q 493 86 498 86 L 694 86 Q 699 86 699 91 L 699 91 L 493 91 Z" fill="#fbbf24"/>
+<rect x="504" y="99" width="28" height="20" rx="4" fill="#d97706"/>
+<text x="518" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">03</text>
+<text x="538" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Layout vòng dòng cao</text>
+<line x1="504" y1="127" x2="688" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="504" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Bố trí tụ vào, switch và</text>
+<text x="504" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">diode sát nhau để thu nhỏ</text>
+<text x="504" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">diện tích vòng lặp di/dt.</text>
+<path d="M 705 172 L 719 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 715 168 L 720 172 L 715 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="726" y="85" width="208" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 727 91 Q 727 86 732 86 L 928 86 Q 933 86 933 91 L 933 91 L 727 91 Z" fill="#a78bfa"/>
+<rect x="738" y="99" width="28" height="20" rx="4" fill="#7c3aed"/>
+<text x="752" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">04</text>
+<text x="772" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Cấp nguồn &amp; Kiểm tra</text>
+<line x1="738" y1="127" x2="922" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="738" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Cấp nguồn hạn dòng an</text>
+<text x="738" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">toàn; đo điện áp ra, độ gợn</text>
+<text x="738" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">sóng (ripple) và nhiệt độ.</text>
 </svg>

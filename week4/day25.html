@@ -44,6 +44,15 @@
       <h2>1. ADC — Chuyển đổi Analog → Digital</h2>
 
       <p>ADC (<em>Analog-to-Digital Converter</em>) đọc điện áp analog (ví dụ 0–3,3V) và chuyển thành số nguyên. Độ chính xác phụ thuộc vào <strong>số bit</strong>:</p>
+      <figure class="figure">
+        <img src="../assets/images/lessons/d25-signal-chain.svg" width="960" height="280" loading="lazy" decoding="async" alt="Chuỗi chuyển đổi tín hiệu Analog sang Digital và Digital sang Analog: từ điện áp liên tục qua Sample and Hold, lượng tử hóa, MCU xử lý đến DAC và bộ lọc tái tạo.">
+        <figcaption class="figure-caption">
+          <div class="figure-number">Sơ đồ D25-1 · Chuỗi biến đổi tín hiệu ADC &amp; DAC</div>
+          <div class="figure-text">Chuỗi biến đổi tín hiệu toàn diện: Tín hiệu liên tục được lấy mẫu theo tần số Nyquist, lượng tử hóa thành số nhị phân N-bit đưa vào MCU xử lý, sau đó xuất qua DAC và bộ lọc tái tạo thành dạng sóng tương tự.</div>
+          <div class="figure-source">Nguồn: sơ đồ tự vẽ cho bài học. <a href="../assets/images/lessons/d25-signal-chain.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div>
+        </figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Mô tả sơ đồ bằng chữ</summary><p>Sơ đồ 5 khối: 1. Tín hiệu Analog liên tục Vin từ cảm biến; 2. Khối Sample and Hold lấy mẫu theo tần số fs lớn hơn hoặc bằng 2 lần fmax; 3. Khối Lượng tử hóa và ADC chia dải điện áp thành 2 mũ N mức số nhị phân; 4. Vi điều khiển hoặc DSP xử lý thuật toán và lọc số; 5. Khối DAC và mạch lọc Low-pass tái tạo tín hiệu điện áp tương tự Vout.</p></details>
 
       <div class="formula-block">
         <div class="formula-main">V_input = (ADC_value / (2^N – 1)) × V_ref</div>

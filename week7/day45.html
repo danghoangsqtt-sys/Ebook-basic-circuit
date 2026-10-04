@@ -46,6 +46,16 @@
         <li class="step-item"><div class="step-content"><p><strong>2. Driver:</strong> thử riêng từng cảm biến, RTC và giao tiếp thẻ SD; OLED hiển thị mẫu chữ. Ghi đầu vào, kết quả mong đợi và kết quả thực tế.</p></div></li>
         <li class="step-item"><div class="step-content"><p><strong>3. Logic:</strong> thử kết nối/ngắt WiFi, từng chuyển trạng thái của state machine và thời điểm chạy scheduler.</p></div></li>
         <li class="step-item"><div class="step-content"><p><strong>4. Tích hợp:</strong> ghép hai module một lần, kiểm các giao diện và nguồn chung, rồi kiểm luồng từ cảm biến đến đầu ra của toàn hệ thống.</p></div></li>
+
+      <figure class="figure">
+        <img src="../assets/images/lessons/d45-bottom-up-debug.svg" width="960" height="280" loading="lazy" decoding="async" alt="Chiến lược tích hợp Bottom-Up: kiểm tra phần cứng nguồn, test HAL driver độc lập, lớp xử lý cảm biến, tích hợp state machine và debug có WDT.">
+        <figcaption class="figure-caption">
+          <div class="figure-number">Sơ đồ D45-1 · Chiến lược tích hợp từ dưới lên (Bottom-Up Integration)</div>
+          <div class="figure-text">Mô hình tích hợp 5 tầng có cấu trúc: Đảm bảo độ ổn định của mạch nguồn trước, kiểm tra độc lập từng driver ngoại vi, sau đó mới tích hợp vào máy trạng thái và kích hoạt Watchdog Timer bảo vệ hệ thống.</div>
+          <div class="figure-source">Nguồn: sơ đồ tự vẽ cho bài học. <a href="../assets/images/lessons/d45-bottom-up-debug.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div>
+        </figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Mô tả sơ đồ bằng chữ</summary><p>Mô hình 5 tầng tích hợp: Tầng 1 kiểm tra phần cứng và đo điện áp nguồn; Tầng 2 viết mã kiểm tra độc lập từng ngoại vi GPIO, I2C, SPI; Tầng 3 xây dựng lớp thu thập và lọc dữ liệu cảm biến; Tầng 4 ghép nối vào máy trạng thái điều khiển toàn cục; Tầng 5 thêm log Serial có timestamp phân loại lỗi và cấu hình Watchdog Timer chống treo vi điều khiển.</p></details>
       </ol>
 
       <h2>2. Serial Debug có cấu trúc</h2>

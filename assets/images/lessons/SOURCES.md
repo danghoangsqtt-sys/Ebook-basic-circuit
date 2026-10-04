@@ -169,3 +169,13 @@ Các SVG dưới đây do dự án tự vẽ từ `docs/visuals/summary-specs.js
 | `d51-1.svg` | Bài 51 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
 | `d54-1.svg` | Bài 54 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
 | `d54-2.svg` | Bài 54 | Tự vẽ từ bài học và sổ P7-04; đối chiếu kỹ thuật ở `docs/curriculum/diagram-register.csv` | Nội dung dự án | SVG nguồn chỉnh sửa được; chưa tự chứng nhận phép đo phần cứng. |
+| `d25-signal-chain.svg` | Bài 25 | Tự vẽ từ bài học | Nội dung dự án | Chuỗi chuyển đổi tín hiệu tương tự sang số (ADC) và ngược lại (DAC). |
+| `d29-simulation-flow.svg` | Bài 29 | Tự vẽ từ bài học | Nội dung dự án | Lưu đồ quy trình mô phỏng mạch điện chuyên nghiệp trên LTspice/Falstad. |
+| `d34-smd-inspect-flow.svg` | Bài 34 | Tự vẽ từ bài học | Nội dung dự án | Quy trình 5 bước hàn dán linh kiện SMD và kiểm tra PCB sau hàn. |
+| `d36-rtc-block.svg` | Bài 36 | Tự vẽ từ bài học | Nội dung dự án | Sơ đồ khối chức năng IC thời gian thực bù nhiệt DS3231. |
+| `d44-firmware-arch.svg` | Bài 44 | Tự vẽ từ bài học | Nội dung dự án | Kiến trúc máy trạng thái (FSM) và lập lịch nhiệm vụ cho đồ án nhúng. |
+| `d45-bottom-up-debug.svg` | Bài 45 | Tự vẽ từ bài học | Nội dung dự án | Chiến lược tích hợp từ dưới lên (Bottom-Up) và kỹ thuật gỡ lỗi có cấu trúc. |
+| `d46-bringup-flow.svg` | Bài 46 | Tự vẽ từ bài học | Nội dung dự án | Quy trình Bring-Up an toàn khi cấp nguồn cho bo mạch mới lắp ráp. |
+| `d47-calibration-curve.svg` | Bài 47 | Tự vẽ từ bài học | Nội dung dự án | Phương pháp hiệu chuẩn cảm biến hai điểm và bù sai số trong firmware. |
+| `d52-freertos-queue.svg` | Bài 52 | Tự vẽ từ bài học | Nội dung dự án | Mô hình đa tác vụ và hàng đợi Queue đồng bộ trong FreeRTOS. |
+

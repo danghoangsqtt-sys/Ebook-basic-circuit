@@ -54,6 +54,16 @@
             <tr><td>Edge keepout</td><td>Linh kiện cách mép board ≥2mm — tránh gãy khi cưa PCB</td></tr>
           </tbody>
         </table>
+
+      <figure class="figure">
+        <img src="../assets/images/lessons/d46-bringup-flow.svg" width="960" height="280" loading="lazy" decoding="async" alt="Quy trình Bring-Up an toàn khi cấp nguồn bo mạch: kiểm tra nguội, cấp nguồn hạn dòng, đo rail điện áp, nạp firmware tối thiểu và thử nghiệm đầy tải.">
+        <figcaption class="figure-caption">
+          <div class="figure-number">Sơ đồ D46-1 · Quy trình Bring-Up cấp nguồn an toàn cho bo mạch</div>
+          <div class="figure-text">Quy trình đóng điện 5 bước phòng ngừa cháy nổ linh kiện: Đo nguội tìm ngắn mạch, cấp nguồn hạn dòng thấp, kiểm tra các rail điện áp ra, nạp sketch tối thiểu kiểm tra MCU và chạy thử nghiệm nâng dần tải.</div>
+          <div class="figure-source">Nguồn: sơ đồ tự vẽ cho bài học. <a href="../assets/images/lessons/d46-bringup-flow.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div>
+        </figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Mô tả sơ đồ bằng chữ</summary><p>Lưu đồ 5 bước Bring-Up: 1. Đo điện trở giữa VCC và GND khi chưa cấp nguồn tìm ngắn mạch; 2. Cấp nguồn hạn dòng 50-100 mA quan sát đồng hồ ampe; 3. Đo điện áp ngõ ra của các tầng ổn áp 5V và 3.3V; 4. Nạp firmware test cơ bản xác nhận vi điều khiển hoạt động; 5. Cắm ngoại vi, nâng dần tải và rà soát nhiệt độ linh kiện.</p></details>
       </div>
 
       <h2>2. Test Point — Debug Professional</h2>

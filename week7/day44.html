@@ -58,6 +58,16 @@
             <tr><td><code>platformio.ini</code></td><td>Cấu hình môi trường build của PlatformIO.</td></tr>
           </tbody>
         </table>
+
+      <figure class="figure">
+        <img src="../assets/images/lessons/d44-firmware-arch.svg" width="960" height="280" loading="lazy" decoding="async" alt="Kiến trúc máy trạng thái (FSM) và lập lịch nhiệm vụ: khởi tạo INIT, chờ IDLE millis(), đọc cảm biến SENSE, xử lý PROCESS và xuất tín hiệu OUTPUT.">
+        <figcaption class="figure-caption">
+          <div class="figure-number">Sơ đồ D44-1 · Kiến trúc máy trạng thái (FSM) cho đồ án nhúng</div>
+          <div class="figure-text">Kiến trúc luồng xử lý firmware theo mô hình State Machine: Vòng lặp chuyển tiếp nhịp nhàng giữa các trạng thái INIT, IDLE, SENSE, PROCESS và OUTPUT mà không làm nghẽn CPU bằng các lệnh delay chặn.</div>
+          <div class="figure-source">Nguồn: sơ đồ tự vẽ cho bài học. <a href="../assets/images/lessons/d44-firmware-arch.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div>
+        </figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Mô tả sơ đồ bằng chữ</summary><p>Sơ đồ 5 trạng thái: 1. STATE_INIT khởi tạo ngoại vi và kiểm tra tự chẩn đoán; 2. STATE_IDLE chờ sự kiện định thời millis() hoặc cờ ngắt; 3. STATE_SENSE đọc dữ liệu cảm biến định kỳ; 4. STATE_PROCESS thực thi giải thuật và so sánh ngưỡng an toàn; 5. STATE_OUTPUT cập nhật màn hình hiển thị, điều khiển tải và ghi dữ liệu.</p></details>
       </div>
 
       <h2>2. State Machine — Quản lý trạng thái</h2>

@@ -56,6 +56,15 @@
       </div>
 
       <p>Nguồn cho bảng: <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/DS3231.pdf" target="_blank" rel="noopener">ADI DS3231 Rev. 10, Electrical Characteristics</a>, <a href="https://www.analog.com/media/en/technical-documentation/data-sheets/DS1307.pdf" target="_blank" rel="noopener">ADI DS1307, Clock Accuracy</a> và <a href="https://www.nxp.com/products/PCF8563" target="_blank" rel="noopener">NXP PCF8563</a>. Sai số theo ppm không tính thêm lão hóa, biến thiên nhiệt hoặc sai số lúc đặt đồng hồ.</p>
+      <figure class="figure">
+        <img src="../assets/images/lessons/d36-rtc-block.svg" width="960" height="280" loading="lazy" decoding="async" alt="Sơ đồ khối chức năng IC thời gian thực bù nhiệt DS3231: dao động TCXO, bộ đếm thời gian BCD, giao tiếp I2C, chuyển nguồn pin CR2032 và ngắt báo thức.">
+        <figcaption class="figure-caption">
+          <div class="figure-number">Sơ đồ D36-1 · Kiến trúc khối IC thời gian thực bù nhiệt DS3231</div>
+          <div class="figure-text">Kiến trúc khối chức năng của DS3231: Thạch anh 32.768 kHz bù nhiệt tự động (TCXO), các thanh ghi đếm thời gian thực mã BCD, mạch tự chuyển nguồn pin dự phòng CR2032 khi mất điện và giao tiếp I2C với vi điều khiển.</div>
+          <div class="figure-source">Nguồn: sơ đồ tự vẽ cho bài học. <a href="../assets/images/lessons/d36-rtc-block.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div>
+        </figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Mô tả sơ đồ bằng chữ</summary><p>Sơ đồ 5 khối: 1. Dao động TCXO 32.768 kHz tích hợp cảm biến nhiệt bù trôi tần; 2. Bộ đếm thời gian thực lưu giây, phút, giờ, ngày, tháng, năm dạng mã BCD; 3. Bus giao tiếp I2C SDA/SCL kết nối vi điều khiển; 4. Mạch chuyển nguồn pin dự phòng tự động chuyển sang pin CR2032 khi VCC mất áp; 5. Đầu ra ngắt INT/SQW phát tín hiệu đánh thức hoặc xung tần số chuẩn.</p></details>
 
       <!-- THỰC HÀNH -->
       <h2>2. Kết nối và đọc DS3231</h2>

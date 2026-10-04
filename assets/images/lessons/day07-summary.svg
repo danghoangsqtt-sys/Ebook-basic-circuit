@@ -1,39 +1,51 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="1109" viewBox="0 0 560 1109" role="img" aria-labelledby="title desc">
-<title id="title">Từ tính toán đến LED chạy thật — Bài 7</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="280" viewBox="0 0 960 280" role="img" aria-labelledby="title desc">
+<title id="title">Quy trình dự án LED bốn màu — Từ tính toán đến mạch chạy thật — Bài 7</title>
 <desc id="desc">Dự án LED bốn màu; Tính R từng nhánh: Chọn dòng và đo Vf từng màu.; Lắp bốn nhánh: Mỗi LED có R riêng; kiểm GND.; Kiểm trước khi nạp: Đo thông mạch và tìm chập nguồn.; Chạy và đo lại: Thử firmware, đo từng nhánh.</desc>
-<rect width="560" height="1109" rx="24" fill="#102036"/>
-<rect x="24" y="22" width="154" height="42" rx="21" fill="#254761"/>
-<text x="43" y="52" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#e8f4fa">BÀI 07 · TỔNG KẾT</text>
-<text x="27" y="112" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#f7fbff">Từ tính toán đến LED chạy</text>
-<text x="27" y="154" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#f7fbff">thật</text>
-<rect x="26" y="181" width="508" height="90" rx="22" fill="#226174" stroke="#76e3dc" stroke-width="3"/>
-<text x="49" y="235" font-family="Arial,sans-serif" font-size="30" font-weight="700" fill="#ffffff">Dự án LED bốn màu</text>
-<path d="M 280 271 V 296" stroke="#76e3dc" stroke-width="4"/>
-<path d="M 271 286 l 9 10 9 -10" stroke="#76e3dc" stroke-width="4" fill="none"/>
-<rect x="26" y="299" width="508" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="26" y="299" width="8" height="166" rx="4" fill="#63d8cc"/>
-<text x="53" y="358" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Tính R từng nhánh</text>
-<text x="53" y="406" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Chọn dòng và đo Vf từng</text>
-<text x="53" y="440" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">màu.</text>
-<path d="M 280 466 V 491" stroke="#76e3dc" stroke-width="4"/>
-<path d="M 271 481 l 9 10 9 -10" stroke="#76e3dc" stroke-width="4" fill="none"/>
-<rect x="26" y="494" width="508" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="26" y="494" width="8" height="166" rx="4" fill="#f8c476"/>
-<text x="53" y="553" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Lắp bốn nhánh</text>
-<text x="53" y="601" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Mỗi LED có R riêng; kiểm</text>
-<text x="53" y="635" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">GND.</text>
-<path d="M 280 661 V 686" stroke="#76e3dc" stroke-width="4"/>
-<path d="M 271 676 l 9 10 9 -10" stroke="#76e3dc" stroke-width="4" fill="none"/>
-<rect x="26" y="689" width="508" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="26" y="689" width="8" height="166" rx="4" fill="#aebdff"/>
-<text x="53" y="748" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Kiểm trước khi nạp</text>
-<text x="53" y="796" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Đo thông mạch và tìm chập</text>
-<text x="53" y="830" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">nguồn.</text>
-<path d="M 280 856 V 881" stroke="#76e3dc" stroke-width="4"/>
-<path d="M 271 871 l 9 10 9 -10" stroke="#76e3dc" stroke-width="4" fill="none"/>
-<rect x="26" y="884" width="508" height="166" rx="20" fill="#1c304a" stroke="#426480" stroke-width="2"/>
-<rect x="26" y="884" width="8" height="166" rx="4" fill="#edadd2"/>
-<text x="53" y="943" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#f7fbff">Chạy và đo lại</text>
-<text x="53" y="991" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">Thử firmware, đo từng</text>
-<text x="53" y="1025" font-family="Arial,sans-serif" font-size="29" font-weight="400" fill="#deedf5">nhánh.</text>
+<rect width="960" height="280" rx="16" fill="#0d1829" stroke="#1e293b" stroke-width="1.5"/>
+<rect x="24" y="18" width="912" height="48" rx="8" fill="#14243b" stroke="#253a56" stroke-width="1"/>
+<rect x="34" y="26" width="180" height="32" rx="6" fill="#1e3a5f"/>
+<text x="124" y="47" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#38bdf8" text-anchor="middle" letter-spacing="0.5">BÀI 07 · TỔNG KẾT TUẦN 1</text>
+<text x="229" y="48" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#f8fafc">Quy trình dự án LED bốn màu — Từ tính toán đến mạch chạy thật</text>
+<rect x="24" y="85" width="208" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 25 91 Q 25 86 30 86 L 226 86 Q 231 86 231 91 L 231 91 L 25 91 Z" fill="#38bdf8"/>
+<rect x="36" y="99" width="28" height="20" rx="4" fill="#0284c7"/>
+<text x="50" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">01</text>
+<text x="70" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Tính R từng nhánh</text>
+<line x1="36" y1="127" x2="220" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="36" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Chọn dòng an toàn (10-15</text>
+<text x="36" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">mA) và đo điện áp thuận Vf</text>
+<text x="36" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">của từng màu LED.</text>
+<path d="M 237 172 L 251 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 247 168 L 252 172 L 247 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="258" y="85" width="208" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 259 91 Q 259 86 264 86 L 460 86 Q 465 86 465 91 L 465 91 L 259 91 Z" fill="#34d399"/>
+<rect x="270" y="99" width="28" height="20" rx="4" fill="#059669"/>
+<text x="284" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">02</text>
+<text x="304" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Lắp bốn nhánh</text>
+<line x1="270" y1="127" x2="454" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="270" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Mỗi LED có điện trở hạn</text>
+<text x="270" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">dòng riêng; cắm đúng</text>
+<text x="270" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">anode/cathode và chung GND.</text>
+<path d="M 471 172 L 485 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 481 168 L 486 172 L 481 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="492" y="85" width="208" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 493 91 Q 493 86 498 86 L 694 86 Q 699 86 699 91 L 699 91 L 493 91 Z" fill="#fbbf24"/>
+<rect x="504" y="99" width="28" height="20" rx="4" fill="#d97706"/>
+<text x="518" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">03</text>
+<text x="538" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Kiểm trước cấp nguồn</text>
+<line x1="504" y1="127" x2="688" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="504" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Đo thông mạch, đo điện trở</text>
+<text x="504" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">giữa rail VCC và GND tìm</text>
+<text x="504" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">ngắn mạch.</text>
+<path d="M 705 172 L 719 172" stroke="#38bdf8" stroke-width="2"/>
+<path d="M 715 168 L 720 172 L 715 176" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round"/>
+<rect x="726" y="85" width="208" height="175" rx="10" fill="#162238" stroke="#2a3f5f" stroke-width="1.2"/>
+<path d="M 727 91 Q 727 86 732 86 L 928 86 Q 933 86 933 91 L 933 91 L 727 91 Z" fill="#a78bfa"/>
+<rect x="738" y="99" width="28" height="20" rx="4" fill="#7c3aed"/>
+<text x="752" y="113" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">04</text>
+<text x="772" y="114" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#f1f5f9">Chạy và đo lại</text>
+<line x1="738" y1="127" x2="922" y2="127" stroke="#253852" stroke-width="1"/>
+<text x="738" y="147" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">Nạp firmware thử nghiệm,</text>
+<text x="738" y="167" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">đo điện áp sụt trên R và</text>
+<text x="738" y="187" font-family="Arial,sans-serif" font-size="11.5" font-weight="400" fill="#94a3b8">LED thực tế.</text>
 </svg>

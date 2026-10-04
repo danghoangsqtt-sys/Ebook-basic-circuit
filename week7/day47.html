@@ -53,6 +53,16 @@
             <tr><td>TC-005: Stability 24h</td><td>NFR (reliability)</td><td>Chạy liên tục 24h, WiFi sẵn</td><td>Không crash, dữ liệu liên tục</td><td>_____</td><td>_____</td></tr>
           </tbody>
         </table>
+
+      <figure class="figure">
+        <img src="../assets/images/lessons/d47-calibration-curve.svg" width="960" height="280" loading="lazy" decoding="async" alt="Phương pháp hiệu chuẩn cảm biến hai điểm: đo điểm Zero chuẩn, đo điểm Span chuẩn, tính hệ số dốc và bù sai số, nạp phương trình vào firmware.">
+        <figcaption class="figure-caption">
+          <div class="figure-number">Sơ đồ D47-1 · Quy trình hiệu chuẩn cảm biến hai điểm (Two-Point Calibration)</div>
+          <div class="figure-text">Phương pháp chuẩn hóa số đo cảm biến: Xác định hai điểm mốc chuẩn (Zero và Span), tính toán hệ số góc và bù điểm 0 (Offset), nạp phương trình bù trừ sai số vào mã nguồn firmware.</div>
+          <div class="figure-source">Nguồn: sơ đồ tự vẽ cho bài học. <a href="../assets/images/lessons/d47-calibration-curve.svg" target="_blank" rel="noopener">Mở hình lớn</a>.</div>
+        </figcaption>
+      </figure>
+      <details class="summary-transcript"><summary>Mô tả sơ đồ bằng chữ</summary><p>Quy trình 5 bước hiệu chuẩn: 1. Đo điểm mốc thấp chuẩn T1 ghi giá trị ADC raw 1; 2. Đo điểm mốc cao chuẩn T2 ghi giá trị ADC raw 2; 3. Tính hệ số dốc A và bù điểm không B theo phương trình tuyến tính; 4. Cài đặt hàm tính giá trị đã hiệu chuẩn trong firmware; 5. Đo kiểm đối chiếu tại các mốc nhiệt độ trung gian để xác nhận độ chính xác.</p></details>
       </div>
 
       <h2>2. Calibration Cảm Biến — Nhiệt độ Offset</h2>

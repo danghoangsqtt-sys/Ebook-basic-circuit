@@ -189,3 +189,8 @@ Mỗi P7-06/P8-06/P9-05/P10-04 là cổng `dh-audit` và `dh-debug`; chỉ chuy�
 
 2026-10-04 Tinh giản bố cục sư phạm (Phương án 1): gỡ bỏ hoàn toàn 56 áp phích dọc 560x1114px (`dayXX-overview.svg`) khỏi 56 bài nền tảng do chiếm diện tích vô ích (1–2 màn hình cuộn), chữ quá to (31–36px), lặp lại hộp mục tiêu đầu bài. Bảo tồn toàn bộ 11 ảnh linh kiện chụp thực tế CC0 (`figure--equipment`) tại các bài 3, 4, 8, 10, 15, 18, 27, 30, 33, 41, 53. Cập nhật `integrate_lesson_visuals.py`, `check_visuals.py`, `qa_lesson_visuals.py`. Kiểm định hồi quy toàn bộ: 93 trang/1146 tham chiếu 0 lỗi hỏng, menu 56+33, `qa_lesson_visuals` 280 ca viewport PASS, `qa_browser --quick` 288 ca viewport, reader/library/backup PASS.
 
+2026-10-04 Nâng cấp tinh chỉnh sư phạm (/dh-evolve + /dh-auto):
+1. Chuyển đổi toàn bộ 12 sơ đồ tổng kết tuần (`dayXX-summary.svg`) từ áp phích dọc 560x1109px sang lưu đồ khối ngang chuẩn kỹ thuật (Horizontal Process Flowcharts, 960x280px / 1000x280px), typography 11–15px tinh tế, thẻ chuyển tiếp mượt mà; cập nhật CSS `.figure--summary img { max-width: 100%; }`.
+2. Bổ sung và tích hợp 9 sơ đồ khối kỹ thuật chuẩn (Block Diagrams / Flowcharts, 960x280px) cho 9 bài trước đây thiếu minh họa (Bài 25 chuỗi ADC/DAC, Bài 29 quy trình mô phỏng SPICE, Bài 34 quy trình hàn dán SMD, Bài 36 kiến trúc RTC DS3231, Bài 44 máy trạng thái firmware, Bài 45 chiến lược debug Bottom-Up, Bài 46 quy trình Bring-Up an toàn bo mạch, Bài 47 hiệu chuẩn cảm biến 2 điểm, Bài 52 mô hình Queue và đa nhiệm FreeRTOS); đăng ký đầy đủ nguồn vào `SOURCES.md`.
+3. Tỷ lệ minh họa bài nền tảng đạt 56/56 bài (100% minh họa thực chất, 105 ảnh/106 tài sản, 0 khối ASCII); cập nhật search index 89 bài; `check_links` 93 trang/1164 tham chiếu 0 lỗi hỏng; `qa_lesson_visuals` 280 ca viewport PASS.
+
