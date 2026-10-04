@@ -1,4 +1,4 @@
-"""Check A29–A32 at 24px reader text on mobile in Chromium and WebKit."""
+"""Check A29–A33 at 24px reader text on mobile in Chromium and WebKit."""
 
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -26,7 +26,7 @@ def main():
                     page = browser.new_page(viewport={"width": 320, "height": 800})
                     errors = []
                     page.on("pageerror", lambda error: errors.append(str(error)))
-                    for number in range(29, 33):
+                    for number in range(29, 34):
                         for width in (320, 360, 390, 430):
                             page.set_viewport_size({"width": width, "height": 800})
                             page.goto(f"http://127.0.0.1:{server.server_port}/advanced/a{number:02}.html")
@@ -44,8 +44,9 @@ def main():
                         page.locator(".lesson-title").wait_for()
                         assert page.evaluate("document.documentElement.scrollWidth <= innerWidth"), (name, "path", width)
                         assert page.locator('a[href="a32.html"]').count() == 1
+                        assert page.locator('a[href="a33.html"]').count() >= 1
                         assert not errors, (name, "path", errors)
-                    print(f"Phase 10 {name}: 20 page/viewport cases PASS")
+                    print(f"Phase 10 {name}: 24 page/viewport cases PASS")
                 finally:
                     browser.close()
     finally:

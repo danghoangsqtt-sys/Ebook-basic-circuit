@@ -164,6 +164,7 @@ const CURRICULUM = {
         { id: 'a30', number: 'A30', title: 'Thiết Kế Nguồn Thấp Áp Cho Hệ', file: '../advanced/a30.html' },
         { id: 'a31', number: 'A31', title: 'Khối Cảm Biến, ADC & MCU', file: '../advanced/a31.html' },
         { id: 'a32', number: 'A32', title: 'Tích Hợp PCB & Báo Cáo Sai Khác', file: '../advanced/a32.html' },
+        { id: 'a33', number: 'A33', title: 'Họ Board MCU & Chi Tiết Arduino Uno R3', file: '../advanced/a33.html' },
       ]
     }
   ]

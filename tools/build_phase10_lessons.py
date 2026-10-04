@@ -107,7 +107,7 @@ def render(item, previous, following):
 def main():
     for index, item in enumerate(LESSONS):
         previous = ("a28", "A28: Sai Số, Hiệu Chuẩn & Lọc Cảm Biến") if index == 0 else (LESSONS[index - 1]["id"], f"{LESSONS[index - 1]['id'].upper()}: {LESSONS[index - 1]['title']}")
-        following = (LESSONS[index + 1]["id"], f"{LESSONS[index + 1]['id'].upper()}: {LESSONS[index + 1]['title']}") if index < len(LESSONS) - 1 else None
+        following = (LESSONS[index + 1]["id"], f"{LESSONS[index + 1]['id'].upper()}: {LESSONS[index + 1]['title']}") if index < len(LESSONS) - 1 else ("a33", "A33: Họ Board MCU & Chi Tiết Arduino Uno R3")
         (ROOT / "advanced" / f"{item['id']}.html").write_text(render(item, previous, following), encoding="utf-8")
         (ROOT / "assets/images/advanced" / f"{item['id']}.svg").write_text(svg(item), encoding="utf-8")
         print(item["id"], "published")

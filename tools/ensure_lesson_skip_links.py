@@ -18,8 +18,8 @@ def main():
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     selected = pages()
-    if len(selected) != 89:  # 56 foundation + 32 lessons + path
-        raise SystemExit(f"Expected 89 pages, found {len(selected)}")
+    if len(selected) != 90:  # 56 foundation + 33 lessons + path
+        raise SystemExit(f"Expected 90 pages, found {len(selected)}")
     changed = 0
     for path in selected:
         content = path.read_text(encoding="utf-8")

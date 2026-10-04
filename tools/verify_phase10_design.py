@@ -34,7 +34,7 @@ def main():
 
     matrix = list(csv.DictReader((ROOT / "docs/curriculum/advanced-coverage-matrix.csv").open(encoding="utf-8", newline="")))
     ids = [row["id"] for row in matrix]
-    assert ids == [f"A{number:02}" for number in range(1, 33)]
+    assert ids == [f"A{number:02}" for number in range(1, 34)]
     for number in range(29, 33):
         ident = f"a{number:02}"
         html = (ROOT / "advanced" / f"{ident}.html").read_text(encoding="utf-8")
