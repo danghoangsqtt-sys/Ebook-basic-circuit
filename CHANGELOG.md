@@ -6,6 +6,7 @@ Theo cấu trúc Keep a Changelog. Dự án chưa gắn phiên bản phát hành
 
 ### Tài liệu
 
+- Tinh giản bố cục sư phạm (Phương án 1): gỡ bỏ hoàn toàn 56 áp phích dọc 560x1114px (`dayXX-overview.svg`) khỏi 56 bài nền tảng do chiếm diện tích vô ích (1–2 màn hình cuộn) và lặp lại nội dung; bảo tồn toàn bộ 11 ảnh linh kiện chụp thực tế CC0 (`figure--equipment`) tại các bài 3, 4, 8, 10, 15, 18, 27, 30, 33, 41, 53. Kiểm định 0 liên kết hỏng, 280 ca viewport và 288 ca browser QA PASS.
 - Phase 10 mở rộng: thêm A33 (tổng quan năm họ board MCU và chi tiết Arduino Uno R3 làm mẫu chuyển giao, tám câu hỏi áp cho board khác), `verify_phase10_uno_model.py`, nối menu/search/bản đồ tiên quyết 56+33. Chỉ là mô hình số; chưa có Uno thật, biên dịch sketch hay phép đo.
 - Chuẩn bị cổng phần cứng P10-04: phiếu bring-up Pico/TMP36, CSV đo trống và công cụ phân tích log có kiểm timestamp/index/hysteresis; audit/debug schema phát hiện và sửa nguy cơ ghép sai thời điểm hoặc bỏ mẫu. Chưa có bản ghi đo thật, CAD/ERC/DRC hay chữ ký reviewer.
 - Phase 10 xuất bản A29–A32 và hồ sơ đồ án Pico/TMP36, hoàn tất menu/search 56+32 và bản đồ tiên quyết. Audit/debug cuối thêm skip link cho 89 trang, sửa cuộn mượt để chuyển focus bằng bàn phím, kiểm lại số liệu Phase 8–10 và mobile Chromium/WebKit. `docs/qa/curriculum-final.md` ghi phạm vi PASS nội dung số; CAD/board/đo/reviewer tiếp tục pending.

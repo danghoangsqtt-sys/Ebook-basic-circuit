@@ -31,25 +31,13 @@ PHOTOS = {
 
 
 def figure(day: int, spec: dict) -> str:
-    headings = "; ".join(f"{item['heading']}: {item['detail']}" for item in spec["items"])
-    alt = spec.get("alt") or f"{spec['title']}. {headings}"
-    overview = (
-        '      <div class="figure figure--overview">\n'
-        f'        <img src="../assets/images/lessons/day{day:02d}-overview.svg" width="560" height="1114" loading="lazy" decoding="async" alt="{escape(alt, quote=True)}">\n'
-        '        <div class="figure-caption">\n'
-        f'          <div class="figure-number">Sơ đồ tổng quan Bài {day}</div>\n'
-        f'          <div class="figure-text">{escape(spec["title"])}. {escape(spec["note"])}.</div>\n'
-        '          <div class="figure-source">Nguồn: tự vẽ cho giáo trình; nội dung đối chiếu với bài học.</div>\n'
-        '        </div>\n'
-        '      </div>\n'
-    )
     if day not in PHOTOS:
-        return overview
+        return ""
     filename, author, licence, source, photo_alt, caption = PHOTOS[day]
     with Image.open(ASSETS / filename) as image:
         width, height = image.size
     url = f"https://commons.wikimedia.org/wiki/File:{quote(source)}"
-    photo = (
+    return (
         '      <div class="figure figure--equipment">\n'
         f'        <img src="../assets/images/lessons/{filename}" width="{width}" height="{height}" loading="lazy" decoding="async" alt="{escape(photo_alt, quote=True)}">\n'
         '        <div class="figure-caption">\n'
@@ -59,7 +47,6 @@ def figure(day: int, spec: dict) -> str:
         '        </div>\n'
         '      </div>\n'
     )
-    return overview + "\n" + photo
 
 
 def main() -> int:
@@ -74,17 +61,20 @@ def main() -> int:
         html = path.read_text(encoding="utf-8")
         start = f"<!-- LESSON VISUALS START day{day:02d} -->"
         end = f"<!-- LESSON VISUALS END day{day:02d} -->"
-        block = f"      {start}\n{figure(day, specs[f'{day:02d}'])}      {end}\n\n"
+        content = figure(day, specs[f'{day:02d}'])
+        block = f"      {start}\n{content}      {end}\n\n" if content else ""
         if start in html:
-            pattern = re.compile(rf"      {re.escape(start)}.*?      {re.escape(end)}\n\n", re.S)
-            updated, count = pattern.subn(lambda _: block, html)
+            pattern = re.compile(rf"[ \t]*{re.escape(start)}.*?{re.escape(end)}\s*", re.S)
+            updated, count = pattern.subn(block, html)
             if count != 1:
                 raise ValueError(f"Cannot replace figure block in {path}")
-        else:
+        elif block:
             first_heading = re.search(r"(?m)^      <h2(?:\s|>)", html)
             if not first_heading:
                 raise ValueError(f"No lesson heading in {path}")
             updated = html[:first_heading.start()] + block + html[first_heading.start():]
+        else:
+            updated = html
         if args.check:
             if updated != html:
                 raise ValueError(f"Lesson visual block is stale: {path}")

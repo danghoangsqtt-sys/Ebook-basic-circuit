@@ -97,12 +97,7 @@ def check(root: Path, require_all: bool) -> dict[str, object]:
         page_counts[rel.as_posix()] = sum(tag == "img" for _, tag, _ in parser.items)
         names = [Path(urlsplit(attrs.get("src", "")).path).name
                  for _, tag, attrs in parser.items if tag == "img"]
-        if require_all and page_counts[rel.as_posix()] == 0:
-            errors.append(f"{rel}: no lesson illustration")
         if require_all:
-            overview = f"day{day:02d}-overview.svg"
-            if names.count(overview) != 1:
-                errors.append(f"{rel}: expected exactly one {overview}")
             summary = f"day{day:02d}-summary.svg"
             if names.count(summary) != (1 if day in SUMMARY_DAYS else 0):
                 errors.append(f"{rel}: unexpected or missing {summary}")

@@ -64,8 +64,6 @@ def main() -> int:
                           return {
                             viewport: document.documentElement.clientWidth,
                             scroll: document.documentElement.scrollWidth,
-                            overview: Boolean(image),
-                            expected: image?.getAttribute('src').split('/').at(-1),
                             captions: [...document.querySelectorAll('.content-area .figure')].
                               filter(fig => fig.querySelector('img')).
                               every(fig => fig.querySelector('.figure-caption') &&
@@ -79,9 +77,7 @@ def main() -> int:
                               x: img.getBoundingClientRect().x}))
                           };
                         }""")
-                        assert state["overview"], f"{path}: no overview image"
                         assert state["captions"], f"{path}: missing figure caption/source"
-                        assert state["expected"] == f"day{day:02}-overview.svg", f"{path}: wrong image"
                         if args.font_size is not None:
                             assert state["fontSize"] == f"{args.font_size}px", f"{path}: font size not applied"
                         if args.theme is not None:
